@@ -1,0 +1,84 @@
+/* Small screens */
+@media screen and (max-width: 600px) {
+    .LGFormGrid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        grid-template-areas:
+            "fullname companyname"
+            "lifelanguagestitle lifelanguagestitle"
+            "mover doer"
+            "influencer responder"
+            "shaper producer"
+            "contemplator overallintensity";
+        grid-column-gap: 0.5em;
+        grid-row-gap: 0.5em;
+    }
+}
+/* Larger screens */
+@media screen and (min-width: 601px) {
+    .LGFormGrid {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: auto;
+        grid-template-areas:
+            "fullname fullname fullname fullname companyname companyname companyname companyname"
+            "lifelanguagestitle lifelanguagestitle lifelanguagestitle lifelanguagestitle lifelanguagestitle lifelanguagestitle lifelanguagestitle lifelanguagestitle"
+            "mover mover doer doer influencer influencer responder responder"
+            "shaper shaper producer producer contemplator contemplator overallintensity overallintensity";
+        grid-column-gap: 0.5em;
+        grid-row-gap: 0.5em;
+    }
+}
+
+.LGFormFullName {
+    grid-area: fullname;
+}
+
+.LGFormCompanyName {
+    grid-area: companyname;
+}
+
+.LGFormLifeLanguagesTitle {
+    grid-area: lifelanguagestitle;
+}
+
+.LGFormMover {
+    grid-area: mover;
+}
+.LGFormDoer {
+    grid-area: doer;
+}
+.LGFormInfluencer {
+    grid-area: influencer;
+}
+.LGFormResponder {
+    grid-area: responder;
+}
+.LGFormShaper {
+    grid-area: shaper;
+}
+.LGFormProducer {
+    grid-area: producer;
+}
+.LGFormContemplator {
+    grid-area: contemplator;
+}
+
+.LGFormOverallIntensity {
+    grid-area: overallintensity;
+}
+
+.LGFormLeftInputField {
+    width: 100%;
+    font-weight: 300;
+    font-size: 1em;
+    text-align: left;
+}
+
+.LGFormRightInputField {
+    width: 100%;
+    font-weight: 300;
+    font-size: 1em;
+    text-align: right;
+}

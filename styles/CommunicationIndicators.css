@@ -1,0 +1,284 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.CIName {
+    font-weight: 700;
+    font-size: 2.0em;
+    text-align: center;
+}
+
+.CIShorthand {
+    font-weight: 700;
+    font-size: 1.5em;
+    text-align: center;
+    margin: 10px;
+}
+
+.CICorporation {
+    font-weight: 700;
+    font-size: 1.25em;
+    text-align: center;
+    margin: 10px;
+}
+
+.altGray {
+    background-color: lightgray;
+}
+
+.CITitle {
+    font-weight: 700;
+    text-align: left;
+    font-size: 1.15em;
+    grid-area: title;
+    /* background-color: rgba(0,255,0,0.5); */
+}
+
+.CIDescription {
+    grid-area: desc;
+    font-weight: 300;
+    font-size: 0.75em;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.CISubtitle1 {
+    grid-area: subtitle1;
+    /*background-color: yellow;*/
+    justify-self: center;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1em;
+}
+
+.CISubtitle2 {
+    grid-area: subtitle2;
+    /*background-color: yellow;*/
+    justify-self: center;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1em;
+}
+
+.CISubtitle3 {
+    grid-area: subtitle3;
+    /*background-color: yellow;*/
+    justify-self: center;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1em;
+}
+
+/* Small screens */
+@media screen and (max-width: 600px) {
+    .CIOneBar {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-areas:
+            "title title title title title title title title title" 
+            "desc desc desc desc desc desc desc desc desc"
+            "graph graph graph graph graph graph graph graph graph"
+            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
+            "comment comment comment comment comment comment comment comment comment";
+        grid-row-gap: 0.5em;
+        padding: 0.5em;
+    }
+    .CIThreeBar {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-areas:
+            "title title title title title title title title title" 
+            "desc desc desc desc desc desc desc desc desc"
+            "subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1"
+            "graph1 graph1 graph1 graph1 graph1 graph1 graph1 graph1 graph1"
+            "subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2"
+            "graph2 graph2 graph2 graph2 graph2 graph2 graph2 graph2 graph2"
+            "subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3"
+            "graph3 graph3 graph3 graph3 graph3 graph3 graph3 graph3 graph3"
+            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
+            "comment comment comment comment comment comment comment comment comment";
+        grid-row-gap: 0.5em;
+        padding: 0.5em;
+    }
+    
+    .CISubtitle, .CISubtitle1, .CISubtitle2, .CISubtitle3 {
+        text-align: left;
+        justify-self: left;
+    }
+}
+
+/* Larger screens */
+@media screen and (min-width: 601px) {
+    .CIOneBar {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-areas:
+            "title title title title desc desc desc desc desc"
+            "graph graph graph graph graph graph graph graph graph"
+            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
+            ". comment comment comment comment comment comment comment comment";
+        grid-row-gap: 0.5em;
+        padding: 10px;
+    } 
+    .CIThreeBar {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-areas:
+            "title title title title desc desc desc desc desc"
+            "subtitle1 subtitle1 subtitle1 subtitle2 subtitle2 subtitle2 subtitle3 subtitle3 subtitle3"
+            "graph1 graph1 graph1 graph2 graph2 graph2 graph3 graph3 graph3"
+            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
+            ". comment comment comment comment comment comment comment comment";
+        grid-row-gap: 0.5em;
+        padding: 10px;
+    }
+}
+
+/* Printing */
+@media print {
+    body {
+        height: 100%;
+    }
+    .CIOneBar {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-areas:
+            "title title title title desc desc desc desc desc"
+            "graph graph graph graph graph graph graph graph graph"
+            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
+            ". comment comment comment comment comment comment comment comment";
+        grid-row-gap: 0.5em;
+        padding: 10px;
+        width: 100% !important;
+        height: auto !important;
+    } 
+    .CIThreeBar {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-areas:
+            "title title title title desc desc desc desc desc"
+            "subtitle1 subtitle1 subtitle1 subtitle2 subtitle2 subtitle2 subtitle3 subtitle3 subtitle3"
+            "graph1 graph1 graph1 graph2 graph2 graph2 graph3 graph3 graph3"
+            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
+            ". comment comment comment comment comment comment comment comment";
+        grid-row-gap: 0.5em;
+        padding: 10px;
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+
+
+.CIGraph {
+    grid-area: graph;
+    /*background-color: rgba(255,0,255,0.5);*/
+    position: relative;
+	height: 75px;
+}
+
+.CIGraph1 {
+    grid-area: graph1;
+    /*background-color: rgba(255,0,255,0.5);*/
+    position: relative;
+	height: 75px;
+}
+
+.CIGraph2 {
+    grid-area: graph2;
+    /*background-color: rgba(255,0,255,0.6);*/
+    position: relative;
+	height: 75px;
+}
+
+.CIGraph3 {
+    grid-area: graph3;
+    /*background-color: rgba(255,0,255,0.7);*/
+    position: relative;
+	height: 75px;
+}
+
+.CIStatus {
+    grid-area: status;
+    font-weight: 700;
+    font-size: 1em;
+    text-align: center;
+    /*background-color: rgba(0,255,255,0.5);*/
+}
+
+.CIScore {
+    grid-area: score;
+    font-weight: 300;
+    font-size: 1em;
+    text-align: center;
+    /*background-color: rgba(0,255,255,0.5);*/
+}
+
+.CILL {
+    font-weight: 300;
+    font-size: 1em;
+    text-align: center;
+}
+
+.CILL1 {
+    grid-area: ll1;
+    /*background-color: rgba(255,0,0,0.5);*/
+}
+
+.CILL2 {
+    grid-area: ll2;
+    /*background-color: rgba(255,0,0,0.5);*/
+}
+
+.CILL3 {
+    grid-area: ll3;
+    /*background-color: rgba(255,0,0,0.5);*/
+}
+
+.CILL4 {
+    grid-area: ll4;
+    /*background-color: rgba(255,0,0,0.5);*/
+}
+
+.CILL5 {
+    grid-area: ll5;
+    /*background-color: rgba(255,0,0,0.5);*/
+}
+
+.CILL6 {
+    grid-area: ll6;
+    /*background-color: rgba(255,0,0,0.5);*/
+}
+
+.CILL7 {
+    grid-area: ll7;
+    /*background-color: rgba(255,0,0,0.5);*/
+}
+
+.CIComment {
+    grid-area: comment;
+    font-weight: 300;
+    text-align: left;
+    font-size: 0.75em;
+    /*background-color: pink;*/
+}
+
+.CIWarning {
+    color: red;
+    font-weight: 700;
+    font-size: 1em;
+    text-align: center;
+}
+
+.CIFooter {
+    font-size: 0.5em;
+    font-weight: 300;
+    text-align: center;
+}
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>LanguageGram</title>
+        <link rel="stylesheet" href="./styles/LanguageGram.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />-->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap"
+            rel="stylesheet" />
+     </head>
+    <body>
+        <div id="lg-grid">
+            <div id="lg-fullname" class="bold"></div>
+            <div id="lg-letter-1" class="bold uppercase"></div>
+            <div id="lg-score-1" class="bold"></div>
+            <div id="lg-llang-1" class="capitalize"></div>
+            <div id="lg-letter-2" class="bold uppercase"></div>
+            <div id="lg-score-2" class="bold"></div>
+            <div id="lg-llang-2" class="capitalize"></div>
+            <div id="lg-letter-3" class="bold uppercase"></div>
+            <div id="lg-score-3" class="bold"></div>
+            <div id="lg-llang-3" class="capitalize"></div>
+            <div id="lg-letter-4" class="bold uppercase"></div>
+            <div id="lg-score-4"></div>
+            <div id="lg-llang-4" class="capitalize"></div>
+            <div id="lg-letter-5" class="bold uppercase"></div>
+            <div id="lg-score-5"></div>
+            <div id="lg-llang-5" class="capitalize"></div>
+            <div id="lg-letter-6" class="bold uppercase"></div>
+            <div id="lg-score-6"></div>
+            <div id="lg-llang-6" class="capitalize"></div>
+            <div id="lg-letter-7" class="bold uppercase"></div>
+            <div id="lg-score-7"></div>
+            <div id="lg-llang-7" class="capitalize"></div>
+            <div id="lg-range-title">Range</div>
+            <div id="lg-range-score"></div>
+            <div id="lg-overall-intensity-title">Overall<br />Intensity</div>
+            <div id="lg-overall-intensity">
+                <span id="lg-overall-intensity-arrow" class="gray"> </span>
+                &nbsp;
+                <span id="lg-overall-intensity-score"> </span>
+            </div>
+            <div id="lg-copyright">
+                Copyright &copy; Life Languages International.
+            </div>
+        </div>
+        <script type="module">
+            function paramsParseBool(params, cKey) {
+                var cParam = params.get(cKey);
+                return cParam == null
+                    ? false
+                    : cParam.toLowerCase()[0] == "t" ||
+                          cParam.toLowerCase()[0] == "y";
+            }
+
+            function paramsParseFloat(params, cKey) {
+                var cParam = params.get(cKey);
+                return cParam == null ? 0.0 : parseFloat(cParam);
+            }
+
+            function paramsParseString(params, cKey) {
+                var cParam = params.get(cKey);
+
+                return cParam;
+            }
+
+            var parsedParamsTemplate = {
+                fullname: paramsParseString,
+                mover: paramsParseFloat,
+                doer: paramsParseFloat,
+                influencer: paramsParseFloat,
+                responder: paramsParseFloat,
+                shaper: paramsParseFloat,
+                producer: paramsParseFloat,
+                contemplator: paramsParseFloat,
+                overallIntensity: paramsParseFloat
+            };
+
+            import("./modules/LanguageGram.js").then((module) => {
+                let url = new URL(window.location.href);
+                // TEST url = new URL("https://www.relatematters.com/coaching-tools/LanguageGram.html?fullname=Carl+Orthlieb&mover=22.23&doer=62.19&influencer=41.96&responder=37.41&shaper=87.98&producer=42.46&contemplator=62.69&overallIntensity=77.64");
+
+                let parsedParams = {};
+                for (let [cKey, fValue] of Object.entries(parsedParamsTemplate)) {
+                    parsedParams[cKey] = fValue(url.searchParams, cKey);
+                }
+                module.displayLanguageGram(parsedParams);
+            });
+         </script>
+    </body>
+</html>
