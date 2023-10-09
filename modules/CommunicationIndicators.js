@@ -284,13 +284,13 @@ function evaluateForensicLevel(cCI, cLL, nValue) {
     }
         
     if (metric == LOW && nValue <= LOW) {
-        return "<strong>" + cLL[0] + "</strong>";
+        return "<strong>" + cLL[0].toUpperCase() + "</strong>";
     }
     if (metric == MODERATE && nValue > LOW && nValue < HIGH) {
-        return "<strong>" + cLL[0] + "</strong>";
+        return "<strong>" + cLL[0].toUpperCase() + "</strong>";
     }
     if (metric == HIGH && nValue >= HIGH) {
-        return "<strong>" + cLL[0] + "</strong>";
+        return "<strong>" + cLL[0].toUpperCase() + "</strong>";
     }
     
     return cLL[0].toLowerCase();
