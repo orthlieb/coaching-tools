@@ -4,90 +4,144 @@
         <meta charset="UTF-8" />
         <title>LanguageGram</title>
         <link rel="stylesheet" href="./styles/LanguageGram.css" />
+        <link rel="stylesheet" href="./styles/Error.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />-->
         <link
             href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap"
             rel="stylesheet" />
-     </head>
+    </head>
     <body>
-        <div id="lg-grid">
-            <div id="lg-fullname" class="bold"></div>
-            <div id="lg-letter-1" class="bold uppercase"></div>
-            <div id="lg-score-1" class="bold"></div>
-            <div id="lg-llang-1" class="capitalize"></div>
-            <div id="lg-letter-2" class="bold uppercase"></div>
-            <div id="lg-score-2" class="bold"></div>
-            <div id="lg-llang-2" class="capitalize"></div>
-            <div id="lg-letter-3" class="bold uppercase"></div>
-            <div id="lg-score-3" class="bold"></div>
-            <div id="lg-llang-3" class="capitalize"></div>
-            <div id="lg-letter-4" class="bold uppercase"></div>
-            <div id="lg-score-4"></div>
-            <div id="lg-llang-4" class="capitalize"></div>
-            <div id="lg-letter-5" class="bold uppercase"></div>
-            <div id="lg-score-5"></div>
-            <div id="lg-llang-5" class="capitalize"></div>
-            <div id="lg-letter-6" class="bold uppercase"></div>
-            <div id="lg-score-6"></div>
-            <div id="lg-llang-6" class="capitalize"></div>
-            <div id="lg-letter-7" class="bold uppercase"></div>
-            <div id="lg-score-7"></div>
-            <div id="lg-llang-7" class="capitalize"></div>
-            <div id="lg-range-title">Range</div>
-            <div id="lg-range-score"></div>
-            <div id="lg-overall-intensity-title">Overall<br />Intensity</div>
-            <div id="lg-overall-intensity">
-                <span id="lg-overall-intensity-arrow" class="gray"> </span>
-                &nbsp;
-                <span id="lg-overall-intensity-score"> </span>
-            </div>
-            <div id="lg-copyright">
-                Copyright &copy; Life Languages International.
+        <div class="alert hidden" id="alert" role="alert"></div>
+        <div id="language-gram-grid" class="row">
+            <div id="language-gram-1" class="col-s-6 col-4">
+                <div id="lg-fullname" class="fullname bold"></div>
+                <div id="lg-companyname" class="companyname"></div>
+                <div id="lg-letter-1" class="letter-1 bold uppercase"></div>
+                <div id="lg-score-1" class="score-1 bold"></div>
+                <div id="lg-llang-1" class="llang-1 capitalize"></div>
+                <div id="lg-letter-2" class="letter-2 bold uppercase"></div>
+                <div id="lg-score-2" class="score-2 bold"></div>
+                <div id="lg-llang-2" class="llang-2 capitalize"></div>
+                <div id="lg-letter-3" class="letter-3 bold uppercase"></div>
+                <div id="lg-score-3" class="score-3 bold"></div>
+                <div id="lg-llang-3" class="llang-3 capitalize"></div>
+                <div id="lg-letter-4" class="letter-4 bold uppercase"></div>
+                <div id="lg-score-4" class="score-4"></div>
+                <div id="lg-llang-4" class="llang-4 capitalize"></div>
+                <div id="lg-letter-5" class="letter-5 bold uppercase"></div>
+                <div id="lg-score-5" class="score-5"></div>
+                <div id="lg-llang-5" class="llang-5 capitalize"></div>
+                <div id="lg-letter-6" class="letter-6 bold uppercase"></div>
+                <div id="lg-score-6" class="score-6"></div>
+                <div id="lg-llang-6" class="llang-6 capitalize"></div>
+                <div id="lg-letter-7" class="letter-7 bold uppercase"></div>
+                <div id="lg-score-7" class="score-7"></div>
+                <div id="lg-llang-7" class="llang-7 capitalize"></div>
+                <div id="lg-range-title" class="range-title">Range</div>
+                <div id="lg-range-score" class="range-score"></div>
+                <div
+                    id="lg-overall-intensity-title"
+                    class="overall-intensity-title">
+                    Overall<br />Intensity
+                </div>
+                <div id="lg-overall-intensity" class="overall-intensity">
+                    <span
+                        id="lg-overall-intensity-arrow"
+                        class="overall-intensity-arrow gray">
+                    </span>
+                    &nbsp;
+                    <span
+                        id="lg-overall-intensity-score"
+                        class="overall-intensity-score">
+                    </span>
+                </div>
+                <div class="copyright">
+                    Copyright &copy; Life Languages International.
+                </div>
             </div>
         </div>
         <script type="module">
-            function paramsParseBool(params, cKey) {
-                var cParam = params.get(cKey);
-                return cParam == null
-                    ? false
-                    : cParam.toLowerCase()[0] == "t" ||
-                          cParam.toLowerCase()[0] == "y";
-            }
+            import { displayAlertInDoc, ASSERT, ASSERT_TYPE } from "./modules/Error.js";
+            import { displayLanguageGram } from "./modules/LanguageGram.js";
+            import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
 
-            function paramsParseFloat(params, cKey) {
-                var cParam = params.get(cKey);
-                return cParam == null ? 0.0 : parseFloat(cParam);
-            }
+            let url = new URL(window.location.href);
 
-            function paramsParseString(params, cKey) {
-                var cParam = params.get(cKey);
+            // Test data generation
+            // import { testSingle, testJSON, testCSV, testInvalidJSON } from "./modules/LanguageGram.test.js";
+            //url = testSingle("https://www.relatematters.com/coaching-tools/LanguageGram.html");
+            //url = testJSON("https://www.relatematters.com/coaching-tools/LanguageGram.html");
+            //url = testCSV("https://www.relatematters.com/coaching-tools/LanguageGram.html");
+            //url = testInvalidJSON("https://www.relatematters.com/coaching-tools/LanguageGram.html");
 
-                return cParam;
-            }
-
-            var parsedParamsTemplate = {
-                fullname: paramsParseString,
-                mover: paramsParseFloat,
-                doer: paramsParseFloat,
-                influencer: paramsParseFloat,
-                responder: paramsParseFloat,
-                shaper: paramsParseFloat,
-                producer: paramsParseFloat,
-                contemplator: paramsParseFloat,
-                overallIntensity: paramsParseFloat
-            };
-
-            import("./modules/LanguageGram.js").then((module) => {
-                let url = new URL(window.location.href);
-                // TEST url = new URL("https://www.relatematters.com/coaching-tools/LanguageGram.html?fullname=Carl+Orthlieb&mover=22.23&doer=62.19&influencer=41.96&responder=37.41&shaper=87.98&producer=42.46&contemplator=62.69&overallIntensity=77.64");
-
-                let parsedParams = {};
-                for (let [cKey, fValue] of Object.entries(parsedParamsTemplate)) {
-                    parsedParams[cKey] = fValue(url.searchParams, cKey);
+            try {
+                // Utilities to parse the data from string inputs, which happen with GET and CSV
+                function parseScore(param) {
+                    if (typeof param == "string") {
+                        let nValue = parseFloat(param);
+                        if (Number.isNaN(nValue))
+                            return param;
+                        return nValue;
+                    }
+                    return param;
                 }
-                module.displayLanguageGram(parsedParams);
-            });
-         </script>
+
+                const llKeys = {
+                    mover: parseScore,
+                    doer: parseScore,
+                    responder: parseScore,
+                    influencer: parseScore,
+                    shaper: parseScore,
+                    producer: parseScore,
+                    contemplator: parseScore,
+                    overallIntensity: parseScore
+                };
+
+                // Handle GET entries
+                let queryParams = {};
+                for (const [key, value] of url.searchParams.entries()) {
+                    queryParams[key] =
+                        key in llKeys ? llKeys[key](value) : value;
+                }
+
+                // Handle JSON formatted data
+                if (queryParams.hasOwnProperty("json")) {
+                    queryParams = JSON.parse(queryParams.json);
+                }
+
+                // Handle CSV formatted data
+                if (queryParams.hasOwnProperty("csv")) {
+                    queryParams = convertCSVtoJSON(queryParams.csv);
+                    for (let i = 0; i < queryParams.length; i++) {
+                        for (const [key, value] of Object.entries(queryParams[i])) {
+                             queryParams[i][key] =
+                                key in llKeys ? llKeys[key](value) : value;
+                        }
+                    }
+                 }
+
+                // We deal in arrays, so if the params are a singleton, enclose it in an array.
+                if (!Array.isArray(queryParams)) queryParams = [queryParams];
+
+                let lgGrid = document.getElementById("language-gram-grid");
+                let lg = document.getElementById("language-gram-1");
+                for (let i = 0; i < queryParams.length; i++) {
+                    if (i > 0) {
+                        let divClone = lg.cloneNode(true); // the true is for deep cloning
+                        divClone.setAttribute("id", "language-gram-" + (i + 1));
+                        lgGrid.appendChild(divClone);
+                    }
+                    try {
+                        displayLanguageGram(i + 1, queryParams[i]);
+                    } catch (e) {
+                        // Error.
+                        displayAlertInDoc(e);
+                    }
+                }
+            } catch (e) {
+                displayAlertInDoc(e);
+            }
+        </script>
     </body>
 </html>

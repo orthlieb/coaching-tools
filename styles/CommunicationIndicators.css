@@ -2,31 +2,66 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-.CIName {
+.hidden { 
+    display: none; 
+}
+
+.bold {
+    font-weight: 700;
+}
+
+/* Alert box*/
+.alert {
+    color: darkred;
+    background-color: lightpink;
+    border-color: red;
+    padding: 15px;
+    border: 1px solid transparent; 
+    border-radius: 4px;
+}
+
+/* Close button on alert*/
+.close {
+    text-decoration: none;
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: 0.2;
+}
+
+.CIPage {
+    break-inside: avoid;
+}
+
+.fullName {
     font-weight: 700;
     font-size: 2.0em;
     text-align: center;
 }
 
-.CIShorthand {
+.shorthand {
     font-weight: 700;
     font-size: 1.5em;
     text-align: center;
     margin: 10px;
 }
 
-.CICorporation {
+.companyName {
     font-weight: 700;
     font-size: 1.25em;
     text-align: center;
     margin: 10px;
 }
 
-.altGray {
+.alt-gray {
     background-color: lightgray;
 }
 
-.CITitle {
+.title {
     font-weight: 700;
     text-align: left;
     font-size: 1.15em;
@@ -34,7 +69,7 @@ body {
     /* background-color: rgba(0,255,0,0.5); */
 }
 
-.CIDescription {
+.description {
     grid-area: desc;
     font-weight: 300;
     font-size: 0.75em;
@@ -42,77 +77,90 @@ body {
     justify-content: center;
 }
 
+.subtitle {
+    justify-self: center;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1em;
+}
 
-.CISubtitle1 {
+.subtitle-1 {
     grid-area: subtitle1;
     /*background-color: yellow;*/
-    justify-self: center;
-    font-weight: 700;
-    text-align: center;
-    font-size: 1em;
-}
+ }
 
-.CISubtitle2 {
+.subtitle-2 {
     grid-area: subtitle2;
     /*background-color: yellow;*/
-    justify-self: center;
-    font-weight: 700;
-    text-align: center;
-    font-size: 1em;
-}
+ }
 
-.CISubtitle3 {
+.subtitle-3 {
     grid-area: subtitle3;
     /*background-color: yellow;*/
-    justify-self: center;
-    font-weight: 700;
-    text-align: center;
-    font-size: 1em;
-}
+ }
 
 /* Small screens */
 @media screen and (max-width: 600px) {
-    .CIOneBar {
+    .communication-indicator-one-bar {
         display: grid;
         grid-template-rows: auto;
-        grid-template-columns: repeat(9, 1fr);
+        grid-template-columns: repeat(7, 1fr);
         grid-template-areas:
-            "title title title title title title title title title" 
-            "desc desc desc desc desc desc desc desc desc"
-            "graph graph graph graph graph graph graph graph graph"
-            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
-            "comment comment comment comment comment comment comment comment comment";
+            "title title title title title title title" 
+            "desc desc desc desc desc desc desc"
+            "graph graph graph graph graph graph graph"
+            "status status status status score score score"
+            "ll1 ll2 ll3 ll4 ll5 ll6 ll7"
+            "comment comment comment comment comment comment comment";
         grid-row-gap: 0.5em;
         padding: 0.5em;
     }
-    .CIThreeBar {
+    .communication-indicator-three-bar {
         display: grid;
         grid-template-rows: auto;
-        grid-template-columns: repeat(9, 1fr);
+        grid-template-columns: repeat(7, 1fr);
         grid-template-areas:
-            "title title title title title title title title title" 
-            "desc desc desc desc desc desc desc desc desc"
-            "subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1"
-            "graph1 graph1 graph1 graph1 graph1 graph1 graph1 graph1 graph1"
-            "subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2"
-            "graph2 graph2 graph2 graph2 graph2 graph2 graph2 graph2 graph2"
-            "subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3"
-            "graph3 graph3 graph3 graph3 graph3 graph3 graph3 graph3 graph3"
-            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
-            "comment comment comment comment comment comment comment comment comment";
+            "title title title title title title title" 
+            "desc desc desc desc desc desc desc"
+            "subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1"
+            "graph1 graph1 graph1 graph1 graph1 graph1 graph1"
+            "subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2"
+            "graph2 graph2 graph2 graph2 graph2 graph2 graph2"
+            "subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3"
+            "graph3 graph3 graph3 graph3 graph3 graph3 graph3"
+            "status status status status score score score"
+            "ll1 ll2 ll3 ll4 ll5 ll6 ll7"
+            "comment comment comment comment comment comment comment";
         grid-row-gap: 0.5em;
         padding: 0.5em;
     }
+    .communication-indicator-three-bar-three-status {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-areas:
+            "title title title title title title title" 
+            "desc desc desc desc desc desc desc"
+            "subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1"
+            "graph1 graph1 graph1 graph1 graph1 graph1 graph1"
+            "status1 status1 status1 status1 score1 score1 score1"
+            "subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2"
+            "graph2 graph2 graph2 graph2 graph2 graph2 graph2"
+            "status2 status2 status2 status2 score2 score2 score2"
+            "subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3"
+            "graph3 graph3 graph3 graph3 graph3 graph3 graph3"
+            "status3 status3 status3 status3 score3 score3 score3"
+            "comment comment comment comment comment comment comment";
+        grid-row-gap: 0.5em;
+        padding: 0.5em;
+    }
+
     
-    .CISubtitle, .CISubtitle1, .CISubtitle2, .CISubtitle3 {
-        text-align: left;
-        justify-self: left;
-    }
 }
 
 /* Larger screens */
 @media screen and (min-width: 601px) {
-    .CIOneBar {
+    .communication-indicator-one-bar {
         display: grid;
         grid-template-rows: auto;
         grid-template-columns: repeat(9, 1fr);
@@ -124,7 +172,7 @@ body {
         grid-row-gap: 0.5em;
         padding: 10px;
     } 
-    .CIThreeBar {
+    .communication-indicator-three-bar {
         display: grid;
         grid-template-rows: auto;
         grid-template-columns: repeat(9, 1fr);
@@ -144,7 +192,7 @@ body {
     body {
         height: 100%;
     }
-    .CIOneBar {
+    .communication-indicator-one-bar {
         display: grid;
         grid-template-rows: auto;
         grid-template-columns: repeat(9, 1fr);
@@ -158,7 +206,7 @@ body {
         width: 100% !important;
         height: auto !important;
     } 
-    .CIThreeBar {
+    .communication-indicator-three-bar {
         display: grid;
         grid-template-rows: auto;
         grid-template-columns: repeat(9, 1fr);
@@ -176,43 +224,42 @@ body {
 }
 
 
-.CIGraph {
+.graph {
     grid-area: graph;
     /*background-color: rgba(255,0,255,0.5);*/
     position: relative;
 	height: 75px;
 }
 
-.CIGraph1 {
+.graph-1 {
     grid-area: graph1;
     /*background-color: rgba(255,0,255,0.5);*/
     position: relative;
 	height: 75px;
 }
 
-.CIGraph2 {
+.graph-2 {
     grid-area: graph2;
     /*background-color: rgba(255,0,255,0.6);*/
     position: relative;
 	height: 75px;
 }
 
-.CIGraph3 {
+.graph-3 {
     grid-area: graph3;
     /*background-color: rgba(255,0,255,0.7);*/
     position: relative;
 	height: 75px;
 }
 
-.CIStatus {
+.status {
     grid-area: status;
-    font-weight: 700;
     font-size: 1em;
     text-align: center;
     /*background-color: rgba(0,255,255,0.5);*/
 }
 
-.CIScore {
+.score {
     grid-area: score;
     font-weight: 300;
     font-size: 1em;
@@ -220,65 +267,62 @@ body {
     /*background-color: rgba(0,255,255,0.5);*/
 }
 
-.CILL {
-    font-weight: 300;
+.life-language {
     font-size: 1em;
     text-align: center;
 }
 
-.CILL1 {
+.life-language-1 {
     grid-area: ll1;
     /*background-color: rgba(255,0,0,0.5);*/
 }
 
-.CILL2 {
+.life-language-2 {
     grid-area: ll2;
     /*background-color: rgba(255,0,0,0.5);*/
 }
 
-.CILL3 {
+.life-language-3 {
     grid-area: ll3;
     /*background-color: rgba(255,0,0,0.5);*/
 }
 
-.CILL4 {
+.life-language-4 {
     grid-area: ll4;
     /*background-color: rgba(255,0,0,0.5);*/
 }
 
-.CILL5 {
+.life-language-5 {
     grid-area: ll5;
     /*background-color: rgba(255,0,0,0.5);*/
 }
 
-.CILL6 {
+.life-language-6 {
     grid-area: ll6;
     /*background-color: rgba(255,0,0,0.5);*/
 }
 
-.CILL7 {
+.life-language-7 {
     grid-area: ll7;
     /*background-color: rgba(255,0,0,0.5);*/
 }
 
-.CIComment {
+.comment {
     grid-area: comment;
-    font-weight: 300;
     text-align: left;
     font-size: 0.75em;
     /*background-color: pink;*/
 }
 
-.CIWarning {
+.warning {
     color: red;
-    font-weight: 700;
     font-size: 1em;
     text-align: center;
 }
 
-.CIFooter {
+.footer {
+    padding: 0.5em;
     font-size: 0.5em;
-    font-weight: 300;
     text-align: center;
 }
 

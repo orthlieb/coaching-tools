@@ -10,7 +10,8 @@
             "mover doer"
             "influencer responder"
             "shaper producer"
-            "contemplator overallintensity";
+            "contemplator overallintensity"
+            "submit .";
         grid-column-gap: 0.5em;
         grid-row-gap: 0.5em;
     }
@@ -25,7 +26,8 @@
             "fullname fullname fullname fullname companyname companyname companyname companyname"
             "lifelanguagestitle lifelanguagestitle lifelanguagestitle lifelanguagestitle lifelanguagestitle lifelanguagestitle lifelanguagestitle lifelanguagestitle"
             "mover mover doer doer influencer influencer responder responder"
-            "shaper shaper producer producer contemplator contemplator overallintensity overallintensity";
+            "shaper shaper producer producer contemplator contemplator overallintensity overallintensity"
+            "submit . . . . . . .";
         grid-column-gap: 0.5em;
         grid-row-gap: 0.5em;
     }
@@ -67,6 +69,10 @@
 
 .LGFormOverallIntensity {
     grid-area: overallintensity;
+}
+
+.LGFormSubmit {
+    grid-area: submit;
 }
 
 .LGFormLeftInputField {

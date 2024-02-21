@@ -1,6 +1,7 @@
 /* Small screens */
 @media screen and (max-width: 600px) {
     .CIFormGrid {
+        background-color: red;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
@@ -16,9 +17,10 @@
             "internalcontrol intrusionlevel"
             "projectivelevel susceptibilitytostress"
             "learningpreferencetitle learningpreferencetitle"
-            "learningpreferencevisual learningpreferencephysical"
-            "learningpreferenceauditory learningpreferenceauditory"
-            "showforensics showforensics";
+            "learningpreferencevisual learningpreferenceauditory"
+            "learningpreferencephysical ."
+            "showforensics showforensics"
+            "submit .";
         grid-column-gap: 0.5em;
         grid-row-gap: 0.5em;
     }
@@ -39,8 +41,9 @@
             "acceptancelevel acceptancelevel interactivestyle interactivestyle internalcontrol internalcontrol intrusionlevel intrusionlevel"
             "projectivelevel projectivelevel susceptibilitytostress susceptibilitytostress susceptibilitytostress . . ."
             "learningpreferencetitle learningpreferencetitle learningpreferencetitle learningpreferencetitle learningpreferencetitle learningpreferencetitle learningpreferencetitle learningpreferencetitle"
-            "learningpreferencephysical learningpreferencephysical . learningpreferencevisual learningpreferencevisual . learningpreferenceauditory learningpreferenceauditory"
+            "learningpreferencevisual learningpreferencevisual learningpreferenceauditory learningpreferenceauditory learningpreferencephysical learningpreferencephysical . ."
             "showforensics showforensics showforensics . . . . .";
+            "submit . . . . . . .";
         grid-column-gap: 0.5em;
         grid-row-gap: 0.5em;
     }
@@ -120,6 +123,10 @@
 
 .CIFormShowForensics {
     grid-area: showforensics;
+}
+
+.CIFormSubmit {
+    grid-area: submit;
 }
 
 .CIFormLeftInputField

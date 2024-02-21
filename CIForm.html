@@ -1,125 +1,254 @@
 <head>
-    <link rel="stylesheet" href="./styles/LGForm.css" />
+    <link rel="stylesheet" href="./styles/CIForm.css" />
 </head>
 <body>
-    <div class="LGFormGrid">
-        <div class="LGFormFullName">
-            <label>Name* [text* fullname class:LGFormLeftInputField] </label>
+    <form id="ciform" class="CIFormGrid">
+        <div class="CIFormFullName">
+            <label for="fullname">Name*</label>
+            <input
+                type="text"
+                id="fullname"
+                name="fullname"
+                class="CIFormLeftInputField"
+                placeholder="Client's Name"
+                required />
         </div>
-        <div class="LGFormCompanyName">
-            <label>Company [text companyName class:LGFormLeftInputField]</label>
+        <div class="CIFormCompanyName">
+            <label for="companyname">Company Name</label>
+            <input
+                type="text"
+                id="companyname"
+                name="companyname"
+                class="CIFormLeftInputField"
+                placeholder="Company Name (optional)" />
         </div>
-        <h4 class="LGFormLifeLanguagesTitle">Life Language Scores</h4>
-        <div class="LGFormMover">
-            <label
-                >Mover* [number* mover min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <h4 class="CIFormLifeLanguagesTitle">Life Language Scores</h4>
+        <div class="CIFormMover">
+            <label for="mover">Mover* </label>
+            <input
+                id="mover"
+                name="mover"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormDoer">
-            <label
-                >Doer* [number* doer min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <div class="CIFormDoer">
+            <label for="doer">Doer* </label>
+            <input
+                id="doer"
+                name="doer"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormInfluencer">
-            <label
-                >Influencer* [number* influencer min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <div class="CIFormInfluencer">
+            <label for="influencer">Influencer*</label>
+            <input
+                id="influencer"
+                name="influencer"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormResponder">
-            <label
-                >Responder* [number* responder min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <div class="CIFormResponder">
+            <label for="responder">Responder*</label>
+            <input
+                id="responder"
+                name="responder"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormShaper">
-            <label
-                >Shaper* [number* shaper min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <div class="CIFormShaper">
+            <label for="shaper">Shaper*</label>
+            <input
+                id="shaper"
+                name="shaper"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormProducer">
-            <label
-                >Producer* [number* producer min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <div class="CIFormProducer">
+            <label for="producer">Producer*</label>
+            <input
+                id="producer"
+                name="producer"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormContemplator">
-            <label
-                >Contemplator* [number* contemplator min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <div class="CIFormContemplator">
+            <label for="contemplator">Contemplator*</label>
+            <input
+                id="contemplator"
+                name="contemplator"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormOverallIntensity">
-            <label>
-                Overall Intensity* [number* overallIntensity min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <div class="CIFormOverallIntensity">
+            <label for="overallIntensity">Overall Intensity* </label>
+            <input
+                id="overallIntensity"
+                name="overallIntensity"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <h4 class="LGFormCommunicationIndicatorsTitle">
+        <h4 class="CIFormCommunicationIndicatorsTitle">
             Communication Indicator Scores
         </h4>
-        <div class="LGFormAcceptanceLevel">
-            <label
-                >Acceptance Level* [number* acceptanceLevel min:0 max:100
-                class:LGFormRightInputField]</label
+        <div class="CIFormAcceptanceLevel">
+            <label for="acceptanceLevel">Acceptance Level*</label>
+            <input
+                id="acceptanceLevel"
+                name="acceptanceLevel"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
+        </div>
+        <div class="CIFormInteractiveStyle">
+            <label for="interactiveStyleScore">Interactive Style*</label>
+            <input
+                id="interactiveStyleScore"
+                name="interactiveStyleScore"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
+            <select id="interactiveStyleType" name="interactiveStyleType">
+                <option value="E" selected>External</option>
+                <option value="B">Balanced</option>
+                <option value="I">Internal</option>
+            </select>
+        </div>
+        <div class="CIFormInternalControl">
+            <label for="internalControl">Internal Control*</label>
+            <input
+                id="internalControl"
+                name="internalControl"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
+        </div>
+        <div class="CIFormIntrusionLevel">
+            <label for="intrusionLevel">Intrusion Level*</label>
+            <input
+                id="intrusionLevel"
+                name="intrusionLevel"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
+        </div>
+        <div class="CIFormProjectiveLevel">
+            <label for="projectiveLevel">Projective Level*</label>
+            <input
+                id="projectiveLevel"
+                name="projectiveLevel"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
+        </div>
+        <div class="CIFormSusceptibilityToStress">
+            <label for="susceptibilityToStress"
+                >Susceptibility to Stress*</label
             >
+            <input
+                id="susceptibilityToStress"
+                name="susceptibilityToStress"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormInteractiveStyle">
-            <label
-                >Interactive Style* [text* interactiveStyle
-                class:LGFormLeftInputField]</label
-            >
+        <h4 class="CIFormLearningPreferenceTitle">Learning Preferences</h4>
+        <div class="CIFormLearningPreferenceVisual">
+            <label for="learningPreferenceVisual">Visual*</label>
+            <input
+                id="learningPreferenceVisual"
+                name="learningPreferenceVisual"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormInternalControl">
-            <label>
-                Internal Control* [number* internalControl min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <div class="CIFormLearningPreferenceAuditory">
+            <label for="learningPreferenceAuditory">Auditory*</label>
+            <input
+                id="learningPreferenceAuditory"
+                name="learningPreferenceAuditory"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormIntrusionLevel">
-            <label
-                >Intrusion Level* [number* intrusionLevel min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <div class="CIFormLearningPreferencePhysical">
+            <label for="learningPreferencePhysical">Physical*</label>
+            <input
+                id="learningPreferencePhysical"
+                name="learningPreferencePhysical"
+                type="number"
+                min="0"
+                max="100"
+                class="CIFormRightInputField"
+                required />
         </div>
-        <div class="LGFormProjectiveLevel">
-            <label
-                >Projective Level* [number* projectiveLevel min:0 max:100
-                class:LGFormRightInputField]</label
-            >
+        <div class="CIFormShowForensics">
+            <input
+                type="checkbox"
+                id="showForensics"
+                name="showForensics"
+                value="1" />
+            <label for="showForensics">Show Forensics</label>
         </div>
-        <div class="LGFormSusceptibilityToStress">
-            <label
-                >Susceptibility to Stress* [number* susceptibilityToStress min:0
-                max:100 class:LGFormRightInputField]</label
-            >
-        </div>
-        <h4 class="LGFormLearningPreferenceTitle">Learning Preferences</h4>
-        <div class="LGFormLearningPreferenceVisual">
-            <label
-                >Visual* [number* learningPreferenceVisual min:0 max:100
-                class:LGFormRightInputField]</label
-            >
-        </div>
-        <div class="LGFormLearningPreferenceAuditory">
-            <label
-                >Auditory* [number* learningPreferenceAuditory min:0 max:100
-                class:LGFormRightInputField]</label
-            >
-        </div>
-        <div class="LGFormLearningPreferencePhysical">
-            <label
-                >Physical* [number* learningPreferencePhysical min:0 max:100
-                class:LGFormRightInputField]</label
-            >
-        </div>
-        <div class="LGFormShowForensics">
-            Show Forensics* [radio showForensics default:1 "Yes" "No"]
-        </div>
-    </div>
-    <br />
-    [submit "Submit"]
+        <input type="submit" value="Submit" class="CIFormSubmit" />
+    </form>
+       <script>
+         // JavaScript code using ES6 syntax to handle the form submission
+        document.getElementById('ciform').addEventListener('submit', event => {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get form data using FormData
+            const formData = new FormData(event.target);
+
+            // Convert form data to URLSearchParams
+            const params = new URLSearchParams(formData);
+
+            // Construct the URL with encoded form data
+            const redirectURL = `https://www.relatematters.com/coaching-tools/CommunicationIndicators.html?${params.toString()}`;
+            
+            console.println(redirectURL);
+
+            // Redirect to the new page
+            window.location.href = redirectURL;
+        });    
+    </script>
 </body>

@@ -1,18 +1,14 @@
-function DEBUG_ASSERT(assertion, ...msgs) {
-    if (!assertion) {
-        throw msgs.reduce((cMsg, cSnippet) => (cMsg += " " + cSnippet));
-    }
-    return assertion;
-}
+import { ASSERT, ASSERT_TYPE, ASSERT_RANGE } from './Error.js';
 
 let LLKEYS = [
-    "mover",
-    "doer",
-    "influencer",
-    "responder",
-    "shaper",
-    "producer",
-    "contemplator"
+    'mover',
+    'doer',
+    'influencer',
+    'responder',
+    'shaper',
+    'producer',
+    'contemplator',
+    'overallIntensity'
 ];
 
 /**
@@ -22,10 +18,10 @@ let LLKEYS = [
  */
 function getSortedScores(data) {
     let aSortedScores = [];
-
+    
     for (let cLL of LLKEYS) {
-        DEBUG_ASSERT(data.hasOwnProperty(cLL), "Missing key", cLL);
-        DEBUG_ASSERT(typeof data[cLL] == "number", "Invalid type for", cLL, typeof data[cLL]);
+        if (cLL == 'overallIntensity')
+            continue;
 
         aSortedScores.push([cLL, data[cLL]]);
     }
@@ -43,63 +39,76 @@ function getSortedScores(data) {
  * @returns {string} Returns the evaluation of the Overall Intensity.
  */
 function evaluateOverallIntensity(nValue) {
-    DEBUG_ASSERT(
-        typeof nValue == "number",
-        "Invalid type expected number",
-        nValue,
-        typeof nValue
-    );
-
-    if (nValue < 15) return "\u{1F87B}";
-    else if (nValue < 35) return "\u{1F87E}";
-    else if (nValue < 65) return "\u{1F87A}";
-    else if (nValue < 85) return "\u{1F87D}";
-    return "\u{1F879}";
+    if (nValue < 15) return '&#x1F87B;';         // down
+    else if (nValue < 35) return '&#x1F87E;';    // down-right
+    else if (nValue < 65) return '&#x1F87A;';    // right
+    else if (nValue < 85) return '&#x1F87D;';    // up-right
+    return '&#x1F879;';                          // up
 }
 
 const LLCOLORS = {
-    mover: "#ED1C24",
-    doer: "#F6831F",
-    influencer: "#FFCE0B",
-    responder: "#7030A0",
-    shaper: "#4472C4",
-    producer: "#006838",
-    contemplator: "#35B3DF"
+    mover: '#ED1C24',
+    doer: '#F6831F',
+    influencer: '#FFCE0B',
+    responder: '#7030A0',
+    shaper: '#4472C4',
+    producer: '#006838',
+    contemplator: '#35B3DF'
 };
+
+
+function validateData(data) {
+    ASSERT('fullName' in data, 'validateData missing parameter data.fullName');
+    ASSERT_TYPE(data.fullName, 'string', `validateData "${data.fullName}" parameter data.fullName`);
+
+    for (let cKey of LLKEYS) {
+        ASSERT(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
+        ASSERT_TYPE(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
+        ASSERT_RANGE(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
+    }
+  }
 
 /**
  * Main function to draw the Communication Indicators.
  * @param {object} data Data to be displayed.
  */
-export function displayLanguageGram(data) {
+export function displayLanguageGram(cSuffix, data) {
+    validateData(data);
+    
     let aSortedScores = getSortedScores(data);
 
-    document.getElementById("lg-fullname").innerText = data.fullname;
+    let lgElement = document.getElementById('language-gram-' + cSuffix);
+
+    let lgFullname = lgElement.querySelector('.fullname');
+    lgFullname.innerText = data.fullName;
+    let lgCompanyName = lgElement.querySelector('.companyname');
+    if (data.companyName)
+        lgCompanyName.innerText = data.companyName;
 
     // Life Language scores
     for (let i = 0; i < aSortedScores.length; i++) {
         let cLabel = aSortedScores[i][0];
         let nValue = aSortedScores[i][1];
-        let field = document.getElementById("lg-letter-" + (i + 1));
+        let field = lgElement.querySelector('.letter-' + (i + 1));
         field.innerText = cLabel[0];
         if (i < 3) {
             field.style.backgroundColor = LLCOLORS[cLabel];
         }
 
-        field = document.getElementById("lg-score-" + (i + 1));
+        field = lgElement.querySelector('.score-' + (i + 1));
         field.innerText = Math.round(nValue);
-        field = document.getElementById("lg-llang-" + (i + 1));
+        field = lgElement.querySelector('.llang-' + (i + 1));
         field.innerText = cLabel;
     }
 
     // Range
-    let field = document.getElementById("lg-range-score");
+    let field = lgElement.querySelector('.range-score');
     let nRange = aSortedScores[0][1] - aSortedScores[6][1];
     field.innerText = Math.round(nRange);
 
     // Overall Intensity
-    field = document.getElementById("lg-overall-intensity-arrow");
-    field.innerText = evaluateOverallIntensity(data.overallIntensity);
-    field = document.getElementById("lg-overall-intensity-score");
+    field = lgElement.querySelector('.overall-intensity-arrow');
+    field.innerHTML = evaluateOverallIntensity(data.overallIntensity);
+    field = lgElement.querySelector('.overall-intensity-score');
     field.innerText = Math.round(data.overallIntensity);
 }

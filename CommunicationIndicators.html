@@ -2,269 +2,363 @@
     <title>Communication Indicators and Forensics</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
-    <link rel="stylesheet" href="./styles/CommunicationIndicators.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="./styles/CommunicationIndicators.css" /> <link rel="stylesheet" href="./styles/Error.css" />
+
 </head>
 <body>
-    <div class="CIName" id="ciname"></div>
-    <div class="CIShorthand" , id="cishorthand"></div>
-    <div class="CICorporation" id="cicorp"></div>
+    <div class="alert hidden" id="alert" role="alert"></div>
+    <div class="CIPage" id="cipage-1">
+        <div class="fullName" id="fullName"></div>
+        <div class="shorthand" , id="shorthand"></div>
+        <div class="companyName" id="companyName"></div>
 
-    <div class="CIOneBar">
-        <div class="CITitle">1. ACCEPTANCE LEVEL</div>
-        <div class="CIDescription">
-            How does one view personal strengths and weaknesses? How much
-            self-confidence does one have/display? How comfortable is one
-            receiving compliments?
-        </div>
-        <div class="CIGraph">
-            <div class="CIContainer">
-                <canvas id="acceptanceLevelChart" class="CICanvas PrintFull"></canvas>
+        <div class="communication-indicator-one-bar">
+            <div class="title">1. ACCEPTANCE LEVEL</div>
+            <div class="description">
+                How does one view personal strengths and weaknesses? How much
+                self-confidence does one have/display? How comfortable is one
+                receiving compliments?
+            </div>
+            <div class="graph">
+                <canvas class="canvas print-full acceptanceLevelChart"></canvas>
+            </div>
+            <div class="status bold acceptanceLevelStatus"></div>
+            <div class="score acceptanceLevelScore"></div>
+            <div
+                class="life-language-1 life-language forensic acceptanceLevelLifeLanguage1"></div>
+            <div
+                class="life-language-2 life-language forensic acceptanceLevelLifeLanguage2"></div>
+            <div
+                class="life-language-3 life-language forensic acceptanceLevelLifeLanguage3"></div>
+            <div
+                class="life-language-4 life-language forensic acceptanceLevelLifeLanguage4"></div>
+            <div
+                class="life-language-5 life-language forensic acceptanceLevelLifeLanguage5"></div>
+            <div
+                class="life-language-6 life-language forensic acceptanceLevelLifeLanguage6"></div>
+            <div
+                class="life-language-7 life-language forensic acceptanceLevelLifeLanguage7"></div>
+            <div class="comment forensic acceptanceLevelLifeLanguageComment">
+                * Low unless experiencing career success or in the context of an
+                area of domain knowledge or interest
             </div>
         </div>
-        <div class="CIStatus" id="alstatus"></div>
-        <div class="CIScore" id="alscore"></div>
-        <div class="CILL1 CILL CIForensics" id="alll0">LLI 1</div>
-        <div class="CILL2 CILL CIForensics" id="alll1">LLI 2</div>
-        <div class="CILL3 CILL CIForensics" id="alll2">LLI 3</div>
-        <div class="CILL4 CILL CIForensics" id="alll3">LLI 4</div>
-        <div class="CILL5 CILL CIForensics" id="alll4">LLI 5</div>
-        <div class="CILL6 CILL CIForensics" id="alll5">LLI 6</div>
-        <div class="CILL7 CILL CIForensics" id="alll6">LLI 7</div>
-        <div class="CIComment CIForensics" id="alcomment">
-            * Low unless experiencing career success or in the context of an
-            area of domain knowledge or interest
-        </div>
-    </div>
-    <div class="CIThreeBar altGray">
-        <div class="CITitle">2. INTERACTIVE STYLE</div>
-        <div class="CIDescription">
-            Prefer to work alone or in groups? Prefer to know people or meet new
-            people easily?
-        </div>
-        <div class="CISubtitle1 CIChartHeader">Introvert</div>
-        <div class="CISubtitle2 CIChartHeader">Balanced</div>
-        <div class="CISubtitle3 CIChartHeader">Extrovert</div>
-        <div class="CIGraph1">
-            <div class="CIContainer">
+        <div class="communication-indicator-three-bar alt-gray">
+            <div class="title">2. INTERACTIVE STYLE</div>
+            <div class="description">
+                Prefer to work alone or in groups? Prefer to know people or meet
+                new people easily?
+            </div>
+            <div class="subtitle-1 subtitle">Introvert</div>
+            <div class="subtitle-2 subtitle">Balanced</div>
+            <div class="subtitle-3 subtitle">Extrovert</div>
+            <div class="graph-1">
                 <canvas
-                    id="interactiveStyleIntrovertChart"
-                    class="CICanvas PrintOneThird"></canvas>
+                    class="print-one-third interactiveStyleIntrovertChart"></canvas>
             </div>
-        </div>
-        <div class="CIGraph2">
-            <div class="CIContainer">
+            <div class="graph-2">
                 <canvas
-                    id="interactiveStyleBalancedChart"
-                    class="CICanvas PrintOneThird"></canvas>
+                    class="print-one-third interactiveStyleBalancedChart"></canvas>
             </div>
-        </div>
-        <div class="CIGraph3">
-            <div class="CIContainer">
+            <div class="graph-3">
                 <canvas
-                    id="interactiveStyleExtrovertChart"
-                    class="CICanvas PrintOneThird"></canvas>
+                    class="print-one-third interactiveStyleExtrovertChart"></canvas>
+            </div>
+            <div class="status bold interactiveStyleStatus"></div>
+            <div class="score interactiveStyleScore"></div>
+            <div
+                class="life-language-1 life-language forensic interactiveStyleLifeLanguage1"></div>
+            <div
+                class="life-language-2 life-language forensic interactiveStyleLifeLanguage2"></div>
+            <div
+                class="life-language-3 life-language forensic interactiveStyleLifeLanguage3"></div>
+            <div
+                class="life-language-4 life-language forensic interactiveStyleLifeLanguage4"></div>
+            <div
+                class="life-language-5 life-language forensic interactiveStyleLifeLanguage5"></div>
+            <div
+                class="life-language-6 life-language forensic interactiveStyleLifeLanguage6"></div>
+            <div
+                class="life-language-7 life-language forensic interactiveStyleLifeLanguage7"></div>
+        </div>
+        <div class="communication-indicator-one-bar">
+            <div class="title">3. INTERNAL CONTROL</div>
+            <div class="description">
+                How much self-control or self-government vs. impulsiveness or
+                spontaneity does one display?
+            </div>
+            <div class="graph">
+                <canvas class="print-full internalControlChart"></canvas>
+            </div>
+            <div class="status bold internalControlStatus"></div>
+            <div class="score internalControlScore"></div>
+            <div
+                class="life-language-1 life-language forensic internalControlLifeLanguage1"></div>
+            <div
+                class="life-language-2 life-language forensic internalControlLifeLanguage2"></div>
+            <div
+                class="life-language-3 life-language forensic internalControlLifeLanguage3"></div>
+            <div
+                class="life-language-4 life-language forensic internalControlLifeLanguage4"></div>
+            <div
+                class="life-language-5 life-language forensic internalControlLifeLanguage5"></div>
+            <div
+                class="life-language-6 life-language forensic internalControlLifeLanguage6"></div>
+            <div
+                class="life-language-7 life-language forensic internalControlLifeLanguage7"></div>
+            <div class="comment forensic">
+                * Low unless focused an area of interest or research.
             </div>
         </div>
-        <div class="CIStatus" id="isstatus">Status</div>
-        <div class="CIScore" id="isscore"></div>
-        <div class="CILL1 CILL CIForensics" id="isll0">LLI 1</div>
-        <div class="CILL2 CILL CIForensics" id="isll1">LLI 2</div>
-        <div class="CILL3 CILL CIForensics" id="isll2">LLI 3</div>
-        <div class="CILL4 CILL CIForensics" id="isll3">LLI 4</div>
-        <div class="CILL5 CILL CIForensics" id="isll4">LLI 5</div>
-        <div class="CILL6 CILL CIForensics" id="isll5">LLI 6</div>
-        <div class="CILL7 CILL CIForensics" id="isll6">LLI 7</div>
-    </div>
-    <div class="CIOneBar">
-        <div class="CITitle">3. INTERNAL CONTROL</div>
-        <div class="CIDescription">
-            How much self-control or self-government vs. impulsiveness or
-            spontaneity does one display?
-        </div>
-        <div class="CIGraph">
-            <div class="CIContainer">
-                <canvas id="internalControlChart" class="CICanvas PrintFull"></canvas>
+        <div class="communication-indicator-one-bar alt-gray">
+            <div class="title">4. INTRUSION LEVEL</div>
+            <div class="description">
+                How well is one able to allow interruptions, changes,
+                unsolicited opinions - anything one considers an intrusion -
+                without moving to distress as a result?
             </div>
-        </div>
-        <div class="CIStatus" id="icstatus">Status</div>
-        <div class="CIScore" id="icscore"></div>
-        <div class="CILL1 CILL CIForensics" id="icll0">LLI 1</div>
-        <div class="CILL2 CILL CIForensics" id="icll1">LLI 2</div>
-        <div class="CILL3 CILL CIForensics" id="icll2">LLI 3</div>
-        <div class="CILL4 CILL CIForensics" id="icll3">LLI 4</div>
-        <div class="CILL5 CILL CIForensics" id="icll4">LLI 5</div>
-        <div class="CILL6 CILL CIForensics" id="icll5">LLI 6</div>
-        <div class="CILL7 CILL CIForensics" id="icll6">LLI 7</div>
-        <div class="CIComment CIForensics">
-            * Low unless focused an area of interest or research.
-        </div>
-    </div>
-    <div class="CIOneBar altGray">
-        <div class="CITitle">4. INTRUSION LEVEL</div>
-        <div class="CIDescription">
-            How well is one able to allow interruptions, changes, unsolicited
-            opinions - anything one considers an intrusion - without moving to
-            distress as a result?
-        </div>
-        <div class="CIGraph">
-            <div class="CIContainer">
-                <canvas id="intrusionLevelChart" class="CICanvas PrintFull"></canvas>
+            <div class="graph">
+                <canvas class="print-full intrusionLevelChart"></canvas>
             </div>
+            <div class="status bold intrusionLevelStatus"></div>
+            <div class="score intrusionLevelScore"></div>
+            <div
+                class="life-language-1 life-language forensic intrusionLevelLifeLanguage1"></div>
+            <div
+                class="life-language-2 life-language forensic intrusionLevelLifeLanguage2"></div>
+            <div
+                class="life-language-3 life-language forensic intrusionLevelLifeLanguage3"></div>
+            <div
+                class="life-language-4 life-language forensic intrusionLevelLifeLanguage4"></div>
+            <div
+                class="life-language-5 life-language forensic intrusionLevelLifeLanguage5"></div>
+            <div
+                class="life-language-6 life-language forensic intrusionLevelLifeLanguage6"></div>
+            <div
+                class="life-language-7 life-language forensic intrusionLevelLifeLanguage7"></div>
         </div>
-        <div class="CIStatus" id="ilstatus">Status</div>
-        <div class="CIScore" id="ilscore"></div>
-        <div class="CILL1 CILL CIForensics" id="illl0">LLI 1</div>
-        <div class="CILL2 CILL CIForensics" id="illl1">LLI 2</div>
-        <div class="CILL3 CILL CIForensics" id="illl2">LLI 3</div>
-        <div class="CILL4 CILL CIForensics" id="illl3">LLI 4</div>
-        <div class="CILL5 CILL CIForensics" id="illl4">LLI 5</div>
-        <div class="CILL6 CILL CIForensics" id="illl5">LLI 6</div>
-        <div class="CILL7 CILL CIForensics" id="illl6">LLI 7</div>
-    </div>
-    <div class="CIOneBar">
-        <div class="CITitle">5. PROJECTIVE LEVEL</div>
-        <div class="CIDescription">
-            How important is the opinion of others? How much does one need or
-            want positive feedback or respect? How much do I care about what you
-            think of me?
-        </div>
-        <div class="CIGraph">
-            <div class="CIContainer">
-                <canvas id="projectiveLevelChart" class="CICanvas PrintFull"></canvas>
+        <div class="communication-indicator-one-bar">
+            <div class="title">5. PROJECTIVE LEVEL</div>
+            <div class="description">
+                How important is the opinion of others? How much does one need
+                or want positive feedback or respect? How much do I care about
+                what you think of me?
             </div>
+            <div class="graph">
+                <canvas class="print-full projectiveLevelChart"></canvas>
+            </div>
+            <div class="status bold projectiveLevelStatus"></div>
+            <div class="score projectiveLevelScore"></div>
+            <div
+                class="life-language-1 life-language forensic projectiveLevelLifeLanguage1"></div>
+            <div
+                class="life-language-2 life-language forensic projectiveLevelLifeLanguage2"></div>
+            <div
+                class="life-language-3 life-language forensic projectiveLevelLifeLanguage3"></div>
+            <div
+                class="life-language-4 life-language forensic projectiveLevelLifeLanguage4"></div>
+            <div
+                class="life-language-5 life-language forensic projectiveLevelLifeLanguage5"></div>
+            <div
+                class="life-language-6 life-language forensic projectiveLevelLifeLanguage6"></div>
+            <div
+                class="life-language-7 life-language forensic projectiveLevelLifeLanguage7"></div>
         </div>
-        <div class="CIStatus" id="plstatus">Status</div>
-        <div class="CIScore" id="plscore"></div>
-        <div class="CILL1 CILL CIForensics" id="plll0">LLI 1</div>
-        <div class="CILL2 CILL CIForensics" id="plll1">LLI 2</div>
-        <div class="CILL3 CILL CIForensics" id="plll2">LLI 3</div>
-        <div class="CILL4 CILL CIForensics" id="plll3">LLI 4</div>
-        <div class="CILL5 CILL CIForensics" id="plll4">LLI 5</div>
-        <div class="CILL6 CILL CIForensics" id="plll5">LLI 6</div>
-        <div class="CILL7 CILL CIForensics" id="plll6">LLI 7</div>
-    </div>
-    <div class="CIOneBar altGray">
-        <div class="CITitle">6. SUSCEPTIBILITY TO STRESS</div>
-        <div class="CIDescription">
-            Stress happens to everyone and comes from various sources, even from
-            having too many good things going on at one time. When dealing with
-            problems or crisis do you tend to remain calm, excited,
-            hyper-vigilant or reactive?
+        <div class="communication-indicator-one-bar alt-gray">
+            <div class="title">6. SUSCEPTIBILITY TO STRESS</div>
+            <div class="description">
+                Stress happens to everyone and comes from various sources, even
+                from having too many good things going on at one time. When
+                dealing with problems or crisis do you tend to remain calm,
+                excited, hyper-vigilant or reactive?
+            </div>
+            <div class="graph">
+                <canvas class="print-full susceptibilityToStressChart"></canvas>
+            </div>
+            <div class="status bold susceptibilityToStressStatus"></div>
+            <div class="score susceptibilityToStressScore"></div>
         </div>
-        <div class="CIGraph">
-            <div class="CIContainer">
+        <div class="communication-indicator-three-bar">
+            <div class="title">7. LEARNING PREFERENCE</div>
+            <div class="description">
+                There are three basic Learning styles--everyone learns in all
+                three ways, but usually one will come more naturally to you, and
+                you will have a preference for it if you have the choice.
+            </div>
+            <div class="subtitle-1 subtitle">Auditory</div>
+            <div class="subtitle-2 subtitle">Visual</div>
+            <div class="subtitle-3 subtitle">Physical</div>
+            <div class="graph-1">
                 <canvas
-                    id="susceptiblityToStressChart"
-                    class="CICanvas PrintFull"></canvas>
+                    class="print-one-third learningPreferenceAuditoryChart"></canvas>
             </div>
-        </div>
-        <div class="CIStatus" id="ssstatus">Status</div>
-        <div class="CIScore" id="ssscore"></div>
-    </div>
-    <div class="CIThreeBar">
-        <div class="CITitle">7. LEARNING PREFERENCE</div>
-        <div class="CIDescription">
-            There are three basic Learning styles--everyone learns in all three
-            ways, but usually one will come more naturally to you, and you will
-            have a preference for it if you have the choice.
-        </div>
-        <div class="CISubtitle1 CIChartHeader">Auditory</div>
-        <div class="CISubtitle2 CIChartHeader">Visual</div>
-        <div class="CISubtitle3 CIChartHeader">Physical</div>
-        <div class="CIGraph1">
-            <div class="CIContainer">
+            <div class="graph-2">
                 <canvas
-                    id="learningPreferenceAuditoryChart"
-                    class="CICanvas PrintOneThird"></canvas>
+                    class="print-one-third learningPreferenceVisualChart"></canvas>
             </div>
-        </div>
-        <div class="CIGraph2">
-            <div class="CIContainer">
+            <div class="graph-3">
                 <canvas
-                    id="learningPreferenceVisualChart"
-                    class="CICanvas PrintOneThird"></canvas>
+                    class="print-one-third learningPreferencePhysicalChart"></canvas>
             </div>
+            <div class="status bold learningPreferenceAuditoryStatus"></div>
+            <div class="score learningPreferenceAuditoryScore"></div>
+            <div class="life-language-1"></div>
+            <div
+                class="bold life-language-2 life-language learningPreferenceVisualStatus"></div>
+            <div
+                class="life-language-3 life-language learningPreferenceVisualScore"></div>
+            <div class="life-language-4"></div>
+            <div
+                class="life-language-5 life-language bold learningPreferencePhysicalStatus"></div>
+            <div
+                class="life-language-6 life-language learningPreferencePhysicalScore"></div>
+            <div class="life-language-7"></div>
         </div>
-        <div class="CIGraph3">
-            <div class="CIContainer">
-                <canvas
-                    id="learningPreferencePhysicalChart"
-                    class="CICanvas PrintOneThird"></canvas>
-            </div>
+        <div class="warning bold forensic">
+            FOR COACH USE ONLY! DO NOT HAND OUT
         </div>
-        <div class="CIStatus" id="lpstatus">Status</div>
-        <div class="CIScore" id="lpscore"></div>
-        <div class="CILL1 CILL" id="lpll1"></div>
-        <div class="CILL2 CIStatus" id="lpll2"></div>
-        <div class="CILL3 CILL" id="lpll3"></div>
-        <div class="CILL4 CILL" id="lpll4"></div>
-        <div class="CILL5 CIStatus" id="lpll5"></div>
-        <div class="CILL6 CILL" id="lpll6"></div>
-        <div class="CILL7 CILL" id="lpll7"></div>
-    </div>
-    <div class="CIWarning CIForensics">FOR COACH USE ONLY! DO NOT HAND OUT</div>
-    <div class="CIFooter">
-        Copyright © Life Languages International · 2711 Valley View Ln, Ste 103,
-        Dallas, TX 75234 · (972) 406-1313 ·
-        <a href="www.lifelanguages.com">www.lifelanguages.com</a>
+        <div class="footer">
+            Copyright &copy; Life Languages International &#x2022; All rights
+            reserved. &#x2022;
+            <a href="www.lifelanguages.com">www.lifelanguages.com</a>
+        </div>
     </div>
 
     <script type="module">
-        function paramsParseBool(params, cKey) {
-            var cParam = params.get(cKey);
-            return cParam == null
-                ? false
-                : cParam.toLowerCase()[0] == "t" ||
-                      cParam.toLowerCase()[0] == "y";
-        }
+        import { displayAlertInDoc, ASSERT, ASSERT_RANGE, ASSERT_TYPE } from "./modules/Error.js";
+        import { displayCommunicationIndicators } from "./modules/CommunicationIndicators.js";
+        import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
 
-        function paramsParseFloat(params, cKey) {
-            var cParam = params.get(cKey);
-            return cParam == null ? 0.0 : parseFloat(cParam);
-        }
+        let url = new URL(window.location.href);
 
-        function paramsParseString(params, cKey) {
-            var cParam = params.get(cKey);
+        // Test data generation
+        //import { testSingle, testJSON, testCSV, testInvalidEntries } from './modules/CommunicationIndicators.test.js';
+        //url = testSingle("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
+        //url = testJSON("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
+        //url = testCSV("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
+        //url = testInvalidEntries("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
 
-            return cParam;
-        }
-
-        var parsedParamsTemplate = {
-            fullname: paramsParseString,
-            companyName: paramsParseString,
-            mover: paramsParseFloat,
-            doer: paramsParseFloat,
-            influencer: paramsParseFloat,
-            responder: paramsParseFloat,
-            shaper: paramsParseFloat,
-            producer: paramsParseFloat,
-            contemplator: paramsParseFloat,
-            acceptanceLevel: paramsParseFloat,
-            interactiveStyle: paramsParseString,
-            internalControl: paramsParseFloat,
-            intrusionLevel: paramsParseFloat,
-            projectiveLevel: paramsParseFloat,
-            susceptibilityToStress: paramsParseFloat,
-            learningPreferenceAuditory: paramsParseFloat,
-            learningPreferenceVisual: paramsParseFloat,
-            learningPreferencePhysical: paramsParseFloat,
-            showForensics: paramsParseBool
-        };
-
-        import("./modules/CommunicationIndicators.js").then((module) => {
-            let url = new URL(window.location.href);
-            url= new URL("https://www.relatematters.com/coaching-tools/LanguageGram.html?fullname=Carl+Orthlieb&mover=22.23&doer=62.19&influencer=41.96&responder=37.41&shaper=87.98&producer=42.46&contemplator=62.69&overallIntensity=77.64&ak_bib=1696383290316&ak_bfs=1696383509554&ak_bkpc=84&ak_bkp=122%2C196%3B85%2C118%3B124%2C55%3B84%2C10%3B63%2C91%3B68%2C99%3B46%2C115%3B92%2C15%3B128%2C25%3B115%2C44%3B78%2C9%3B69%2C169%3B144%3B66%2C107%3B70%2C649%3B152%2C356%3B68%2C109%3B69%3B102%2C105%3B60%2C679%3B78%2C457%3B62%2C36%3B63%3B78%2C102%3B68%2C574%3B83%2C94%3B51%2C99%3B111%3B97%2C32%3B71%2C236%3B85%2C106%3B75%2C451%3B121%3B98%2C49%3B70%2C282%3B69%2C407%3B88%2C405%3B108%3B50%2C13%3B58%2C715%3B115%2C451%3B115%2C71%3B95%3B64%2C78%3B73%2C620%3B90%2C377%3B73%2C355%3B67%3B77%2C62%3B66%2C452%3B74%2C429%3B72%2C131%3B66%3B86%2C60%3B69%2C427%3B80%2C74%3B90%2C338%3B116%3B99%2C5%3B65%2C268%3B84%2C98%3B70%2C354%3B125%3B98%2C10%3B80%2C331%3B69%2C324%3B100%2C457%3B104%3B49%2C60%3B60%2C685%3B99%2C312%3B85%2C28%3B111%2C55%3B112%2C90%3B91%3B91%2C128%3B75%2C331%3B90%2C109%3B75%2C139%3B79%3B59%2C65%3B66%2C573%3B73%2C394%3B95%2C57%3B&ak_bmc=66%3B70%2C891%3B82%2C43161%3B80%2C701%3B77%2C3725%3B70%2C12650%3B78%2C7803%3B60%2C3468%3B63%2C7610%3B74%2C886%3B70%2C3729%3B70%2C14582%3B72%2C10210%3B300%2C11375%3B74%2C8262%3B60%2C10536%3B281%2C420%3B351%2C9498%3B512%2C9308%3B298%2C12255%3B233%2C19750%3B92%2C20921%3B72%2C4389%3B59%2C3473%3B&ak_bmcc=24&ak_bmk=-1%3B-1%3B4&ak_bck=71%3B71&ak_bmmc=32&ak_btmc=0&ak_bsc=0&ak_bte=&ak_btec=0&ak_bmm=1207%2C578%3B913%2C17%3B1178%2C919%3B147%2C6%3B948%2C1454%3B728%2C1249%3B1300%2C1265%3B808%2C1304%3B1431%2C682%3B1828%2C1255%3B1349%2C1203%3B837%2C1154%3B2023%2C230%3B688%2C1191%3B984%2C120%3B3010%2C1372%3B403%2C27%3B1026%2C1330%3B598%2C793%3B1565%2C1407%3B222%2C75%3B3373%2C1366%3B247%2C1316%3B1750%2C1412%3B1264%2C399%3B188%2C493%3B2888%2C467%3B498%2C858%3B4014%2C1382%3B149%2C70%3B2440%2C463%3B693%2C1364%3B");
-
-            let parsedParams = {};
-            for (let [cKey, fValue] of Object.entries(parsedParamsTemplate)) {
-                parsedParams[cKey] = fValue(url.searchParams, cKey);
+        try {
+            function parseNumber(key, value) {
+                if (typeof value == 'number')
+                    return value;
+                
+                let nValue = parseFloat(value);
+                if (Number.isNaN(nValue))
+                    return value;
+                return nValue;
             }
-            module.displayCommunicationIndicators(parsedParams);
-        });
+
+            function parseChar(key, value) {
+                if (typeof value == 'string')
+                    return value[0];
+                return value;
+            }
+            
+            function parseBool(key, value) {
+                if (typeof value == 'boolean')
+                    return value;
+                
+                if (typeof value == 'string') {
+                    let cValue = value[0].toLowerCase();
+                    return cValue == "y" || cValue == "t" || cValue == "1";
+                }
+
+                return value == 1;
+            }
+            
+            function parseInteractiveStyle(key, value) {
+                if (Array.isArray(value))
+                    return value;
+                
+                // First part is a number
+                let nValue = parseFloat(value);
+                if (Number.isNaN(nValue)) {
+                    return [ value, value ];
+                }
+                
+                // Followed by an I, B, or E.
+                return [nValue, value.slice(-1)];
+            }
+
+            const ciKeys = {
+                mover: parseNumber,
+                doer: parseNumber,
+                responder: parseNumber,
+                influencer: parseNumber,
+                shaper: parseNumber,
+                producer: parseNumber,
+                contemplator: parseNumber,
+                overallIntensity: parseNumber,
+                acceptanceLevel: parseNumber,
+                interactiveStyle: parseInteractiveStyle,
+                interactiveStyleType: parseChar,
+                interactiveStyleScore: parseNumber,
+                internalControl: parseNumber,
+                intrusionLevel: parseNumber,
+                projectiveLevel: parseNumber,
+                susceptibilityToStress: parseNumber,
+                learningPreferenceAuditory: parseNumber,
+                learningPreferenceVisual: parseNumber,
+                learningPreferencePhysical: parseNumber,
+                showForensics: parseBool
+            };
+            
+            let searchParams = url.searchParams;
+            let params = {};
+
+            if (searchParams.has('json')) {
+                params = JSON.parse(searchParams.get('json'));
+            } else if (searchParams.has('csv')) {
+                params = convertCSVtoJSON(searchParams.get('csv'));
+            } else {
+                for (const [key, value] of searchParams.entries()) {
+                    params[key] = value;
+                }
+            }
+            
+            // We deal in arrays, so if the params are a singleton, enclose it in an array.
+            if (!Array.isArray(params)) 
+                params = [params];
+            
+        
+            let ci = document.getElementById("cipage-1");
+            // Loop over each page of information
+            for (let i = 0; i < params.length; i++) {
+                if (i > 0) {
+                    // Create our page from the existing one
+                    let divClone = ci.cloneNode(true); // the true is for deep cloning
+                    divClone.setAttribute("id", "cipage-" + (i + 1));
+                    document.body.appendChild(divClone);
+                }
+                try {
+                    // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
+                    for (const key in params[i]) {
+                        let value = params[i][key];
+                        console.log('processing', key, value);
+                        params[i][key] =
+                        (key in ciKeys) ? ciKeys[key](key, value) : value;   
+                    }
+                    if ('interactiveStyle' in params[i]) {
+                        // Combination of <number>[E|B|I] instead of individual parameters. Decompose.
+                        params[i].interactiveStyleScore = params[i].interactiveStyle[0];
+                        params[i].interactiveStyleType = params[i].interactiveStyle[1];
+                        delete params[i].interactiveStyle;
+                    }
+                
+                    console.log('params', JSON.stringify(params[i]));
+                    displayCommunicationIndicators(i + 1, params[i]); 
+                } catch (e) { 
+                    displayAlertInDoc(e); 
+                }
+            }
+        } catch (e) {
+            displayAlertInDoc(e);
+        }
     </script>
 </body>
