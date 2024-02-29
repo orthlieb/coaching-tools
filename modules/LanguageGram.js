@@ -1,15 +1,5 @@
 import { ASSERT, ASSERT_TYPE, ASSERT_RANGE } from './Error.js';
-
-let LLKEYS = [
-    'mover',
-    'doer',
-    'influencer',
-    'responder',
-    'shaper',
-    'producer',
-    'contemplator',
-    'overallIntensity'
-];
+import { LLKEYS, LLCOLORS } from './Common.js';
 
 /**
  * Given a set of Life Languages Data, sorts it into reverse order.
@@ -45,17 +35,6 @@ function evaluateOverallIntensity(nValue) {
     else if (nValue < 85) return '&#x1F87D;';    // up-right
     return '&#x1F879;';                          // up
 }
-
-const LLCOLORS = {
-    mover: '#ED1C24',
-    doer: '#F6831F',
-    influencer: '#FFCE0B',
-    responder: '#7030A0',
-    shaper: '#4472C4',
-    producer: '#006838',
-    contemplator: '#35B3DF'
-};
-
 
 function validateData(data) {
     ASSERT('fullName' in data, 'validateData missing parameter data.fullName');

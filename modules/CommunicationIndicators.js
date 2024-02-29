@@ -1,28 +1,6 @@
 import { ASSERT, ASSERT_TYPE, ASSERT_RANGE } from './Error.js';
 
-let LLKEYS = [
-    'mover',
-    'doer',
-    'influencer',
-    'responder',
-    'shaper',
-    'producer',
-    'contemplator',
-    'overallIntensity'
-];
-
-let CIKEYS = [
-    'acceptanceLevel',
-    'interactiveStyleScore',
-    'interactiveStyleType',
-    'internalControl',
-    'intrusionLevel',
-    'projectiveLevel',
-    'susceptibilityToStress',
-    'learningPreferenceAuditory',
-    'learningPreferenceVisual',
-    'learningPreferencePhysical'
-];
+import { LLKEYS, CIKEYS } from './Common.js';
 
 /**
  * Given a set of Life Languages Data, sorts it into reverse order.
@@ -33,9 +11,7 @@ function getSortedScores(data) {
     let aSortedScores = [];
 
     for (let cLL of LLKEYS) {
-        if (cLL == 'overallIntensity')
-            continue;
-        aSortedScores.push([cLL, data[cLL]]);
+         aSortedScores.push([cLL, data[cLL]]);
     }
 
     return aSortedScores
@@ -402,6 +378,11 @@ function validateData(data) {
         ASSERT_TYPE(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
         ASSERT_RANGE(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
     }
+    
+    ASSERT('overallIntensity' in data, `validateData "${data.fullName}" missing parameter data.overallIntensity`);
+    ASSERT_TYPE(data.overallIntensity, 'number', `validateData "${data.fullName}" parameter data.overallIntensity`);
+    ASSERT_RANGE(data.overallIntensity, 0, 100, `validateData "${data.fullName}" parameter data.overallIntensity`);
+
 
     for (let cKey of CIKEYS) {
         ASSERT(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);

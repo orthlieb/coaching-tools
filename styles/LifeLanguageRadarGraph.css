@@ -1,0 +1,133 @@
+body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    margin: 0.25in;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.gray {
+    color: gray;
+}
+
+@media print {
+    :root {
+        --rg-min-width: 225px;
+        --rg-title-font-size: 0.75em;
+        --rg-companyname-font-size: 0.5em;
+        --rg-copyright-font-size: 0.25;
+        --rg-table-font-size: 0.5em;
+     }
+}
+
+@media screen {
+    :root {
+        --rg-min-width: 450px;
+        --rg-title-font-size: 1.50em;
+        --rg-companyname-font-size: 1em;
+        --rg-copyright-font-size: 0.5em;
+        --rg-table-font-size: 0.75em;
+     }
+}
+
+#radar-graph-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--rg-min-width), 1fr));
+    grid-gap: 10px;
+}
+
+[id*="radar-graph-"] {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    grid-template-rows: 0.25fr 0.12fr 2fr 1.25fr 0.25fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    grid-gap: 10px;
+    align-items: stretch;
+    min-width: var(--rg-min-width);
+    break-inside: avoid;
+    margin: 10px;
+}
+
+.title {
+   grid-area: 1 / 1 / span 1 / span 2;
+   font-size: var(--rg-title-font-size);;
+   text-align: left;
+   border-style: hidden;
+}
+
+.companyname {
+    grid-area: 2 / 1 / span 1 / span 2;
+    font-size: var(--rg-companyname-font-size);;
+    text-align: left;
+    border-style: hidden;
+}
+
+.display {
+    grid-area: 3 / 1 / span 1 / span 2;
+    font-size: var(--rg-display-font-size);;
+    text-align: left;
+    border-style: hidden;
+}
+
+.table {
+    grid-area: 4 / 1 / span 1 / span 2;
+    font-size: var(--rg-table-font-size);
+    text-align: left;
+    border: 1px solid black;
+    border-collapse: collapse; /* Collapse borders so cells share borders */
+    margin: 10px;
+}
+
+.arrow {
+    color: darkgray;
+}
+
+.fluent {
+    border-top: 1px solid lightgray !important;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.table th {
+    padding: 5px 10px;
+    border-bottom: 1px solid black;
+}
+
+.table td:nth-child(1) {
+    text-align: left;
+    width: 60%;
+    padding-left:10px;
+}
+
+.table td:nth-child(2) {
+    text-align: right;
+    width: 30%;
+    padding-right: 10px;
+}
+
+.table td:nth-child(n+3) {
+    text-align: right;
+    width: 15%;
+    padding-right: 10px;
+}
+
+.copyright {
+    grid-area: 5 / 1 / span 1 / span 2;
+    padding: var(--rg-copyright-font-size);
+    font-family: "Roboto Condensed", san-serif;
+    font-size: 0.75em;
+    text-align: center;
+}

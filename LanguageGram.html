@@ -69,10 +69,10 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            // import { testSingle, testJSON, testCSV, testInvalidJSON } from "./modules/LanguageGram.test.js";
+             import { testSingle, testJSON, testCSV, testInvalidJSON } from "./modules/LanguageGram.test.js";
             //url = testSingle("https://www.relatematters.com/coaching-tools/LanguageGram.html");
             //url = testJSON("https://www.relatematters.com/coaching-tools/LanguageGram.html");
-            //url = testCSV("https://www.relatematters.com/coaching-tools/LanguageGram.html");
+            url = testCSV("https://www.relatematters.com/coaching-tools/LanguageGram.html");
             //url = testInvalidJSON("https://www.relatematters.com/coaching-tools/LanguageGram.html");
 
             try {
@@ -87,7 +87,7 @@
                     return param;
                 }
 
-                const llKeys = {
+                const parseKeys = {
                     mover: parseScore,
                     doer: parseScore,
                     responder: parseScore,
@@ -102,7 +102,7 @@
                 let queryParams = {};
                 for (const [key, value] of url.searchParams.entries()) {
                     queryParams[key] =
-                        key in llKeys ? llKeys[key](value) : value;
+                        key in parseKeys ? parseKeys[key](value) : value;
                 }
 
                 // Handle JSON formatted data
@@ -116,7 +116,7 @@
                     for (let i = 0; i < queryParams.length; i++) {
                         for (const [key, value] of Object.entries(queryParams[i])) {
                              queryParams[i][key] =
-                                key in llKeys ? llKeys[key](value) : value;
+                                key in parseKeys ? parseKeys[key](value) : value;
                         }
                     }
                  }
