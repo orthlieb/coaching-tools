@@ -47,14 +47,10 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            import {
-                testJSON,
-                testCSV,
-                testInvalidData
-            } from "./modules/LifeLanguageRadarGraph.test.js";
+            //import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
-            url = testCSV('https://www.relatematters.com/coaching-tools/LangLifeLanguageRadarGraph.html');
-            //url = testInvalidJSON('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
+            //url = testCSV('https://www.relatematters.com/coaching-tools/LangLifeLanguageRadarGraph.html');
+            //url = testInvalidData('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
 
             try {
                 function parseNumber(key, value) {

@@ -7,7 +7,7 @@ function randomScore() {
 
 function randomTestObject(cSuffix = "") {
     return {
-        fullName: `Full Name ${cSuffix}`,
+        fullName: `Random Test: ${cSuffix}`,
         companyName: 'Relationship Matters',
         mover: randomScore(),
         doer: randomScore(),
@@ -44,7 +44,7 @@ export function testCSV(cURLPrefix) {
 
 export function testInvalidData(cURLPrefix) {
     let aTestData = [];
-
+    
     // Missing Key
     let oTest = randomTestObject("Missing Key");
     delete oTest.mover;
@@ -59,7 +59,7 @@ export function testInvalidData(cURLPrefix) {
     oTest = randomTestObject("Out of Range");
     oTest.influencer = 300;
     aTestData.push(oTest);
-
+    
     let str = JSON.stringify(aTestData);
     console.log(`GENERATED INVALID JSON DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`);

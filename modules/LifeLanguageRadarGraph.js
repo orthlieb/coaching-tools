@@ -35,7 +35,10 @@ function sortScores(people, sortKey, dataKeys, bAscending = true) {
 function validatePerson(person) {
     ASSERT('fullName' in person, 'validatePerson missing parameter person.fullName');
     ASSERT_TYPE(person.fullName, 'string', `validatePerson "${person.fullName}" parameter person.fullName`);
-    ASSERT('fullName' in person, 'validatePerson missing parameter person.fullName');
+    
+    ASSERT('overallIntensity' in person, 'validatePerson missing parameter person.overallIntensity');
+    ASSERT_TYPE(person.overallIntensity, 'number', `validatePerson "${person.fullName}" parameter person.overallIntensity`);
+    
     ASSERT_TYPE(person.companyName, 'string', `validatePerson "${person.companyName}" parameter person.fullName`);
     
     for (let cKey of LLKEYS) {
@@ -131,6 +134,7 @@ export function displayRadarGraph(cSuffix, data, key) {
     
     rgFoot.innerHTML = `<tr class="fluent"><td>Group Average</td><td class="align-right">${nAverageOverallIntensity}</td><td class="align-right">${nAverageScore} <span class="arrow">${evaluateScoreArrow(nAverageScore)}</span></td><tr>`;
 
+    // Radar graph
     let aSortedByPeopleAscending = sortScores(data, 'fullName', key, true);
     const chartData = {
         labels: aSortedByPeopleAscending.fullName,
@@ -154,7 +158,7 @@ export function displayRadarGraph(cSuffix, data, key) {
         data: chartData,
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             elements: {
                 line: {
                     borderWidth: 1
