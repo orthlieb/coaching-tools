@@ -1,8 +1,7 @@
 import { ASSERT, ASSERT_TYPE, ASSERT_RANGE } from './Error.js';
-import { LLKEYS, LLCOLORS } from './Common.js';
+import { LLKEYS, LLCOLORS, LLCOLORS_LIGHT } from './Common.js';
 
 function sortScores(people, sortKey, dataKeys, bAscending = true) {
-    console.log('Sorting by ', sortKey);
     dataKeys = Array.isArray(dataKeys) ? dataKeys : [dataKeys];
     let type = typeof people[0][sortKey];
     
@@ -15,15 +14,12 @@ function sortScores(people, sortKey, dataKeys, bAscending = true) {
         return 0; 
     });
 
-    let sortedData = { fullName: people.map(person => person.fullName) }; // Always do fullName first.
+    let sortedData = { fullName: people.map(person => { return person.fullName; } ) }; // Always do fullName first.
     for (let dataKey of dataKeys) {
-        console.log('dataKey', dataKey, dataKey in people[0]);
         if (dataKey in people[0] && dataKey != 'fullName')
-            sortedData[dataKey] = people.map(person => person[dataKey]);
+            sortedData[dataKey] = people.map(person => { return person[dataKey]; } );
     }
-    
-    console.log('Sorted Data', JSON.stringify(sortedData));
-    
+     
     return sortedData;
 }
 
@@ -101,10 +97,17 @@ export function displayRadarGraph(cSuffix, data, key) {
     
     let rgCompanyName = rgElement.querySelector('.companyname');
     rgCompanyName.innerText = data[0].companyName;
+    
+    // Table Header
+    let rgTable = rgElement.querySelector(".score-header");
+    let cBack = key + '-background';
+    rgTable.innerHTML = `<tr><th class="${cBack}">Name</th>
+        <th class="${cBack}">Overall Intensity</th>
+        <th class="${cBack} capitalize">${key}</th></tr>`;
      
-    // Table
+    // Table Body
     let aSortedByScoresDescending = sortScores(data, key, [ key, 'overallIntensity' ], false);
-    let rgTable = rgElement.querySelector('.table-body');
+    rgTable = rgElement.querySelector('.score-body');
     let cTableBody = '';
     let nPeople = aSortedByScoresDescending.fullName.length;
     let bFluent = false;
@@ -116,23 +119,39 @@ export function displayRadarGraph(cSuffix, data, key) {
         // Fluency dividing line.
         let cClass = '';
         if (nScore < 50 && !bFluent) {
-            cClass = 'fluent';
+            cClass += key + '-border-top '; 
             bFluent = true;
         }
         
-        cTableBody += `<tr class="${cClass}"><td>${cPerson}</td><td>${nOverallIntensity}<td>${nScore} <span class="arrow">${evaluateScoreArrow(nScore)}</span></td></tr>`;
+        // Shade even rows
+        if ( (i + 1) % 2 == 0)
+            cClass += key + '-light-background ';
+        
+        cTableBody += 
+            `<tr>
+                <td class="${cClass}">${cPerson}</td>
+                <td class="${cClass}">${nOverallIntensity}</td>
+                <td class="${cClass}">${nScore} 
+                    <span class="arrow">${evaluateScoreArrow(nScore)}</span
+                </td>
+            </tr>`;
         
     }
     rgTable.innerHTML = cTableBody;
 
-    // Table footer
-    let rgFoot = rgElement.querySelector('.table-foot');
+    // Table Footer
+    rgTable = rgElement.querySelector('.score-footer');
 
     let nAverageOverallIntensity = Math.round(aSortedByScoresDescending.overallIntensity.reduce((acc, curr) => acc + curr, 0) / aSortedByScoresDescending.overallIntensity.length);
-    
     let nAverageScore = Math.round(aSortedByScoresDescending[key].reduce((acc, curr) => acc + curr, 0) / aSortedByScoresDescending[key].length);
     
-    rgFoot.innerHTML = `<tr class="fluent"><td>Group Average</td><td class="align-right">${nAverageOverallIntensity}</td><td class="align-right">${nAverageScore} <span class="arrow">${evaluateScoreArrow(nAverageScore)}</span></td><tr>`;
+    rgTable.innerHTML = 
+        `<tr>
+            <td class="${cBack}">Group Average</td>
+            <td  class="${cBack}">${nAverageOverallIntensity}</td>
+            <td  class="${cBack}">${nAverageScore} ${evaluateScoreArrow(nAverageScore)}</td>
+        </tr>`;
+    rgTable.style.backgroundColor = LLCOLORS[key];
 
     // Radar graph
     let aSortedByPeopleAscending = sortScores(data, 'fullName', key, true);
@@ -152,21 +171,44 @@ export function displayRadarGraph(cSuffix, data, key) {
             }
         ]
     };   
-    
     const config = {
-        type: "radar",
-        data: chartData,
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            elements: {
-                line: {
-                    borderWidth: 1
-                }
-            },
-            plugins: { legend: false }
-        }
-    };
-    
+       type: "radar",
+       data: chartData,
+       options: {
+           responsive: true,
+           maintainAspectRatio: false,
+           elements: {
+               line: {
+                   borderWidth: 1
+               }
+           },
+           plugins: { legend: false },
+           scale: {
+               ticks: {
+                   min: 0,
+                   max: 100,
+                   stepSize: 10
+               }
+           }
+       }
+    };    
     new Chart(rgElement.querySelector('.radarGraph'), config);
+    
+    // Handle printing events.
+    window.addEventListener("beforeprint", (event) => {
+        let collection = ciElement.getElementsByClassName("radarGraph");
+        for (let i = 0; i < collection.length; i++) {
+            const chart = collection.item(i);
+            // 1101 is a complete hack for Letter size paper portrait orientation.
+            Chart.getChart(chart).resize(1101 / 3, 75);
+        }
+     });
+
+    window.addEventListener("afterprint", (event) => {
+        for (let id in Chart.instances) {
+            let chart = Chart.instances[id];
+            chart.resize();
+        }
+    });
+
 }

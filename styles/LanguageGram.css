@@ -4,22 +4,6 @@ body {
     margin: 0.25in;
 }
 
-.bold {
-    font-weight: 700;
-}
-
-.uppercase {
-    text-transform: uppercase;
-}
-
-.capitalize {
-    text-transform: capitalize;
-}
-
-.gray {
-    color: gray;
-}
-
 @media print {
     :root {
         --lg-min-width: 225px;

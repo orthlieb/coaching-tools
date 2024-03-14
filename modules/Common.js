@@ -18,6 +18,16 @@ export const LLCOLORS = {
     contemplator: '#35B3DF'
 };
 
+export const LLCOLORS_LIGHT = {
+  mover: "#f69296",
+  doer: "#fbc79a",
+  influencer: "#ffe88b",
+  responder: "#ae79d7",
+  shaper: "#a5bbe3",
+  producer: "#00e87d",
+  contemplator: "#a3dcf0"
+};
+
 export const CIKEYS = [
     'acceptanceLevel',
     'interactiveStyleScore',
@@ -30,3 +40,4 @@ export const CIKEYS = [
     'learningPreferenceVisual',
     'learningPreferencePhysical'
 ];
+

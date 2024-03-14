@@ -2,37 +2,6 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-.hidden { 
-    display: none; 
-}
-
-.bold {
-    font-weight: 700;
-}
-
-/* Alert box*/
-.alert {
-    color: darkred;
-    background-color: lightpink;
-    border-color: red;
-    padding: 15px;
-    border: 1px solid transparent; 
-    border-radius: 4px;
-}
-
-/* Close button on alert*/
-.close {
-    text-decoration: none;
-    float: right;
-    font-size: 21px;
-    font-weight: 700;
-    line-height: 1;
-    color: #000;
-    text-shadow: 0 1px 0 #fff;
-    filter: alpha(opacity=20);
-    opacity: 0.2;
-}
-
 .CIPage {
     break-inside: avoid;
 }

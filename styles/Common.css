@@ -1,0 +1,122 @@
+:root {
+    --ll-mover-color: #ed1c24;
+    --ll-doer-color: #F6831F;
+    --ll-influencer-color: #FFCE0B;
+    --ll-responder-color: #7030A0;
+    --ll-shaper-color: #4472C4;
+    --ll-producer-color: #006838;
+    --ll-contemplator-color: #35B3DF;
+    
+    --ll-mover-light-color: #FBD2D3;
+    --ll-doer-light-color: #FDE6D2;
+    --ll-influencer-light-color: #FFF5CE;
+    --ll-responder-light-color: #E2D6EC;
+    --ll-shaper-light-color: #DAE3F3;
+    --ll-producer-light-color: #CCE1D7;
+    --ll-contemplator-light-color: #D7F0F9;
+}
+
+.mover-background {
+    background-color: var(--ll-mover-color);
+}
+
+.mover-light-background {
+    background-color: var(--ll-mover-light-color);
+}
+
+.mover-border-top {
+    border-top: 2px solid var(--ll-mover-color);
+}
+
+.doer-background {
+    background-color: var(--ll-doer-color);
+}
+
+.doer-border-top {
+    border-top: 2px solid var(--ll-doer-color);
+}
+
+.doer-light-background {
+    background-color: var(--ll-doer-light-color);
+}
+
+.influencer-background {
+    background-color: var(--ll-influencer-color);
+}
+
+.influencer-border-top {
+    border-top: 2px solid var(--ll-influencer-color);
+}
+
+.influencer-light-background {
+    background-color: var(--ll-influencer-light-color);
+}
+
+.responder-background {
+    background-color: var(--ll-responder-color);
+}
+
+.responder-border-top {
+    border-top: 2px solid var(--ll-responder-color);
+}
+
+.responder-light-background {
+    background-color: var(--ll-responder-light-color);
+    
+}
+
+.shaper-background {
+    background-color: var(--ll-shaper-color);
+}
+
+.shaper-border-top {
+    border-top: 2px solid var(--ll-shaper-color);
+}
+
+.shaper-light-background {
+    background-color: var(--ll-shaper-light-color);
+}
+
+.producer-background {
+    background-color: var(--ll-producer-color);
+}
+
+.producer-border-top {
+    border-top: 2px solid var(--ll-producer-color);
+}
+
+.producer-light-background {
+    background-color: var(--ll-producer-light-color);
+}
+
+.contemplator-background {
+    background-color: var(--ll-contemplator-color);
+}
+
+.contemplator-border-top {
+    border-top: 2px solid var(--ll-contemplator-color);
+}
+
+.contemplator-light-background {
+    background-color: var(--ll-contemplator-light-color);
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.gray {
+    color: gray;
+}
+
+.hidden { 
+    display: none; 
+}

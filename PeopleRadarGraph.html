@@ -12,7 +12,7 @@
             rel="stylesheet" />
         <link rel="stylesheet" href="./styles/Common.css" />
         <link rel="stylesheet" href="./styles/Error.css" />
-        <link rel="stylesheet" href="./styles/LifeLanguageRadarGraph.css" />
+        <link rel="stylesheet" href="./styles/PeopleRadarGraph.css" />
     </head>
     <body>
         <div class="alert hidden" id="alert" role="alert"></div>
@@ -36,16 +36,16 @@
         </div>
         <script type="module">
             import { displayAlertInDoc, ASSERT, ASSERT_TYPE} from "./modules/Error.js";
-            import { displayRadarGraph } from "./modules/LifeLanguageRadarGraph.js";
+            import { displayRadarGraph } from "./modules/PeopleRadarGraph.js";
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
             import { LLKEYS } from './modules/Common.js';
 
             let url = new URL(window.location.href);
 
             // Test data generation
-            //import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
+            import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
-            //url = testCSV('https://www.relatematters.com/coaching-tools/LangLifeLanguageRadarGraph.html');
+            url = testCSV('https://www.relatematters.com/coaching-tools/LangLifeLanguageRadarGraph.html');
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
 
             try {
@@ -94,8 +94,8 @@
 
                 let rgGrid = document.getElementById('radar-graph-grid');
                 
-                // Loop over each Life Language
-                for (let i = 0; i < LLKEYS.length; i++) {
+                // Loop over each Person
+                for (let i = 0; i < params.length; i++) {
                     let chunk = document.getElementById('radar-graph-1');
                     if (i > 0) {
                         // Create our page from the existing one
@@ -104,10 +104,15 @@
    
                         rgGrid.appendChild(divClone);
                     }
-                    try {
-                        displayRadarGraph(i + 1, params, LLKEYS[i]);
-                    } catch (e) {
-                        displayAlertInDoc(e);
+                    
+                    for (let j = 0; j < params.length; j++) {
+                        if (i == j) 
+                            continue;
+                         try {
+                             displayRadarGraph(i + 1, params, i, j);
+                         } catch (e) {
+                             displayAlertInDoc(e);
+                         }
                     }
                 }
             } catch (e) {
