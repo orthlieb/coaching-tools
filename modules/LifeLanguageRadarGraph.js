@@ -1,7 +1,23 @@
 import { ASSERT, ASSERT_TYPE, ASSERT_RANGE } from './Error.js';
 import { LLKEYS, LLCOLORS, LLCOLORS_LIGHT } from './Common.js';
 
-function sortScores(people, sortKey, dataKeys, bAscending = true) {
+/**
+ * Sort people according to the specified sortKey.
+ * @example
+ * let people = [ { fullName: "Bob Dingle", mover: 34, doer: 12}, { fullName: "Alice Dongle", mover: 23, doer: 56 } ];
+ * let sortedPeople = sortPeople(people, 'fullName', 'mover');
+ * console.log(JSON.stringify(sortedPeople));
+ * // Outputs { fullName: ["Alice Dongle", "Bob Dingle"], mover: [23, 34]};
+ * sortedPeople = sortPeople(people, 'mover', ['mover', 'doer'], false);
+ * console.log(JSON.stringify(sortedPeople));
+ * // Outputs { fullName: ["Bob Dingle", "Alice Dongle"], mover: [34, 23], doer: [12, 56] 
+ * @param {object[]} people Array of people objects. Each person object has at least fullName and any other shared properties.
+ * @param {string} [sortKey='fullName'] Property in the person object to sort by. Must be a string, number, or boolean.
+ * @param {string[]} [dataKeys=['fullName']] Array of property names to extract from the people after they are sorted.
+ * @param {boolean} [bAscending=true] Sort ascending or descending.
+ * @returns {object} An object where each specified dataKey is an array of values for the people. fullName is always included.
+ */
+function sortPeople(people, sortKey = 'fullName', dataKeys = [ 'fullName' ], bAscending = true) {
     dataKeys = Array.isArray(dataKeys) ? dataKeys : [dataKeys];
     let type = typeof people[0][sortKey];
     
@@ -14,12 +30,16 @@ function sortScores(people, sortKey, dataKeys, bAscending = true) {
         return 0; 
     });
 
+    // Extract the data.
     let sortedData = { fullName: people.map(person => { return person.fullName; } ) }; // Always do fullName first.
     for (let dataKey of dataKeys) {
         if (dataKey in people[0] && dataKey != 'fullName')
             sortedData[dataKey] = people.map(person => { return person[dataKey]; } );
     }
      
+}
+    
+    
     return sortedData;
 }
 
@@ -106,7 +126,7 @@ export function displayRadarGraph(cSuffix, data, key) {
         <th class="${cBack} capitalize">${key}</th></tr>`;
      
     // Table Body
-    let aSortedByScoresDescending = sortScores(data, key, [ key, 'overallIntensity' ], false);
+    let aSortedByScoresDescending = sortPeople(data, key, [ key, 'overallIntensity' ], false);
     rgTable = rgElement.querySelector('.score-body');
     let cTableBody = '';
     let nPeople = aSortedByScoresDescending.fullName.length;

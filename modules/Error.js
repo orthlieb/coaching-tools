@@ -1,7 +1,7 @@
 /**
  * Evaluates the assertion and if false throws an error object with the supplied message text.
  * @param {object} assertion Assertion expression to be tested.
- * @param {any...} msgs Additional messages to be concatenated and then used as the error message for the error object.
+ * @param {object...} msgs Additional messages to be concatenated and then used as the error message for the error object.
  * @returns {boolean} Returns the evaluated expression.
  */
 export function ASSERT(assertion, ...msgs) {

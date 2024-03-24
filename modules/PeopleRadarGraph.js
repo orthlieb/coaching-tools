@@ -1,6 +1,22 @@
 import { ASSERT, ASSERT_TYPE, ASSERT_RANGE } from "./Error.js";
 import { LLKEYS, LLCOLORS, LLCOLORS_LIGHT } from "./Common.js";
 
+/**
+ * Sort people according to the specified sortKey.
+ * @example
+ * let people = [ { fullName: "Bob Dingle", mover: 34, doer: 12}, { fullName: "Alice Dongle", mover: 23, doer: 56 } ];
+ * let sortedPeople = sortPeople(people, 'fullName', 'mover');
+ * console.log(JSON.stringify(sortedPeople));
+ * // Outputs { fullName: ["Alice Dongle", "Bob Dingle"], mover: [23, 34]};
+ * sortedPeople = sortPeople(people, 'mover', ['mover', 'doer'], false);
+ * console.log(JSON.stringify(sortedPeople));
+ * // Outputs { fullName: ["Bob Dingle", "Alice Dongle"], mover: [34, 23], doer: [12, 56] 
+ * @param {object[]} people Array of people objects. Each person object has at least fullName and any other shared properties.
+ * @param {string} [sortKey='fullName'] Property in the person object to sort by. Must be a string, number, or boolean.
+ * @param {string[]} [dataKeys=['fullName']] Array of property names to extract from the people after they are sorted.
+ * @param {boolean} [bAscending=true] Sort ascending or descending.
+ * @returns {object} An object where each specified dataKey is an array of values for the people. fullName is always included.
+ */
 function sortScores(people, sortKey, dataKeys, bAscending = true) {
     dataKeys = Array.isArray(dataKeys) ? dataKeys : [dataKeys];
     let type = typeof people[0][sortKey];
@@ -84,6 +100,7 @@ function validatePerson(person) {
 }
 
 function validateData(data) {
+    ASSERT(data.length >= 2, `validateData not enough people for generating radar graph, must be > 2, found ${data.length}`);
     for (let i = 0; i < data.length; i++) {
         validatePerson(data[i]);
     }
@@ -118,97 +135,23 @@ function solidToTransparentColor(color, alpha) {
     return `rgba(${r},${g},${b},${alpha})`;
 }
 
-/**
- * Main function to draw the Radar Graph.
- * @param {string} cSuffix Suffix to add find the appropriate parent div.
- * @param {array} people An array containing people objects with their name and Life Language scores.
- * @param {number} nPerson1 Person 1 to compare against.
- * @param {number} nPerson2 Person 2 to compare against.
- */
-export function displayRadarGraph(cSuffix, data, nPerson1, nPerson2) {
-    validateData(data);
-
-    let rgElement = document.getElementById("radar-graph-" + cSuffix);
-
-    let rgTitle = rgElement.querySelector(".title");
-    rgTitle.innerText = `Radar Graph Comparison for ${data[nPerson1].fullName} and ${data[nPerson2].fullName}`;
-
-    let rgCompanyName = rgElement.querySelector(".companyname");
-    rgCompanyName.innerText = data[0].companyName;
-
-    // Table Header
-    let rgTable = rgElement.querySelector(".score-header");
-    rgTable.innerHTML = '<tr><th class="gray-background">Name</th>';
-    for (let key of LLKEYS) {
-        rgTable.innerHTML += `<th class="gray-background capitalize">${key}</th>`;
-    }
-    rgTable.innerHTML += '</tr>';
-
-    // Table Body
-    let aSortedByPeopleAscending = sortScores(data, 'fullName', LLKEYS);
-    console.log("Sorted Scores", JSON.stringify(aSortedByPeopleAscending));
-    rgTable = rgElement.querySelector(".score-body");
-    let cTableBody = "";
-    let nPeople = aSortedByPeopleAscending.fullName.length;
-    for (let i = 0; i < nPeople; i++) {
-        // Shade even rows
-        let cClass = '';
-        if ((i + 1) % 2 == 0) 
-            cClass += "gray-light-background ";
-
-        cTableBody += `<tr><td class=${cClass}>${aSortedByPeopleAscending.fullName[i]}</td>`;
-        for (let key of LLKEYS) {
-            cTableBody += `<td class="${cClass}">${aSortedByPeopleAscending[key][i]}</td>`;
-        }
-        cTableBody += "</tr>";
-    }
-    rgTable.innerHTML = cTableBody;
-
-    // Table Footer
-    rgTable = rgElement.querySelector(".score-footer");
-
-    let nAverageOverallIntensity = Math.round(
-        aSortedByScoresDescending.overallIntensity.reduce(
-            (acc, curr) => acc + curr,
-            0
-        ) / aSortedByScoresDescending.overallIntensity.length
-    );
-    let nAverageScore = Math.round(
-        aSortedByScoresDescending[key].reduce(
-            (acc, curr) => acc + curr,
-            0
-        ) / aSortedByScoresDescending[key].length
-    );
-
-    rgTable.innerHTML = `<tr>
-        <td class="${cBack}">Group Average</td>
-        <td  class="${cBack}">${nAverageOverallIntensity}</td>
-        <td  class="${cBack}">${nAverageScore} ${evaluateScoreArrow(
-        nAverageScore
-    )}</td>
-    </tr>`;
-    rgTable.style.backgroundColor = LLCOLORS[key];
-
+function drawRadarGraph(people, element) {
+    let nPeople = people.fullName.length;
+    
     // Radar graph
     const chartData = {
-        labels: aSortedByPeopleAscending.fullName,
-        datasets: [
-            {
-                label: `${cTitle} Life Language`,
-                data: aSortedByPeopleAscending[key],
-                fill: true,
-                backgroundColor: solidToTransparentColor(
-                    LLCOLORS[key],
-                    0.2
-                ),
-                borderColor: LLCOLORS[key],
-                pointBackgroundColor: LLCOLORS[key],
-                pointBorderColor: "#fff",
-                pointHoverBackgroundColor: "#fff",
-                pointHoverBorderColor: LLCOLORS[key]
-            }
-        ]
+        labels: LLKEYS.map((key) => { return key.charAt(0).toUpperCase() + key.slice(1); }),
+        datasets: []
     };
+    
+    for (let i = 0; i < nPeople; i++) {
+       chartData.datasets.push({
+            label: people.fullName[i],
+            data: [ people.mover[i], people.doer[i], people.influencer[i], people.responder[i],
+                   people.shaper[i], people.producer[i], people.contemplator[i] ],
+            fill: true
+        });
+    }
     const config = {
         type: "radar",
         data: chartData,
@@ -220,17 +163,22 @@ export function displayRadarGraph(cSuffix, data, nPerson1, nPerson2) {
                     borderWidth: 1
                 }
             },
-            plugins: { legend: false },
             scale: {
                 ticks: {
                     min: 0,
                     max: 100,
                     stepSize: 10
                 }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'right'
+                }
             }
         }
-    };
-    new Chart(rgElement.querySelector(".radarGraph"), config);
+    };        
+    let theChart = new Chart(element, config);
 
     // Handle printing events.
     window.addEventListener("beforeprint", (event) => {
@@ -247,5 +195,103 @@ export function displayRadarGraph(cSuffix, data, nPerson1, nPerson2) {
             let chart = Chart.instances[id];
             chart.resize();
         }
+    });
+
+    return theChart;
+}
+/**
+ * Main function to draw the Radar Graph and corresponding table.
+ * @param {string} cSuffix Suffix to add find the appropriate parent div.
+ * @param {array} people An array containing people objects with their name and Life Language scores.
+ * @param {number} nPerson1 Person 1 to compare against.
+ * @param {number} nPerson2 Person 2 to compare against.
+ */
+export function displayRadarGraphAndTable(cSuffix, data) {
+    validateData(data);
+    
+    let aSortedByPeopleAscending = sortScores(data, 'fullName', [...LLKEYS, 'companyName']);
+    console.log("Sorted Scores", JSON.stringify(aSortedByPeopleAscending));
+
+    let rgElement = document.getElementById("radar-graph-" + cSuffix);
+    
+    
+    let theChart = drawRadarGraph(aSortedByPeopleAscending, rgElement.querySelector(".radarGraph"));
+
+    let rgTitle = rgElement.querySelector(".title");
+    let cText = 'Radar Graph Comparison for ';
+    for (let i = 0; i < aSortedByPeopleAscending.fullName.length; i++) {
+        if (i > 0) {
+            if (aSortedByPeopleAscending.fullName.length > 2)
+                cText += ', ';
+            if (i == aSortedByPeopleAscending.fullName.length - 1)
+                cText += 'and ';
+        }
+        cText += aSortedByPeopleAscending.fullName[i];
+    }
+    rgTitle.innerText = cText;
+
+    let rgCompanyName = rgElement.querySelector(".companyname");
+    rgCompanyName.innerText = aSortedByPeopleAscending.companyName[0];
+
+    // Table Header
+    let rgTable = rgElement.querySelector(".score-header");
+    cText = '<tr><th>Name</th>';
+    for (let key of LLKEYS) {
+        cText += `<th class="diagonal capitalize">${key}</th>`;
+    }
+    cText += '</tr>';
+    rgTable.innerHTML = cText;
+
+    // Prepare for averages
+    let averages = {};
+    averages = LLKEYS.reduce((obj, key) => {
+        obj[key] = 0;
+        return obj;
+    }, averages);
+    let nPeople = aSortedByPeopleAscending.fullName.length;
+    
+    // Table Body
+    rgTable = rgElement.querySelector(".score-body");
+    cText = '';
+    for (let i = 0; i < nPeople; i++) {
+        let cClass = '';
+        if ((i + 1) % 2 == 0)
+            cClass = 'light-gray-background';
+        cText += `<tr>
+            <td class="${cClass}">
+                <div>
+                    <input type="checkbox" id="name-${i}" checked>
+                    <label for="name-${i}">${aSortedByPeopleAscending.fullName[i]}</label>
+                </div>
+            </td>`;
+        for (let key of LLKEYS) {
+            let nScore = aSortedByPeopleAscending[key][i];
+            cText += `<td class="${cClass}">${nScore}</td>`;
+            averages[key] += nScore;
+        }
+        cText += "</tr>";
+    }
+    rgTable.innerHTML = cText;
+
+    // Table Footer
+    cText = '<tr><td class="gray-background">Group Average</td>';
+    rgTable = rgElement.querySelector(".score-footer");
+    for (let key of LLKEYS) {
+        averages[key] /= nPeople;
+        cText += `<td class="gray-background">${Math.round(averages[key])}</td>`;
+    }
+    cText += '</tr>';
+    rgTable.innerHTML = cText;
+
+    // Function to toggle dataset visibility based on checkbox state
+    function toggleDatasetVisibility(datasetIndex, checkboxId) {
+      
+    }
+
+    // Event listeners for checkboxes
+    for (let i = 0; i < nPeople; i++)
+        document.getElementById(`name-${i}`).addEventListener('change', () => {
+            theChart.data.datasets[i].hidden = !document.getElementById(`name-${i}`).checked;
+            theChart.update();
     });
 }

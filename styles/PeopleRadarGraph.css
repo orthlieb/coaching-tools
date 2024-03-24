@@ -33,8 +33,9 @@ body {
 
 [id*="radar-graph-"] {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 0.5fr 7fr 4fr 0.5fr;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: min-content; 
+    /*grid-template-rows: 1fr 0.5fr 4fr 4fr 0.5fr;*/
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     align-items: stretch;
@@ -63,15 +64,13 @@ body {
     text-align: left;
     border-style: hidden;
     margin: 0px 10px;
-    width: 100%;
-    height: 100%;
 }
 
 .gray-background {
     background-color: darkgray;
 }
 
-.gray-light-background {
+.light-gray-background {
     background-color: lightgray;
 }
 
@@ -81,6 +80,7 @@ table.score-table {
     border-collapse: collapse;
     min-width: 100%;
     grid-template-columns: 2fr repeat(7, 1fr);
+    grid-auto-rows: min-content; 
     font-size: var(--rg-table-font-size);
     color: black;
 }
@@ -92,32 +92,38 @@ table.score-table tr {
     display: contents;
 }
 
+.diagonal {
+    writing-mode: vertical-lr;  
+    transform:  rotate(180deg);
+    white-space: nowrap; /* Prevent text wrapping */
+    text-align: left !important;
+    border-left: 1px solid gray;
+    border-top: 1px solid gray;
+}
+
 table.score-table th,
 table.score-table td {
     padding: 5px 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    border-left: 1px solid gray;
 }
 
 
 .score-header th {
-    position: sticky;
-    top: 0;
     text-align: left;
     font-weight: bold;
-    color: white;
 }
 
 .score-footer td {
-    top: 0;
     text-align: left;
     font-weight: bold;
     color: white;
 }
 
-table.score-table td:nth-child(n+2),
-table.score-table th:nth-child(n+2) {
+/*table.score-table th:nth-child(n+2),*/
+table.score-table td:nth-child(n+2) {
     text-align: right;
 }
 
