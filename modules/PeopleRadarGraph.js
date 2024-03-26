@@ -163,8 +163,9 @@ function drawRadarGraph(people, element) {
                     borderWidth: 1
                 }
             },
-            scale: {
-                ticks: {
+            scales: {
+                r: {
+                    beginAtZero: true,
                     min: 0,
                     max: 100,
                     stepSize: 10
@@ -182,7 +183,7 @@ function drawRadarGraph(people, element) {
 
     // Handle printing events.
     window.addEventListener("beforeprint", (event) => {
-        let collection = ciElement.getElementsByClassName("radarGraph");
+        let collection = ciElement.getElementsByClassName("radar-graph");
         for (let i = 0; i < collection.length; i++) {
             const chart = collection.item(i);
             // 1101 is a complete hack for Letter size paper portrait orientation.
@@ -196,6 +197,17 @@ function drawRadarGraph(people, element) {
             chart.resize();
         }
     });
+    
+    // Add a media query to change the legend position when the screen width is less than 600px
+    window.addEventListener('resize', function() {
+    if (window.innerWidth < 600) {
+        theChart.options.legend.position = 'bottom';
+        theChart.update();
+    } else {
+        theChart.options.legend.position = 'right';
+        theChart.update();
+    }
+});
 
     return theChart;
 }
@@ -212,9 +224,7 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     let aSortedByPeopleAscending = sortScores(data, 'fullName', [...LLKEYS, 'companyName']);
     console.log("Sorted Scores", JSON.stringify(aSortedByPeopleAscending));
 
-    let rgElement = document.getElementById("radar-graph-" + cSuffix);
-    
-    
+    let rgElement = document.getElementById("radar-graph-" + cSuffix);    
     let theChart = drawRadarGraph(aSortedByPeopleAscending, rgElement.querySelector(".radarGraph"));
 
     let rgTitle = rgElement.querySelector(".title");
@@ -237,7 +247,7 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     let rgTable = rgElement.querySelector(".score-header");
     cText = '<tr><th>Name</th>';
     for (let key of LLKEYS) {
-        cText += `<th class="diagonal capitalize">${key}</th>`;
+        cText += `<th class="vertical capitalize">${key}</th>`;
     }
     cText += '</tr>';
     rgTable.innerHTML = cText;
@@ -274,11 +284,11 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     rgTable.innerHTML = cText;
 
     // Table Footer
-    cText = '<tr><td class="gray-background">Group Average</td>';
+    cText = '<tr><td>Group Average</td>';
     rgTable = rgElement.querySelector(".score-footer");
     for (let key of LLKEYS) {
         averages[key] /= nPeople;
-        cText += `<td class="gray-background">${Math.round(averages[key])}</td>`;
+        cText += `<td>${Math.round(averages[key])}</td>`;
     }
     cText += '</tr>';
     rgTable.innerHTML = cText;
