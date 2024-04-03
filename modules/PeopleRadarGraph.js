@@ -1,4 +1,4 @@
-import { ASSERT, ASSERT_TYPE, ASSERT_RANGE } from "./Error.js";
+import { appendAlert, ASSERT, ASSERT_TYPE, ASSERT_RANGE } from "./Error.js";
 import { LLKEYS, LLCOLORS, LLCOLORS_LIGHT } from "./Common.js";
 
 /**
@@ -49,7 +49,7 @@ function sortScores(people, sortKey, dataKeys, bAscending = true) {
 }
 
 /**
- * Validate incoming person.
+ * Validate incoming person object.
  * @param {object} person Person data to be validated.
  * Will throw if there is invalid data.
  */
@@ -99,10 +99,20 @@ function validatePerson(person) {
     }
 }
 
+/**
+ * Validate the data passed into us.
+ * @param {array} data Array of people objects containing Life Language info.
+ * Will throw if there is invalid data.
+ */
 function validateData(data) {
     ASSERT(data.length >= 2, `validateData not enough people for generating radar graph, must be > 2, found ${data.length}`);
     for (let i = 0; i < data.length; i++) {
-        validatePerson(data[i]);
+        try {
+            validatePerson(data[i]);
+        } catch (e) {
+            console.log(e);
+            appendAlert(e, 'error');
+        }
     }
 }
 
@@ -119,22 +129,12 @@ function evaluateScoreArrow(nValue) {
     return "&#x1F879;"; // up
 }
 
-function solidToTransparentColor(color, alpha) {
-    // Parse the color string to extract RGB components
-    const match = color.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
-    if (!match) {
-        throw new Error(`Invalid color format ${color}`);
-    }
-
-    // Convert hexadecimal to decimal
-    const r = parseInt(match[1], 16);
-    const g = parseInt(match[2], 16);
-    const b = parseInt(match[3], 16);
-
-    // Return RGBA color string with specified alpha channel
-    return `rgba(${r},${g},${b},${alpha})`;
-}
-
+/**
+ * Draw a radar graph where each element in the data set is the person and the axes are Life Languages.
+ * @param {array} people Array of person objects.
+ * @param {element} element Element to draw the graph into.
+ * @returns {object} The created chart object.
+ */
 function drawRadarGraph(people, element) {
     let nPeople = people.fullName.length;
     
@@ -174,7 +174,7 @@ function drawRadarGraph(people, element) {
             plugins: {
                 legend: {
                     display: true,
-                    position: 'right'
+                    position: 'bottom'
                 }
             }
         }
@@ -198,17 +198,6 @@ function drawRadarGraph(people, element) {
         }
     });
     
-    // Add a media query to change the legend position when the screen width is less than 600px
-    window.addEventListener('resize', function() {
-    if (window.innerWidth < 600) {
-        theChart.options.legend.position = 'bottom';
-        theChart.update();
-    } else {
-        theChart.options.legend.position = 'right';
-        theChart.update();
-    }
-});
-
     return theChart;
 }
 /**
@@ -222,8 +211,6 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     validateData(data);
     
     let aSortedByPeopleAscending = sortScores(data, 'fullName', [...LLKEYS, 'companyName']);
-    console.log("Sorted Scores", JSON.stringify(aSortedByPeopleAscending));
-
     let rgElement = document.getElementById("radar-graph-" + cSuffix);    
     let theChart = drawRadarGraph(aSortedByPeopleAscending, rgElement.querySelector(".radarGraph"));
 
@@ -244,13 +231,13 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     rgCompanyName.innerText = aSortedByPeopleAscending.companyName[0];
 
     // Table Header
-    let rgTable = rgElement.querySelector(".score-header");
-    cText = '<tr><th>Name</th>';
+    cText = '<tr><th class="col-5">Name</th>';
     for (let key of LLKEYS) {
-        cText += `<th class="vertical capitalize">${key}</th>`;
+        cText += `<th class="vertical capitalize col-1">${key}</th>`;
     }
     cText += '</tr>';
-    rgTable.innerHTML = cText;
+    rgElement.querySelector(".score-header").innerHTML = cText;
+
 
     // Prepare for averages
     let averages = {};
@@ -261,42 +248,33 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     let nPeople = aSortedByPeopleAscending.fullName.length;
     
     // Table Body
-    rgTable = rgElement.querySelector(".score-body");
     cText = '';
     for (let i = 0; i < nPeople; i++) {
-        let cClass = '';
-        if ((i + 1) % 2 == 0)
-            cClass = 'light-gray-background';
         cText += `<tr>
-            <td class="${cClass}">
-                <div>
-                    <input type="checkbox" id="name-${i}" checked>
-                    <label for="name-${i}">${aSortedByPeopleAscending.fullName[i]}</label>
+            <td class="col-5">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="name-${i}" checked>
+                    <label class="form-check-label" for="name-${i}">${aSortedByPeopleAscending.fullName[i]}</label>
                 </div>
             </td>`;
         for (let key of LLKEYS) {
             let nScore = aSortedByPeopleAscending[key][i];
-            cText += `<td class="${cClass}">${nScore}</td>`;
+            cText += `<td class="col-1 text-end">${nScore}</td>`;
             averages[key] += nScore;
         }
         cText += "</tr>";
     }
-    rgTable.innerHTML = cText;
+    rgElement.querySelector(".score-body").innerHTML = cText;
+
 
     // Table Footer
-    cText = '<tr><td>Group Average</td>';
-    rgTable = rgElement.querySelector(".score-footer");
+    cText = '<tr><th class="col-5">Group Average</th>';
     for (let key of LLKEYS) {
         averages[key] /= nPeople;
-        cText += `<td>${Math.round(averages[key])}</td>`;
+        cText += `<td class="col-1 text-end">${Math.round(averages[key])}</td>`;
     }
     cText += '</tr>';
-    rgTable.innerHTML = cText;
-
-    // Function to toggle dataset visibility based on checkbox state
-    function toggleDatasetVisibility(datasetIndex, checkboxId) {
-      
-    }
+    rgElement.querySelector(".score-footer").innerHTML = cText;
 
     // Event listeners for checkboxes
     for (let i = 0; i < nPeople; i++)

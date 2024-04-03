@@ -32,6 +32,19 @@ export function displayAlertInDoc(e) {
     const alert = document.getElementById('alert');
     const newAlert = alert.cloneNode(true);
     document.body.prepend(newAlert);
-    newAlert.innerHTML = `${e} <a class="close" href="#" onclick="this.parentElement.classList.add('hidden');">&times;</a>`;
+    newAlert.innerText = e;
     newAlert.classList.remove("hidden");
+}
+
+const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+export function appendAlert (message, type) {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+        `   <div>${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+    ].join('');
+
+    alertPlaceholder.append(wrapper);
 }

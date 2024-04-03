@@ -6,8 +6,8 @@ function randomScore() {
 }
 
 // List of common first names and last names
-const firstNames = ["James", "John", "Robert", "Michael", "William", "David", "Joseph", "Charles", "Thomas", "Daniel", "George", "Paul", "Ringo"];
-const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Bond", "McCartney", "Kincaid", "Trewlawney"];
+const firstNames = ["Doris", "Margaret", "Carolyn", "Alison", "James", "John", "Robert", "Michael", "William", "David", "Joseph", "Charles", "Thomas", "Daniel", "George", "Paul", "Ringo"];
+const lastNames = ["Rosenberg", "Chin", "Au Yeung", "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Bond", "McCartney", "Kincaid", "Trewlawney"];
 
 // Function to generate a random integer between min and max (inclusive)
 function getRandomInt(min, max) {
