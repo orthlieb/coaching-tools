@@ -1,5 +1,5 @@
-import { ASSERT, ASSERT_TYPE, ASSERT_RANGE } from './Error.js';
-import { LLKEYS, LLCOLORS, LLCOLORS_LIGHT } from './Common.js';
+import { appendAlert, ASSERT, ASSERT_TYPE, ASSERT_RANGE } from "./Error.js";
+import { LLKEYS, LLCOLORS, LLCOLORS_BACKGROUND } from "./Common.js";
 
 /**
  * Sort people according to the specified sortKey.
@@ -17,56 +17,102 @@ import { LLKEYS, LLCOLORS, LLCOLORS_LIGHT } from './Common.js';
  * @param {boolean} [bAscending=true] Sort ascending or descending.
  * @returns {object} An object where each specified dataKey is an array of values for the people. fullName is always included.
  */
-function sortPeople(people, sortKey = 'fullName', dataKeys = [ 'fullName' ], bAscending = true) {
+function sortScores(people, sortKey, dataKeys, bAscending = true) {
     dataKeys = Array.isArray(dataKeys) ? dataKeys : [dataKeys];
     let type = typeof people[0][sortKey];
-    
-    ASSERT(type == 'number' || type == 'string' || type == 'boolean', `sortPeople parameter ${sortKey}, expected type number, string, or boolean, found ${type} ${people[0][sortKey]}`);
+
+    ASSERT(
+        type == "number" || type == "string" || type == "boolean",
+        `sortPeople parameter ${sortKey}, expected type number, string, or boolean, found ${type} ${people[0][sortKey]}`
+    );
 
     // Sort the data based on score in descending order
-    people.sort((a, b) => {           
+    people.sort((a, b) => {
         if (a[sortKey] < b[sortKey]) return bAscending ? -1 : 1;
         if (a[sortKey] > b[sortKey]) return bAscending ? 1 : -1;
-        return 0; 
+        return 0;
     });
 
-    // Extract the data.
-    let sortedData = { fullName: people.map(person => { return person.fullName; } ) }; // Always do fullName first.
+    let sortedData = {
+        fullName: people.map((person) => {
+            return person.fullName;
+        })
+    }; // Always do fullName first.
     for (let dataKey of dataKeys) {
-        if (dataKey in people[0] && dataKey != 'fullName')
-            sortedData[dataKey] = people.map(person => { return person[dataKey]; } );
+        if (dataKey in people[0] && dataKey != "fullName")
+            sortedData[dataKey] = people.map((person) => {
+                return person[dataKey];
+            });
     }
-     
-}
-    
-    
+
     return sortedData;
 }
 
 /**
- * Validate incoming person.
+ * Validate incoming person object.
  * @param {object} person Person data to be validated.
  * Will throw if there is invalid data.
  */
 function validatePerson(person) {
-    ASSERT('fullName' in person, 'validatePerson missing parameter person.fullName');
-    ASSERT_TYPE(person.fullName, 'string', `validatePerson "${person.fullName}" parameter person.fullName`);
-    
-    ASSERT('overallIntensity' in person, 'validatePerson missing parameter person.overallIntensity');
-    ASSERT_TYPE(person.overallIntensity, 'number', `validatePerson "${person.fullName}" parameter person.overallIntensity`);
-    
-    ASSERT_TYPE(person.companyName, 'string', `validatePerson "${person.companyName}" parameter person.fullName`);
-    
+    ASSERT(
+        "fullName" in person,
+        "validatePerson missing parameter person.fullName"
+    );
+    ASSERT_TYPE(
+        person.fullName,
+        "string",
+        `validatePerson "${person.fullName}" parameter person.fullName`
+    );
+
+    ASSERT(
+        "overallIntensity" in person,
+        "validatePerson missing parameter person.overallIntensity"
+    );
+    ASSERT_TYPE(
+        person.overallIntensity,
+        "number",
+        `validatePerson "${person.fullName}" parameter person.overallIntensity`
+    );
+
+    ASSERT_TYPE(
+        person.companyName,
+        "string",
+        `validatePerson "${person.companyName}" parameter person.fullName`
+    );
+
     for (let cKey of LLKEYS) {
-        ASSERT(cKey in person, `validatePerson "${person.fullName}" missing parameter person.${cKey}`);
-        ASSERT_TYPE(person[cKey], 'number', `validatePerson "${person.fullName}" parameter person.${cKey}`);
-        ASSERT_RANGE(person[cKey], 0, 100, `validatePerson "${person.fullName}" parameter person.${cKey}`);
+        ASSERT(
+            cKey in person,
+            `validatePerson "${person.fullName}" missing parameter person.${cKey}`
+        );
+        ASSERT_TYPE(
+            person[cKey],
+            "number",
+            `validatePerson "${person.fullName}" parameter person.${cKey}`
+        );
+        ASSERT_RANGE(
+            person[cKey],
+            0,
+            100,
+            `validatePerson "${person.fullName}" parameter person.${cKey}`
+        );
     }
 }
 
+/**
+ * Validate the data passed into us.
+ * @param {array} data Array of people objects containing Life Language info.
+ * Will throw if there is invalid data.
+ */
 function validateData(data) {
+    ASSERT(data.length >= 2, `validateData not enough people for generating radar graph, must be > 2, found ${data.length}`);
     for (let i = 0; i < data.length; i++) {
-        validatePerson(data[i]);
+        try {
+            validatePerson(data[i]);
+        } catch (e) {
+            console.log(e);
+            appendAlert(e, 'error');
+        }
     }
 }
 
@@ -76,159 +122,180 @@ function validateData(data) {
  * @returns {string} Returns the arrow corresponding the score.
  */
 function evaluateScoreArrow(nValue) {
-    if (nValue < 15) return '&#x1F87B;';         // down
-    else if (nValue < 35) return '&#x1F87E;';    // down-right
-    else if (nValue < 65) return '&#x1F87A;';    // right
-    else if (nValue < 85) return '&#x1F87D;';    // up-right
-    return '&#x1F879;';                          // up
-}
-
-
-function solidToTransparentColor(color, alpha) {
-    // Parse the color string to extract RGB components
-    const match = color.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
-    if (!match) {
-        throw new Error(`Invalid color format ${color}`);
-    }
-
-    // Convert hexadecimal to decimal
-    const r = parseInt(match[1], 16);
-    const g = parseInt(match[2], 16);
-    const b = parseInt(match[3], 16);
-
-    // Return RGBA color string with specified alpha channel
-    return `rgba(${r},${g},${b},${alpha})`;
+    if (nValue < 15) return "&#x1F87B;"; // down
+    else if (nValue < 35) return "&#x1F87E;"; // down-right
+    else if (nValue < 65) return "&#x1F87A;"; // right
+    else if (nValue < 85) return "&#x1F87D;"; // up-right
+    return "&#x1F879;"; // up
 }
 
 /**
- * Main function to draw the Radar Graph.
+ * Draw a radar graph where each element in the data set is the person and the axes are Life Languages.
+ * @param {array} people Array of person objects.
+ * @param {element} element Element to draw the graph into.
+ * @returns {object} The created chart object.
+ */
+function drawRadarGraph(people, element) {    
+    // Radar graph
+    const chartData = {
+        labels: people.fullName,
+        datasets: []
+    };
+    
+    for (const key of LLKEYS) {
+       chartData.datasets.push({
+            label: key.charAt(0).toUpperCase() + key.slice(1),
+            data: people[key],
+            fill: true,
+            borderColor: LLCOLORS[key],
+            backgroundColor: LLCOLORS_BACKGROUND[key],
+        });
+    }
+    const config = {
+        type: "radar",
+        data: chartData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            elements: {
+                line: {
+                    borderWidth: 1
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    min: 0,
+                    max: 100,
+                    stepSize: 10
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                }
+            }
+        }
+    };        
+    let theChart = new Chart(element, config);
+
+    //// Handle printing events.
+    //window.addEventListener("beforeprint", (event) => {
+    //    let collection = ciElement.getElementsByClassName("radar-graph");
+    //    for (let i = 0; i < collection.length; i++) {
+    //        const chart = collection.item(i);
+    //        // 1101 is a complete hack for Letter size paper portrait orientation.
+    //        Chart.getChart(chart).resize(1101 / 3, 75);
+    //    }
+    //});
+//
+    //window.addEventListener("afterprint", (event) => {
+    //    for (let id in Chart.instances) {
+    //        let chart = Chart.instances[id];
+    //        chart.resize();
+    //    }
+    //});
+    
+    return theChart;
+}
+/**
+ * Main function to draw the Radar Graph and corresponding table.
  * @param {string} cSuffix Suffix to add find the appropriate parent div.
  * @param {array} people An array containing people objects with their name and Life Language scores.
- * @param {string} key Life Language Key to display.
+ * @param {number} nPerson1 Person 1 to compare against.
+ * @param {number} nPerson2 Person 2 to compare against.
  */
-export function displayRadarGraph(cSuffix, data, key) {
+export function displayRadarGraphAndTable(cSuffix, data) {
     validateData(data);
-
-    let rgElement = document.getElementById('radar-graph-' + cSuffix);
-
-    let rgTitle = rgElement.querySelector('.title');
-    let cTitle = key.charAt(0).toUpperCase() + key.slice(1);
-    rgTitle.innerText = `Group Radar Graph for the ${cTitle} Life Language\u2122`;
     
-    let rgCompanyName = rgElement.querySelector('.companyname');
-    rgCompanyName.innerText = data[0].companyName;
-    
+    let aSortedByPeopleAscending = sortScores(data, 'fullName', [...LLKEYS, 'companyName']);
+    let rgElement = document.getElementById("radar-graph-" + cSuffix);    
+    let theChart = drawRadarGraph(aSortedByPeopleAscending, rgElement.querySelector(".radarGraph"));
+
+    //let cText = 'Radar Graph Comparison for ';
+    //for (let i = 0; i < aSortedByPeopleAscending.fullName.length; i++) {
+    //    if (i > 0) {
+    //        if (aSortedByPeopleAscending.fullName.length > 2)
+    //            cText += ', ';
+    //        if (i == aSortedByPeopleAscending.fullName.length - 1)
+    //            cText += 'and ';
+    //    }
+    //    cText += aSortedByPeopleAscending.fullName[i];
+    //}
+    //rgElement.querySelector(".title").innerText = cText;
+
+    rgElement.querySelector(".companyname").innerText = aSortedByPeopleAscending.companyName[0];
+
     // Table Header
-    let rgTable = rgElement.querySelector(".score-header");
-    let cBack = key + '-background';
-    rgTable.innerHTML = `<tr><th class="${cBack}">Name</th>
-        <th class="${cBack}">Overall Intensity</th>
-        <th class="${cBack} capitalize">${key}</th></tr>`;
-     
-    // Table Body
-    let aSortedByScoresDescending = sortPeople(data, key, [ key, 'overallIntensity' ], false);
-    rgTable = rgElement.querySelector('.score-body');
-    let cTableBody = '';
-    let nPeople = aSortedByScoresDescending.fullName.length;
-    let bFluent = false;
-    for (let i = 0; i < nPeople; i++) {
-        let cPerson = aSortedByScoresDescending.fullName[i];
-        let nScore = Math.round(aSortedByScoresDescending[key][i]);
-        let nOverallIntensity = Math.round(aSortedByScoresDescending.overallIntensity[i]);
-        
-        // Fluency dividing line.
-        let cClass = '';
-        if (nScore < 50 && !bFluent) {
-            cClass += key + '-border-top '; 
-            bFluent = true;
-        }
-        
-        // Shade even rows
-        if ( (i + 1) % 2 == 0)
-            cClass += key + '-light-background ';
-        
-        cTableBody += 
-            `<tr>
-                <td class="${cClass}">${cPerson}</td>
-                <td class="${cClass}">${nOverallIntensity}</td>
-                <td class="${cClass}">${nScore} 
-                    <span class="arrow">${evaluateScoreArrow(nScore)}</span
-                </td>
-            </tr>`;
-        
+    let cText = '<tr><th class="col-5"></th>';
+    for (let key of LLKEYS) {
+        cText += `<th class="col-1 vheader">
+            <label class="form-check-label capitalize vertical" for="${key}-checkbox">${key}</label>
+        </th>`;
     }
-    rgTable.innerHTML = cTableBody;
+    cText += '</tr><tr><th class="col-5">Name</th>';
+    for (let key of LLKEYS) {
+        cText += `<th class="col-1 text-end">
+            <input class="form-check-input solo-check" type="checkbox" id="${key}-checkbox" checked />
+        </th>`;
+    }
+    cText += '</tr>';
+    
+    rgElement.querySelector(".score-header").innerHTML = cText;
+
+    // Prepare for averages
+    let averages = {};
+    averages = LLKEYS.reduce((obj, key) => {
+        obj[key] = 0;
+        return obj;
+    }, averages);
+    let nPeople = aSortedByPeopleAscending.fullName.length;
+    
+    // Table Body
+    cText = '';
+    for (let i = 0; i < nPeople; i++) {
+        cText += `<tr>
+            <td class="col-5">
+                ${aSortedByPeopleAscending.fullName[i]}
+             </td>`;
+        for (let key of LLKEYS) {
+            let nScore = aSortedByPeopleAscending[key][i];
+            cText += `<td class="col-1 text-end">${nScore}</td>`;
+            averages[key] += nScore;
+        }
+        cText += "</tr>";
+    }
+    rgElement.querySelector(".score-body").innerHTML = cText;
+
 
     // Table Footer
-    rgTable = rgElement.querySelector('.score-footer');
+    cText = '<tr><th class="col-5">Group Average</th>';
+    for (let key of LLKEYS) {
+        averages[key] /= nPeople;
+        cText += `<td class="col-1 text-end">${Math.round(averages[key])}</td>`;
+    }
+    cText += '</tr>';
+    rgElement.querySelector(".score-footer").innerHTML = cText;
 
-    let nAverageOverallIntensity = Math.round(aSortedByScoresDescending.overallIntensity.reduce((acc, curr) => acc + curr, 0) / aSortedByScoresDescending.overallIntensity.length);
-    let nAverageScore = Math.round(aSortedByScoresDescending[key].reduce((acc, curr) => acc + curr, 0) / aSortedByScoresDescending[key].length);
-    
-    rgTable.innerHTML = 
-        `<tr>
-            <td class="${cBack}">Group Average</td>
-            <td  class="${cBack}">${nAverageOverallIntensity}</td>
-            <td  class="${cBack}">${nAverageScore} ${evaluateScoreArrow(nAverageScore)}</td>
-        </tr>`;
-    rgTable.style.backgroundColor = LLCOLORS[key];
-
-    // Radar graph
-    let aSortedByPeopleAscending = sortScores(data, 'fullName', key, true);
-    const chartData = {
-        labels: aSortedByPeopleAscending.fullName,
-        datasets: [
-            {
-                label: `${cTitle} Life Language`,
-                data: aSortedByPeopleAscending[key],
-                fill: true,
-                backgroundColor: solidToTransparentColor(LLCOLORS[key], 0.2),
-                borderColor: LLCOLORS[key],
-                pointBackgroundColor: LLCOLORS[key],
-                pointBorderColor: "#fff",
-                pointHoverBackgroundColor: "#fff",
-                pointHoverBorderColor: LLCOLORS[key]
-            }
-        ]
-    };   
-    const config = {
-       type: "radar",
-       data: chartData,
-       options: {
-           responsive: true,
-           maintainAspectRatio: false,
-           elements: {
-               line: {
-                   borderWidth: 1
-               }
-           },
-           plugins: { legend: false },
-           scale: {
-               ticks: {
-                   min: 0,
-                   max: 100,
-                   stepSize: 10
-               }
-           }
-       }
-    };    
-    new Chart(rgElement.querySelector('.radarGraph'), config);
-    
-    // Handle printing events.
-    window.addEventListener("beforeprint", (event) => {
-        let collection = ciElement.getElementsByClassName("radarGraph");
-        for (let i = 0; i < collection.length; i++) {
-            const chart = collection.item(i);
-            // 1101 is a complete hack for Letter size paper portrait orientation.
-            Chart.getChart(chart).resize(1101 / 3, 75);
-        }
-     });
-
-    window.addEventListener("afterprint", (event) => {
-        for (let id in Chart.instances) {
-            let chart = Chart.instances[id];
-            chart.resize();
-        }
+    // Event listeners for checkboxes
+    for (let key of LLKEYS)
+        document.getElementById(`${key}-checkbox`).addEventListener('change', (e) => {
+            let element = document.getElementById(`${key}-checkbox`);
+            theChart.data.datasets[LLKEYS.indexOf(key)].hidden = !element.checked;
+            theChart.update();
     });
-
+    
+    // Clear button for checkboxes
+    document.getElementById('clearChecks').addEventListener('click', (e) => {
+        for (let key of LLKEYS) {
+            document.getElementById(`${key}-checkbox`).checked = false;
+            let element = document.getElementById(`${key}-checkbox`);
+            theChart.data.datasets[LLKEYS.indexOf(key)].hidden = true;
+        }   
+        theChart.update();
+    });
 }
+
+
+

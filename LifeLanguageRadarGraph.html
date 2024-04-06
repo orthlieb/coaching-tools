@@ -2,50 +2,64 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>Life Language Group Radar Graph</title>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+        <title>Life Language Radar Graph</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!--<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>-->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
             href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap"
             rel="stylesheet" />
+        <!--<link rel="stylesheet" href="./styles/simple-grid.css" />-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link rel="stylesheet" href="./styles/Common.css" />
         <link rel="stylesheet" href="./styles/Error.css" />
         <link rel="stylesheet" href="./styles/LifeLanguageRadarGraph.css" />
     </head>
     <body>
+        <div id="liveAlertPlaceholder"></div>
         <div class="alert hidden" id="alert" role="alert"></div>
-        <div id="radar-graph-grid" class="row">
-            <div id="radar-graph-1">
-                <div class="title"></div>
-                <div id="rg-companyname" class="companyname bold"></div>
-                <div id="rg-display" class="display">
-                    <canvas class="radarGraph"></canvas>
+        <div id="radar-graph-grid">
+            <div id="radar-graph-1" class="radar-graph container">
+                <div class="row"><h1 class="title bold col-12">Group Life Language Radar Graph</h1></div>
+                <div class="row">
+                    <h2 id="rg-companyname" class="companyname col-12"></h2>
                 </div>
-                <table id="rg-scores" class="score-table">
-                    <thead class="score-header"></thead>
-                    <tbody class="score-body"></tbody>
-                    <tfoot class="score-footer"></tfoot>
-                </table>
-                
-                <div class="copyright">
-                    Copyright &copy; Life Languages International.
+                <div class="row">
+                    <div id="rg-display" class="display col-xs-12 col-md-6">
+                        <canvas class="radarGraph"></canvas>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                    <table id="rg-scores" class="score-table table table-striped">
+                        <thead class="score-header"></thead>
+                        <tbody class="score-body"></tbody>
+                        <tfoot class="score-footer"></tfoot>
+                    </table>
+                        </div>
+                </div>
+                <div class="row">
+                    <button type="button" id="clearChecks" class="btn">Unselect All</button>
+                </div>
+                <div class="row">
+                    <div class="copyright col-12">
+                        Copyright &copy; Life Languages International.
+                    </div>
                 </div>
             </div>
-        </div>
+        </div>        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script type="module">
-            import { displayAlertInDoc, ASSERT, ASSERT_TYPE} from "./modules/Error.js";
-            import { displayRadarGraph } from "./modules/LifeLanguageRadarGraph.js";
+            import { appendAlert, ASSERT, ASSERT_TYPE} from "./modules/Error.js";
+            import { displayRadarGraphAndTable } from "./modules/LifeLanguageRadarGraph.js";
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
             import { LLKEYS } from './modules/Common.js';
 
             let url = new URL(window.location.href);
 
             // Test data generation
-            //import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
-            //url = testJSON('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
-            //url = testCSV('https://www.relatematters.com/coaching-tools/LangLifeLanguageRadarGraph.html');
+            import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
+            //url = testJSON('https://www.relatematters.com/coaching-tools/LifeLanguageadarGraph.html');
+            url = testCSV('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
 
             try {
@@ -92,26 +106,10 @@
                     }
                 }
 
-                let rgGrid = document.getElementById('radar-graph-grid');
-                
-                // Loop over each Life Language
-                for (let i = 0; i < LLKEYS.length; i++) {
-                    let chunk = document.getElementById('radar-graph-1');
-                    if (i > 0) {
-                        // Create our page from the existing one
-                        let divClone = chunk.cloneNode(true); // the true is for deep cloning
-                        divClone.setAttribute('id', 'radar-graph-' + (i + 1));
-   
-                        rgGrid.appendChild(divClone);
-                    }
-                    try {
-                        displayRadarGraph(i + 1, params, LLKEYS[i]);
-                    } catch (e) {
-                        displayAlertInDoc(e);
-                    }
-                }
+                displayRadarGraphAndTable(1, params);
             } catch (e) {
-                displayAlertInDoc(e);
+                console.log(e);
+                appendAlert(e, 'error');
             }
         </script>
     </body>
