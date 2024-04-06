@@ -2,7 +2,7 @@
 import { convertJSObjectToCSV } from "./CSVToJSON.js";
 
 function randomScore() {
-    return Math.floor(Math.random() * 100);
+    return Math.random() * 100;
 }
 
 // List of common first names and last names

@@ -261,7 +261,7 @@ export function displayRadarGraphAndTable(cSuffix, data) {
              </td>`;
         for (let key of LLKEYS) {
             let nScore = aSortedByPeopleAscending[key][i];
-            cText += `<td class="col-1 text-end">${nScore}</td>`;
+            cText += `<td class="col-1 text-end">${Math.round(nScore)}</td>`;
             averages[key] += nScore;
         }
         cText += "</tr>";
