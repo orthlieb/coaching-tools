@@ -279,12 +279,13 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     rgElement.querySelector(".score-footer").innerHTML = cText;
 
     // Event listeners for checkboxes
-    for (let key of LLKEYS)
+    for (let key of LLKEYS) {
         document.getElementById(`${key}-checkbox`).addEventListener('change', (e) => {
             let element = document.getElementById(`${key}-checkbox`);
             theChart.data.datasets[LLKEYS.indexOf(key)].hidden = !element.checked;
             theChart.update();
-    });
+        });
+    }
     
     // Clear button for checkboxes
     document.getElementById('clearChecks').addEventListener('click', (e) => {
@@ -294,6 +295,20 @@ export function displayRadarGraphAndTable(cSuffix, data) {
             theChart.data.datasets[LLKEYS.indexOf(key)].hidden = true;
         }   
         theChart.update();
+    });
+    
+     // Handle printing events.
+    window.addEventListener("beforeprint", (event) => {
+        for (let id in Chart.instances) {
+            let chart = Chart.instances[id];
+            chart.resize(1101 / 3, 75);
+        }
+    });
+    window.addEventListener("afterprint", (event) => {
+        for (let id in Chart.instances) {
+            let chart = Chart.instances[id];
+            chart.resize();
+        }
     });
 }
 
