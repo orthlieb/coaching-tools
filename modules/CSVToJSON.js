@@ -9,7 +9,6 @@ export function convertCSVtoJSON(csvText) {
     ASSERT_TYPE(csvText, 'string', 'convertCSVtoJSON parameter csvText');
     
     const rows = csvText.split('\n');
-    console.log('Found', rows.length, 'rows');
 
     // Initialize an array to store parsed data
     const data = [];
@@ -47,7 +46,6 @@ export function convertCSVtoJSON(csvText) {
         }
     }
 
-    console.log("CSVtoJSON Converted object", JSON.stringify(data));
     return data;
 }
 

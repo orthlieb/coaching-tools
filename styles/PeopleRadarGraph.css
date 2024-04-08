@@ -28,48 +28,27 @@ body {
     border: 1px solid black;
 }
 
-/*
-.title {
-    font-size: var(--rg-title-font-size);
-    text-align: left;
-    border-style: hidden;
-}
-
-.companyname {
-    font-size: var(--rg-companyname-font-size);
-    text-align: left;
-    border-style: hidden;
-}
-*/
-
 .display {
     font-size: var(--rg-display-font-size);
     text-align: left;
     border-style: hidden;
 }
 
-.gray-background {
-    background-color: darkgray;
+.vheader {
+    padding-right: 4px !important;
+    text-align: right;
 }
-
-.light-gray-background {
-    background-color: lightgray;
-}
-
-/*
-.score-table {
-    border-collapse: collapse;
-    font-size: var(--rg-table-font-size);
-    color: black;
-    border: 1px solid gray;
-}
-*/
 
 .vertical {
     writing-mode: vertical-lr; 
     transform:  rotate(180deg);
-    vertical-align: bottom;
+}
+
+.solo-check {
+    text-align: right;
+    vertical-align: middle;
     padding: 0px;
+    margin: 0px;
 }
 
 .score-table {

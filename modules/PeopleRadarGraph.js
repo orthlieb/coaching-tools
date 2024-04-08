@@ -77,7 +77,7 @@ function validatePerson(person) {
     ASSERT_TYPE(
         person.companyName,
         "string",
-        `validatePerson "${person.companyName}" parameter person.fullName`
+        `validatePerson "${person.companyName}" parameter person.companyName`
     );
 
     for (let cKey of LLKEYS) {
@@ -105,7 +105,7 @@ function validatePerson(person) {
  * Will throw if there is invalid data.
  */
 function validateData(data) {
-    ASSERT(data.length >= 2, `validateData not enough people for generating radar graph, must be > 2, found ${data.length}`);
+    ASSERT(data.length > 2, `validateData not enough people for generating radar graph, must be > 2, found ${data.length}`);
     for (let i = 0; i < data.length; i++) {
         try {
             validatePerson(data[i]);
@@ -181,23 +181,23 @@ function drawRadarGraph(people, element) {
     };        
     let theChart = new Chart(element, config);
 
-    // Handle printing events.
-    window.addEventListener("beforeprint", (event) => {
-        let collection = ciElement.getElementsByClassName("radar-graph");
-        for (let i = 0; i < collection.length; i++) {
-            const chart = collection.item(i);
-            // 1101 is a complete hack for Letter size paper portrait orientation.
-            Chart.getChart(chart).resize(1101 / 3, 75);
-        }
-    });
-
-    window.addEventListener("afterprint", (event) => {
-        for (let id in Chart.instances) {
-            let chart = Chart.instances[id];
-            chart.resize();
-        }
-    });
-    
+    //// Handle printing events.
+    //window.addEventListener("beforeprint", (event) => {
+    //    let collection = ciElement.getElementsByClassName("radar-graph");
+    //    for (let i = 0; i < collection.length; i++) {
+    //        const chart = collection.item(i);
+    //        // 1101 is a complete hack for Letter size paper portrait orientation.
+    //        Chart.getChart(chart).resize(1101 / 3, 75);
+    //    }
+    //});
+//
+    //window.addEventListener("afterprint", (event) => {
+    //    for (let id in Chart.instances) {
+    //        let chart = Chart.instances[id];
+    //        chart.resize();
+    //    }
+    //});
+    //
     return theChart;
 }
 /**
@@ -214,30 +214,16 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     let rgElement = document.getElementById("radar-graph-" + cSuffix);    
     let theChart = drawRadarGraph(aSortedByPeopleAscending, rgElement.querySelector(".radarGraph"));
 
-    let rgTitle = rgElement.querySelector(".title");
-    let cText = 'Radar Graph Comparison for ';
-    for (let i = 0; i < aSortedByPeopleAscending.fullName.length; i++) {
-        if (i > 0) {
-            if (aSortedByPeopleAscending.fullName.length > 2)
-                cText += ', ';
-            if (i == aSortedByPeopleAscending.fullName.length - 1)
-                cText += 'and ';
-        }
-        cText += aSortedByPeopleAscending.fullName[i];
-    }
-    rgTitle.innerText = cText;
+    rgElement.querySelector(".companyname").innerText = aSortedByPeopleAscending.companyName[0];
 
-    let rgCompanyName = rgElement.querySelector(".companyname");
-    rgCompanyName.innerText = aSortedByPeopleAscending.companyName[0];
-
-    // Table Header
-    cText = '<tr><th class="col-5">Name</th>';
+    let cText = '<tr><th class="col-5">Name</th>';
     for (let key of LLKEYS) {
-        cText += `<th class="vertical capitalize col-1">${key}</th>`;
+        cText += `<th class="col-1 vheader">
+            <label class="form-check-label capitalize vertical" for="${key}-checkbox">${key}</label>
+        </th>`;
     }
     cText += '</tr>';
     rgElement.querySelector(".score-header").innerHTML = cText;
-
 
     // Prepare for averages
     let averages = {};
@@ -277,9 +263,36 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     rgElement.querySelector(".score-footer").innerHTML = cText;
 
     // Event listeners for checkboxes
-    for (let i = 0; i < nPeople; i++)
-        document.getElementById(`name-${i}`).addEventListener('change', () => {
-            theChart.data.datasets[i].hidden = !document.getElementById(`name-${i}`).checked;
+    document.querySelectorAll('input[type="checkbox"][id^="name"]').forEach((element) => {
+        element.addEventListener('change', (e) => {
+             // Use match method to find the matched substring
+            let match = e.srcElement.id.match(/name-(\d+)/);
+            let id = parseInt(match[1]);
+            theChart.data.datasets[id].hidden = !e.srcElement.checked;
             theChart.update();
+        });
     });
+    
+    // Clear button for checkboxes
+    document.getElementById('clearChecks').addEventListener('click', (e) => {
+        document.querySelectorAll('input[type="checkbox"][id^="name"]').forEach((element) => {
+            element.checked = false;
+        });
+        theChart.data.datasets.forEach((dataset) => {
+            dataset.hidden = true;
+        });
+        theChart.update();
+    });
+    
+    // Select button for checkboxes
+    document.getElementById('selectChecks').addEventListener('click', (e) => {
+        document.querySelectorAll('input[type="checkbox"][id^="name"]').forEach((element) => {
+            element.checked = true;
+        });
+        theChart.data.datasets.forEach((dataset) => {
+            dataset.hidden = false;
+        });
+        theChart.update();
+    });
+
 }

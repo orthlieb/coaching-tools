@@ -77,7 +77,7 @@ function validatePerson(person) {
     ASSERT_TYPE(
         person.companyName,
         "string",
-        `validatePerson "${person.companyName}" parameter person.fullName`
+        `validatePerson "${person.companyName}" parameter person.companyName`
     );
 
     for (let cKey of LLKEYS) {
@@ -105,7 +105,7 @@ function validatePerson(person) {
  * Will throw if there is invalid data.
  */
 function validateData(data) {
-    ASSERT(data.length >= 2, `validateData not enough people for generating radar graph, must be > 2, found ${data.length}`);
+    ASSERT(data.length > 2, `validateData not enough people for generating radar graph, must be > 2, found ${data.length}`);
     for (let i = 0; i < data.length; i++) {
         try {
             validatePerson(data[i]);
@@ -213,31 +213,19 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     let rgElement = document.getElementById("radar-graph-" + cSuffix);    
     let theChart = drawRadarGraph(aSortedByPeopleAscending, rgElement.querySelector(".radarGraph"));
 
-    //let cText = 'Radar Graph Comparison for ';
-    //for (let i = 0; i < aSortedByPeopleAscending.fullName.length; i++) {
-    //    if (i > 0) {
-    //        if (aSortedByPeopleAscending.fullName.length > 2)
-    //            cText += ', ';
-    //        if (i == aSortedByPeopleAscending.fullName.length - 1)
-    //            cText += 'and ';
-    //    }
-    //    cText += aSortedByPeopleAscending.fullName[i];
-    //}
-    //rgElement.querySelector(".title").innerText = cText;
-
     rgElement.querySelector(".companyname").innerText = aSortedByPeopleAscending.companyName[0];
 
     // Table Header
     let cText = '<tr><th class="col-5"></th>';
     for (let key of LLKEYS) {
         cText += `<th class="col-1 vheader">
-            <label class="form-check-label capitalize vertical" for="${key}-checkbox">${key}</label>
+            <label class="form-check-label capitalize vertical" for="life-language-${LLKEYS.indexOf(key)}">${key}</label>
         </th>`;
     }
     cText += '</tr><tr><th class="col-5">Name</th>';
     for (let key of LLKEYS) {
         cText += `<th class="col-1 text-end">
-            <input class="form-check-input solo-check" type="checkbox" id="${key}-checkbox" checked />
+            <input class="form-check-input solo-check" type="checkbox" id="life-language-${LLKEYS.indexOf(key)}" checked />
         </th>`;
     }
     cText += '</tr>';
@@ -278,26 +266,40 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     cText += '</tr>';
     rgElement.querySelector(".score-footer").innerHTML = cText;
 
-    // Event listeners for checkboxes
-    for (let key of LLKEYS) {
-        document.getElementById(`${key}-checkbox`).addEventListener('change', (e) => {
-            let element = document.getElementById(`${key}-checkbox`);
-            theChart.data.datasets[LLKEYS.indexOf(key)].hidden = !element.checked;
+     // Event listeners for checkboxes
+    document.querySelectorAll('input[type="checkbox"][id^="life-language"]').forEach((element) => {
+        element.addEventListener('change', (e) => {
+             // Use match method to find the matched substring
+            let match = e.srcElement.id.match(/life-language-(\d+)/);
+            let id = parseInt(match[1]);
+            theChart.data.datasets[id].hidden = !e.srcElement.checked;
             theChart.update();
         });
-    }
+    });
     
-    // Clear button for checkboxes
+   // Clear button for checkboxes
     document.getElementById('clearChecks').addEventListener('click', (e) => {
-        for (let key of LLKEYS) {
-            document.getElementById(`${key}-checkbox`).checked = false;
-            let element = document.getElementById(`${key}-checkbox`);
-            theChart.data.datasets[LLKEYS.indexOf(key)].hidden = true;
-        }   
+        document.querySelectorAll('input[type="checkbox"][id^="life-language"]').forEach((element) => {
+            element.checked = false;
+        });
+        theChart.data.datasets.forEach((dataset) => {
+            dataset.hidden = true;
+        });
         theChart.update();
     });
     
-     // Handle printing events.
+    // Select button for checkboxes
+    document.getElementById('selectChecks').addEventListener('click', (e) => {
+        document.querySelectorAll('input[type="checkbox"][id^="life-language"]').forEach((element) => {
+            element.checked = true;
+        });
+        theChart.data.datasets.forEach((dataset) => {
+            dataset.hidden = false;
+        });
+        theChart.update();
+    });
+    
+    // Handle printing events.
     window.addEventListener("beforeprint", (event) => {
         for (let id in Chart.instances) {
             let chart = Chart.instances[id];
