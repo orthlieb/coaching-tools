@@ -4,25 +4,6 @@ body {
     margin: 0.25in;
 }
 
- 
-@media print {
-    :root {
-        --rg-title-font-size: 0.75em;
-        --rg-companyname-font-size: 0.62em;
-        --rg-copyright-font-size: 0.37em;
-        --rg-table-font-size: 0.5em;
-    }
-}
-
-@media screen {
-    :root {
-        --rg-title-font-size: 1.5em;
-        --rg-companyname-font-size: 1.25em;
-        --rg-copyright-font-size: 0.75em;
-        --rg-table-font-size: 0.75em;
-    }
-}
-
 #radar-graph-grid {
     padding: 10px;
     border: 1px solid black;
@@ -52,7 +33,6 @@ body {
 }
 
 .score-table {
-    table-layout:fixed;  
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

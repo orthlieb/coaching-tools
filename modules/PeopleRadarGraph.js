@@ -237,12 +237,10 @@ export function displayRadarGraphAndTable(cSuffix, data) {
     cText = '';
     for (let i = 0; i < nPeople; i++) {
         cText += `<tr>
-            <td class="col-5">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="name-${i}" checked>
-                    <label class="form-check-label" for="name-${i}">${aSortedByPeopleAscending.fullName[i]}</label>
-                </div>
-            </td>`;
+            <td class="col-1">
+                <input type="checkbox" id="name-${i}" checked>
+            </td>
+            <td class="col-4">${aSortedByPeopleAscending.fullName[i]}</td>`;
         for (let key of LLKEYS) {
             let nScore = aSortedByPeopleAscending[key][i];
             cText += `<td class="col-1 text-end">${nScore}</td>`;

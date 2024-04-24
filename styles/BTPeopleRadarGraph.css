@@ -1,0 +1,67 @@
+body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    margin: 0.25in;
+}
+
+#radar-graph-grid {
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.display {
+    font-size: var(--rg-display-font-size);
+    text-align: left;
+    border-style: hidden;
+}
+
+.score-table {
+    padding: 4px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-collapse: collapse;
+}
+
+.score-table th,
+.score-table td {
+    padding: 4px;
+}
+
+.score-table th div.th-inner {
+      padding: 4px !important;  
+}
+
+.score-table th.vertical div.th-inner {
+ /* Vertical */
+    writing-mode: vertical-lr; 
+    transform:  rotate(180deg);
+ /* mx-auto */
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+
+/*
+.vertical {
+    writing-mode: vertical-lr; 
+    transform:  rotate(180deg);
+    vertical-align: bottom;
+}
+*/
+
+.score-table tfoot th:nth-child(n+3),
+.score-table tbody td:nth-child(n+3) {
+    text-align: right;
+}
+
+.score-arrow {
+    color: darkgray;
+}
+
+.copyright {
+    font-size: var(--rg-copyright-font-size);
+    font-family: "Roboto Condensed", san-serif;
+    text-align: center;
+    padding: 10px;
+}

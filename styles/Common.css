@@ -25,39 +25,34 @@
 }
 
 .mover-border-top {
-    border-top: 2px solid var(--ll-mover-color);
+    border-top: 2px solid var(--ll-mover-color) !important;
 }
 
 .doer-background {
     background-color: var(--ll-doer-color);
 }
 
-.doer-border-top {
-    border-top: 2px solid var(--ll-doer-color);
-}
-
 .doer-light-background {
     background-color: var(--ll-doer-light-color);
 }
 
+.doer-border-top {
+    border-top: 2px solid var(--ll-doer-color) !important;
+}
 .influencer-background {
     background-color: var(--ll-influencer-color);
-}
-
-.influencer-border-top {
-    border-top: 2px solid var(--ll-influencer-color);
 }
 
 .influencer-light-background {
     background-color: var(--ll-influencer-light-color);
 }
 
-.responder-background {
-    background-color: var(--ll-responder-color);
+.influencer-border-top {
+    border-top: 2px solid var(--ll-influencer-color) !important;
 }
 
-.responder-border-top {
-    border-top: 2px solid var(--ll-responder-color);
+.responder-background {
+    background-color: var(--ll-responder-color);
 }
 
 .responder-light-background {
@@ -65,40 +60,44 @@
     
 }
 
-.shaper-background {
-    background-color: var(--ll-shaper-color);
+.responder-border-top {
+    border-top: 2px solid var(--ll-responder-color) !important;
 }
 
-.shaper-border-top {
-    border-top: 2px solid var(--ll-shaper-color);
+.shaper-background {
+    background-color: var(--ll-shaper-color);
 }
 
 .shaper-light-background {
     background-color: var(--ll-shaper-light-color);
 }
 
-.producer-background {
-    background-color: var(--ll-producer-color);
+.shaper-border-top {
+    border-top: 2px solid var(--ll-shaper-color) !important;
 }
 
-.producer-border-top {
-    border-top: 2px solid var(--ll-producer-color);
+.producer-background {
+    background-color: var(--ll-producer-color);
 }
 
 .producer-light-background {
     background-color: var(--ll-producer-light-color);
 }
 
+.producer-border-top {
+    border-top: 2px solid var(--ll-producer-color) !important;
+}
+
 .contemplator-background {
     background-color: var(--ll-contemplator-color);
 }
 
-.contemplator-border-top {
-    border-top: 2px solid var(--ll-contemplator-color);
-}
-
 .contemplator-light-background {
     background-color: var(--ll-contemplator-light-color);
+}
+
+.contemplator-border-top {
+    border-top: 2px solid var(--ll-contemplator-color) !important;
 }
 
 .bold {

@@ -48,3 +48,10 @@ export function appendAlert (message, type) {
 
     alertPlaceholder.append(wrapper);
 }
+
+export const ERROR = {
+    assert: ASSERT,
+    assertType: ASSERT_TYPE,
+    assertRange: ASSERT_RANGE,
+    appendAlert: appendAlert
+};
