@@ -17,11 +17,11 @@
 }
 
 .mover-background {
-    background-color: var(--ll-mover-color);
+    background-color: var(--ll-mover-color) !important;
 }
 
 .mover-light-background {
-    background-color: var(--ll-mover-light-color);
+    background-color: var(--ll-mover-light-color) !important;
 }
 
 .mover-border-top {
@@ -29,22 +29,22 @@
 }
 
 .doer-background {
-    background-color: var(--ll-doer-color);
+    background-color: var(--ll-doer-color) !important;
 }
 
 .doer-light-background {
-    background-color: var(--ll-doer-light-color);
+    background-color: var(--ll-doer-light-color) !important;
 }
 
 .doer-border-top {
     border-top: 2px solid var(--ll-doer-color) !important;
 }
 .influencer-background {
-    background-color: var(--ll-influencer-color);
+    background-color: var(--ll-influencer-color) !important;
 }
 
 .influencer-light-background {
-    background-color: var(--ll-influencer-light-color);
+    background-color: var(--ll-influencer-light-color) !important;
 }
 
 .influencer-border-top {
@@ -52,11 +52,11 @@
 }
 
 .responder-background {
-    background-color: var(--ll-responder-color);
+    background-color: var(--ll-responder-color) !important;
 }
 
 .responder-light-background {
-    background-color: var(--ll-responder-light-color);
+    background-color: var(--ll-responder-light-color) !important;
     
 }
 
@@ -65,11 +65,11 @@
 }
 
 .shaper-background {
-    background-color: var(--ll-shaper-color);
+    background-color: var(--ll-shaper-color) !important;
 }
 
 .shaper-light-background {
-    background-color: var(--ll-shaper-light-color);
+    background-color: var(--ll-shaper-light-color) !important;
 }
 
 .shaper-border-top {
@@ -77,11 +77,11 @@
 }
 
 .producer-background {
-    background-color: var(--ll-producer-color);
+    background-color: var(--ll-producer-color) !important;
 }
 
 .producer-light-background {
-    background-color: var(--ll-producer-light-color);
+    background-color: var(--ll-producer-light-color) !important;
 }
 
 .producer-border-top {
@@ -89,11 +89,11 @@
 }
 
 .contemplator-background {
-    background-color: var(--ll-contemplator-color);
+    background-color: var(--ll-contemplator-color) !important;
 }
 
 .contemplator-light-background {
-    background-color: var(--ll-contemplator-light-color);
+    background-color: var(--ll-contemplator-light-color) !important;
 }
 
 .contemplator-border-top {

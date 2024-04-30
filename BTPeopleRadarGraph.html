@@ -26,7 +26,7 @@
             <div id="radar-graph-1" class="radar-graph container">
                 <div class="row"><h1 class="title bold text-middle col-12">Group People Radar Graph</h1></div>
                 <div class="row">
-                    <h2 id="rg-companyname" class="companyname col-12"></h2>
+                    <h2 id="rg-companyname" class="companyname text-middle col-12"></h2>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-6">
@@ -35,7 +35,7 @@
                     <div class="col-xs-12 col-md-6">
                         <table
                             id="rg-table"
-                            class="score-table table-striped"
+                            class="score-table"
                             data-toggle="table"
                             data-show-footer="true"
                             data-checkbox-header="true"
@@ -48,13 +48,13 @@
                                 <tr>
                                     <th class="col-1"></th>
                                     <th class="col-4"></th>
-                                    <th class="col-1 vertical">Mover</th>
-                                    <th class="col-1 vertical">Doer</th>
-                                    <th class="col-1 vertical">Influencer</th>
-                                    <th class="col-1 vertical">Responder</th>
-                                    <th class="col-1 vertical">Shaper</th>
-                                    <th class="col-1 vertical">Producer</th>
-                                    <th class="col-1 vertical">Contemplator</th>
+                                    <th class="col-1 vertical mover">Mover</th>
+                                    <th class="col-1 vertical doer">Doer</th>
+                                    <th class="col-1 vertical influencer">Influencer</th>
+                                    <th class="col-1 vertical responder">Responder</th>
+                                    <th class="col-1 vertical shaper">Shaper</th>
+                                    <th class="col-1 vertical producer">Producer</th>
+                                    <th class="col-1 vertical contemplator">Contemplator</th>
                                 </tr>
                                 <tr>
                                     <th
@@ -67,56 +67,56 @@
                                         data-footer-formatter="groupAverage"
                                         data-switchable="false"
                                         data-sortable="true" 
-                                        class="col-4">Name
+                                        class="col-4 fullName">Name
                                     </th>
                                     <th
                                         data-field="mover"
                                         data-footer-formatter="avgFooterFormatter"
                                         data-switchable-label="Mover"
-                                        data-sortable="true" 
-                                        class="col-1">&nbsp;
+                                        data-sortable="true"
+                                        class="col-1 mover">&nbsp;
                                     </th>
                                     <th
                                         data-field="doer"
                                         data-switchable-label="Doer"
                                         data-footer-formatter="avgFooterFormatter"
                                         data-sortable="true" 
-                                        class="col-1">&nbsp;
+                                        class="col-1 doer">&nbsp;
                                     </th>
                                     <th
                                         data-field="influencer"
                                         data-switchable-label="Influencer"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
-                                        class="col-1">&nbsp;
+                                        class="col-1 influencer">&nbsp;
                                     </th>
                                     <th
                                         data-field="responder"
                                         data-switchable-label="Responder"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
-                                        class="col-1">&nbsp;
+                                        class="col-1 responder">&nbsp;
                                     </th>
                                     <th
                                         data-field="shaper"
                                         data-switchable-label="Shaper"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
-                                        class="col-1">&nbsp;
+                                        class="col-1 shaper">&nbsp;
                                     </th>
                                     <th
                                         data-field="producer"
                                         data-switchable-label="Producer"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
-                                        class="col-1">&nbsp;
+                                        class="col-1 producer">&nbsp;
                                     </th>
                                     <th
                                         data-field="contemplator"
                                         data-switchable-label="Contemplator"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
-                                        class="col-1">&nbsp;
+                                        class="col-1 contemplator">&nbsp;
                                     </th>
                                 </tr>
                             </thead>                    
@@ -144,9 +144,9 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            import { testJSON, testCSV, testInvalidData } from "./modules/BTPeopleRadarGraph.test.js";
+            //import { testJSON, testCSV, testInvalidData } from "./modules/BTPeopleRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
-            url = testCSV('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
+            //url = testCSV('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
            
             $('document').ready(function () {

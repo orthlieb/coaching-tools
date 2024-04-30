@@ -181,7 +181,7 @@ export function groupAverageLabel(data) {
 }
 
 function getAverageForField(data, field) {
-    DEBUG.logType('getAverageForField', field);
+    //DEBUG.logType('getAverageForField', field);
     const result = data.reduce((acc, person) => {
         if (person.state) {
             acc.nPeople++;
@@ -190,13 +190,13 @@ function getAverageForField(data, field) {
         return acc;
     }, { nPeople: 0, nSum: 0 });
     let nAverage = result.nPeople ? result.nSum / result.nPeople : 0;
-    DEBUG.log('Field:', field, 'Average:', nAverage, 'Num people:', result.nPeople);
+    //DEBUG.log('Field:', field, 'Average:', nAverage, 'Num people:', result.nPeople);
     return nAverage;
 }
 
 export function avgFooterFormatter(data, field) {    
     field = (field == '') ? this.field : field;
-    DEBUG.logType('avgFooterFormatter After', field);
+    //DEBUG.logType('avgFooterFormatter After', field);
 
     let nAverage = Math.round(getAverageForField(data, field));
     let cText = nAverage ? `${evaluateScoreArrow(nAverage)} ${Math.round(nAverage)}` : '';
@@ -206,11 +206,11 @@ export function avgFooterFormatter(data, field) {
 function updateTableFooter() {
     let data = $('#rg-table').bootstrapTable('getData');
     let $footers = $('span[id^="footer-"]');
-    DEBUG.log('Updating', $footers.length, 'footers.');
+    //DEBUG.log('Updating', $footers.length, 'footers.');
     $footers.each((index, footer) => {    
         // Strip off the 'footer-' prefix using a regular expression
         let field = $(footer).attr('id').replace(/^footer-/, '');
-        DEBUG.logType('updateTableFooter', field);
+        //DEBUG.logType('updateTableFooter', field);
         $(footer).html(avgFooterFormatter(data, field));
     });    
 }
@@ -222,7 +222,9 @@ function updateTableFooter() {
 export function displayRadarGraphAndTable(data) {
     validateData(data);
         
-    $('#rg-companyname').val(data[0].companyName);
+    $('.companyname').html(data[0].companyName);
+    DEBUG.logType('Company Name', data[0].companyName);
+    DEBUG.logType('Company Element', $('.companyname').id);
     
     // Data prep
     let id = 0;
@@ -273,10 +275,41 @@ export function displayRadarGraphAndTable(data) {
             theChart.data.datasets.forEach(dataset => { dataset.hidden = true; });
             theChart.update();
             updateTableFooter();
+        },
+        onPostBody: (data) => {
+            DEBUG.log('Post Body', JSON.stringify(data));
+            
+            // Clear current header and body formatting.
+            $(`#rg-table > tbody > tr`).removeClass((index, className) => className.match(/\S+-top-border/g));
+            $(`#rg-table > thead th.vertical`).removeClass((index, className) => className.match(/\S+-light-background/g));
+            $(`#rg-table > tfoot > tr > th`).removeClass((index, className) => className.match(/\S+-light-background/g));
+
+            // Look at the headers to see which one is the sort column.
+            //<div class="th-inner sortable both">&nbsp;</div>
+            $('div.th-inner.sortable').each((index, element) => {
+                let $element = $(element);
+                let bAscending = $element.hasClass('asc');
+                let bDescending = $element.hasClass('desc');
+                if (bAscending || bDescending) {
+                    let dataField = $element.parent().attr('data-field');
+                    
+                    // Header and footer of the sorted field get highlighted for visual reference
+                    // #rg-table > thead > tr:nth-child(1) > th.col-1.vertical.mover
+                    $(`#rg-table > thead th.vertical.${dataField}`).addClass(`${dataField}-light-background`);
+                    // #rg-table > tfoot > tr > th.col-1.mover
+                    $(`#rg-table > tfoot > tr > th.${dataField}`).addClass(`${dataField}-light-background`);
+
+                    // Determine where to draw 50 line in the table.
+                    let bFlag = false;
+                    data.forEach((person, index) => {
+                        if (!bFlag && ((bAscending && person[dataField] > 50) || (bDescending && person[dataField] < 50))) {
+                            bFlag = true;
+                            // #rg-table > tbody > tr:nth-child(1)
+                            $(`#rg-table > tbody > tr:nth-child(${index + 1})`).addClass(`${dataField}-border-top`);
+                        }
+                    });
+                }
+            });
         }
-        //onPostBody: (data) => {
-        //    DEBUG.log('Post Body', JSON.stringify(data));
-        //    updateRadarGraph(theChart, data);
-        //}
     });
 }
