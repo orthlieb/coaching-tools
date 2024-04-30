@@ -1,0 +1,61 @@
+// DO NOT EDIT, GENERATED FILE
+
+$color-map: (
+    mover: #ed1c24, 
+    doer: #F6831F, 
+    influencer: #FFCE0B, 
+    responder: #7030A0,
+    shaper: #4472C4, 
+    producer: #006838, 
+    contemplator: #35B3DF
+);
+
+$light-color-map: (
+    mover: #FBD2D3,
+    doer: #FDE6D2,
+    influencer: #FFF5CE,
+    responder: #E2D6EC,    
+    shaper: #DAE3F3,
+    producer: #CCE1D7,
+    contemplator: #D7F0F9
+);
+
+$prefixes: mover, doer, influencer, responder, shaper, producer, contemplator;
+
+@each $prefix, $color in $color-map {
+    .#{$prefix}-background {
+        background-color: $color !important;
+    }
+    .#{$prefix}-border-top {
+        border-top: 2px solid $color !important;
+    }
+    .#{$prefix}-text-color {
+        color: $color !important;
+    }
+}
+
+@each $prefix, $color in $light-color-map {
+    .#{$prefix}-light-background {
+        background-color: $color !important;
+    }
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.gray {
+    color: gray;
+}
+
+.hidden {
+    display: none;
+}

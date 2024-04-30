@@ -29,10 +29,10 @@
                     <h2 id="rg-companyname" class="companyname text-middle col-12"></h2>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-12">
                         <canvas id="rg-graph"></canvas>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div class="col-12">
                         <table
                             id="rg-table"
                             class="score-table"
@@ -48,13 +48,13 @@
                                 <tr>
                                     <th class="col-1"></th>
                                     <th class="col-4"></th>
-                                    <th class="col-1 vertical mover">Mover</th>
-                                    <th class="col-1 vertical doer">Doer</th>
-                                    <th class="col-1 vertical influencer">Influencer</th>
-                                    <th class="col-1 vertical responder">Responder</th>
-                                    <th class="col-1 vertical shaper">Shaper</th>
-                                    <th class="col-1 vertical producer">Producer</th>
-                                    <th class="col-1 vertical contemplator">Contemplator</th>
+                                    <th class="col-1 vertical text-middle mover">Mover</th>
+                                    <th class="col-1 vertical text-middle doer">Doer</th>
+                                    <th class="col-1 vertical text-middle influencer">Influencer</th>
+                                    <th class="col-1 vertical text-middle responder">Responder</th>
+                                    <th class="col-1 vertical text-middle shaper">Shaper</th>
+                                    <th class="col-1 vertical text-middle producer">Producer</th>
+                                    <th class="col-1 vertical text-middle contemplator">Contemplator</th>
                                 </tr>
                                 <tr>
                                     <th
@@ -67,6 +67,7 @@
                                         data-footer-formatter="groupAverage"
                                         data-switchable="false"
                                         data-sortable="true" 
+                                        data-sort-order="asc"
                                         class="col-4 fullName">Name
                                     </th>
                                     <th
@@ -74,6 +75,7 @@
                                         data-footer-formatter="avgFooterFormatter"
                                         data-switchable-label="Mover"
                                         data-sortable="true"
+                                        data-sort-="desc"
                                         class="col-1 mover">&nbsp;
                                     </th>
                                     <th
@@ -81,6 +83,7 @@
                                         data-switchable-label="Doer"
                                         data-footer-formatter="avgFooterFormatter"
                                         data-sortable="true" 
+                                        data-sort-="desc"
                                         class="col-1 doer">&nbsp;
                                     </th>
                                     <th
@@ -88,6 +91,7 @@
                                         data-switchable-label="Influencer"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
+                                        order="desc"
                                         class="col-1 influencer">&nbsp;
                                     </th>
                                     <th
@@ -95,6 +99,7 @@
                                         data-switchable-label="Responder"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
+                                        data-sort-="desc"
                                         class="col-1 responder">&nbsp;
                                     </th>
                                     <th
@@ -102,6 +107,7 @@
                                         data-switchable-label="Shaper"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
+                                        order="desc"
                                         class="col-1 shaper">&nbsp;
                                     </th>
                                     <th
@@ -109,6 +115,7 @@
                                         data-switchable-label="Producer"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
+                                        data-sort-="desc"
                                         class="col-1 producer">&nbsp;
                                     </th>
                                     <th
@@ -116,6 +123,7 @@
                                         data-switchable-label="Contemplator"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
+                                        data-sort-="desc"
                                         class="col-1 contemplator">&nbsp;
                                     </th>
                                 </tr>
@@ -144,9 +152,9 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            //import { testJSON, testCSV, testInvalidData } from "./modules/BTPeopleRadarGraph.test.js";
+            import { testJSON, testCSV, testInvalidData } from "./modules/BTPeopleRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
-            //url = testCSV('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
+            url = testCSV('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
            
             $('document').ready(function () {

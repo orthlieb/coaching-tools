@@ -1,121 +1,133 @@
-:root {
-    --ll-mover-color: #ed1c24;
-    --ll-doer-color: #F6831F;
-    --ll-influencer-color: #FFCE0B;
-    --ll-responder-color: #7030A0;
-    --ll-shaper-color: #4472C4;
-    --ll-producer-color: #006838;
-    --ll-contemplator-color: #35B3DF;
-    
-    --ll-mover-light-color: #FBD2D3;
-    --ll-doer-light-color: #FDE6D2;
-    --ll-influencer-light-color: #FFF5CE;
-    --ll-responder-light-color: #E2D6EC;
-    --ll-shaper-light-color: #DAE3F3;
-    --ll-producer-light-color: #CCE1D7;
-    --ll-contemplator-light-color: #D7F0F9;
-}
-
 .mover-background {
-    background-color: var(--ll-mover-color) !important;
-}
-
-.mover-light-background {
-    background-color: var(--ll-mover-light-color) !important;
+  background-color: #ed1c24 !important;
 }
 
 .mover-border-top {
-    border-top: 2px solid var(--ll-mover-color) !important;
+  border-top: 2px solid #ed1c24 !important;
+}
+
+.mover-text-color {
+  color: #ed1c24 !important;
 }
 
 .doer-background {
-    background-color: var(--ll-doer-color) !important;
-}
-
-.doer-light-background {
-    background-color: var(--ll-doer-light-color) !important;
+  background-color: #F6831F !important;
 }
 
 .doer-border-top {
-    border-top: 2px solid var(--ll-doer-color) !important;
-}
-.influencer-background {
-    background-color: var(--ll-influencer-color) !important;
+  border-top: 2px solid #F6831F !important;
 }
 
-.influencer-light-background {
-    background-color: var(--ll-influencer-light-color) !important;
+.doer-text-color {
+  color: #F6831F !important;
+}
+
+.influencer-background {
+  background-color: #FFCE0B !important;
 }
 
 .influencer-border-top {
-    border-top: 2px solid var(--ll-influencer-color) !important;
+  border-top: 2px solid #FFCE0B !important;
+}
+
+.influencer-text-color {
+  color: #FFCE0B !important;
 }
 
 .responder-background {
-    background-color: var(--ll-responder-color) !important;
-}
-
-.responder-light-background {
-    background-color: var(--ll-responder-light-color) !important;
-    
+  background-color: #7030A0 !important;
 }
 
 .responder-border-top {
-    border-top: 2px solid var(--ll-responder-color) !important;
+  border-top: 2px solid #7030A0 !important;
+}
+
+.responder-text-color {
+  color: #7030A0 !important;
 }
 
 .shaper-background {
-    background-color: var(--ll-shaper-color) !important;
-}
-
-.shaper-light-background {
-    background-color: var(--ll-shaper-light-color) !important;
+  background-color: #4472C4 !important;
 }
 
 .shaper-border-top {
-    border-top: 2px solid var(--ll-shaper-color) !important;
+  border-top: 2px solid #4472C4 !important;
+}
+
+.shaper-text-color {
+  color: #4472C4 !important;
 }
 
 .producer-background {
-    background-color: var(--ll-producer-color) !important;
-}
-
-.producer-light-background {
-    background-color: var(--ll-producer-light-color) !important;
+  background-color: #006838 !important;
 }
 
 .producer-border-top {
-    border-top: 2px solid var(--ll-producer-color) !important;
+  border-top: 2px solid #006838 !important;
+}
+
+.producer-text-color {
+  color: #006838 !important;
 }
 
 .contemplator-background {
-    background-color: var(--ll-contemplator-color) !important;
-}
-
-.contemplator-light-background {
-    background-color: var(--ll-contemplator-light-color) !important;
+  background-color: #35B3DF !important;
 }
 
 .contemplator-border-top {
-    border-top: 2px solid var(--ll-contemplator-color) !important;
+  border-top: 2px solid #35B3DF !important;
+}
+
+.contemplator-text-color {
+  color: #35B3DF !important;
+}
+
+.mover-light-background {
+  background-color: #FBD2D3 !important;
+}
+
+.doer-light-background {
+  background-color: #FDE6D2 !important;
+}
+
+.influencer-light-background {
+  background-color: #FFF5CE !important;
+}
+
+.responder-light-background {
+  background-color: #E2D6EC !important;
+}
+
+.shaper-light-background {
+  background-color: #DAE3F3 !important;
+}
+
+.producer-light-background {
+  background-color: #CCE1D7 !important;
+}
+
+.contemplator-light-background {
+  background-color: #D7F0F9 !important;
 }
 
 .bold {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .uppercase {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 .capitalize {
-    text-transform: capitalize;
+  text-transform: capitalize;
 }
 
 .gray {
-    color: gray;
+  color: gray;
 }
 
-.hidden { 
-    display: none; 
+.hidden {
+  display: none;
 }
+
+/*# sourceMappingURL=Common.css.map */

@@ -281,8 +281,8 @@ export function displayRadarGraphAndTable(data) {
             
             // Clear current header and body formatting.
             $(`#rg-table > tbody > tr`).removeClass((index, className) => className.match(/\S+-top-border/g));
-            $(`#rg-table > thead th.vertical`).removeClass((index, className) => className.match(/\S+-light-background/g));
-            $(`#rg-table > tfoot > tr > th`).removeClass((index, className) => className.match(/\S+-light-background/g));
+            $(`#rg-table th`).removeClass((index, className) => className.match(/\S+-light-background/g));
+            $(`#rg-table th`).removeClass((index, className) => className.match(/\S+-text-color/g));
 
             // Look at the headers to see which one is the sort column.
             //<div class="th-inner sortable both">&nbsp;</div>
@@ -295,10 +295,8 @@ export function displayRadarGraphAndTable(data) {
                     
                     // Header and footer of the sorted field get highlighted for visual reference
                     // #rg-table > thead > tr:nth-child(1) > th.col-1.vertical.mover
-                    $(`#rg-table > thead th.vertical.${dataField}`).addClass(`${dataField}-light-background`);
-                    // #rg-table > tfoot > tr > th.col-1.mover
-                    $(`#rg-table > tfoot > tr > th.${dataField}`).addClass(`${dataField}-light-background`);
-
+                    $(`#rg-table th.${dataField}`).addClass(`${dataField}-light-background ${dataField}-text-color`);
+ 
                     // Determine where to draw 50 line in the table.
                     let bFlag = false;
                     data.forEach((person, index) => {
