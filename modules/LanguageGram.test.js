@@ -2,6 +2,7 @@
 import { convertJSObjectToCSV } from "./CSVToJSON.js";
 import { DEBUG } from "./Debug.js";
 import { ERROR } from "./Error.js";
+import { TEST } from './Test.js';
 
 function randomScore() {
     return Math.floor(Math.random() * 100);
@@ -9,16 +10,16 @@ function randomScore() {
 
 function randomTestObject(cSuffix='') {
      return {
-        fullName: `Full Name ${cSuffix}`,
-        companyName: `Company Name ${cSuffix}`,
-        mover: randomScore(),
-        doer: randomScore(),
-        influencer: randomScore(),
-        responder: randomScore(),
-        shaper: randomScore(),
-        producer: randomScore(),
-        contemplator: randomScore(),
-        overallIntensity: randomScore()
+        fullName: TEST.generateRandomNamePair(),
+        companyName: TEST.generateRandomCompanyName(),
+        mover: TEST.randomScore(),
+        doer: TEST.randomScore(),
+        influencer: TEST.randomScore(),
+        responder: TEST.randomScore(),
+        shaper: TEST.randomScore(),
+        producer: TEST.randomScore(),
+        contemplator: TEST.randomScore(),
+        overallIntensity: TEST.randomScore()
      };
 }
 
@@ -34,7 +35,7 @@ export function testSingle(cURLPrefix) {
 }
 
 export function testJSON(cURLPrefix) {
-    let nTestSets = Math.floor(Math.random() * 10);
+    let nTestSets = TEST.getRandomInt(1, 10);
     let aTestData = [];
     for (let i = 0; i < nTestSets; i++) {
         aTestData.push(randomTestObject(i));
@@ -45,7 +46,7 @@ export function testJSON(cURLPrefix) {
 }
 
 export function testCSV(cURLPrefix) {
-   let nTestSets = Math.floor(Math.random() * 10);
+    let nTestSets = TEST.getRandomInt(1, 10);
     let aTestData = [];
     for (let i = 0; i < nTestSets; i++) {
          aTestData.push(randomTestObject(i));

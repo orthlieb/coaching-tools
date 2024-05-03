@@ -42,8 +42,8 @@ function validateData(data) {
 
     for (let cKey of LLKEYS) {
         ERROR.assert(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
-         ERROR.assert(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
-         ERROR.assertRange(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
+        ERROR.assertType(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
+        ERROR.assertRange(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
     }
   }
 

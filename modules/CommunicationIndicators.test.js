@@ -46,7 +46,7 @@ export function testSingle(cURLPrefix) {
 }
 
 export function testJSON(cURLPrefix) {
-    let nTestSets = Math.floor(Math.random() * 10);
+    let nTestSets = TEST.getRandomInt(1, 10);
     let aTestData = [];
     for (let i = 0; i < nTestSets; i++) {
         aTestData.push(randomTestObject(i));

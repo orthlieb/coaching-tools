@@ -31,7 +31,7 @@ export function testJSON(cURLPrefix) {
 }
 
 export function testCSV(cURLPrefix) {
-    let nTestSets = TEST.getRandomInt(2, 5);
+    let nTestSets = TEST.getRandomInt(3, 10);
     let aTestData = [];
     for (let i = 0; i < nTestSets; i++) {
         aTestData.push(randomTestObject());

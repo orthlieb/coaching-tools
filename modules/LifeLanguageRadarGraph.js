@@ -1,4 +1,5 @@
-import { appendAlert, ERROR.assert,  ERROR.assert,  ERROR.assertRange } from "./Error.js";
+import { ERROR } from "./Error.js";
+import { DEBUG } from "./Debug.js";
 import { LLKEYS, LLCOLORS, LLCOLORS_BACKGROUND } from "./Common.js";
 
 /**
@@ -58,7 +59,7 @@ function validatePerson(person) {
         "fullName" in person,
         "validatePerson missing parameter person.fullName"
     );
-     ERROR.assert(
+     ERROR.assertType(
         person.fullName,
         "string",
         `validatePerson "${person.fullName}" parameter person.fullName`
@@ -68,13 +69,13 @@ function validatePerson(person) {
         "overallIntensity" in person,
         "validatePerson missing parameter person.overallIntensity"
     );
-     ERROR.assert(
+     ERROR.assertType(
         person.overallIntensity,
         "number",
         `validatePerson "${person.fullName}" parameter person.overallIntensity`
     );
 
-     ERROR.assert(
+     ERROR.assertType(
         person.companyName,
         "string",
         `validatePerson "${person.companyName}" parameter person.companyName`
@@ -85,12 +86,12 @@ function validatePerson(person) {
             cKey in person,
             `validatePerson "${person.fullName}" missing parameter person.${cKey}`
         );
-         ERROR.assert(
+        ERROR.assertType(
             person[cKey],
             "number",
             `validatePerson "${person.fullName}" parameter person.${cKey}`
         );
-         ERROR.assertRange(
+        ERROR.assertRange(
             person[cKey],
             0,
             100,
