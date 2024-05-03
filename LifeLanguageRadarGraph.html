@@ -63,7 +63,8 @@
         </div>        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script type="module">
-            import { appendAlert, ASSERT, ASSERT_TYPE} from "./modules/Error.js";
+            import { ERROR } from "./modules/Error.js";
+            import { DEBUG } from "./modules/Debug.js";
             import { displayRadarGraphAndTable } from "./modules/LifeLanguageRadarGraph.js";
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
             import { LLKEYS } from './modules/Common.js';
@@ -109,7 +110,7 @@
                 } else if (searchParams.has('csv')) {
                     params = convertCSVtoJSON(searchParams.get('csv'));
                 } else {
-                    ASSERT(false, 'Missing csv or json data in URL.');
+                    ERROR.assert(false, 'Missing csv or json data in URL.');
                 }
 
                 // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
@@ -122,8 +123,7 @@
 
                 displayRadarGraphAndTable(1, params);
             } catch (e) {
-                console.log(e);
-                appendAlert(e, 'error');
+                ERROR.appendAlert(e, 'error');
             }
         </script>
     </body>

@@ -63,7 +63,8 @@
             </div>
         </div>
         <script type="module">
-            import { displayAlertInDoc, ASSERT, ASSERT_TYPE } from "./modules/Error.js";
+            import { ERROR } from "./modules/Error.js";
+            import { DEBUG } from "./modules/Debug.js";
             import { displayLanguageGram } from "./modules/LanguageGram.js";
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
 
@@ -137,11 +138,11 @@
                         displayLanguageGram(i + 1, queryParams[i]);
                     } catch (e) {
                         // Error.
-                        displayAlertInDoc(e);
+                        ERROR.displayAlertInDoc(e);
                     }
                 }
             } catch (e) {
-                displayAlertInDoc(e);
+                ERROR.displayAlertInDoc(e);
             }
         </script>
     </body>

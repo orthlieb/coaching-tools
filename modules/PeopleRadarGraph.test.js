@@ -1,61 +1,42 @@
 // Generate test data for LifeLanguageRadarGraph
 import { convertJSObjectToCSV } from "./CSVToJSON.js";
-
-function randomScore() {
-    return Math.floor(Math.random() * 100);
-}
-
-// List of common first names and last names
-const firstNames = ["Doris", "Margaret", "Carolyn", "Alison", "James", "John", "Robert", "Michael", "William", "David", "Joseph", "Charles", "Thomas", "Daniel", "George", "Paul", "Ringo"];
-const lastNames = ["Rosenberg", "Chin", "Au Yeung", "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Bond", "McCartney", "Kincaid", "Trewlawney"];
-
-// Function to generate a random integer between min and max (inclusive)
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// Function to generate a random first name-last name pair
-function generateRandomNamePair() {
-    const firstNameIndex = getRandomInt(0, firstNames.length - 1);
-    const lastNameIndex = getRandomInt(0, lastNames.length - 1);
-    return firstNames[firstNameIndex] + ' ' + lastNames[lastNameIndex];
-}
-
+import { DEBUG } from "./Debug.js";
+import { TEST } from "./Test.js";
 
 function randomTestObject() {
     return {
-        fullName: generateRandomNamePair(),
-        companyName: 'Relationship Matters',
-        mover: randomScore(),
-        doer: randomScore(),
-        influencer: randomScore(),
-        responder: randomScore(),
-        shaper: randomScore(),
-        producer: randomScore(),
-        contemplator: randomScore(),
-        overallIntensity: randomScore()
+        fullName: TEST.generateRandomNamePair(),
+        companyName: TEST.generateRandomCompanyName(),
+        mover: TEST.randomScore(),
+        doer: TEST.randomScore(),
+        influencer: TEST.randomScore(),
+        responder: TEST.randomScore(),
+        shaper: TEST.randomScore(),
+        producer: TEST.randomScore(),
+        contemplator: TEST.randomScore(),
+        overallIntensity: TEST.randomScore()
     };
 }
 
 export function testJSON(cURLPrefix) {
-    let nTestSets =Math.random() * 10 + 5;
+    let nTestSets = TEST.getRandomInt(5, 15);
     let aTestData = [];
     for (let i = 0; i < nTestSets; i++) {
         aTestData.push(randomTestObject(i));
     }
      let str = JSON.stringify(aTestData);
-    console.log(`GENERATED TEST DATA: ${str}`);
+    DEBUG.log(`GENERATED TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`);
 }
 
 export function testCSV(cURLPrefix) {
-    let nTestSets = Math.random() * 3 + 2;
+    let nTestSets = TEST.getRandomInt(3, 7);
     let aTestData = [];
     for (let i = 0; i < nTestSets; i++) {
         aTestData.push(randomTestObject());
     }
      let str = convertJSObjectToCSV(aTestData);
-    console.log(`GENERATED CSV TEST DATA: ${str}`);
+    DEBUG.log(`GENERATED CSV TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?csv=${encodeURIComponent(str)}`);
 }
 
@@ -78,6 +59,6 @@ export function testInvalidData(cURLPrefix) {
     aTestData.push(oTest);
     
     let str = JSON.stringify(aTestData);
-    console.log(`GENERATED INVALID JSON DATA: ${str}`);
+    DEBUG.log(`GENERATED INVALID JSON DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`);
 }

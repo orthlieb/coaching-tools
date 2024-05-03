@@ -143,23 +143,30 @@ function drawRadarGraph(people) {
     };        
     let theChart = new Chart($('#rg-graph'), config);
 
-    //// Handle printing events.
-    //window.addEventListener("beforeprint", (event) => {
-    //    let collection = ciElement.getElementsByClassName("radar-graph");
-    //    for (let i = 0; i < collection.length; i++) {
-    //        const chart = collection.item(i);
-    //        // 1101 is a complete hack for Letter size paper portrait orientation.
-    //        Chart.getChart(chart).resize(1101 / 3, 75);
-    //    }
-    //});
-//
-    //window.addEventListener("afterprint", (event) => {
-    //    for (let id in Chart.instances) {
-    //        let chart = Chart.instances[id];
-    //        chart.resize();
-    //    }
-    //});
-    //
+    // Handle printing events.
+    window.addEventListener("beforeprint", (event) => {
+        $("div.fixed-table-toolbar").addClass("d-none");
+
+        for (let id in Chart.instances) {
+            let chart = Chart.instances[id];
+            chart.resize();
+        }
+
+        //let collection = ciElement.getElementsByClassName("radar-graph");
+        //for (let i = 0; i < collection.length; i++) {
+        //    const chart = collection.item(i);
+        //    // 1101 is a complete hack for Letter size paper portrait orientation.
+        //    Chart.getChart(chart).resize(1101, 75);
+        //}
+    });
+    window.addEventListener("afterprint", (event) => {
+        $('div.fixed-table-toolbar').removeClass('d-none');
+        for (let id in Chart.instances) {
+            let chart = Chart.instances[id];
+            chart.resize();
+        }
+    });
+    
     return theChart;
 }
 
@@ -282,7 +289,7 @@ export function displayRadarGraphAndTable(data) {
             // Clear current header and body formatting.
             $(`#rg-table > tbody > tr`).removeClass((index, className) => className.match(/\S+-top-border/g));
             $(`#rg-table th`).removeClass((index, className) => className.match(/\S+-light-background/g));
-            $(`#rg-table th`).removeClass((index, className) => className.match(/\S+-text-color/g));
+            $(`#rg-table th`).removeClass((index, className) => className.match(/\S+-dark-text-color/g));
 
             // Look at the headers to see which one is the sort column.
             //<div class="th-inner sortable both">&nbsp;</div>
@@ -295,7 +302,7 @@ export function displayRadarGraphAndTable(data) {
                     
                     // Header and footer of the sorted field get highlighted for visual reference
                     // #rg-table > thead > tr:nth-child(1) > th.col-1.vertical.mover
-                    $(`#rg-table th.${dataField}`).addClass(`${dataField}-light-background ${dataField}-text-color`);
+                    $(`#rg-table th.${dataField}`).addClass(`${dataField}-light-background ${dataField}-dark-text-color`);
  
                     // Determine where to draw 50 line in the table.
                     let bFlag = false;

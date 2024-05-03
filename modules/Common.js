@@ -8,35 +8,45 @@ export const LLKEYS = [
     'contemplator'
 ];
 
+
 export const LLCOLORS = {
-    mover: '#ED1C24',
-    doer: '#F6831F',
-    influencer: '#FFCE0B',
-    responder: '#7030A0',
-    shaper: '#4472C4',
-    producer: '#006838',
-    contemplator: '#35B3DF'
+    mover: 'hsl(358, 85, 52%)', 
+    doer: 'hsl(28, 92%, 54%)', 
+    influencer: 'hsl(48, 100%, 52%)', 
+    responder: 'hsl(274, 54%, 41%)',
+    shaper: 'hsl(218, 52%, 52%)', 
+    producer: 'hsl(152, 100%, 20%)', 
+    contemplator: 'hsl(196, 73%, 54%)'
 };
 
 export const LLCOLORS_LIGHT = {
-  mover: '#f69296',
-  doer: '#fbc79a',
-  influencer: '#ffe88b',
-  responder: '#ae79d7',
-  shaper: '#a5bbe3',
-  producer: '#00e87d',
-  contemplator: '#a3dcf0'
+    mover: 'hsl(358, 85%, 90%)',
+    doer: 'hsl(28, 92%, 92%)',
+    influencer: 'hsl(48, 100%, 90%)',
+    responder:' hsl(274, 54%, 90%)',    
+    shaper:' hsl(218, 52%, 90%)',
+    producer: 'hsl(151, 26%, 84%)',
+    contemplator: 'hsl(196, 73%, 92%)'
 };
 
+export const LLCOLORS_DARK = {
+    mover: 'hsl(358, 85%, 32%)', 
+    doer: 'hsl(28, 92%, 34%)', 
+    influencer: 'hsl(48, 100%, 32%)', 
+    responder: 'hsl(274, 54%, 21%)',
+    shaper: 'hsl(218, 52%, 32%)', 
+    producer: 'hsl(152, 100%, 15%)', 
+    contemplator: 'hsl(196, 73%, 34%)'
+};
 
 export const LLCOLORS_BACKGROUND = {
-    mover: 'rgba(237,28,36,0.2)',
-    doer: 'rgba(246,131,31,0.2)',
-    influencer: 'rgba(255,206,11,0.2)',
-    responder: 'rgba(112,48,160,0.2)',
-    shaper: 'rgba(68,114,196,0.2)',
-    producer: 'rgba(0,104,56,0.2)',
-    contemplator: 'rgba(53,179,223,0.2)'
+    mover: 'hsla(358, 85%, 32%, 0.2)',
+    doer: 'hsla(28, 92%, 54%, 0.2)',
+    influencer: 'hsla(48, 100%, 52%, 0.2)',
+    responder: 'hsla(274, 54%, 41%, 0.2)',
+    shaper: 'hsla(218, 52%, 52%, 0.2)',
+    producer: 'hsla(152, 100%, 15%, 0.2)',
+    contemplator: 'hsla(196, 73%, 34%, 0.2)'
 };
 
 export const CIKEYS = [

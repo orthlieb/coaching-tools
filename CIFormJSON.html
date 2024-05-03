@@ -17,6 +17,9 @@
     </form>
 
     <script>
+        import { ERROR } from "./modules/Error.js";
+        import { DEBUG } from "./modules/Debug.js";
+
         // JavaScript code using ES6 syntax to handle the form submission
         document
             .getElementById("ciformjson")
@@ -32,7 +35,7 @@
                 // Construct the URL with encoded form data
                 const redirectURL = `https://www.relatematters.com/coaching-tools/CommunicationIndicators.html?${params.toString()}`;
 
-                console.log(redirectURL);
+                DEBUG.log(redirectURL);
 
                 // Redirect to the new page
                 window.location.href = redirectURL;

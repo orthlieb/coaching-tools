@@ -1,4 +1,4 @@
-import { ASSERT, ASSERT_TYPE, ASSERT_RANGE } from './Error.js';
+import { ERROR } from './Error.js';
 import { LLKEYS, LLCOLORS } from './Common.js';
 
 /**
@@ -37,13 +37,13 @@ function evaluateOverallIntensity(nValue) {
 }
 
 function validateData(data) {
-    ASSERT('fullName' in data, 'validateData missing parameter data.fullName');
-    ASSERT_TYPE(data.fullName, 'string', `validateData "${data.fullName}" parameter data.fullName`);
+    ERROR.assert('fullName' in data, 'validateData missing parameter data.fullName');
+     ERROR.assert(data.fullName, 'string', `validateData "${data.fullName}" parameter data.fullName`);
 
     for (let cKey of LLKEYS) {
-        ASSERT(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
-        ASSERT_TYPE(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
-        ASSERT_RANGE(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
+        ERROR.assert(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
+         ERROR.assert(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
+         ERROR.assertRange(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
     }
   }
 

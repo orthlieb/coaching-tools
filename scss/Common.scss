@@ -1,23 +1,33 @@
 // DO NOT EDIT, GENERATED FILE
 
 $color-map: (
-    mover: #ed1c24, 
-    doer: #F6831F, 
-    influencer: #FFCE0B, 
-    responder: #7030A0,
-    shaper: #4472C4, 
-    producer: #006838, 
-    contemplator: #35B3DF
+    mover: hsl(358, 85%, 52%), 
+    doer: hsl(28, 92%, 54%), 
+    influencer: hsl(48, 100%, 52%), 
+    responder: hsl(274, 54%, 41%),
+    shaper: hsl(218, 52%, 52%), 
+    producer: hsl(152, 100%, 20%), 
+    contemplator: hsl(196, 73%, 54%)
 );
 
 $light-color-map: (
-    mover: #FBD2D3,
-    doer: #FDE6D2,
-    influencer: #FFF5CE,
-    responder: #E2D6EC,    
-    shaper: #DAE3F3,
-    producer: #CCE1D7,
-    contemplator: #D7F0F9
+    mover: hsl(358, 85%, 90%),
+    doer: hsl(28, 92%, 92%),
+    influencer: hsl(48, 100%, 90%),
+    responder: hsl(274, 54%, 90%),    
+    shaper: hsl(218, 52%, 90%),
+    producer: hsl(151, 26%, 84%),
+    contemplator: hsl(196, 73%, 92%)
+);
+
+$dark-color-map: (
+    mover: hsl(358, 85%, 32%), 
+    doer: hsl(28, 92%, 34%), 
+    influencer: hsl(48, 100%, 32%), 
+    responder: hsl(274, 54%, 21%),
+    shaper: hsl(218, 52%, 32%), 
+    producer: hsl(152, 100%, 15%), 
+    contemplator: hsl(196, 73%, 34%)
 );
 
 $prefixes: mover, doer, influencer, responder, shaper, producer, contemplator;
@@ -37,6 +47,12 @@ $prefixes: mover, doer, influencer, responder, shaper, producer, contemplator;
 @each $prefix, $color in $light-color-map {
     .#{$prefix}-light-background {
         background-color: $color !important;
+    }
+}
+
+@each $prefix, $color in $dark-color-map {
+   .#{$prefix}-dark-text-color {
+        color: $color !important;
     }
 }
 

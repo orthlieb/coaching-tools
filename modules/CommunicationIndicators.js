@@ -1,5 +1,5 @@
-import { ASSERT, ASSERT_TYPE, ASSERT_RANGE } from './Error.js';
-
+import { ERROR } from './Error.js';
+import { DEBUG } from "./Debug.js";
 import { LLKEYS, CIKEYS } from './Common.js';
 
 /**
@@ -30,7 +30,7 @@ function getSortedScores(data) {
 function createShorthandString(sortedScores) {
     let cShorthandString = "";
 
-    ASSERT_TYPE(sortedScores, 'array', `createShorthandString parameter sortedScores`);
+     ERROR.assertType(sortedScores, 'array', `createShorthandString parameter sortedScores`);
 
     for (let i = 0; i < sortedScores.length; i++) {
         let cKey = sortedScores[i][0];
@@ -120,8 +120,8 @@ const communicationIndicatorDetails = {
  * @returns {object} Returns the constructed chart object.
  */
 function createCIChart(canvas, cKey, nDataValue) {
-    ASSERT_TYPE(canvas, 'object', 'createCIChart parameter canvas');
-    ASSERT(cKey in communicationIndicatorDetails, `createCIChart parameter ${cKey} is not in communicationIndicatorDetails`);
+    ERROR.assertType(canvas, 'object', 'createCIChart parameter canvas');
+    ERROR.assert(cKey in communicationIndicatorDetails, `createCIChart parameter ${cKey} is not in communicationIndicatorDetails`);
 
     canvas.style.width = "100%";
     canvas.style.height = "100%";
@@ -204,10 +204,10 @@ function evaluateCILevel(
     aLevels = [LOW, HIGH],
     cLevels = ["LOW", "MODERATE", "HIGH"]
 ) {
-    ASSERT_TYPE(aLevels, "array", "evaluateCILevel parameter aLevels");
-    ASSERT(aLevels.length == 2, `evaluateCILevel parameter aLevels expected array of length 2, received ${aLevels.length}`);
-    ASSERT_TYPE(cLevels, "array", "evaluateCILevel parameter cLevels");
-    ASSERT(cLevels.length == 3, `evaluateCILevel parameter cLevels expected array of length 3, received ${aLevels.length}`);
+    ERROR.assertType(aLevels, "array", "evaluateCILevel parameter aLevels");
+    ERROR.assert(aLevels.length == 2, `evaluateCILevel parameter aLevels expected array of length 2, received ${aLevels.length}`);
+    ERROR.assertType(cLevels, "array", "evaluateCILevel parameter cLevels");
+    ERROR.assert(cLevels.length == 3, `evaluateCILevel parameter cLevels expected array of length 3, received ${aLevels.length}`);
 
     if (nValue <= aLevels[0]) return cLevels[0];
     if (nValue >= aLevels[1]) return cLevels[2];
@@ -358,7 +358,7 @@ function interactiveStyleForensics(cLL, cISType) {
                     "<strong>" + cContributor.toUpperCase() + "</strong>";
             break;
         default:
-            ASSERT(false, "Incorrect Life Language type", cLL);
+            ERROR.assert(false, "Incorrect Life Language type", cLL);
             break;
     }
     return cContributor;
@@ -370,28 +370,28 @@ function interactiveStyleForensics(cLL, cISType) {
  * Will throw if there is invalid data.
  */
 function validateData(data) {
-    ASSERT('fullName' in data, 'validateData missing parameter data.fullName');
-    ASSERT_TYPE(data.fullName, 'string', `validateData "${data.fullName}" parameter data.fullName`);
+    ERROR.assert('fullName' in data, 'validateData missing parameter data.fullName');
+    ERROR.assertType(data.fullName, 'string', `validateData "${data.fullName}" parameter data.fullName`);
 
     for (let cKey of LLKEYS) {
-        ASSERT(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
-        ASSERT_TYPE(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
-        ASSERT_RANGE(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
+        ERROR.assert(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
+        ERROR.assertType(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
+        ERROR.assertRange(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
     }
     
-    ASSERT('overallIntensity' in data, `validateData "${data.fullName}" missing parameter data.overallIntensity`);
-    ASSERT_TYPE(data.overallIntensity, 'number', `validateData "${data.fullName}" parameter data.overallIntensity`);
-    ASSERT_RANGE(data.overallIntensity, 0, 100, `validateData "${data.fullName}" parameter data.overallIntensity`);
+    ERROR.assert('overallIntensity' in data, `validateData "${data.fullName}" missing parameter data.overallIntensity`);
+    ERROR.assertType(data.overallIntensity, 'number', `validateData "${data.fullName}" parameter data.overallIntensity`);
+    ERROR.assertRange(data.overallIntensity, 0, 100, `validateData "${data.fullName}" parameter data.overallIntensity`);
 
 
     for (let cKey of CIKEYS) {
-        ASSERT(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
+        ERROR.assert(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
         if (cKey === "interactiveStyleType") {
-            ASSERT_TYPE(data.interactiveStyleType, 'string', `validateData "${data.fullName}" parameter data.interactiveStyleType`);
-            ASSERT(/^[IEB]$/i.test(data.interactiveStyleType), `validateData "${data.fullName}" parameter data.interactiveStyleType should be either the letter I, E, or B, found ${data.interactiveStyleType}`);
+            ERROR.assertType(data.interactiveStyleType, 'string', `validateData "${data.fullName}" parameter data.interactiveStyleType`);
+            ERROR.assert(/^[IEB]$/i.test(data.interactiveStyleType), `validateData "${data.fullName}" parameter data.interactiveStyleType should be either the letter I, E, or B, found ${data.interactiveStyleType}`);
          } else {
-            ASSERT_TYPE(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
-            ASSERT_RANGE(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
+            ERROR.assertType(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
+            ERROR.assertRange(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
         }
     }
 }

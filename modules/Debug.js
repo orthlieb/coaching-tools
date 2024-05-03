@@ -1,12 +1,12 @@
-const bDebug = true;
+const bDebug = false;
 
 export let DEBUG = {
-    logType: function (msg, obj, ...args) {
+     logType: (msg, obj, ...args) => {
         let cType = typeof obj;
         if (cType == 'object' && Array.isArray(obj))
             cType = 'array';
-
         console.log('LOGTYPE', msg, 'Type:', cType, 'Value:', JSON.stringify(obj), ...args);
+       
     },
     log: function (...args) {
         console.log(...args);

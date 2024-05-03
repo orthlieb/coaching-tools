@@ -232,7 +232,8 @@
     </div>
 
     <script type="module">
-        import { displayAlertInDoc, ASSERT, ASSERT_RANGE, ASSERT_TYPE } from "./modules/Error.js";
+        import { ERROR } from "./modules/Error.js";
+        import { DEBUG } from "./modules/Debug.js";
         import { displayCommunicationIndicators } from "./modules/CommunicationIndicators.js";
         import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
 
@@ -342,7 +343,7 @@
                     // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
                     for (const key in params[i]) {
                         let value = params[i][key];
-                        console.log('processing', key, value);
+                        DEBUG.log('processing', key, value);
                         params[i][key] =
                         (key in ciKeys) ? ciKeys[key](key, value) : value;   
                     }
@@ -353,14 +354,14 @@
                         delete params[i].interactiveStyle;
                     }
                 
-                    console.log('params', JSON.stringify(params[i]));
+                    DEBUG.log('params', JSON.stringify(params[i]));
                     displayCommunicationIndicators(i + 1, params[i]); 
                 } catch (e) { 
-                    displayAlertInDoc(e); 
+                    ERROR.displayAlertInDoc(e); 
                 }
             }
         } catch (e) {
-            displayAlertInDoc(e);
+            ERROR.displayAlertInDoc(e);
         }
     </script>
 </body>

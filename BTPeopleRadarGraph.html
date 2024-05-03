@@ -23,10 +23,10 @@
         <div id="liveAlertPlaceholder"></div>
         <div class="alert hidden" id="alert" role="alert"></div>
         <div id="radar-graph-grid">
-            <div id="radar-graph-1" class="radar-graph container">
-                <div class="row"><h1 class="title bold text-middle col-12">Group People Radar Graph</h1></div>
+            <div id="radar-graph" class="radar-graph container col-lg-9 offset-lg-1">
+                <div class="row"><h1 class="bold text-center col-12">Group People Radar Graph</h1></div>
                 <div class="row">
-                    <h2 id="rg-companyname" class="companyname text-middle col-12"></h2>
+                    <h2 id="rg-companyname" class="companyname text-center col-12"></h2>
                 </div>
                 <div class="row">
                     <div class="col-12">
@@ -42,7 +42,6 @@
                             data-click-to-select="true"
                             data-sortable="true"
                             data-sort-name="fullName"
-                            data-sort-order="asc"
                             data-show-columns="true">
                             <thead>
                                 <tr>
@@ -75,7 +74,7 @@
                                         data-footer-formatter="avgFooterFormatter"
                                         data-switchable-label="Mover"
                                         data-sortable="true"
-                                        data-sort-="desc"
+                                        data-sort-order="desc"
                                         class="col-1 mover">&nbsp;
                                     </th>
                                     <th
@@ -83,7 +82,7 @@
                                         data-switchable-label="Doer"
                                         data-footer-formatter="avgFooterFormatter"
                                         data-sortable="true" 
-                                        data-sort-="desc"
+                                        data-sort-order="desc"
                                         class="col-1 doer">&nbsp;
                                     </th>
                                     <th
@@ -91,7 +90,7 @@
                                         data-switchable-label="Influencer"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
-                                        order="desc"
+                                        data-sort-order="desc"
                                         class="col-1 influencer">&nbsp;
                                     </th>
                                     <th
@@ -99,7 +98,7 @@
                                         data-switchable-label="Responder"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
-                                        data-sort-="desc"
+                                        data-sort-order="desc"
                                         class="col-1 responder">&nbsp;
                                     </th>
                                     <th
@@ -107,7 +106,7 @@
                                         data-switchable-label="Shaper"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
-                                        order="desc"
+                                        data-sort-order="desc"
                                         class="col-1 shaper">&nbsp;
                                     </th>
                                     <th
@@ -115,7 +114,7 @@
                                         data-switchable-label="Producer"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
-                                        data-sort-="desc"
+                                        data-sort-order="desc"
                                         class="col-1 producer">&nbsp;
                                     </th>
                                     <th
@@ -123,7 +122,7 @@
                                         data-switchable-label="Contemplator"
                                         data-footer-formatter="avgFooterFormatter"                                       
                                         data-sortable="true" 
-                                        data-sort-="desc"
+                                        data-sort-order="desc"
                                         class="col-1 contemplator">&nbsp;
                                     </th>
                                 </tr>
@@ -139,8 +138,9 @@
             </div>
         </div>        
         <script type="module">
-
             import { ERROR } from "./modules/Error.js";
+            import { DEBUG } from "./modules/Debug.js";
+
             import { displayRadarGraphAndTable, avgFooterFormatter, groupAverageLabel } from "./modules/BTPeopleRadarGraph.js";
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
             import { LLKEYS } from './modules/Common.js';
@@ -204,7 +204,6 @@
 
                     displayRadarGraphAndTable(params);
                 } catch (e) {
-                    console.log(e);
                     ERROR.appendAlert(e, 'error');
                 }
             });

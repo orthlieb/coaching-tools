@@ -1,49 +1,40 @@
 // Generate test data for Communication Indicators
 
+import { ERROR } from "./Error.js";
+import { DEBUG } from "./Debug.js";
+import { TEST } from './Test.js';
+
 import { convertJSObjectToCSV } from "./CSVToJSON.js";
-
-function randomScore() {
-    return Math.floor(Math.random() * 100);
-}
-
-function randomInteractiveStyle() {
-    let interactiveStyleTypeArray = ["I", "B", "E"];
-    return interactiveStyleTypeArray[Math.floor(Math.random() * 3)];
-}
-
-function randomBool() {
-    return Math.random() < 0.5;
-}
 
 function randomTestObject(cSuffix = "") {
     return {
-        fullName: `Full Name ${cSuffix}`,
-        companyName: `Company Name ${cSuffix}`,
-        mover: randomScore(),
-        doer: randomScore(),
-        influencer: randomScore(),
-        responder: randomScore(),
-        shaper: randomScore(),
-        producer: randomScore(),
-        contemplator: randomScore(),
-        overallIntensity: randomScore(),
-        acceptanceLevel: randomScore(),
-        interactiveStyle: randomScore() + randomInteractiveStyle(),
-        internalControl: randomScore(),
-        intrusionLevel: randomScore(),
-        projectiveLevel: randomScore(),
-        susceptibilityToStress: randomScore(),
-        learningPreferenceVisual: randomScore(),
-        learningPreferenceAuditory: randomScore(),
-        learningPreferencePhysical: randomScore(),
-        showForensics: randomBool()
+        fullName: TEST.generateRandomNamePair(),
+        companyName: TEST.generateRandomCompanyName(),
+        mover: TEST.randomScore(),
+        doer: TEST.randomScore(),
+        influencer: TEST.randomScore(),
+        responder: TEST.randomScore(),
+        shaper: TEST.randomScore(),
+        producer: TEST.randomScore(),
+        contemplator: TEST.randomScore(),
+        overallIntensity: TEST.randomScore(),
+        acceptanceLevel: TEST.randomScore(),
+        interactiveStyle: TEST.randomScore() + TEST.randomInteractiveStyle(),
+        internalControl: TEST.randomScore(),
+        intrusionLevel: TEST.randomScore(),
+        projectiveLevel: TEST.randomScore(),
+        susceptibilityToStress: TEST.randomScore(),
+        learningPreferenceVisual: TEST.randomScore(),
+        learningPreferenceAuditory: TEST.randomScore(),
+        learningPreferencePhysical: TEST.randomScore(),
+        showForensics: TEST.randomBool()
     };
 }
 
 export function testSingle(cURLPrefix) {
     let oTest = randomTestObject("Single");
 
-    console.log(`GENERATED TEST DATA: ${JSON.stringify(oTest)}`);
+    DEBUG.log(`GENERATED TEST DATA: ${JSON.stringify(oTest)}`);
     const cParams = Object.keys(oTest)
         .map(
             (key) =>
@@ -61,7 +52,7 @@ export function testJSON(cURLPrefix) {
         aTestData.push(randomTestObject(i));
     }
     let str = JSON.stringify(aTestData);
-    console.log(`GENERATED TEST DATA: ${str}`);
+    DEBUG.log(`GENERATED TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`);
 }
 
@@ -72,7 +63,7 @@ export function testCSV(cURLPrefix) {
         aTestData.push(randomTestObject(i));
     }
     let str = convertJSObjectToCSV(aTestData);
-    console.log(`GENERATED CSV TEST DATA: ${str}`);
+    DEBUG.log(`GENERATED CSV TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?csv=${encodeURIComponent(str)}`);
 }
 
@@ -153,6 +144,6 @@ export function testInvalidEntries(cURLPrefix) {
   
     
     let str = JSON.stringify(aTestData);
-    console.log(`GENERATED INVALID JSON DATA: ${str}`);
+    DEBUG.log(`GENERATED INVALID JSON DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`);
 }

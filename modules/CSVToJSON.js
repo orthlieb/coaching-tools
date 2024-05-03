@@ -1,4 +1,5 @@
-import { ASSERT, ASSERT_TYPE } from './Error.js';
+import { ERROR } from './Error.js';
+import { DEBUG } from './Debug.js';
 
 /**
  * Parse a CSV string and convert to JSON object.
@@ -6,7 +7,7 @@ import { ASSERT, ASSERT_TYPE } from './Error.js';
  * @returns {object} JSON object parsed from CSV.
  */
 export function convertCSVtoJSON(csvText) {
-    ASSERT_TYPE(csvText, 'string', 'convertCSVtoJSON parameter csvText');
+     ERROR.assertType(csvText, 'string', 'convertCSVtoJSON parameter csvText');
     
     const rows = csvText.split('\n');
 
@@ -34,7 +35,7 @@ export function convertCSVtoJSON(csvText) {
         // Create an object from the row using headers as keys
         if (i == 0) {
             headers = [...currentRow];
-            console.log(`CSVtoJSON There are ${headers.length} keys ${JSON.stringify(headers)}`);
+            DEBUG.log(`CSVtoJSON There are ${headers.length} keys ${JSON.stringify(headers)}`);
         } else {
             const rowObject = {};
             for (let k = 0; k < headers.length; k++) {

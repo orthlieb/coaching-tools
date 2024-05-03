@@ -1,4 +1,5 @@
-import { appendAlert, ASSERT, ASSERT_TYPE, ASSERT_RANGE } from "./Error.js";
+import { ERROR } from "./Error.js";
+import { DEBUG } from "./Debug.js";
 import { LLKEYS, LLCOLORS, LLCOLORS_LIGHT } from "./Common.js";
 
 /**
@@ -6,10 +7,10 @@ import { LLKEYS, LLCOLORS, LLCOLORS_LIGHT } from "./Common.js";
  * @example
  * let people = [ { fullName: "Bob Dingle", mover: 34, doer: 12}, { fullName: "Alice Dongle", mover: 23, doer: 56 } ];
  * let sortedPeople = sortPeople(people, 'fullName', 'mover');
- * console.log(JSON.stringify(sortedPeople));
+ * DEBUG.log(JSON.stringify(sortedPeople));
  * // Outputs { fullName: ["Alice Dongle", "Bob Dingle"], mover: [23, 34]};
  * sortedPeople = sortPeople(people, 'mover', ['mover', 'doer'], false);
- * console.log(JSON.stringify(sortedPeople));
+ * DEBUG.log(JSON.stringify(sortedPeople));
  * // Outputs { fullName: ["Bob Dingle", "Alice Dongle"], mover: [34, 23], doer: [12, 56] 
  * @param {object[]} people Array of people objects. Each person object has at least fullName and any other shared properties.
  * @param {string} [sortKey='fullName'] Property in the person object to sort by. Must be a string, number, or boolean.
@@ -21,7 +22,7 @@ function sortScores(people, sortKey, dataKeys, bAscending = true) {
     dataKeys = Array.isArray(dataKeys) ? dataKeys : [dataKeys];
     let type = typeof people[0][sortKey];
 
-    ASSERT(
+    ERROR.assert(
         type == "number" || type == "string" || type == "boolean",
         `sortPeople parameter ${sortKey}, expected type number, string, or boolean, found ${type} ${people[0][sortKey]}`
     );
@@ -54,43 +55,43 @@ function sortScores(people, sortKey, dataKeys, bAscending = true) {
  * Will throw if there is invalid data.
  */
 function validatePerson(person) {
-    ASSERT(
+    ERROR.assert(
         "fullName" in person,
         "validatePerson missing parameter person.fullName"
     );
-    ASSERT_TYPE(
+    ERROR.assertType(
         person.fullName,
         "string",
         `validatePerson "${person.fullName}" parameter person.fullName`
     );
 
-    ASSERT(
+    ERROR.assert(
         "overallIntensity" in person,
         "validatePerson missing parameter person.overallIntensity"
     );
-    ASSERT_TYPE(
+    ERROR.assertType(
         person.overallIntensity,
         "number",
         `validatePerson "${person.fullName}" parameter person.overallIntensity`
     );
 
-    ASSERT_TYPE(
+    ERROR.assertType(
         person.companyName,
         "string",
         `validatePerson "${person.companyName}" parameter person.companyName`
     );
 
     for (let cKey of LLKEYS) {
-        ASSERT(
+        ERROR.assert(
             cKey in person,
             `validatePerson "${person.fullName}" missing parameter person.${cKey}`
         );
-        ASSERT_TYPE(
+        ERROR.assertType(
             person[cKey],
             "number",
             `validatePerson "${person.fullName}" parameter person.${cKey}`
         );
-        ASSERT_RANGE(
+        ERROR.assertRange(
             person[cKey],
             0,
             100,
@@ -105,12 +106,12 @@ function validatePerson(person) {
  * Will throw if there is invalid data.
  */
 function validateData(data) {
-    ASSERT(data.length > 2, `validateData not enough people for generating radar graph, must be > 2, found ${data.length}`);
+    ERROR.assert(data.length > 2, `validateData not enough people for generating radar graph, must be > 2, found ${data.length}`);
     for (let i = 0; i < data.length; i++) {
         try {
             validatePerson(data[i]);
         } catch (e) {
-            console.log(e);
+            DEBUG.log(e);
             appendAlert(e, 'error');
         }
     }

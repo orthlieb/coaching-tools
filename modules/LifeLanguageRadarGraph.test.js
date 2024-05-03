@@ -1,4 +1,5 @@
 // Generate test data for LifeLanguageRadarGraph
+import { DEBUG } from "./Debug.js";
 import { convertJSObjectToCSV } from "./CSVToJSON.js";
 
 function randomScore() {
@@ -44,7 +45,7 @@ export function testJSON(cURLPrefix) {
         aTestData.push(randomTestObject(i));
     }
      let str = JSON.stringify(aTestData);
-    console.log(`GENERATED TEST DATA: ${str}`);
+    DEBUG.log(`GENERATED TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`);
 }
 
@@ -55,7 +56,7 @@ export function testCSV(cURLPrefix) {
         aTestData.push(randomTestObject());
     }
      let str = convertJSObjectToCSV(aTestData);
-    console.log(`GENERATED CSV TEST DATA: ${str}`);
+    DEBUG.log(`GENERATED CSV TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?csv=${encodeURIComponent(str)}`);
 }
 
@@ -78,6 +79,6 @@ export function testInvalidData(cURLPrefix) {
     aTestData.push(oTest);
     
     let str = JSON.stringify(aTestData);
-    console.log(`GENERATED INVALID JSON DATA: ${str}`);
+    DEBUG.log(`GENERATED INVALID JSON DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`);
 }

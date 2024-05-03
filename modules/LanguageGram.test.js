@@ -1,5 +1,7 @@
 // Generate test data for LanguageGram
 import { convertJSObjectToCSV } from "./CSVToJSON.js";
+import { DEBUG } from "./Debug.js";
+import { ERROR } from "./Error.js";
 
 function randomScore() {
     return Math.floor(Math.random() * 100);
@@ -23,7 +25,7 @@ function randomTestObject(cSuffix='') {
 export function testSingle(cURLPrefix) {
     let oTest = randomTestObject('Single');
     
-    console.log(`GENERATED TEST DATA: ${JSON.stringify(oTest)}`);
+    DEBUG.log(`GENERATED TEST DATA: ${JSON.stringify(oTest)}`);
     const cParams = Object.keys(oTest)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(oTest[key])}`)
         .join('&');
@@ -38,7 +40,7 @@ export function testJSON(cURLPrefix) {
         aTestData.push(randomTestObject(i));
     }
     let str = JSON.stringify(aTestData);
-    console.log(`GENERATED TEST DATA: ${str}`);
+    DEBUG.log(`GENERATED TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`);
 }
 
@@ -49,7 +51,7 @@ export function testCSV(cURLPrefix) {
          aTestData.push(randomTestObject(i));
     }
     let str = convertJSObjectToCSV(aTestData);
-    console.log(`GENERATED CSV TEST DATA: ${str}`);
+    DEBUG.log(`GENERATED CSV TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?csv=${encodeURIComponent(str)}`);
     
 }
@@ -74,6 +76,6 @@ export function testInvalidJSON(cURLPrefix) {
     
   
     let str = JSON.stringify(aTestData);
-    console.log(`GENERATED INVALID JSON DATA: ${str}`);
+    DEBUG.log(`GENERATED INVALID JSON DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`); 
 }

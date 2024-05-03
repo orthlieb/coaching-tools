@@ -232,6 +232,7 @@
         <input type="submit" value="Submit" class="CIFormSubmit" />
     </form>
        <script>
+           
          // JavaScript code using ES6 syntax to handle the form submission
         document.getElementById('ciform').addEventListener('submit', event => {
             event.preventDefault(); // Prevent the default form submission
@@ -245,7 +246,7 @@
             // Construct the URL with encoded form data
             const redirectURL = `https://www.relatematters.com/coaching-tools/CommunicationIndicators.html?${params.toString()}`;
             
-            console.println(redirectURL);
+            DEBUG.log('Redirect URL', redirectURL);
 
             // Redirect to the new page
             window.location.href = redirectURL;

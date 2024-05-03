@@ -1,113 +1,141 @@
 .mover-background {
-  background-color: #ed1c24 !important;
+  background-color: hsl(358, 85%, 52%) !important;
 }
 
 .mover-border-top {
-  border-top: 2px solid #ed1c24 !important;
+  border-top: 2px solid hsl(358, 85%, 52%) !important;
 }
 
 .mover-text-color {
-  color: #ed1c24 !important;
+  color: hsl(358, 85%, 52%) !important;
 }
 
 .doer-background {
-  background-color: #F6831F !important;
+  background-color: hsl(28, 92%, 54%) !important;
 }
 
 .doer-border-top {
-  border-top: 2px solid #F6831F !important;
+  border-top: 2px solid hsl(28, 92%, 54%) !important;
 }
 
 .doer-text-color {
-  color: #F6831F !important;
+  color: hsl(28, 92%, 54%) !important;
 }
 
 .influencer-background {
-  background-color: #FFCE0B !important;
+  background-color: hsl(48, 100%, 52%) !important;
 }
 
 .influencer-border-top {
-  border-top: 2px solid #FFCE0B !important;
+  border-top: 2px solid hsl(48, 100%, 52%) !important;
 }
 
 .influencer-text-color {
-  color: #FFCE0B !important;
+  color: hsl(48, 100%, 52%) !important;
 }
 
 .responder-background {
-  background-color: #7030A0 !important;
+  background-color: hsl(274, 54%, 41%) !important;
 }
 
 .responder-border-top {
-  border-top: 2px solid #7030A0 !important;
+  border-top: 2px solid hsl(274, 54%, 41%) !important;
 }
 
 .responder-text-color {
-  color: #7030A0 !important;
+  color: hsl(274, 54%, 41%) !important;
 }
 
 .shaper-background {
-  background-color: #4472C4 !important;
+  background-color: hsl(218, 52%, 52%) !important;
 }
 
 .shaper-border-top {
-  border-top: 2px solid #4472C4 !important;
+  border-top: 2px solid hsl(218, 52%, 52%) !important;
 }
 
 .shaper-text-color {
-  color: #4472C4 !important;
+  color: hsl(218, 52%, 52%) !important;
 }
 
 .producer-background {
-  background-color: #006838 !important;
+  background-color: hsl(152, 100%, 20%) !important;
 }
 
 .producer-border-top {
-  border-top: 2px solid #006838 !important;
+  border-top: 2px solid hsl(152, 100%, 20%) !important;
 }
 
 .producer-text-color {
-  color: #006838 !important;
+  color: hsl(152, 100%, 20%) !important;
 }
 
 .contemplator-background {
-  background-color: #35B3DF !important;
+  background-color: hsl(196, 73%, 54%) !important;
 }
 
 .contemplator-border-top {
-  border-top: 2px solid #35B3DF !important;
+  border-top: 2px solid hsl(196, 73%, 54%) !important;
 }
 
 .contemplator-text-color {
-  color: #35B3DF !important;
+  color: hsl(196, 73%, 54%) !important;
 }
 
 .mover-light-background {
-  background-color: #FBD2D3 !important;
+  background-color: hsl(358, 85%, 90%) !important;
 }
 
 .doer-light-background {
-  background-color: #FDE6D2 !important;
+  background-color: hsl(28, 92%, 92%) !important;
 }
 
 .influencer-light-background {
-  background-color: #FFF5CE !important;
+  background-color: hsl(48, 100%, 90%) !important;
 }
 
 .responder-light-background {
-  background-color: #E2D6EC !important;
+  background-color: hsl(274, 54%, 90%) !important;
 }
 
 .shaper-light-background {
-  background-color: #DAE3F3 !important;
+  background-color: hsl(218, 52%, 90%) !important;
 }
 
 .producer-light-background {
-  background-color: #CCE1D7 !important;
+  background-color: hsl(151, 26%, 84%) !important;
 }
 
 .contemplator-light-background {
-  background-color: #D7F0F9 !important;
+  background-color: hsl(196, 73%, 92%) !important;
+}
+
+.mover-dark-text-color {
+  color: hsl(358, 85%, 32%) !important;
+}
+
+.doer-dark-text-color {
+  color: hsl(28, 92%, 34%) !important;
+}
+
+.influencer-dark-text-color {
+  color: hsl(48, 100%, 32%) !important;
+}
+
+.responder-dark-text-color {
+  color: hsl(274, 54%, 21%) !important;
+}
+
+.shaper-dark-text-color {
+  color: hsl(218, 52%, 32%) !important;
+}
+
+.producer-dark-text-color {
+  color: hsl(152, 100%, 15%) !important;
+}
+
+.contemplator-dark-text-color {
+  color: hsl(196, 73%, 34%) !important;
 }
 
 .bold {
