@@ -48,6 +48,7 @@ export class LLMediator {
         for (let i = 0; i < data.length; i++) {
             try {
                 let person = new LLPerson(data[i]);
+                person.forEachLanguageScore((score, key, data) => data[key] = Math.round(score), person);
                 people.push(person);
             } catch (e) {
                 DEBUG.log(e);
@@ -94,13 +95,6 @@ export class LLMediator {
         this.theTable.hideShowPerson(fullName, hidden);
     }
     
-    onColumnSwitchTableAll(checked) {
-        DEBUG.logArgs('LLMediator.onColumnSwitchTableAll(checked)', arguments);
-        this.columns = checked ? [...LLKEYS] : [];
-        this.labels = checked ? [...LLLABELS] : [];
-        this.theChart.loadData(this.people, this.columns, this.labels );
-    }
-
     onColumnSwitchTable(field, checked) {
         DEBUG.logArgs('LLMediator.onColumnSwitchTable(field, checked)', arguments);
         let newColumns = [];

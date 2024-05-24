@@ -20,7 +20,7 @@ function randomTestObject() {
 }
 
 export function testJSON(cURLPrefix) {
-    let nTestSets = TEST.getRandomInt(5, 15);
+    let nTestSets = TEST.randomInt(5, 15);
     let aTestData = [];
     for (let i = 0; i < nTestSets; i++) {
         aTestData.push(randomTestObject(i));
@@ -31,7 +31,7 @@ export function testJSON(cURLPrefix) {
 }
 
 export function testCSV(cURLPrefix) {
-    let nTestSets = TEST.getRandomInt(3, 10);
+    let nTestSets = TEST.randomInt(3, 10);
     let aTestData = [];
     for (let i = 0; i < nTestSets; i++) {
         aTestData.push(randomTestObject());

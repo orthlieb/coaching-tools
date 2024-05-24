@@ -55,7 +55,7 @@ const companyNames = [
 
 export const TEST = {
     randomScore: () => {
-        return TEST.getRandomInt(1, 99);
+        return TEST.randomInt(1, 99);
     },
 
     randomInteractiveStyle: () => {
@@ -66,21 +66,25 @@ export const TEST = {
     randomBool: () => {
         return Math.random() < 0.5;
     },
+    
+    randomNumber: (min, max) => {
+        return Math.random() * (max - min + 1) + min;
+    },
 
     // Function to generate a random integer between min and max (inclusive)
-    getRandomInt: (min, max) => {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+    randomInt: (min, max) => {
+        return Math.floor(TEST.randomNumber(min, max));
     },
 
     // Function to generate a random first name-last name pair
     generateRandomNamePair: () => {
-        const firstNameIndex = TEST.getRandomInt(0, firstNames.length - 1);
-        const lastNameIndex = TEST.getRandomInt(0, lastNames.length - 1);
+        const firstNameIndex = TEST.randomInt(0, firstNames.length - 1);
+        const lastNameIndex = TEST.randomInt(0, lastNames.length - 1);
         return firstNames[firstNameIndex] + " " + lastNames[lastNameIndex];
     },
 
     // Function to generate a random first name-last name pair
     generateRandomCompanyName: () => {
-        return companyNames[TEST.getRandomInt(0, companyNames.length - 1)];
+        return companyNames[TEST.randomInt(0, companyNames.length - 1)];
     }
 };
