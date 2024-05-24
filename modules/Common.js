@@ -8,6 +8,7 @@ export const LLKEYS = [
     'contemplator'
 ];
 
+export const LLLABELS = LLKEYS.map(key => key.charAt(0).toUpperCase() + key.slice(1));
 
 export const LLCOLORS = {
     mover: 'hsl(358, 85, 52%)', 
@@ -61,3 +62,19 @@ export const CIKEYS = [
     'learningPreferenceVisual',
     'learningPreferencePhysical'
 ];
+
+export const COMMON = {
+   /**
+     * Evaluates whether Score is VERY LOW, LOW, MODERATE, HIGH or VERY HIGH.
+     * @param {number} nValue The value to be evaluated.
+     * @returns {number} Returns an integer between 0 and 4 suitable for indexing into an array.
+     */
+    evaluateScoreLevel: function(nValue) {
+        if (nValue < 15) return 0;      // bi-arrow-down "\D83E\DC7B"; "&#x1F87B;";  down
+        else if (nValue < 35) return 1; // bi-arrow-down-right "&#x1F87E;"; down-right
+        else if (nValue < 65) return 2; // bi-arrow-right "&#x1F87A;"; right
+        else if (nValue < 85) return 3; // bi-arrow-up-right "&#x1F87D;"; up-right
+        return 4;                       // bi-arrow-up score-arrow "\D83E\DC70"; "&#x1F879;"; up
+    }
+};
+

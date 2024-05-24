@@ -1,15 +1,19 @@
 const bDebug = false;
 
 export let DEBUG = {
-     logType: (msg, obj, ...args) => {
+     logType: function logType(msg, obj, ...args) {
         let cType = typeof obj;
         if (cType == 'object' && Array.isArray(obj))
             cType = 'array';
-        console.log('LOGTYPE', msg, 'Type:', cType, 'Value:', JSON.stringify(obj), ...args);
+        console.log('LOGTYPE', msg, 'Type:', cType, 'Value:', obj, ...args);
        
     },
-    log: function (...args) {
+    log: function log(...args) {
         console.log(...args);
+    },
+    logArgs: function logArgs(msg, args) {
+        console.log('LOGARGS', msg, ...args);
+
     }
 };
 

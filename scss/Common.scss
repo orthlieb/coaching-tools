@@ -1,5 +1,4 @@
-// DO NOT EDIT, GENERATED FILE
-
+// Color maps for each Life Language: solid, light, dark versions of each color.
 $color-map: (
     mover: hsl(358, 85%, 52%), 
     doer: hsl(28, 92%, 54%), 
@@ -32,6 +31,7 @@ $dark-color-map: (
 
 $prefixes: mover, doer, influencer, responder, shaper, producer, contemplator;
 
+// Life Language solid colors for background, border top (for table > 50 delineation), and text colors.
 @each $prefix, $color in $color-map {
     .#{$prefix}-background {
         background-color: $color !important;
@@ -44,12 +44,15 @@ $prefixes: mover, doer, influencer, responder, shaper, producer, contemplator;
     }
 }
 
+// Light background for each Life Language color
 @each $prefix, $color in $light-color-map {
     .#{$prefix}-light-background {
         background-color: $color !important;
     }
 }
 
+
+// Dark text color to offset light background.
 @each $prefix, $color in $dark-color-map {
    .#{$prefix}-dark-text-color {
         color: $color !important;

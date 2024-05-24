@@ -21,12 +21,11 @@
  </head>
     <body>
         <div id="liveAlertPlaceholder"></div>
-        <div class="alert hidden" id="alert" role="alert"></div>
         <div id="radar-graph-grid">
             <div id="radar-graph" class="radar-graph container col-lg-9 offset-lg-1">
                 <div class="row"><h1 class="bold text-center col-12">Group People Radar Graph</h1></div>
                 <div class="row">
-                    <h2 id="rg-companyname" class="companyname text-center col-12"></h2>
+                    <h2 id="rg-companyname" class="companyname text-center d-none col-12"></h2>
                 </div>
                 <div class="row">
                     <div class="col-12">
@@ -42,7 +41,8 @@
                             data-click-to-select="true"
                             data-sortable="true"
                             data-sort-name="fullName"
-                            data-show-columns="true">
+                            data-show-columns="true"
+                            data-minimum-count-columns="3">
                             <thead>
                                 <tr>
                                     <th class="col-1"></th>
@@ -141,20 +141,16 @@
             import { ERROR } from "./modules/Error.js";
             import { DEBUG } from "./modules/Debug.js";
 
-            import { displayRadarGraphAndTable, avgFooterFormatter, groupAverageLabel } from "./modules/BTPeopleRadarGraph.js";
+            import { LLMediator } from "./modules/BTPRGMediator.js";
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
             import { LLKEYS } from './modules/Common.js';
-            
-            // Formatters for BT need to be global?
-            window.avgFooterFormatter = avgFooterFormatter;
-            window.groupAverage = groupAverageLabel;
             
             let url = new URL(window.location.href);
 
             // Test data generation
-            import { testJSON, testCSV, testInvalidData } from "./modules/BTPeopleRadarGraph.test.js";
+            //import { testJSON, testCSV, testInvalidData } from "./modules/BTPeopleRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
-            url = testCSV('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
+            //url = testCSV('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/BTPeopleRadarGraph.html');
            
             $('document').ready(function () {
@@ -202,7 +198,7 @@
                         }
                     }
 
-                    displayRadarGraphAndTable(params);
+                let theMediator = new LLMediator(params, 'rg-table', 'rg-graph');
                 } catch (e) {
                     ERROR.appendAlert(e, 'error');
                 }
