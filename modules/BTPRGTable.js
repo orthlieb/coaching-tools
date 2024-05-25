@@ -79,12 +79,13 @@ export class LLTable {
                 this.mediator.onColumnSwitchAllTable(checked);
             },
             onPostBody: (newData) => {
-                //DEBUG.log('Post Body', JSON.stringify(newData));
+                DEBUG.logArgs('LLTable.onPostBody(newData)', arguments);
 
                 // Clear current header and body formatting.
-                $(`${cTableId} > tbody > tr`).removeClass((index, className) => className.match(/\S+-top-border/g));
-                $(`${cTableId} th`).removeClass((index, className) => className.match(/\S+-light-background/g));
-                $(`${cTableId} th`).removeClass((index, className) => className.match(/\S+-dark-text-color/g));
+                DEBUG.log('*** Removing classes');
+                $(`${this.cTableId} > tbody > tr`).removeClass((index, className) => className.match(/\S+-top-border/g));
+                $(`${this.cTableId} th`).removeClass((index, className) => className.match(/\S+-light-background/g));
+                $(`${this.cTableId} th`).removeClass((index, className) => className.match(/\S+-dark-text-color/g));
 
                 // Look at the headers to see which one is the sort column.
                 //<div class="th-inner sortable both">&nbsp;</div>
@@ -92,6 +93,7 @@ export class LLTable {
                     let $element = $(element);
                     let bAscending = $element.hasClass('asc');
                     let bDescending = $element.hasClass('desc');
+                    DEBUG.log('Element', element, bAscending, bDescending);
                     if (bAscending || bDescending) {
                         let dataField = $element.parent().attr('data-field');
 
@@ -99,7 +101,8 @@ export class LLTable {
 
                         // Header and footer of the sorted field get highlighted for visual reference
                         // #rg-table > thead > tr:nth-child(1) > th.col-1.vertical.mover
-                        $(`${cTableId} th.${dataField}`).addClass(`${dataField}-light-background ${dataField}-dark-text-color`);
+                        DEBUG.log(`${this.cTableId} th.${dataField}`, 'adding classes', `${dataField}-light-background ${dataField}-dark-text-color`);
+                        $(`${this.cTableId} th.${dataField}`).addClass(`${dataField}-light-background ${dataField}-dark-text-color`);
 
                         // Determine where to draw 50 line in the table.
                         let bFlag = false;
@@ -107,13 +110,22 @@ export class LLTable {
                             if (!bFlag && ((bAscending && person[dataField] > 50) || (bDescending && person[dataField] < 50))) {
                                 bFlag = true;
                                 // #rg-table > tbody > tr:nth-child(1)
-                                $(`${cTableId} > tbody > tr:nth-child(${index + 1})`).addClass(`${dataField}-border-top`);
+                                $(`${this.cTableId} > tbody > tr:nth-child(${index + 1})`).addClass(`${dataField}-border-top`);
                             }
                         });
                     }
                 });
             }
         });
+        
+        // Handle printing events.
+        window.addEventListener("beforeprint", (event) => {
+            $("div.fixed-table-toolbar").addClass("d-none");
+        });
+        window.addEventListener("afterprint", (event) => {
+            $('div.fixed-table-toolbar').removeClass('d-none');
+        });
+
     }
     
     hideShowPerson(fullName, hidden) {
