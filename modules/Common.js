@@ -8,10 +8,11 @@ export const LLKEYS = [
     'contemplator'
 ];
 
-export const LLLABELS = LLKEYS.map(key => key.charAt(0).toUpperCase() + key.slice(1));
+export const LLLABELS = {};
+LLKEYS.forEach(key => LLLABELS[key] = key.charAt(0).toUpperCase() + key.slice(1));
 
 export const LLCOLORS = {
-    mover: 'hsl(358, 85, 52%)', 
+    mover: 'hsl(358, 85%, 52%)', 
     doer: 'hsl(28, 92%, 54%)', 
     influencer: 'hsl(48, 100%, 52%)', 
     responder: 'hsl(274, 54%, 41%)',

@@ -82,7 +82,6 @@ export class LLTable {
                 DEBUG.logArgs('LLTable.onPostBody(newData)', arguments);
 
                 // Clear current header and body formatting.
-                DEBUG.log('*** Removing classes');
                 $(`${this.cTableId} > tbody > tr`).removeClass((index, className) => className.match(/\S+-top-border/g));
                 $(`${this.cTableId} th`).removeClass((index, className) => className.match(/\S+-light-background/g));
                 $(`${this.cTableId} th`).removeClass((index, className) => className.match(/\S+-dark-text-color/g));
@@ -93,15 +92,11 @@ export class LLTable {
                     let $element = $(element);
                     let bAscending = $element.hasClass('asc');
                     let bDescending = $element.hasClass('desc');
-                    DEBUG.log('Element', element, bAscending, bDescending);
                     if (bAscending || bDescending) {
                         let dataField = $element.parent().attr('data-field');
 
-                        this.mediator.onSortTable(newData, dataField, bAscending ? 'asc' : 'desc');
-
                         // Header and footer of the sorted field get highlighted for visual reference
                         // #rg-table > thead > tr:nth-child(1) > th.col-1.vertical.mover
-                        DEBUG.log(`${this.cTableId} th.${dataField}`, 'adding classes', `${dataField}-light-background ${dataField}-dark-text-color`);
                         $(`${this.cTableId} th.${dataField}`).addClass(`${dataField}-light-background ${dataField}-dark-text-color`);
 
                         // Determine where to draw 50 line in the table.
@@ -131,10 +126,16 @@ export class LLTable {
     hideShowPerson(fullName, hidden) {
         DEBUG.logArgs('LLTable.hideShowPerson', arguments);
         let $table = $(this.cTableId);
-        DEBUG.logType('$table', $table);
         let data = $table.bootstrapTable('getData');  
         let nIndex = data.findIndex(person => { DEBUG.log(person.fullName); return person.fullName === fullName;});
         DEBUG.log('nIndex is', nIndex, '');
         $table.bootstrapTable(hidden ? 'check' : 'uncheck', nIndex);
+    }
+    
+    hideShowColumn(columnName, bHidden) {
+        DEBUG.logArgs('LLTable.hideShowColumn', arguments);
+        let $table = $(this.cTableId);
+        $table.bootstrapTable(bHidden ? 'hideColumn' : 'showColumn', columnName);
+        
     }
 }

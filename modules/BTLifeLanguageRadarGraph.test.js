@@ -1,7 +1,7 @@
 // Generate test data for LifeLanguageRadarGraph
-import { convertJSObjectToCSV } from "./CSVToJSON.js";
 import { DEBUG } from "./Debug.js";
-import { TEST } from "./Test.js";
+import { convertJSObjectToCSV } from "./CSVToJSON.js";
+import { TEST } from './Test.js';
 
 function randomTestObject() {
     return {
@@ -19,7 +19,7 @@ function randomTestObject() {
 }
 
 export function testJSON(cURLPrefix) {
-    let nTestSets = TEST.getRandomInt(5, 15);
+    let nTestSets = TEST.randomInt(3, 7);
     let aTestData = [];
     for (let i = 0; i < nTestSets; i++) {
         aTestData.push(randomTestObject(i));
@@ -30,7 +30,7 @@ export function testJSON(cURLPrefix) {
 }
 
 export function testCSV(cURLPrefix) {
-    let nTestSets = TEST.getRandomInt(3, 7);
+    let nTestSets = TEST.randomInt(3, 7);
     let aTestData = [];
     for (let i = 0; i < nTestSets; i++) {
         aTestData.push(randomTestObject());

@@ -64,16 +64,15 @@
         <script type="module">
             import { ERROR } from "./modules/Error.js";
             import { DEBUG } from "./modules/Debug.js";
-            import { displayRadarGraphAndTable } from "./modules/PeopleRadarGraph.js";
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
             import { LLKEYS } from './modules/Common.js';
 
             let url = new URL(window.location.href);
 
             // Test data generation
-            //import { testJSON, testCSV, testInvalidData } from "./modules/PeopleRadarGraph.test.js";
+            import { testJSON, testCSV, testInvalidData } from "./modules/PeopleRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/PeopleRadarGraph.html');
-            //url = testCSV('https://www.relatematters.com/coaching-tools/PeopleRadarGraph.html');
+            url = testCSV('https://www.relatematters.com/coaching-tools/PeopleRadarGraph.html');
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/PeopleRadarGraph.html');
 
             try {
@@ -120,7 +119,7 @@
                     }
                 }
 
-                displayRadarGraphAndTable(1, params);
+                let theMediator = new LLMediator(params, '#rg-table', '#rg-graph');
             } catch (e) {
                 DEBUG.log(e);
                 appendAlert(e, 'error');

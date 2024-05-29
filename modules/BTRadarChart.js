@@ -10,36 +10,10 @@ export class LLRadarChart {
       */
     loadData(data, columns, labels) {
         DEBUG.logArgs('LLRadarChart.loadData(data, columns, labels)', arguments);
-        this.columns = columns;
-        this.labels = labels;
-        this.chart.data = this._prepData(data);
+        this.chart.data = data;
         this.chart.update();
     }
     
-    /**
-     * Prep data for the radar chart.
-     * @param {array} data Array of datasets to be charted.
-     */
-    _prepData(data) {
-        const chartData = {
-            labels: this.labels,
-            datasets: []
-        };
-        
-       data.forEach(dataset => {
-           chartData.datasets.push({
-                label: dataset.label,
-                data: this.columns.map(column => dataset[column]), 
-                backgroundColor: dataset.color.translucent, 
-                borderColor: dataset.color.solid,
-                fill: true,
-                hidden: !dataset.state
-            });
-        });
-        
-        return chartData;
-    }
-        
     /**
      * Radar chart based on Chart.js
      * @param {integer} id ID of the canvas element that will house the chart.
@@ -47,12 +21,8 @@ export class LLRadarChart {
      * @param {array} columns Array of strings naming the keys, in order, to extract from each dataset.
      * @param {array} labels Array of strings to use as labels for each column.
      */
-    constructor(id, data, columns, labels) {
-        this.columns = columns;
-        this.labels = labels;
-        
-        let chartData = this._prepData(data);
-        
+    constructor(id, chartData, chartOptions = { displayLegend: true, legendPosition: 'right' }) {
+        DEBUG.logArgs('BTRadarChart.constructor(id, chartData, chartOptions)', arguments);
         const config = {
             type: "radar",
             data: chartData,
@@ -63,8 +33,8 @@ export class LLRadarChart {
                 scales: { r: { beginAtZero: true, min: 0, max: 100, stepSize: 10 }},
                 plugins: {
                     legend: {
-                        display: true,
-                        position: 'right',
+                        display: chartOptions.displayLegend,
+                        position: chartOptions.legendPosition,
                         onClick: this.onClickLegend
                     }
                 }
@@ -76,7 +46,7 @@ export class LLRadarChart {
 
         // Handle printing events.
         const mediaQuery = window.matchMedia('print');
-        mediaQuery.addEventListener("change",() => chart.resize(parentContainer.clientWidth, parentContainer.clientHeight));
+        mediaQuery.addEventListener("change",() => chart.resize(parentContainer.clientHeight, parentContainer.clientWidth));
         //
         //
         //
