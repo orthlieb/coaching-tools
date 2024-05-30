@@ -123,17 +123,17 @@ export class LLTable {
 
     }
     
-    hideShowPerson(fullName, hidden) {
-        DEBUG.logArgs('LLTable.hideShowPerson', arguments);
+    hideRow(fullName, bHide) {
+        DEBUG.logArgs('LLTable.hideRow', arguments);
         let $table = $(this.cTableId);
         let data = $table.bootstrapTable('getData');  
         let nIndex = data.findIndex(person => { DEBUG.log(person.fullName); return person.fullName === fullName;});
         DEBUG.log('nIndex is', nIndex, '');
-        $table.bootstrapTable(hidden ? 'check' : 'uncheck', nIndex);
+        $table.bootstrapTable(bHide ? 'uncheck' : 'check', nIndex);
     }
     
-    hideShowColumn(columnName, bHidden) {
-        DEBUG.logArgs('LLTable.hideShowColumn', arguments);
+    hideColumn(columnName, bHidden) {
+        DEBUG.logArgs('LLTable.hideColumn', arguments);
         let $table = $(this.cTableId);
         $table.bootstrapTable(bHidden ? 'hideColumn' : 'showColumn', columnName);
         

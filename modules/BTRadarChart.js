@@ -84,12 +84,11 @@ export class LLRadarChart {
      * @param {string} cLabel Label to hide (note cannot handle duplicate labels at this point in time)
      * @param {boolean} bHidden If true, hide this dataset, otherwise, show this dataset.
      */
-    hideShowDataset(cLabel, bHidden) {
+    hideDataset(cLabel, bHidden) {
         // The row in the table and the dataset indx in the chart do not necessarily match.
-        DEBUG.logArgs('LLRadarChart.hideShowDataset(cLabel, bHidden)', arguments);
-        DEBUG.log('datasets', this.chart.data.datasets);
+        DEBUG.logArgs('LLRadarChart.hideDataset(cLabel, bHidden)', arguments);
         let nIndex = this.chart.data.datasets.findIndex(dataset => dataset.label === cLabel);
-        DEBUG.log('Found', nIndex);
+        DEBUG.log('Index in dataset is', nIndex);
         this.chart.data.datasets[nIndex].hidden = bHidden; 
         this.chart.update();
     }

@@ -70,7 +70,7 @@ export class LLMediator {
         //    }... ]
         //}
         let chartData = {
-            labels: columnState.filter(key => columnState[key]).map(key => LLLABELS[key]),     
+            labels: LLKEYS.filter(key => columnState[key]).map(key => LLLABELS[key]),     
             datasets: []
         };
         
@@ -80,7 +80,7 @@ export class LLMediator {
             
             chartData.datasets.push({
                 label: person.fullName,
-                data: columnState.filter(key => columnState[key]).map(key => person[key]),
+                data: LLKEYS.filter(key => columnState[key]).map(key => person[key]),
                 backgroundColor: `hsla(${hue}, 70%, 50%, 25%)`, 
                 borderColor: `hsl(${hue}, 70%, 50%)`,
                 fill: true,
@@ -142,13 +142,9 @@ export class LLMediator {
      */
     onClickLegendGraph(cLabel, bChecked) {
         DEBUG.logArgs('LLMediator.onClickLegendGraph', arguments);
-        
-        // Find key for label.
-        let key = LLKEYS.find(key => LLLABELS[key] == cLabel);
-                       
-        this.columnState[key] = bChecked;
-        this.theTable.hideColumn(key, !bChecked);
-
+        const person = this.people.find(person => person.fullName === cLabel);
+        person.state = true;
+        this.theTable.hideRow(cLabel, !bChecked);
     }
     
     /**
