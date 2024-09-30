@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Life Language Group Radar Graph</title>
+        <!--Fonts-->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet" />
+        
+        <!--Data tables-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/r-3.0.2/sl-2.0.3/datatables.min.css" rel="stylesheet">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/r-3.0.2/sl-2.0.3/datatables.min.js"></script>
+ 
+        <!--Chart.js-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.0"></script>
+   
+        <!--Local-->
+        <link rel="stylesheet" href="./styles/Common.css" />
+        <link rel="stylesheet" href="./styles/Error.css" />
+        <link rel="stylesheet" href="./styles/LifeLanguageRadarGraph.css" />
+    </head>
+    <body>
+        <div id="liveAlertPlaceholder"></div>
+        <div id="radar-graph-grid">
+            <div id="radar-graph" class="radar-graph container col-lg-9 offset-lg-1">
+                <div class="row"><h1 class="bold text-center col-12">Group Life Language Radar Graph</h1></div>
+                <div class="row">
+                    <h2 id="rg-companyname" class="companyname text-center d-none col-12"></h2>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <canvas id="rg-graph"></canvas>
+                    </div>
+                    <div class="col-12">
+                         <table id="rg-table" class="table display bordered dt-select-no-highlight">
+                            <thead></thead>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="copyright col-12">Copyright &copy; Life Languages International.</div>
+                </div>
+            </div>
+        </div>
+        <script type="module">
+            import { ERROR } from "./modules/Error.js";
+            import { DEBUG } from "./modules/Debug.js";
+            import { LLKEYS } from './modules/Common.js';
+            import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
+            import { LLDTRGMediator } from "./modules/LLDTRGMediator.js";
+            
+            let url = new URL(window.location.href);
+
+            // Test data generation
+            //import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
+            //url = testJSON('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
+            //url = testCSV('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
+            //url = testInvalidData('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
+           
+            $('document').ready(function () {
+                try {
+                    function parseNumber(key, value) {
+                        if (typeof value == 'number') return value;
+                        let nValue = parseFloat(value);
+                        if (Number.isNaN(nValue)) return value;
+                        return nValue;
+                    }
+
+                    function parseString(key, value) {
+                        return value;
+                    }
+
+                    const parseKeys = {
+                        fullName: parseString,
+                        mover: parseNumber,
+                        doer: parseNumber,
+                        responder: parseNumber,
+                        influencer: parseNumber,
+                        shaper: parseNumber,
+                        producer: parseNumber,
+                        contemplator: parseNumber,
+                        overallIntensity: parseNumber,
+                        companyName: parseString
+                    };
+
+                    let searchParams = url.searchParams;
+                    let params = {};
+
+                    if (searchParams.has('json')) {
+                        params = JSON.parse(searchParams.get('json'));
+                    } else if (searchParams.has('csv')) {
+                        params = convertCSVtoJSON(searchParams.get('csv'));
+                    } else {
+                        ERROR.assert(false, 'Missing csv or json data in URL.');
+                    }
+
+                    // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
+                    for (let i = 0; i < params.length; i++) {
+                        for (const [key, value] of Object.entries(params[i])) {
+                            params[i][key] =
+                                (key in parseKeys) ? parseKeys[key](key, value) : value;
+                        }
+                    }
+
+                    let theMediator = new LLDTRGMediator(params, 'rg-table', 'rg-graph');
+                } catch (e) {
+                    ERROR.appendAlert(e, 'error');
+                }
+            });
+        </script>
+    </body>
+</html>

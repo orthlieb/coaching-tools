@@ -1,0 +1,67 @@
+body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    margin: 0.25in;
+}
+
+ 
+@media print {
+    :root {
+        --rg-title-font-size: 0.75em;
+        --rg-companyname-font-size: 0.62em;
+        --rg-copyright-font-size: 0.37em;
+    }
+}
+
+@media screen {
+    :root {
+        --rg-title-font-size: 1.5em;
+        --rg-companyname-font-size: 1.25em;
+        --rg-copyright-font-size: 0.75em;
+    }
+}
+
+#the-grid {
+    padding: 10px;
+    border: 1px solid black;
+}
+
+#the-chart {
+}
+
+.solo-check {
+    /*text-align: right;*/
+    vertical-align: middle;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.arrow {
+    color: darkgray;
+}
+
+.copyright {
+    font-size: var(--rg-copyright-font-size);
+    font-family: "Roboto Condensed", san-serif;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Remove the background color for selected rows */
+table.dataTable tbody tr.selected>* {
+    color: rgb(33, 37, 41) !important;
+    box-shadow: inset 0 0 0 9999px rgba(255, 255, 255, 0) !important;
+}
+
+body {
+    --bs-body-font-size: 12px;
+}
+
+.dt-button, .btn {
+    font-size: var(--bs-body-font-size);
+}

@@ -1,3 +1,5 @@
+@use "sass:map";
+
 // Color maps for each Life Language: solid, light, dark versions of each color.
 $color-map: (
     mover: hsl(358, 85%, 52%), 
@@ -30,6 +32,13 @@ $dark-color-map: (
 );
 
 $prefixes: mover, doer, influencer, responder, shaper, producer, contemplator;
+
+@each $prefix in $prefixes {
+    .#{$prefix}-highlight {
+        background-color: #{map.get($light-color-map, $prefix)} !important;
+        color: #{map.get($dark-color-map, $prefix)} !important;
+     }
+}
 
 // Life Language solid colors for background, border top (for table > 50 delineation), and text colors.
 @each $prefix, $color in $color-map {

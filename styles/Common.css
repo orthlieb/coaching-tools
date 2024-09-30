@@ -1,3 +1,38 @@
+.mover-highlight {
+  background-color: hsl(358, 85%, 90%) !important;
+  color: hsl(358, 85%, 32%) !important;
+}
+
+.doer-highlight {
+  background-color: hsl(28, 92%, 92%) !important;
+  color: hsl(28, 92%, 34%) !important;
+}
+
+.influencer-highlight {
+  background-color: hsl(48, 100%, 90%) !important;
+  color: hsl(48, 100%, 32%) !important;
+}
+
+.responder-highlight {
+  background-color: hsl(274, 54%, 90%) !important;
+  color: hsl(274, 54%, 21%) !important;
+}
+
+.shaper-highlight {
+  background-color: hsl(218, 52%, 90%) !important;
+  color: hsl(218, 52%, 32%) !important;
+}
+
+.producer-highlight {
+  background-color: hsl(151, 26%, 84%) !important;
+  color: hsl(152, 100%, 15%) !important;
+}
+
+.contemplator-highlight {
+  background-color: hsl(196, 73%, 92%) !important;
+  color: hsl(196, 73%, 34%) !important;
+}
+
 .mover-background {
   background-color: hsl(358, 85%, 52%) !important;
 }

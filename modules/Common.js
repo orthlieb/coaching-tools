@@ -1,72 +1,105 @@
-export const LLKEYS = [
-    'mover',
-    'doer',
-    'influencer',
-    'responder',
-    'shaper',
-    'producer',
-    'contemplator'
-];
+/*
+ * @module modules/Common
+ * @author Carl Orthlieb
+ */
 
-export const LLLABELS = {};
-LLKEYS.forEach(key => LLLABELS[key] = key.charAt(0).toUpperCase() + key.slice(1));
-
-export const LLCOLORS = {
-    mover: 'hsl(358, 85%, 52%)', 
-    doer: 'hsl(28, 92%, 54%)', 
-    influencer: 'hsl(48, 100%, 52%)', 
-    responder: 'hsl(274, 54%, 41%)',
-    shaper: 'hsl(218, 52%, 52%)', 
-    producer: 'hsl(152, 100%, 20%)', 
-    contemplator: 'hsl(196, 73%, 54%)'
-};
-
-export const LLCOLORS_LIGHT = {
-    mover: 'hsl(358, 85%, 90%)',
-    doer: 'hsl(28, 92%, 92%)',
-    influencer: 'hsl(48, 100%, 90%)',
-    responder:' hsl(274, 54%, 90%)',    
-    shaper:' hsl(218, 52%, 90%)',
-    producer: 'hsl(151, 26%, 84%)',
-    contemplator: 'hsl(196, 73%, 92%)'
-};
-
-export const LLCOLORS_DARK = {
-    mover: 'hsl(358, 85%, 32%)', 
-    doer: 'hsl(28, 92%, 34%)', 
-    influencer: 'hsl(48, 100%, 32%)', 
-    responder: 'hsl(274, 54%, 21%)',
-    shaper: 'hsl(218, 52%, 32%)', 
-    producer: 'hsl(152, 100%, 15%)', 
-    contemplator: 'hsl(196, 73%, 34%)'
-};
-
-export const LLCOLORS_BACKGROUND = {
-    mover: 'hsla(358, 85%, 32%, 0.2)',
-    doer: 'hsla(28, 92%, 54%, 0.2)',
-    influencer: 'hsla(48, 100%, 52%, 0.2)',
-    responder: 'hsla(274, 54%, 41%, 0.2)',
-    shaper: 'hsla(218, 52%, 52%, 0.2)',
-    producer: 'hsla(152, 100%, 15%, 0.2)',
-    contemplator: 'hsla(196, 73%, 34%, 0.2)'
-};
-
-export const CIKEYS = [
-    'acceptanceLevel',
-    'interactiveStyleScore',
-    'interactiveStyleType',
-    'internalControl',
-    'intrusionLevel',
-    'projectiveLevel',
-    'susceptibilityToStress',
-    'learningPreferenceAuditory',
-    'learningPreferenceVisual',
-    'learningPreferencePhysical'
-];
-
+/**
+ * Common object with useful common routines and keys for Life Languages.
+ */
 export const COMMON = {
+    /**
+     * Keys to use for Life Languages. 
+     */
+    keys: [
+        'mover',
+        'doer',
+        'influencer',
+        'responder',
+        'shaper',
+        'producer',
+        'contemplator'
+    ],
+    /**
+     * Labels to use for Life Languages by key.
+     * XXX Translation into other languages at a later date. 
+    */
+    labels: {
+        mover: 'Mover',
+        doer: 'Doer',
+        influencer: 'Influencer',
+        responder: 'Responder',
+        shaper: 'Shaper',
+        producer: 'Producer',
+        contemplator: 'Contemplator'
+    },
+    colors: {
+        /**
+         * Colors for each of the Life Languages by key.
+         */
+        solid: {
+            mover: 'hsl(358, 85%, 52%)', 
+            doer: 'hsl(28, 92%, 54%)', 
+            influencer: 'hsl(48, 100%, 52%)', 
+            responder: 'hsl(274, 54%, 41%)',
+            shaper: 'hsl(218, 52%, 52%)', 
+            producer: 'hsl(152, 100%, 20%)', 
+            contemplator: 'hsl(196, 73%, 54%)'
+        },
+        /**
+         * Lighter version of colors to be used as backgrounds by key.
+         */
+        light: {
+            mover: 'hsl(358, 85%, 90%)',
+            doer: 'hsl(28, 92%, 92%)',
+            influencer: 'hsl(48, 100%, 90%)',
+            responder:' hsl(274, 54%, 90%)',    
+            shaper:' hsl(218, 52%, 90%)',
+            producer: 'hsl(151, 26%, 84%)',
+            contemplator: 'hsl(196, 73%, 92%)'
+        },
+        /**
+         * Darker version of colors to be used as text colors. Access via LLCOLORS_DARK[key].
+         */
+        dark: {
+            mover: 'hsl(358, 85%, 32%)', 
+            doer: 'hsl(28, 92%, 34%)', 
+            influencer: 'hsl(48, 100%, 32%)', 
+            responder: 'hsl(274, 54%, 21%)',
+            shaper: 'hsl(218, 52%, 32%)', 
+            producer: 'hsl(152, 100%, 15%)', 
+            contemplator: 'hsl(196, 73%, 34%)'
+        },
+       /**
+        * Background colors that include a level of transparency. Access via LLCOLORS_BACKGROUND[key].
+        */
+        background: {
+            mover: 'hsla(358, 85%, 32%, 0.2)',
+            doer: 'hsla(28, 92%, 54%, 0.2)',
+            influencer: 'hsla(48, 100%, 52%, 0.2)',
+            responder: 'hsla(274, 54%, 41%, 0.2)',
+            shaper: 'hsla(218, 52%, 52%, 0.2)',
+            producer: 'hsla(152, 100%, 15%, 0.2)',
+            contemplator: 'hsla(196, 73%, 34%, 0.2)'
+        }
+    },
+    /**
+     * Set of keys for Communication Indicators.
+     */
+    cikeys: [
+        'acceptanceLevel',
+        'interactiveStyleScore',
+        'interactiveStyleType',
+        'internalControl',
+        'intrusionLevel',
+        'projectiveLevel',
+        'susceptibilityToStress',
+        'learningPreferenceAuditory',
+        'learningPreferenceVisual',
+        'learningPreferencePhysical'
+    ],
    /**
      * Evaluates whether Score is VERY LOW, LOW, MODERATE, HIGH or VERY HIGH.
+     * Suitable for displaying arrows or colors from another array.
      * @param {number} nValue The value to be evaluated.
      * @returns {number} Returns an integer between 0 and 4 suitable for indexing into an array.
      */
@@ -78,4 +111,14 @@ export const COMMON = {
         return 4;                       // bi-arrow-up score-arrow "\D83E\DC70"; "&#x1F879;"; up
     }
 };
+
+// Backwards compatibility, deprecated.
+export const LLKEYS = COMMON.keys;
+export const LLLABELS = COMMON.labels;
+export const LLCOLORS = COMMON.colors.solid;
+export const LLCOLORS_LIGHT = COMMON.colors.light;
+export const LLCOLORS_DARK = COMMON.colors.dark;
+export const LLCOLORS_BACKGROUND = COMMON.colors.background;
+export const CIKEYS = COMMON.cikeys;
+
 

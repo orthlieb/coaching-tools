@@ -10,7 +10,6 @@ body {
         --rg-title-font-size: 0.75em;
         --rg-companyname-font-size: 0.62em;
         --rg-copyright-font-size: 0.37em;
-        --rg-table-font-size: 0.5em;
     }
 }
 
@@ -19,7 +18,6 @@ body {
         --rg-title-font-size: 1.5em;
         --rg-companyname-font-size: 1.25em;
         --rg-copyright-font-size: 0.75em;
-        --rg-table-font-size: 0.75em;
     }
 }
 
@@ -28,34 +26,16 @@ body {
     border: 1px solid black;
 }
 
-.display {
-    font-size: var(--rg-display-font-size);
-    text-align: left;
-    border-style: hidden;
-}
-
-.vheader {
-    padding-right: 4px !important;
-    text-align: center;
-}
-
-.vertical {
-    writing-mode: vertical-lr; 
-    transform:  rotate(180deg);
-}
-
 .solo-check {
-    text-align: right;
+    /*text-align: right;*/
     vertical-align: middle;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 
-.score-table {
-    table-layout:fixed;  
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.dropdown-menu {
+    max-height: 250px;
+    overflow-y: auto;
 }
 
 .arrow {
@@ -67,4 +47,18 @@ body {
     font-family: "Roboto Condensed", san-serif;
     text-align: center;
     padding: 10px;
+}
+
+/* Remove the background color for selected rows */
+table.dataTable tbody tr.selected>* {
+    color: rgb(33, 37, 41) !important;
+    box-shadow: inset 0 0 0 9999px rgba(255, 255, 255, 0) !important;
+}
+
+body {
+    --bs-body-font-size: 12px;
+}
+
+.dt-button, .btn {
+    font-size: var(--bs-body-font-size);
 }
