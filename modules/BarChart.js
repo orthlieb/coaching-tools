@@ -17,7 +17,6 @@ export class BarChart {
         DEBUG.logArgs('BarChart.loadData(chartData)', arguments);
         this.chart.data = chartData;
         this.chart.options.plugins.annotation.annotations = chartData.annotations;
-        
         this.chart.update();
     }
     

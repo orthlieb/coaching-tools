@@ -16,8 +16,8 @@
         <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/r-3.0.2/sl-2.0.3/datatables.min.js"></script>
 
         <!--Chart.js-->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="./modules/chartjs-plugin-annotation.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js" integrity="sha512-Hn1w6YiiFw6p6S2lXv6yKeqTk0PLVzeCwWY9n32beuPjQ5HLcvz5l2QsP+KilEr1ws37rCTw3bZpvfvVIeTh0Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>        
         
         <!--Local-->
         <link rel="stylesheet" href="./styles/Common.css" />
@@ -58,9 +58,9 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            // import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
+            import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
-            // url = testCSV('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
+            url = testCSV('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
            
             $('document').ready(function () {

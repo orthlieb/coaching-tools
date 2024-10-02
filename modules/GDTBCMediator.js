@@ -106,7 +106,7 @@ export class GDTBCMediator {
         const minToAvgDataset = {
             label: 'Min to Avg',
             data: scores.map(item => [ item.min, item.avg ]),
-            backgroundColor: scores.map(item => COMMON.colors.light[item.key]),
+            backgroundColor: scores.map(item => COMMON.colors.solid[item.key]),
             borderColor: 'white',
             borderWidth: 1
         };
@@ -114,7 +114,7 @@ export class GDTBCMediator {
         const avgToMaxDataset = {
             label: 'Avg to Max',
             data: scores.map(item => item.max - item.avg), // Difference to stack on top
-            backgroundColor: scores.map(item =>  COMMON.colors.light[item.key]),
+            backgroundColor: scores.map(item =>  COMMON.colors.solid[item.key]),
             borderColor: 'white',
             borderWidth: 1
         };
@@ -152,22 +152,9 @@ export class GDTBCMediator {
 
         let yMin = Math.round(Math.min(scores[0], scores[scores.length - 1]));
         let yMax = Math.round(yMin + Math.abs(scores[0] - scores[scores.length - 1]));
+        DEBUG.log('_prepAnnotationData yMin', yMin, 'yMax', yMax);
         
         const annotationData = {
-            // 50 line for the chart.
-            line1: {
-                type: 'line',
-                yMin: 50,
-                yMax: 50,
-                borderColor: 'black',
-                borderWidth: 1,
-                label: {
-                    content: '50',
-                    enabled: true,
-                    position: 'center'
-                },
-                drawTime: 'beforeDatasetsDraw'
-            },
             // Range box
             box1: {
                 // This will be the range as a gray box
@@ -177,23 +164,17 @@ export class GDTBCMediator {
                 yMin: yMin,
                 yMax: yMax,
                 borderWidth: 0,
-                backgroundColor: 'rgba(200, 200, 200, 0.5)',
+                backgroundColor: 'lightgray',
                 drawTime: 'beforeDatasetsDraw'
             },
-            label1: {
-                type: 'label',
-                xValue: 50, // Adjust xValue to place it inside the box
-                yValue: yMax - yMin + 12, // Adjust yValue to place it inside the box
-                backgroundColor: 'rgba(0, 0, 0, 0.0)', // Transparent background
-                color: 'white', // Label text color
-                content: [`Range: ${yMax - yMin}`],
-                font: {
-                    size: 12,
-                    weight: 'bold'
-                },
-                padding: 4,
-                position: 'center',
-                textAlign: 'center'
+            // 50 line for the chart.
+            line1: {
+                type: 'line',
+                yMin: 50,
+                yMax: 50,
+                borderColor: 'darkgray',
+                borderWidth: 1,
+                drawTime: 'beforeDatasetsDraw'
             }
         };   
         
