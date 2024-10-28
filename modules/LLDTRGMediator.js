@@ -30,15 +30,13 @@ export class LLDTRGMediator {
             $('.companyname').html(companyName).removeClass('d-none');
         
         let tableData = this._prepTableData(this.people);
-        this.theTable = new DTTable(tableId, tableData);
-        this.theTable.mediator = this;
+        this.theTable = new DTTable(tableId, tableData, this);
         
         // Columns holds the state of whether a particular dataset is visible or hidden.
         this.columnState = {};
         LLKEYS.forEach(key => this.columnState[key] = true);
         let chartData = this._prepChartData(this.columnState, this.people);
-        this.theChart = new RadarChart(graphId, chartData);
-        this.theChart.mediator = this;
+        this.theChart = new RadarChart(graphId, chartData, this);
     }
     
     /**

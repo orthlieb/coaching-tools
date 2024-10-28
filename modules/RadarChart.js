@@ -27,10 +27,13 @@ export class RadarChart {
      * @param {array} data Array of datasets objects, each composed of key value pairs of data.
      * @param {array} columns Array of strings naming the keys, in order, to extract from each dataset.
      * @param {array} labels Array of strings to use as labels for each column.
+     * @param {object} [mediator] Mediator object to handle events. Default is null.
      * @constructor
      */
-    constructor(id, chartData, chartOptions = { displayLegend: true, legendPosition: 'right' }) {
+    constructor(id, chartData, chartOptions = { displayLegend: true, legendPosition: 'right' }, mediator = null) {
         DEBUG.logArgs('RadarChart.constructor(id, chartData, chartOptions)', arguments);
+        this.mediator = mediator;
+        
         const config = {
             type: "radar",
             data: chartData,

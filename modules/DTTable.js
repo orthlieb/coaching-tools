@@ -15,11 +15,13 @@ export class DTTable {
      * DTTable class constructor
      * @param {string} cTableId HTML ID of the table we are creating.
      * @param {array} data Data to display in the table. 
+     * @param {object} mediator Mediator object that will catch events.
      * @returns {object} Initialized DTTable object.
      * @constructor
      */
-    constructor(cTableId, data) {
+    constructor(cTableId, data, mediator = null) {
         DEBUG.logArgs('DTTable.constructor(cTableId, data)', arguments);
+        this.mediator = mediator;
         this.cTableId = '#' + cTableId;
         let that = this;
         let $table = $(this.cTableId);
@@ -44,35 +46,29 @@ export class DTTable {
                     className: 'col-1'
                 },
                 { targets: 1, className: 'col-4', asSorting: ['asc', 'desc'] },
-                { targets: [ 2, 3, 4, 5, 6, 6, 8 ], align: 'right', className: 'col-1', asSorting: ['asc', 'desc'] },
+                { targets: [ 2, 3, 4, 5, 6, 7, 8 ], align: 'right', className: 'col-1', asSorting: ['asc', 'desc'] },
              ],
             footer: true,
-            footerCallback: function updateFooter() { that._updateFooter($table); },
-            layout: {
-                topStart: null,
-                topEnd: {
-                    buttons: [
-                        {
-                            text: 'Life Languages',
-                            extend: 'colvis',
-                            columns: 'th:nth-child(n+3)',
-                            columnText: function (dt, nIndex, cTitle) {
-                                if (nIndex > 1)
-                                    return LLLABELS[LLKEYS[nIndex - 2]];
-                                return cTitle;
-                            }
-                        }
-                    ]
-                }
-            }
         };
+        if (data.layout)
+            tableData.layout = data.layout;
         
         let dt = $table.DataTable(tableData);
+        // Use rows().every() to loop through each row and select rows where state is true
+        dt.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            var data = this.data(); // Get the row's data
+
+            // Check if the 'state' property is true
+            if (data.state === true) {
+                this.select(); // Select the row
+            }
+        });
+        
+        // Register events.
         dt.on('column-visibility.dt', that._onColumnVisibility.bind(that));
         dt.on('order.dt', that._onSort.bind(that));
         dt.on('select.dt', that._onSelect.bind(that));
         dt.on('deselect.dt', that._onDeselect.bind(that));
-        dt.rows().select();
         
         // Handle printing events.
         window.addEventListener("beforeprint", (event) => {
@@ -81,7 +77,8 @@ export class DTTable {
         window.addEventListener("afterprint", (event) => {
             $('div.dt-buttons').removeClass('d-none');
         });
-
+        
+        dt.draw();
     }
     
     /**
@@ -113,8 +110,6 @@ export class DTTable {
         let $table = $(this.cTableId);
         let dt = $table.DataTable();
 
-        //this._updateColumnHighlight($table);
-        
         // Remove previous 50 line
         $table.find('tbody tr').removeClass((index, className) => {
             return (className.match(/\b\w+-border-top\b/g) || []).join(' ');
@@ -182,7 +177,7 @@ export class DTTable {
     /**
      * When checkbox is selected/unselected.
      * @param {object} e jQuery event object.
-     * @param {object} dt DataTables API instance
+     * @param {object} dxt DataTables API instance
      * @param {string} type Items being selected. This can be row, column or cell.
      * @param {array} aIndexes The DataTables indexes of the selected items.
      * @private
@@ -252,36 +247,9 @@ export class DTTable {
     _updateFooter($table) {
         DEBUG.logArgs('table._updateFooter($table)', arguments); 
         let dt = $table.DataTable();
-        let arrows = [ 'bi-arrow-down', 'bi-arrow-down-right', 'bi-arrow-right', 'bi-arrow-up-right', 'bi-arrow-up' ];
-
-        // Data for selected rows
-        const selectedRows = dt.rows({ selected: true }).data();
-
-        // Array indicating which columns are visible true/false.
-        const visibleColumns = dt.columns().visible();
-
-        // Find the average values for each column.
-        const aAverages = LLKEYS.map(function (key, index) {
-            if (visibleColumns[index + 2]) {
-                // Data for selected rows
-                const aValues = selectedRows.map(row => { 
-                    return row[key];
-                });
-                return aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
-            } else 
-                return undefined;   // Skip this column.
-        });
-                
-        // Build the footer
-        let cFooter = aAverages.reduce((accumulator, nAverage) => {
-            if (nAverage == undefined)
-                return accumulator;
-            accumulator += '<th class="col-1 text-end">';
-            if (nAverage > 0)
-                accumulator += `<i class="bi ${arrows[COMMON.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}</th>`;
-            return accumulator += '</th>';
-        }, '<tr><th class="col-1"></th><th class="col-4">Group Average</th>');
-        cFooter += '</tr>';
+        let cFooter = "";
+        if (this.mediator)
+            cFooter = this.mediator.tableUpdateFooter(dt.columns().dataSrc(), dt.rows({ selected: true }).data(), dt.columns().visible());
 
         $(dt.table().footer()).html(cFooter); 
         this._updateColumnHighlight($table);

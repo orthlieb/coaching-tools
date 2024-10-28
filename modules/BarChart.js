@@ -26,10 +26,12 @@ export class BarChart {
      * @param {array} chartData Array of datasets objects, each composed of key value pairs of data.
      * @param {object} chartOptions Set of options for displaying legend and where.
      * @param {object} annotationData Annotations to add to the chart.
+     * @param {object} [mediator] Mediator object to handle events. Default is null.
      * @constructor
      */
-    constructor(id, chartData, chartOptions = { displayLegend: true, legendPosition: 'right' }) {
+    constructor(id, chartData, chartOptions = { displayLegend: true, legendPosition: 'right' }, mediator = null) {
         DEBUG.logArgs('BarChart.constructor(id, chartData, chartOptions)', arguments);
+        this.mediator = mediator;
 
         // Configuration for the chart
         const config = {
@@ -45,7 +47,9 @@ export class BarChart {
                     y: {
                         stacked: true,
                         max: 100,
-                        stepSize: 10
+                        ticks: {
+                            stepSize: 10 // Display values in increments of 10
+                        }
                     }
                 },
                 plugins: {

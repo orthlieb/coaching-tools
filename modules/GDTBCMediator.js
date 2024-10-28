@@ -1,5 +1,5 @@
 /*
- * @module modules/PDTRGMediator
+ * @module modules/Mediator
  * @author Carl Orthlieb
  */
 
@@ -16,12 +16,13 @@ export class GDTBCMediator {
     /**
      * Mediator for Datatables Group Barchart
      * @param {array} data Array of people objects (unvalidated).
-     * @param {string} tableId Id of the table element to use.
+     * @param {string} tableId Id of the table element to use for individual people.
+     * @param {string} tableLLId Id of the table element to use for group scores.
      * @param {string} graphId Id of the graph element to use.
      * @returns Mediator object
      * @constructor
      */
-    constructor(data, tableId, graphId) {
+    constructor(data, tableId, tableIdLL, graphId) {
         this.debounce = true;
         this.people = this._validateData(data);
         this.people.forEach((person, index, array) => person.state = true);
@@ -31,15 +32,15 @@ export class GDTBCMediator {
             $('.companyname').html(companyName).removeClass('d-none');
         
         let tableData = this._prepTableData(this.people);
-        this.theTable = new DTTable(tableId, tableData);
-        this.theTable.mediator = this;
-        
+        this.theTable = new DTTable(tableId, tableData, this);
+
+        this._loadLLTable(this.people);
+
         // Columns holds the state of whether a particular dataset is visible or hidden.
         this.columnState = {};
         COMMON.keys.forEach(key => this.columnState[key] = true);
         let chartData = this._prepChartData(this.columnState, this.people);
-        this.theChart = new BarChart(graphId, chartData, { displayLegend: false });
-        this.theChart.mediator = this;
+        this.theChart = new BarChart(graphId, chartData, { displayLegend: false }, this);
     }
     
     /**
@@ -49,6 +50,8 @@ export class GDTBCMediator {
      * @private
      */
     _validateData(data) {
+        DEBUG.logArgs('Mediator._validateData(data)', arguments);
+
         let people = [];
         for (let i = 0; i < data.length; i++) {
             try {
@@ -71,6 +74,8 @@ export class GDTBCMediator {
      * @returns {array} Array of sorted objects, with key, min, avg, and max values for each Life Language.
      */
     _getSortedScores(people) {
+        DEBUG.logArgs('Mediator._getSortedScores(people)', arguments);
+
         // Filter people with state true
         const activePeople = people.filter(person => person.state);
 
@@ -80,12 +85,29 @@ export class GDTBCMediator {
             const min = Math.round(Math.min(...values));
             const max = Math.round(Math.max(...values));
             const avg = Math.round(values.reduce((sum, val) => sum + val, 0) / values.length);
+            const rating = COMMON.scoreLabels[COMMON.evaluateScoreLevel(avg)];
+            const languageLabel = COMMON.labels[key];
 
-            return { key, min, avg, max };
+            // Calculate standard deviation: this is how spread or clumped the data is. 1 = very concentrated, 0 = spread out
+            const variance = values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / values.length;
+            const stdDev = Math.round(Math.sqrt(variance));
+            
+            return { key, min, avg, max, stdDev, rating, languageLabel };
         });
 
         // Sort the scores in descending order by average score
-        return scores.sort((a, b) => b.avg - a.avg);        
+        scores.sort((a, b) => b.avg - a.avg);   
+        
+        // Calculate the score order label and gap.
+        let lastScore = 0;
+        scores.map((score, index) => {
+            score.gap = Math.max(lastScore - score.avg, 0);
+            lastScore = score.avg;
+            
+            return score;
+        });
+        
+        return scores;
     }
     
     /**
@@ -97,7 +119,7 @@ export class GDTBCMediator {
      * @private
      */
     _prepChartData(columnState, people) {
-        DEBUG.logArgs('_prepChartData(columnState, people)', arguments);
+        DEBUG.logArgs('Mediator._prepChartData(columnState, people)', arguments);
 
         let scores = this._getSortedScores(people);
         let that = this;
@@ -105,8 +127,8 @@ export class GDTBCMediator {
         // Create datasets for the low to average and average to high values
         const minToAvgDataset = {
             label: 'Min to Avg',
-            data: scores.map(item => [ item.min, item.avg ]),
-            backgroundColor: scores.map(item => COMMON.colors.solid[item.key]),
+            data: scores.map(score => [ score.min, score.avg ]),
+            backgroundColor: scores.map(score => COMMON.colors.solid[score.key]),
             borderColor: 'white',
             borderWidth: 1
         };
@@ -131,7 +153,8 @@ export class GDTBCMediator {
                         const dataIndex = tooltipItem.dataIndex;
                         
                         // Display the custom label with the value
-                        return `Min: ${scores[dataIndex].min}\nAvg: ${scores[dataIndex].avg}\nMax: ${scores[dataIndex].max}`;
+                        return `Min: ${scores[dataIndex].min} Avg: ${scores[dataIndex].avg}\nMax: ${scores[dataIndex].max}`; 
+                        //Spread: ${Math.round(scores[dataIndex].stdDev / (scores[dataIndex].max - scores[dataIndex].min) * 100)}%`;
                     }
                 }
             }
@@ -143,16 +166,15 @@ export class GDTBCMediator {
    /**
      * Prepare annotations for the chart.
      * @method
-     * @param {array} scores Scores that will be displayed.
+     * @param {array} scores Scores that will be displayed. Assumed to be in ascending or descending order.
      * @returns {object} Prepared data for the annotations.
      * @private
      */
     _prepAnnotationData(scores) {
-        DEBUG.logArgs('_prepAnnotationData(scores)', arguments);
+        DEBUG.logArgs('Mediator._prepAnnotationData(scores)', arguments);
 
         let yMin = Math.round(Math.min(scores[0], scores[scores.length - 1]));
         let yMax = Math.round(yMin + Math.abs(scores[0] - scores[scores.length - 1]));
-        DEBUG.log('_prepAnnotationData yMin', yMin, 'yMax', yMax);
         
         const annotationData = {
             // Range box
@@ -189,37 +211,145 @@ export class GDTBCMediator {
      * @private
      */
     _prepTableData(people) {
-        let columns = COMMON.keys.map(key => { return { 
-            name: key, 
-            data: key, 
-            title: COMMON.labels[key][0], 
-            orderSequence: ['desc', 'asc'] }; });
-        columns.unshift({ name: 'name', data: 'fullName', title: 'Name' });
-        columns.unshift({ data: 'state', title: '' });
+        DEBUG.log('Mediator._prepTableData(people)', arguments);
+
+        let columns = COMMON.keys.map(key => { 
+            return { 
+                name: key, 
+                data: key, 
+                title: COMMON.labels[key][0], 
+                orderSequence: ['desc', 'asc'] 
+            };
+        });
+        columns.unshift({ name: 'name', data: 'fullName', title: 'Name' }); // XXX Translation
+        columns.unshift({ name: 'state', data: 'state', title: '' });
+        columns.push({ name: 'overallIntensity', data: 'overallIntensity', title: 'OI', orderSequence: ['desc', 'asc']}); // XXX Translation
         let tableData = {
             data: people,
             columns: columns
         };
-
+        
+        tableData.layout = {
+            topStart: null,
+            topEnd: {
+                buttons: [
+                    {
+                        text: 'Life Languages', // XXX Translation
+                        extend: 'colvis',
+                        columns: 'th:nth-child(n+3)',
+                        columnText: function (dt, nIndex, cTitle) {
+                            if (nIndex == 9)
+                                return 'Overall Intensity';
+                            if (nIndex > 1)
+                                return COMMON.labels[COMMON.keys[nIndex - 2]];
+                            return cTitle;
+                        }
+                    }
+                ]
+            }
+        };
+        
         return tableData;
+    }
+
+    /**
+     * Update the data in the LL table.
+     * @method
+     * @param {array} scores Scores that will be displayed. Assumed to be in ascending or descending order.
+     * @returns {object} Prepared data for initializing and loading the table.
+     * @private
+     */
+    _loadLLTable(people) {
+        DEBUG.log('Mediator._loadLLTableValues(scores)', arguments);
+        
+        const scores = this._getSortedScores(people);
+        
+        // Loop through each row and update the corresponding values
+        const table = document.getElementById('the-ll-table');
+        const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        [...rows].forEach((row, index) => {
+            DEBUG.log('## row, index', row, index);
+            row.querySelector('.lllanguage').textContent = scores[index].languageLabel;
+            row.querySelector('.llscore').textContent = scores[index].avg;
+            row.querySelector('.llrating').textContent = scores[index].rating;
+            let gapSymbol = '';
+            if (index != 0) {
+                if (scores[index].gap < 5)
+                    gapSymbol = '<i class="bi bi-arrows-collapse"></i>';
+                else if (scores[index].gap > 10)
+                    gapSymbol = '<i class="bi bi-arrows-expand"></i>';
+            }
+            DEBUG.log("## gap, gapSymbol", scores[index].gap, gapSymbol);
+            row.querySelector('.llgap').innerHTML = index == 0 ? ' ' : `${gapSymbol} &nbsp; ${scores[index].gap}`;
+        
+        });
+        
+        // Handle the table footer.
+        const activePeople = people.filter(person => person.state);
+        const nRange = Math.abs(scores[0].avg - scores[6].avg);
+        const overallIntensity = Math.round(activePeople.reduce((sum, person) => sum + person.overallIntensity, 0) / activePeople.length);
+        document.getElementById('llrange').textContent = nRange;
+        document.getElementById('lloi').textContent = overallIntensity; 
+        document.getElementById('lloirating').textContent = COMMON.scoreLabels[COMMON.evaluateScoreLevel(overallIntensity)];
+    }
+    
+    /**
+     * Update footer
+     * @method
+     * @param {array} data Array of the data in the table with each row containing an object with the key containing the datum.
+     * @param {array} selectedRows Array containing true/false as to which of the rows are selected.
+     * @param {array} visibleColumns Array containing true/false as to which of the columns are visible.
+     * @public
+     */
+    tableUpdateFooter(data, selectedRows, visibleColumns) {
+        DEBUG.log('Mediator.tableUpdateFooter(data, selectedRows, visibleColumns)', arguments);
+
+        // Find the average values for each column.
+        const aAverages = data.map(function (key, index) {
+            if (visibleColumns[index] && index > 1) {
+                // Data for selected rows
+                const aValues = selectedRows.map(row => { 
+                    return row[key];
+                });
+                return aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
+            } else 
+                return undefined;   // Skip this column.
+        });
+        
+        // Build the footer
+        let arrows = [ 'bi-arrow-down', 'bi-arrow-down-right', 'bi-arrow-right', 'bi-arrow-up-right', 'bi-arrow-up' ];
+        let cFooter = aAverages.reduce((accumulator, nAverage) => {
+            if (nAverage == undefined)
+                return accumulator;
+            accumulator += '<th class="col-1 text-end">';
+            if (nAverage > 0)
+                accumulator += `<i class="bi ${arrows[COMMON.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}</th>`;
+            return accumulator += '</th>';
+        }, '<tr><th class="col-1"></th><th class="col-4">Group Average</th>');
+        cFooter += '</tr>';
+        
+        return cFooter;
     }
          
     /**
-     * Event listener when one of the rows in the table is unselected.
+     * Event listener when one of the rows in the table is selected/unselected.
      * @method
      * @param {array} aRows Array of row data that was selected.
      * @param {boolean} bSelect True if rows are to be selected, false otherwise.
      * @public
      */
     tableSelectRow(aRows, bSelect) {
-        DEBUG.logArgs('PDTRGMediator.tableSelectRow(aRows, bSelect)', arguments);
-        
+        DEBUG.logArgs('Mediator.tableSelectRow(aRows, bSelect)', arguments);
+        DEBUG.log('## this.debounce', this.debounce);
         if (this.debounce) {
             this.debounce = false;
             aRows.forEach(row => {
                 const person = this.people.find(person => person.id === row.id);
                 person.state = bSelect;
             });
+            
+            this._loadLLTable(this.people);
+            
             let chartData = this._prepChartData(this.columnState, this.people);
             this.theChart.loadData(chartData);
             this.debounce = true;
@@ -234,7 +364,7 @@ export class GDTBCMediator {
      * @public
      */
     tableHideColumn(key, bChecked) {
-        DEBUG.logArgs('PDTRGMediator.tableHideColumn(key, bChecked)', arguments);
+        DEBUG.logArgs('Mediator.tableHideColumn(key, bChecked)', arguments);
     }
         
     /**
@@ -245,6 +375,6 @@ export class GDTBCMediator {
      * @public
      */
     graphClickLegend(nIndex, bHidden) {
-        DEBUG.logArgs('PDTRGMediator.graphClickLegend(nIndex, bChecked)', arguments);
+        DEBUG.logArgs('Mediator.graphClickLegend(nIndex, bChecked)', arguments);
     }
 }

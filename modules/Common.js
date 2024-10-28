@@ -97,6 +97,13 @@ export const COMMON = {
         'learningPreferenceVisual',
         'learningPreferencePhysical'
     ],
+    
+    /**
+     * Set of labels for score ratings. 
+     * XXX Translation into other languages at a later date. 
+     */
+    scoreLabels: [ 'Very Low', 'Low', 'Moderate', 'High', 'Very High'],
+
    /**
      * Evaluates whether Score is VERY LOW, LOW, MODERATE, HIGH or VERY HIGH.
      * Suitable for displaying arrows or colors from another array.
