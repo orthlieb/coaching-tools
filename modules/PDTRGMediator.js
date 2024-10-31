@@ -4,8 +4,9 @@
  */
 
 import { ERROR } from "./Error.js";
-import { LLKEYS, LLLABELS, LLCOLORS, LLCOLORS_LIGHT, LLCOLORS_BACKGROUND, LLCOLORS_DARK } from "./Common.js";
+import { COMMON } from "./Common.js";
 import { DEBUG } from "./Debug.js";
+import { STRINGS } from "./Strings.js";
 
 import { RadarChart } from "./RadarChart.js";
 import { DTTable } from "./DTTable.js";
@@ -35,7 +36,7 @@ export class PDTRGMediator {
         
         // Columns holds the state of whether a particular dataset is visible or hidden.
         this.columnState = {};
-        LLKEYS.forEach(key => this.columnState[key] = true);
+        COMMON.llKeys.forEach(key => this.columnState[key] = true);
         let chartData = this._prepChartData(this.columnState, this.people);
         this.theChart = new RadarChart(graphId, chartData, this);
     }
@@ -76,20 +77,20 @@ export class PDTRGMediator {
         //    datasets: [{
         //        label: 'John Doe',
         //        data: [65, 59, 90, 81, 56, 55],
-        //        backgroundColor: LLCOLORS_BACKGROUND[nIndex],
-        //        borderColor: LLCOLORS[nIndex]
+        //        backgroundColor: COMMON.colors.background[nIndex],
+        //        borderColor: COMMON.colors.solid[nIndex]
         //    }... ]
         //},
         DEBUG.logArgs('_prepChartData', arguments);
         let chartData = {
-            labels: LLKEYS.filter((key, index, array) => columnState[key]).map((key) => LLLABELS[key]),     
+            labels: COMMON.llKeys.filter((key, index, array) => columnState[key]).map((key) => STRINGS.labels[key]),     
             datasets: people.map((person, index, array) => {
                 let hue = (index * 137) % 360;
                 return {
                     id: index,
                     label: person.fullName,
-                    data: LLKEYS.filter(key => columnState[key]).map(key => person[key]),
-                    ids: LLKEYS.filter(key => columnState[key]),
+                    data: COMMON.llKeys.filter(key => columnState[key]).map(key => person[key]),
+                    ids: COMMON.llKeys.filter(key => columnState[key]),
                     backgroundColor: `hsla(${hue}, 70%, 50%, 25%)`,            
                     borderColor: `hsl(${hue}, 70%, 50%)`,
                     fill: true,
@@ -109,13 +110,31 @@ export class PDTRGMediator {
      * @private
      */
     _prepTableData(people) {
-        let columns = LLKEYS.map(key => { return { 
-            name: key, data: key, title: LLLABELS[key][0], orderSequence: ['desc', 'asc'] }; });
+        let columns = COMMON.llKeys.map(key => { return { 
+            name: key, data: key, title: STRINGS.labels[key][0], orderSequence: ['desc', 'asc'] }; });
         columns.unshift({ name: 'name', data: 'fullName', title: 'Name' });
         columns.unshift({ data: 'state', title: '' });
         let tableData = {
             data: people,
             columns: columns
+        };
+        
+        tableData.layout = {
+            topStart: null,
+            topEnd: {
+                buttons: [
+                    {
+                        text: STRINGS.general.columnVisibility,
+                        extend: 'colvis',
+                        columns: 'th:nth-child(n+3)',
+                        columnText: function (dt, nIndex, cTitle) {
+                            if (nIndex > 1)
+                                return STRINGS.labels[COMMON.llKeys[nIndex - 2]];
+                            return cTitle;
+                        }
+                    }
+                ]
+            }
         };
 
         return tableData;
@@ -162,6 +181,44 @@ export class PDTRGMediator {
         }
     }
         
+ /**
+     * Update footer
+     * @method
+     * @param {array} data Array of the data in the table with each row containing an object with the key containing the datum.
+     * @param {array} selectedRows Array containing true/false as to which of the rows are selected.
+     * @param {array} visibleColumns Array containing true/false as to which of the columns are visible.
+     * @public
+     */
+    tableUpdateFooter(data, selectedRows, visibleColumns) {
+        DEBUG.log('Mediator.tableUpdateFooter(data, selectedRows, visibleColumns)', arguments);
+
+        // Find the average values for each column.
+        const aAverages = data.map(function (key, index) {
+            if (visibleColumns[index] && index > 1) {
+                // Data for selected rows
+                const aValues = selectedRows.map(row => { 
+                    return row[key];
+                });
+                return aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
+            } else 
+                return undefined;   // Skip this column.
+        });
+        
+        // Build the footer
+        let arrows = [ 'bi-arrow-down', 'bi-arrow-down-right', 'bi-arrow-right', 'bi-arrow-up-right', 'bi-arrow-up' ];
+        let cFooter = aAverages.reduce((accumulator, nAverage) => {
+            if (nAverage == undefined)
+                return accumulator;
+            accumulator += '<th class="col-1 text-end">';
+            if (nAverage > 0)
+                accumulator += `<i class="bi ${arrows[COMMON.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}</th>`;
+            return accumulator += '</th>';
+        }, '<tr><th class="col-1"></th><th class="col-4">Group Average</th>');
+        cFooter += '</tr>';
+        
+        return cFooter;
+    }
+    
     /**
      * Event listener when an entry in the chart legend is clicked.
      * @method

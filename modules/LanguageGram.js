@@ -1,5 +1,5 @@
 import { ERROR } from './Error.js';
-import { LLKEYS, LLCOLORS } from './Common.js';
+import { COMMON } from './Common.js';
 
 /**
  * Given a set of Life Languages Data, sorts it into reverse order.
@@ -9,7 +9,7 @@ import { LLKEYS, LLCOLORS } from './Common.js';
 function getSortedScores(data) {
     let aSortedScores = [];
     
-    for (let cLL of LLKEYS) {
+    for (let cLL of COMMON.llKeys) {
         if (cLL == 'overallIntensity')
             continue;
 
@@ -40,7 +40,7 @@ function validateData(data) {
     ERROR.assert('fullName' in data, 'validateData missing parameter data.fullName');
      ERROR.assert(data.fullName, 'string', `validateData "${data.fullName}" parameter data.fullName`);
 
-    for (let cKey of LLKEYS) {
+    for (let cKey of COMMON.llKeys) {
         ERROR.assert(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
         ERROR.assertType(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
         ERROR.assertRange(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
@@ -71,7 +71,7 @@ export function displayLanguageGram(cSuffix, data) {
         let field = lgElement.querySelector('.letter-' + (i + 1));
         field.innerText = cLabel[0];
         if (i < 3) {
-            field.style.backgroundColor = LLCOLORS[cLabel];
+            field.style.backgroundColor = COMMON.colors.solid[cLabel];
         }
 
         field = lgElement.querySelector('.score-' + (i + 1));

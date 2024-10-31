@@ -4,7 +4,7 @@
  */
 import { ERROR } from "./Error.js";
 import { DEBUG } from "./Debug.js";
-import { COMMON, LLKEYS, LLLABELS, LLCOLORS_BACKGROUND } from "./Common.js";
+import { COMMON } from "./Common.js";
 
 /**
  * Class representing a Life Languages scores table for a group of people.
@@ -93,10 +93,14 @@ export class DTTable {
     _onColumnVisibility(e, settings, nColumn, bState) {
         DEBUG.logArgs('table._onColumnVisibility(e, settings, nColumn, bState)', arguments);
         let $table = $(this.cTableId);
+        let dt = $table.DataTable();
+        
         this._updateFooter($table);
 
-        if (this.mediator)
-            this.mediator.tableHideColumn(LLKEYS[nColumn - 2], bState);
+        if (this.mediator) {
+            let columnName = dt.settings().init().columns[nColumn].data;
+            this.mediator.tableHideColumn(columnName, bState); 
+        }
     }
     
     /**
@@ -127,16 +131,15 @@ export class DTTable {
             let nVisibleIndex = dt.column.index('fromData', nSortIndex);
 
             if (nVisibleIndex !== null) {
-                let cLL = LLKEYS[nSortIndex - 2];
-                let cBorderTop = `${cLL}-border-top`;
+                let columnName = dt.settings().init().columns[nSortIndex].data;
                 let bFlag = false;
 
                 // Add new 50 line
                 dt.rows().every(function (rowIdx, tableLoop, rowLoop) {
                     let rowData = this.data();
-                    if (!bFlag && ((cSortDir == 'asc' && rowData[cLL] > 50) || (cSortDir == 'desc' && rowData[cLL] < 50))) {
+                    if (!bFlag && ((cSortDir == 'asc' && rowData[columnName] > 50) || (cSortDir == 'desc' && rowData[columnName] < 50))) {
                         bFlag = true;
-                        $(this.node()).addClass(cBorderTop);
+                        $(this.node()).addClass(`${columnName}-border-top`);
                     }
                 });            
             }
@@ -231,7 +234,9 @@ export class DTTable {
         // Sorted column can be hidden in odd circumstances.
         if (nVisibleIndex !== null) {   
             // Add highlight to column
-            let cHighlight = `${LLKEYS[nSortedIndex - 2]}-highlight`;
+            let columnName = dt.settings().init().columns[nSortedIndex].data;
+
+            let cHighlight = `${columnName}-highlight`;
             $table.find('thead th').eq(nVisibleIndex).addClass(cHighlight);
             $table.find('tfoot th').eq(nVisibleIndex).addClass(cHighlight);
             $table.find('tbody tr').each(function() {

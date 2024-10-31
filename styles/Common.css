@@ -33,6 +33,11 @@
   color: hsl(196, 73%, 34%) !important;
 }
 
+.overallIntensity-highlight {
+  background-color: #bdbbbb !important;
+  color: black !important;
+}
+
 .mover-background {
   background-color: hsl(358, 85%, 52%) !important;
 }
@@ -117,6 +122,18 @@
   color: hsl(196, 73%, 54%) !important;
 }
 
+.overallIntensity-background {
+  background-color: #7f7f7f !important;
+}
+
+.overallIntensity-border-top {
+  border-top: 2px solid #7f7f7f !important;
+}
+
+.overallIntensity-text-color {
+  color: #7f7f7f !important;
+}
+
 .mover-light-background {
   background-color: hsl(358, 85%, 90%) !important;
 }
@@ -145,6 +162,10 @@
   background-color: hsl(196, 73%, 92%) !important;
 }
 
+.overallIntensity-light-background {
+  background-color: #bdbbbb !important;
+}
+
 .mover-dark-text-color {
   color: hsl(358, 85%, 32%) !important;
 }
@@ -171,6 +192,10 @@
 
 .contemplator-dark-text-color {
   color: hsl(196, 73%, 34%) !important;
+}
+
+.overallIntensity-dark-text-color {
+  color: black !important;
 }
 
 .bold {

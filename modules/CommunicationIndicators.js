@@ -1,6 +1,6 @@
 import { ERROR } from './Error.js';
 import { DEBUG } from "./Debug.js";
-import { LLKEYS, CIKEYS } from './Common.js';
+import { COMMON } from './Common.js';
 
 /**
  * Given a set of Life Languages Data, sorts it into reverse order.
@@ -10,7 +10,7 @@ import { LLKEYS, CIKEYS } from './Common.js';
 function getSortedScores(data) {
     let aSortedScores = [];
 
-    for (let cLL of LLKEYS) {
+    for (let cLL of COMMON.llKeys) {
          aSortedScores.push([cLL, data[cLL]]);
     }
 
@@ -373,7 +373,7 @@ function validateData(data) {
     ERROR.assert('fullName' in data, 'validateData missing parameter data.fullName');
     ERROR.assertType(data.fullName, 'string', `validateData "${data.fullName}" parameter data.fullName`);
 
-    for (let cKey of LLKEYS) {
+    for (let cKey of COMMON.llKeys) {
         ERROR.assert(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
         ERROR.assertType(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
         ERROR.assertRange(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
@@ -384,7 +384,7 @@ function validateData(data) {
     ERROR.assertRange(data.overallIntensity, 0, 100, `validateData "${data.fullName}" parameter data.overallIntensity`);
 
 
-    for (let cKey of CIKEYS) {
+    for (let cKey of COMMON.ciKeys) {
         ERROR.assert(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
         if (cKey === "interactiveStyleType") {
             ERROR.assertType(data.interactiveStyleType, 'string', `validateData "${data.fullName}" parameter data.interactiveStyleType`);

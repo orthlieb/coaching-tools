@@ -8,7 +8,8 @@ $color-map: (
     responder: hsl(274, 54%, 41%),
     shaper: hsl(218, 52%, 52%), 
     producer: hsl(152, 100%, 20%), 
-    contemplator: hsl(196, 73%, 54%)
+    contemplator: hsl(196, 73%, 54%),
+    overallIntensity: #7f7f7f
 );
 
 $light-color-map: (
@@ -18,7 +19,8 @@ $light-color-map: (
     responder: hsl(274, 54%, 90%),    
     shaper: hsl(218, 52%, 90%),
     producer: hsl(151, 26%, 84%),
-    contemplator: hsl(196, 73%, 92%)
+    contemplator: hsl(196, 73%, 92%),
+    overallIntensity: #bdbbbb
 );
 
 $dark-color-map: (
@@ -28,10 +30,11 @@ $dark-color-map: (
     responder: hsl(274, 54%, 21%),
     shaper: hsl(218, 52%, 32%), 
     producer: hsl(152, 100%, 15%), 
-    contemplator: hsl(196, 73%, 34%)
+    contemplator: hsl(196, 73%, 34%),
+    overallIntensity: black
 );
 
-$prefixes: mover, doer, influencer, responder, shaper, producer, contemplator;
+$prefixes: mover, doer, influencer, responder, shaper, producer, contemplator, overallIntensity;
 
 @each $prefix in $prefixes {
     .#{$prefix}-highlight {

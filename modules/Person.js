@@ -1,6 +1,6 @@
 import { ERROR } from "./Error.js";
 import { DEBUG } from "./Debug.js";
-import { LLKEYS } from "./Common.js";
+import { COMMON } from "./Common.js";
 
 export class LLPerson {
     constructor(data) {
@@ -14,7 +14,7 @@ export class LLPerson {
 
         this.companyName = data.companyName ? data.companyName : '';
         
-        LLKEYS.forEach((cKey) => {
+        COMMON.llKeys.forEach((cKey) => {
             ERROR.assert(cKey in data, `validatePerson "${data.fullName}" missing parameter person.${cKey}`);
             ERROR.assertType(data[cKey], "number", `validatePerson "${data.fullName}" parameter person.${cKey}`);
             ERROR.assertRange(data[cKey], 1, 100, `validatePerson "${data.fullName}" parameter person.${cKey}`);
@@ -29,7 +29,7 @@ export class LLPerson {
     }
     
     forEachLanguageScore(fCallback, callbackData) {
-        LLKEYS.forEach((cKey) => {
+        COMMON.llKeys.forEach((cKey) => {
             fCallback(this[cKey], cKey, callbackData);
         });    
     } 

@@ -6,6 +6,7 @@
 import { ERROR } from "./Error.js";
 import { COMMON } from "./Common.js";
 import { DEBUG } from "./Debug.js";
+import { STRINGS } from "./Strings.js";
 
 import { BarChart } from "./BarChart.js";
 import { DTTable } from "./DTTable.js";
@@ -38,7 +39,7 @@ export class GDTBCMediator {
 
         // Columns holds the state of whether a particular dataset is visible or hidden.
         this.columnState = {};
-        COMMON.keys.forEach(key => this.columnState[key] = true);
+        COMMON.llKeys.forEach(key => this.columnState[key] = true);
         let chartData = this._prepChartData(this.columnState, this.people);
         this.theChart = new BarChart(graphId, chartData, { displayLegend: false }, this);
     }
@@ -80,13 +81,13 @@ export class GDTBCMediator {
         const activePeople = people.filter(person => person.state);
 
         // Calculate the min, max, and average values for each Life Language
-        const scores = COMMON.keys.map(key => {
+        const scores = COMMON.llKeys.map(key => {
             const values = activePeople.map(person => person[key]);
             const min = Math.round(Math.min(...values));
             const max = Math.round(Math.max(...values));
             const avg = Math.round(values.reduce((sum, val) => sum + val, 0) / values.length);
-            const rating = COMMON.scoreLabels[COMMON.evaluateScoreLevel(avg)];
-            const languageLabel = COMMON.labels[key];
+            const rating = STRINGS.scoreLabels[COMMON.evaluateScoreLevel(avg)];
+            const languageLabel = STRINGS.labels[key];
 
             // Calculate standard deviation: this is how spread or clumped the data is. 1 = very concentrated, 0 = spread out
             const variance = values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / values.length;
@@ -142,7 +143,7 @@ export class GDTBCMediator {
         };
         
         const chartData = {
-            labels: scores.map(item => COMMON.labels[item.key]),
+            labels: scores.map(item => STRINGS.labels[item.key]),
             datasets: [ minToAvgDataset, avgToMaxDataset ],
             annotations: this._prepAnnotationData(scores.map(item => item.avg)),
             tooltip: {
@@ -213,17 +214,22 @@ export class GDTBCMediator {
     _prepTableData(people) {
         DEBUG.log('Mediator._prepTableData(people)', arguments);
 
-        let columns = COMMON.keys.map(key => { 
+        let columns = COMMON.llKeys.map(key => { 
             return { 
                 name: key, 
                 data: key, 
-                title: COMMON.labels[key][0], 
+                title: STRINGS.labels[key][0], 
                 orderSequence: ['desc', 'asc'] 
             };
         });
-        columns.unshift({ name: 'name', data: 'fullName', title: 'Name' }); // XXX Translation
+        columns.unshift({ name: 'name', data: 'fullName', title: STRINGS.general.fullName }); 
         columns.unshift({ name: 'state', data: 'state', title: '' });
-        columns.push({ name: 'overallIntensity', data: 'overallIntensity', title: 'OI', orderSequence: ['desc', 'asc']}); // XXX Translation
+        columns.push({ 
+            name: 'overallIntensity', 
+            data: 'overallIntensity', 
+            title: STRINGS.general.overallIntensityColumn, 
+            orderSequence: ['desc', 'asc']
+        });
         let tableData = {
             data: people,
             columns: columns
@@ -234,14 +240,14 @@ export class GDTBCMediator {
             topEnd: {
                 buttons: [
                     {
-                        text: 'Life Languages', // XXX Translation
+                        text: STRINGS.general.columnVisibility,
                         extend: 'colvis',
                         columns: 'th:nth-child(n+3)',
                         columnText: function (dt, nIndex, cTitle) {
                             if (nIndex == 9)
-                                return 'Overall Intensity';
+                                return STRINGS.general.overallIntensity;
                             if (nIndex > 1)
-                                return COMMON.labels[COMMON.keys[nIndex - 2]];
+                                return STRINGS.labels[COMMON.llKeys[nIndex - 2]];
                             return cTitle;
                         }
                     }
@@ -268,7 +274,6 @@ export class GDTBCMediator {
         const table = document.getElementById('the-ll-table');
         const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
         [...rows].forEach((row, index) => {
-            DEBUG.log('## row, index', row, index);
             row.querySelector('.lllanguage').textContent = scores[index].languageLabel;
             row.querySelector('.llscore').textContent = scores[index].avg;
             row.querySelector('.llrating').textContent = scores[index].rating;
@@ -279,7 +284,6 @@ export class GDTBCMediator {
                 else if (scores[index].gap > 10)
                     gapSymbol = '<i class="bi bi-arrows-expand"></i>';
             }
-            DEBUG.log("## gap, gapSymbol", scores[index].gap, gapSymbol);
             row.querySelector('.llgap').innerHTML = index == 0 ? ' ' : `${gapSymbol} &nbsp; ${scores[index].gap}`;
         
         });
@@ -290,7 +294,7 @@ export class GDTBCMediator {
         const overallIntensity = Math.round(activePeople.reduce((sum, person) => sum + person.overallIntensity, 0) / activePeople.length);
         document.getElementById('llrange').textContent = nRange;
         document.getElementById('lloi').textContent = overallIntensity; 
-        document.getElementById('lloirating').textContent = COMMON.scoreLabels[COMMON.evaluateScoreLevel(overallIntensity)];
+        document.getElementById('lloirating').textContent = STRINGS.scoreLabels[COMMON.evaluateScoreLevel(overallIntensity)];
     }
     
     /**
@@ -340,7 +344,6 @@ export class GDTBCMediator {
      */
     tableSelectRow(aRows, bSelect) {
         DEBUG.logArgs('Mediator.tableSelectRow(aRows, bSelect)', arguments);
-        DEBUG.log('## this.debounce', this.debounce);
         if (this.debounce) {
             this.debounce = false;
             aRows.forEach(row => {

@@ -10,7 +10,7 @@ export const COMMON = {
     /**
      * Keys to use for Life Languages. 
      */
-    keys: [
+    llKeys: [
         'mover',
         'doer',
         'influencer',
@@ -19,19 +19,6 @@ export const COMMON = {
         'producer',
         'contemplator'
     ],
-    /**
-     * Labels to use for Life Languages by key.
-     * XXX Translation into other languages at a later date. 
-    */
-    labels: {
-        mover: 'Mover',
-        doer: 'Doer',
-        influencer: 'Influencer',
-        responder: 'Responder',
-        shaper: 'Shaper',
-        producer: 'Producer',
-        contemplator: 'Contemplator'
-    },
     colors: {
         /**
          * Colors for each of the Life Languages by key.
@@ -58,7 +45,7 @@ export const COMMON = {
             contemplator: 'hsl(196, 73%, 92%)'
         },
         /**
-         * Darker version of colors to be used as text colors. Access via LLCOLORS_DARK[key].
+         * Darker version of colors to be used as text colors. Access via COMMON.colors.dark[key].
          */
         dark: {
             mover: 'hsl(358, 85%, 32%)', 
@@ -85,7 +72,7 @@ export const COMMON = {
     /**
      * Set of keys for Communication Indicators.
      */
-    cikeys: [
+    ciKeys: [
         'acceptanceLevel',
         'interactiveStyleScore',
         'interactiveStyleType',
@@ -98,12 +85,6 @@ export const COMMON = {
         'learningPreferencePhysical'
     ],
     
-    /**
-     * Set of labels for score ratings. 
-     * XXX Translation into other languages at a later date. 
-     */
-    scoreLabels: [ 'Very Low', 'Low', 'Moderate', 'High', 'Very High'],
-
    /**
      * Evaluates whether Score is VERY LOW, LOW, MODERATE, HIGH or VERY HIGH.
      * Suitable for displaying arrows or colors from another array.
@@ -118,14 +99,5 @@ export const COMMON = {
         return 4;                       // bi-arrow-up score-arrow "\D83E\DC70"; "&#x1F879;"; up
     }
 };
-
-// Backwards compatibility, deprecated.
-export const LLKEYS = COMMON.keys;
-export const LLLABELS = COMMON.labels;
-export const LLCOLORS = COMMON.colors.solid;
-export const LLCOLORS_LIGHT = COMMON.colors.light;
-export const LLCOLORS_DARK = COMMON.colors.dark;
-export const LLCOLORS_BACKGROUND = COMMON.colors.background;
-export const CIKEYS = COMMON.cikeys;
 
 

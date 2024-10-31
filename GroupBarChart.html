@@ -136,16 +136,16 @@
         <script type="module">
             import { ERROR } from "./modules/Error.js";
             import { DEBUG } from "./modules/Debug.js";
-            import { LLKEYS } from "./modules/Common.js";
+            import { COMMON } from "./modules/Common.js";
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
             import { GDTBCMediator } from "./modules/GDTBCMediator.js";
-
+            
             let url = new URL(window.location.href);
 
             // Test data generation
-            import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
+            //import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
-            url = testCSV("https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html");
+            //url = testCSV("https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html");
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
 
             $("document").ready(function () {
