@@ -45,8 +45,8 @@ export class DTTable {
                     targets: 0,
                     className: 'col-1'
                 },
-                { targets: 1, className: 'col-4', asSorting: ['asc', 'desc'] },
-                { targets: [ 2, 3, 4, 5, 6, 7, 8 ], align: 'right', className: 'col-1', asSorting: ['asc', 'desc'] },
+                { targets: 1, className: 'col-3', asSorting: ['asc', 'desc'] },
+                { targets: [ 2, 3, 4, 5, 6, 7, 8, 9 ], align: 'right', className: 'col-1', asSorting: ['asc', 'desc'] },
              ],
             footer: true,
             footerCallback: function updateFooter() { that._updateFooter($table); }.bind(that)
