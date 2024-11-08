@@ -277,24 +277,37 @@ export class GDTBCMediator {
             row.querySelector('.lllanguage').textContent = scores[index].languageLabel;
             row.querySelector('.llscore').textContent = scores[index].avg;
             row.querySelector('.llrating').textContent = scores[index].rating;
-            let gapSymbol = '';
+            
+            let cGapSymbol = '';
             if (index != 0) {
-                if (scores[index].gap < 5)
-                    gapSymbol = '<i class="bi bi-arrows-collapse"></i>';
-                else if (scores[index].gap > 10)
-                    gapSymbol = '<i class="bi bi-arrows-expand"></i>';
+                if (scores[index].gap < 5) {
+                    cGapSymbol = '<i class="bi bi-arrows-collapse"></i>';
+                    COMMON.createInfoDialog(`gap-icon-${index}`, `${STRINGS.general.gap}: ${STRINGS.general.low}`, 
+                        `${STRINGS.gap.pre} ${STRINGS.gap.info[0]} ${STRINGS.gap.post}`);
+                } else if (scores[index].gap > 10) {
+                    cGapSymbol = '<i class="bi bi-arrows-expand"></i>';
+                    COMMON.createInfoDialog(`gap-icon-${index}`, `${STRINGS.general.gap}: ${STRINGS.general.high}`, 
+                        `${STRINGS.gap.pre} ${STRINGS.gap.info[2]} ${STRINGS.gap.post}`);
+                }
+                row.querySelector(`#gap-icon-${index}`).innerHTML = cGapSymbol;
+                row.querySelector(`#gap-${index}`).innerHTML = scores[index].gap;
             }
-            row.querySelector('.llgap').innerHTML = index == 0 ? ' ' : `${gapSymbol} &nbsp; ${scores[index].gap}`;
-        
         });
         
         // Handle the table footer.
         const activePeople = people.filter(person => person.state);
         const nRange = Math.abs(scores[0].avg - scores[6].avg);
+        const nRangeIndex = COMMON.evaluateScoreLevel(nRange);
         const overallIntensity = Math.round(activePeople.reduce((sum, person) => sum + person.overallIntensity, 0) / activePeople.length);
+        const nRatingIndex = COMMON.evaluateScoreLevel(overallIntensity);
+
         document.getElementById('llrange').textContent = nRange;
+        COMMON.createInfoDialog('llrange-info', `${STRINGS.general.range}: ${STRINGS.scoreLabels[nRangeIndex]}`,
+            `${STRINGS.range.pre} ${STRINGS.range.info[nRangeIndex]} ${STRINGS.range.post}`); 
         document.getElementById('lloi').textContent = overallIntensity; 
-        document.getElementById('lloirating').textContent = STRINGS.scoreLabels[COMMON.evaluateScoreLevel(overallIntensity)];
+        document.getElementById('lloirating').textContent = STRINGS.scoreLabels[nRatingIndex];
+        COMMON.createInfoDialog('lloi-info', `${STRINGS.general.overallIntensity}: ${STRINGS.scoreLabels[nRatingIndex]}`,
+            `${STRINGS.overallIntensity.pre} ${STRINGS.overallIntensity.info[nRatingIndex]} ${STRINGS.overallIntensity.post}`); 
     }
     
     /**

@@ -96,7 +96,23 @@ export const COMMON = {
         else if (nValue < 35) return 1; // bi-arrow-down-right "&#x1F87E;"; down-right
         else if (nValue < 65) return 2; // bi-arrow-right "&#x1F87A;"; right
         else if (nValue < 85) return 3; // bi-arrow-up-right "&#x1F87D;"; up-right
+    
         return 4;                       // bi-arrow-up score-arrow "\D83E\DC70"; "&#x1F879;"; up
+    },
+        
+    createInfoDialog(cInfoId, cTitle, cBody) {
+        document.getElementById(cInfoId).addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default anchor behavior
+
+            // Populate the modal title and body content
+            document.getElementById('modal-title').textContent = cTitle;
+            document.querySelector('#modal-dialog .modal-body').innerHTML = cBody;
+            
+            // Show the modal programmatically
+            const myModal = bootstrap.Modal.getInstance(document.getElementById('modal-dialog')) ||
+                new bootstrap.Modal(document.getElementById('modal-dialog'));            
+            myModal.show();
+        });
     }
 };
 

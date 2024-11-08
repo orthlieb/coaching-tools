@@ -90,3 +90,12 @@ body {
 .dt-button, .btn {
     font-size: var(--bs-body-font-size);
 }
+
+.table {
+    border-collapse: collapse;
+}
+
+.table td, .table th {
+    box-shadow: none;
+    border-width: 1px !important;
+}

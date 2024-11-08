@@ -36,6 +36,21 @@
     </head>
     <body>
         <div id="liveAlertPlaceholder"></div>
+        <!-- Modal Structure -->
+        <div class="modal fade" id="modal-dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal-title">Modal Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div id="modal-body" class="modal-body">
+                This is the content of the modal.
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Structure -->
         <div id="the-grid">
             <div class="container col-lg-9 offset-lg-1">
                 <div class="row"><h1 class="bold text-center col-12">Group Bar Chart</h1></div>
@@ -63,60 +78,92 @@
                                     <td class="lllanguage uppercase text-center">MOVER</td>
                                     <td class="llscore text-center">55</td>
                                     <td class="llrating text-center">HIGH</td>
-                                    <td class="llgap text-end">0</td>
+                                    <td class="llgap text-end"></td>
                                 </tr>
                                 <tr>
                                     <td>Second</td>
                                     <td class="lllanguage uppercase text-center">MOVER</td>
                                     <td class="llscore text-center">55</td>
                                     <td class="llrating text-center">HIGH</td>
-                                    <td class="llgap text-end">0</td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-1" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <div class="w-100 text-center">
+                                            <span id="gap-1"></span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Third</td>
                                     <td class="lllanguage uppercase text-center">MOVER</td>
                                     <td class="llscore text-center">55</td>
                                     <td class="llrating text-center">HIGH</td>
-                                    <td class="llgap text-end">0</td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-2" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <div class="w-100 text-center">
+                                            <span id="gap-2"></span>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Fourth</td>
                                     <td class="lllanguage uppercase text-center">MOVER</td>
                                     <td class="llscore text-center">55</td>
                                     <td class="llrating text-center">HIGH</td>
-                                    <td class="llgap text-end">0</td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-3" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <span id="gap-3"></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Fifth</td>
                                     <td class="lllanguage uppercase text-center">MOVER</td>
                                     <td class="llscore text-center">55</td>
                                     <td class="llrating text-center">HIGH</td>
-                                    <td class="llgap text-end">0</td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-4" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <span id="gap-4"></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Sixth</td>
                                     <td class="lllanguage uppercase text-center">MOVER</td>
                                     <td class="llscore text-center">55</td>
                                     <td class="llrating text-center">HIGH</td>
-                                    <td class="llgap text-end">0</td>
-                                </tr>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-5" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <span id="gap-5"></span>
+                                    </td>
+                                 </tr>
                                 <tr>
                                     <td>Seventh</td>
-                                    <td class="lllanguage uppercase text-center">MOVER</td>
-                                    <td class="llscore text-center">55</td>
-                                    <td class="llrating text-center">HIGH</td>
-                                    <td class="llgap text-end">0</td>
+                                    <td class="lllanguage uppercase text-center"></td>
+                                    <td class="llscore text-center"></td>
+                                    <td class="llrating text-center"></td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-6" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <span id="gap-6"></span>
+                                    </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <td colspan="4">Range</td>
-                                    <td id="llrange" class="text-end"></td>
+                                    <td class="position-relative text-center">
+                                        <a id="llrange-info" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog">
+                                            <i class="bi bi-info-circle"></i>
+                                        </a>
+                                        <span id="llrange"></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">Overall Intensity</td>
                                     <td id="lloirating" class="text-center"></td>
-                                    <td id="lloi" class="text-end"></td>
+                                    <td class="position-relative text-center">
+                                        <a id="lloi-info" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog">
+                                            <i class="bi bi-info-circle"></i>
+                                        </a>
+                                        <span id="lloi"></span>
+                                    </td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -143,9 +190,9 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            //import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
+            import { testJSON, testCSV, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
-            //url = testCSV("https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html");
+            url = testCSV("https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html");
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
 
             $("document").ready(function () {
