@@ -185,7 +185,7 @@
             import { DEBUG } from "./modules/Debug.js";
             import { COMMON } from "./modules/Common.js";
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
-            import { GDTBCMediator } from "./modules/GDTBCMediator.js";
+            import { GBCMediator } from "./modules/GBCMediator.js";
             
             let url = new URL(window.location.href);
 
@@ -239,7 +239,7 @@
                         }
                     }
 
-                    let theMediator = new GDTBCMediator(params, "the-table", "the-ll-table", "the-chart");
+                    let theMediator = new GBCMediator(params, "the-table", "the-ll-table", "the-chart");
                 } catch (e) {
                     ERROR.appendAlert(e, "error");
                 }

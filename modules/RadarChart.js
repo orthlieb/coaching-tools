@@ -46,14 +46,13 @@ export class RadarChart {
                     legend: {
                         display: chartOptions.displayLegend,
                         position: chartOptions.legendPosition,
-                        onClick: this._onClickLegend
+                        onClick: this._onClickLegend.bind(this)
                     }
                 }
             }
         }; 
         
         this.chart = new Chart(document.getElementById(id).getContext('2d'), config);
-        this.chart.theChart = this;
 
         // Handle printing events.
         const mediaQuery = window.matchMedia('print');
@@ -78,7 +77,7 @@ export class RadarChart {
         // Update the chart
         this.chart.update();
         
-        this.chart.theChart.mediator.graphClickLegend(legendItem.datasetIndex, !legendItem.hidden);
+        this.mediator.graphClickLegend(legendItem.datasetIndex, !legendItem.hidden);
     }
     
     /**

@@ -1,5 +1,5 @@
 /*
- * @module modules/LLDTRGMediator
+ * @module modules/LLRGMediator
  * @author Carl Orthlieb
  */
 
@@ -13,7 +13,7 @@ import { DTTable } from "./DTTable.js";
 import { LLPerson } from "./Person.js";
 
 /** @class */
-export class LLDTRGMediator {
+export class LLRGMediator {
     /**
      * Mediator for Data Table Life Language Radar Graph
      * @param {array} data Array of people object (unvalidated)
@@ -37,7 +37,7 @@ export class LLDTRGMediator {
         this.columnState = {};
         COMMON.llKeys.forEach(key => this.columnState[key] = true);
         let chartData = this._prepChartData(this.columnState, this.people);
-        this.theChart = new RadarChart(graphId, chartData, this);
+        this.theChart = new RadarChart(graphId, chartData, { displayLegend: true, legendPosition: 'top' }, this);
     }
     
     /**
@@ -106,14 +106,29 @@ export class LLDTRGMediator {
      * @private
      */
     _prepTableData(people) {
-        let columns = COMMON.llKeys.map(key => { return { name: key, data: key, title: STRINGS.labels[key][0], orderSequence: ['desc', 'asc'] }; });
-        columns.unshift({ name: 'name', data: 'fullName', title: 'Name' });
-        columns.unshift({ data: 'state', title: '' });
+        DEBUG.log('Mediator._prepTableData(people)', arguments);
+
+        let columns = COMMON.llKeys.map(key => { 
+            return { 
+                name: key, 
+                data: key, 
+                title: STRINGS.labels[key][0], 
+                orderSequence: ['desc', 'asc'] 
+            };
+        });
+        columns.unshift({ name: 'name', data: 'fullName', title: STRINGS.general.fullName }); 
+        columns.unshift({ name: 'state', data: 'state', title: '' });
+        columns.push({ 
+            name: 'overallIntensity', 
+            data: 'overallIntensity', 
+            title: STRINGS.general.overallIntensityColumn, 
+            orderSequence: ['desc', 'asc']
+        });
         let tableData = {
             data: people,
             columns: columns
         };
-
+        
         tableData.layout = {
             topStart: null,
             topEnd: {
@@ -123,6 +138,8 @@ export class LLDTRGMediator {
                         extend: 'colvis',
                         columns: 'th:nth-child(n+3)',
                         columnText: function (dt, nIndex, cTitle) {
+                            if (nIndex == 9)
+                                return STRINGS.general.overallIntensity;
                             if (nIndex > 1)
                                 return STRINGS.labels[COMMON.llKeys[nIndex - 2]];
                             return cTitle;
@@ -131,8 +148,8 @@ export class LLDTRGMediator {
                 ]
             }
         };
-
-        return tableData;
+        
+        return tableData;    
     }
          
     /**
@@ -142,7 +159,7 @@ export class LLDTRGMediator {
      * @public
      */
     tableSelectRow(aRows, bSelect) {
-        DEBUG.logArgs('LLDTRGMediator.tableSelectRow(rows, bSelect)', arguments);
+        DEBUG.logArgs('LLRGMediator.tableSelectRow(rows, bSelect)', arguments);
         
         if (this.debounce) {
             this.debounce = false;
@@ -167,7 +184,7 @@ export class LLDTRGMediator {
      * @public
      */
     tableUpdateFooter(data, selectedRows, visibleColumns) {
-        DEBUG.log('Mediator.tableUpdateFooter(data, selectedRows, visibleColumns)', arguments);
+       DEBUG.log('Mediator.tableUpdateFooter(data, selectedRows, visibleColumns)', arguments);
 
         // Find the average values for each column.
         const aAverages = data.map(function (key, index) {
@@ -204,7 +221,7 @@ export class LLDTRGMediator {
      * @public
      */
     graphClickLegend(nIndex, bHidden) {
-       DEBUG.logArgs('LLDTRGMediator.graphClickLegend(nIndex, bHidden)', arguments);
+       DEBUG.logArgs('LLRGMediator.graphClickLegend(nIndex, bHidden)', arguments);
         
         if (this.debounce) {
             this.debounce = false;
@@ -222,7 +239,7 @@ export class LLDTRGMediator {
      * @public
      */
     tableHideColumn(key, bChecked) {
-        DEBUG.logArgs('LLDTRGMediator.tableHideColumn(key, bChecked)', arguments);
+        DEBUG.logArgs('LLRGMediator.tableHideColumn(key, bChecked)', arguments);
         
         if (this.debounce) {
             this.debounce = false;

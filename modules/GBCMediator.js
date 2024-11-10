@@ -13,7 +13,7 @@ import { DTTable } from "./DTTable.js";
 import { LLPerson } from "./Person.js";
         
 /** @class */
-export class GDTBCMediator {
+export class GBCMediator {
     /**
      * Mediator for Datatables Group Barchart
      * @param {array} data Array of people objects (unvalidated).

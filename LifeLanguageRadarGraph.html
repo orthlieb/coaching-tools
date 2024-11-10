@@ -54,7 +54,7 @@
             import { DEBUG } from "./modules/Debug.js";
             import { COMMON } from './modules/Common.js';
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
-            import { LLDTRGMediator } from "./modules/LLDTRGMediator.js";
+            import { LLRGMediator } from "./modules/LLRGMediator.js";
             
             let url = new URL(window.location.href);
 
@@ -109,7 +109,7 @@
                         }
                     }
 
-                    let theMediator = new LLDTRGMediator(params, 'rg-table', 'rg-graph');
+                    let theMediator = new LLRGMediator(params, 'rg-table', 'rg-graph');
                 } catch (e) {
                     ERROR.appendAlert(e, 'error');
                 }
