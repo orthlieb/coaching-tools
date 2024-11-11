@@ -27,7 +27,7 @@ export class GBCMediator {
         this.debounce = true;
         this.people = this._validateData(data);
         this.people.forEach((person, index, array) => person.state = true);
-        
+
         let companyName = this.people[0].companyName;
         if (companyName)
             $('.companyname').html(companyName).removeClass('d-none');
@@ -58,13 +58,15 @@ export class GBCMediator {
             try {
                 let person = new LLPerson(data[i]);
                 person.forEachLanguageScore((score, key, data) => data[key] = Math.round(score), person);
-                person.id = i;
                 people.push(person);
             } catch (e) {
                 DEBUG.log(e);
                 ERROR.appendAlert(e, 'error');
             }
         }
+        
+        ERROR.assert(people.length > 0, "Mediator._validatePerson need at least one valid person in incoming data, person count is 0");
+
         return people;
     }
 
@@ -122,7 +124,7 @@ export class GBCMediator {
     _prepChartData(columnState, people) {
         DEBUG.logArgs('Mediator._prepChartData(columnState, people)', arguments);
 
-        let scores = this._getSortedScores(people);
+        const scores = this._getSortedScores(people);
         let that = this;
         
         // Create datasets for the low to average and average to high values
@@ -155,7 +157,7 @@ export class GBCMediator {
                         
                         // Display the custom label with the value
                         return `Min: ${scores[dataIndex].min} Avg: ${scores[dataIndex].avg}\nMax: ${scores[dataIndex].max}`; 
-                        //Spread: ${Math.round(scores[dataIndex].stdDev / (scores[dataIndex].max - scores[dataIndex].min) * 100)}%`;
+                        // Spread: ${Math.round(scores[dataIndex].stdDev / (scores[dataIndex].max - scores[dataIndex].min) * 100)}%`;
                     }
                 }
             }

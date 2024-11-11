@@ -53,13 +53,15 @@ export class PRGMediator {
             try {
                 let person = new LLPerson(data[i]);
                 person.forEachLanguageScore((score, key, data) => data[key] = Math.round(score), person);
-                person.id = i;
                 people.push(person);
             } catch (e) {
                 DEBUG.log(e);
                 ERROR.appendAlert(e, 'error');
             }
         }
+
+        ERROR.assert(people.length > 0, "Mediator._validatePerson need at least one valid person in incoming data, person count is 0");
+
         return people;
     }
 
