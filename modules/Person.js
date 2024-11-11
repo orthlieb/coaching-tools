@@ -3,6 +3,8 @@ import { DEBUG } from "./Debug.js";
 import { COMMON } from "./Common.js";
 
 export class LLPerson {
+    static idCounter = 0;
+    
     constructor(data) {
         ERROR.assert("fullName" in data, "validatePerson missing parameter person.fullName");
         ERROR.assertType(data.fullName, "string", `validatePerson "${data.fullName}" parameter person.fullName`);
@@ -25,8 +27,8 @@ export class LLPerson {
         this.state = data.state ? data.state : true;
 
         // Give each person a unique id.
-        this.id = this.idCounter ? this._idCounter++ : 1;          
-    }
+        this.id = LLPerson.id++;
+     }
     
     forEachLanguageScore(fCallback, callbackData) {
         COMMON.llKeys.forEach((cKey) => {

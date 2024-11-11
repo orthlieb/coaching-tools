@@ -86,5 +86,41 @@ export const TEST = {
     // Function to generate a random first name-last name pair
     generateRandomCompanyName: () => {
         return companyNames[TEST.randomInt(0, companyNames.length - 1)];
+    },
+    
+    // Generate a random person
+    randomPerson(fullName = null) {
+        return {
+            fullName: fullName ? fullName : TEST.generateRandomNamePair(),
+            companyName: TEST.generateRandomCompanyName(),
+            mover: TEST.randomScore(),
+            doer: TEST.randomScore(),
+            influencer: TEST.randomScore(),
+            responder: TEST.randomScore(),
+            shaper: TEST.randomScore(),
+            producer: TEST.randomScore(),
+            contemplator: TEST.randomScore(),
+            overallIntensity: TEST.randomScore()
+        };
+    },
+    
+    // Generate a set of unique random people
+    randomPeople(nTestSets) {
+        let aTestData = [];
+        let uniqueNames = new Set();
+
+        for (let i = 0; i < nTestSets; i++) {
+            let testObject;
+
+            // Ensure the generated name is unique
+            do {
+                testObject = TEST.randomPerson();
+            } while (uniqueNames.has(testObject.fullName)); // Repeat if duplicate name is found
+
+            // Add unique name to the Set and push the object to the array
+            uniqueNames.add(testObject.fullName);
+            aTestData.push(testObject);
+        }
+        return aTestData;
     }
 };
