@@ -27,7 +27,7 @@ export class LLPerson {
         this.state = data.state ? data.state : true;
 
         // Give each person a unique id.
-        this.id = LLPerson.id++;
+        this.id = LLPerson.idCounter++;
      }
     
     forEachLanguageScore(fCallback, callbackData) {
