@@ -52,7 +52,6 @@ export class PRGMediator {
         for (let i = 0; i < data.length; i++) {
             try {
                 let person = new LLPerson(data[i]);
-                person.forEachLanguageScore((score, key, data) => data[key] = Math.round(score), person);
                 people.push(person);
             } catch (e) {
                 DEBUG.log(e);

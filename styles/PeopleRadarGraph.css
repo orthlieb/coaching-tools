@@ -21,6 +21,9 @@ body {
 }
 
 #radar-graph-grid {
+    margin: 0 auto;      /* Center the container */
+    max-width: 2048px;   /* Maximum width to match iPhone 16 in landscape */
+    width: 100%;         /* Make it responsive */
     padding: 10px;
     border: 1px solid black;
 }

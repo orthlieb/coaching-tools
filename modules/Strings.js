@@ -10,8 +10,6 @@ export const STRINGS = {
     language: 'en',
     
     general: {
-        fullName: 'Name',
-        overallIntensityColumn: 'OI',
         overallIntensity: 'Overall Intensity',
         columnVisibility: 'Life Languages',
         range: 'Range',
@@ -22,7 +20,7 @@ export const STRINGS = {
  
     /**
      * Labels to use for Life Languages by key.
-    */
+     */
     labels: {
         mover: 'Mover',
         doer: 'Doer',
@@ -32,7 +30,12 @@ export const STRINGS = {
         producer: 'Producer',
         contemplator: 'Contemplator'
     },
-     
+
+    /**
+     * Set of labels for column headings for the person table.
+     */
+    columnLabels: ['', 'Full Name', 'M', 'D', 'I', 'R', 'S', 'P', 'C', 'OI'],
+    
     /**
      * Set of labels for score ratings. 
      */

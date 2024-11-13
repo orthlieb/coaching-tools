@@ -51,7 +51,6 @@ export class LLRGMediator {
         for (let i = 0; i < data.length; i++) {
             try {
                 let person = new LLPerson(data[i]);
-                person.forEachLanguageScore((score, key, data) => data[key] = Math.round(score), person);
                 people.push(person);
             } catch (e) {
                 DEBUG.log(e);
@@ -108,22 +107,22 @@ export class LLRGMediator {
      * @private
      */
     _prepTableData(people) {
-        DEBUG.log('Mediator._prepTableData(people)', arguments);
+        DEBUG.logArgs('Mediator._prepTableData(people)', arguments);
 
         let columns = COMMON.llKeys.map(key => { 
             return { 
                 name: key, 
                 data: key, 
-                title: STRINGS.labels[key][0], 
+                title: STRINGS.columnLabels[COMMON.llKeys.indexOf(key) + 2], 
                 orderSequence: ['desc', 'asc'] 
             };
         });
-        columns.unshift({ name: 'name', data: 'fullName', title: STRINGS.general.fullName }); 
-        columns.unshift({ name: 'state', data: 'state', title: '' });
+        columns.unshift({ name: 'name', data: 'fullName', title: STRINGS.columnLabels[1] }); 
+        columns.unshift({ name: 'state', data: 'state', title: STRINGS.columnLabels[0] });
         columns.push({ 
             name: 'overallIntensity', 
             data: 'overallIntensity', 
-            title: STRINGS.general.overallIntensityColumn, 
+            title: STRINGS.columnLabels[9], 
             orderSequence: ['desc', 'asc']
         });
         let tableData = {
@@ -140,18 +139,14 @@ export class LLRGMediator {
                         extend: 'colvis',
                         columns: 'th:nth-child(n+3)',
                         columnText: function (dt, nIndex, cTitle) {
-                            if (nIndex == 9)
-                                return STRINGS.general.overallIntensity;
-                            if (nIndex > 1)
-                                return STRINGS.labels[COMMON.llKeys[nIndex - 2]];
-                            return cTitle;
+                            return STRINGS.columnLabels[nIndex];
                         }
                     }
                 ]
             }
         };
         
-        return tableData;    
+        return tableData;
     }
          
     /**

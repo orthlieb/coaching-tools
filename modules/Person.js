@@ -23,8 +23,18 @@ export class LLPerson {
             this[cKey] = data[cKey];
         });
   
+        // For professional profiles
+        if ('acceptanceLevel' in data) {
+            COMMON.ciKeys.forEach((cKey) => {
+                ERROR.assert(cKey in data, `validatePerson "${data.fullName}" missing parameter person.${cKey}`);
+                ERROR.assertType(data[cKey], "number", `validatePerson "${data.fullName}" parameter person.${cKey}`);
+                ERROR.assertRange(data[cKey], 1, 100, `validatePerson "${data.fullName}" parameter person.${cKey}`);
+                this[cKey] = data[cKey];
+            });
+        }
+       
         // Whether a person should be shown or hidden.
-        this.state = data.state ? data.state : true;
+        this.state = typeof data.state == "boolean" ? data.state : true;
 
         // Give each person a unique id.
         this.id = LLPerson.idCounter++;
@@ -35,4 +45,10 @@ export class LLPerson {
             fCallback(this[cKey], cKey, callbackData);
         });    
     } 
+    
+    forEachCommunicationIndicator(fCallback, callbackData) {
+        COMMON.ciKeys.forEach((cKey) => {
+            fCallback(this[cKey], cKey, callbackData);
+        });    
+    }
 }

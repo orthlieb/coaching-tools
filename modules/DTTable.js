@@ -39,17 +39,33 @@ export class DTTable {
             },
             order: [[ 1, 'asc']],
             columnDefs: [
-                {
+                {   // Select checkbox.
                     orderable: false,
                     render: DataTable.render.select(),
                     targets: 0,
                     className: 'col-1'
                 },
-                { targets: 1, className: 'col-3', asSorting: ['asc', 'desc'] },
-                { targets: [ 2, 3, 4, 5, 6, 7, 8, 9 ], align: 'right', className: 'col-1', asSorting: ['asc', 'desc'] },
-             ],
+                {   // Full name
+                    targets: 1, 
+                    className: 'col-3', 
+                    asSorting: ['asc', 'desc'] 
+                },
+                {
+                    targets: [2, 3, 4, 5, 6, 7, 8, 9], // Life Language score columns
+                    className: 'col-1 text-end',
+                    asSorting: ['asc', 'desc'],
+                    render: function (data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            return Math.round(data); // Round up for display and filtering
+                        }
+                        return data; // Return original value for sorting, etc.
+                    }
+                }
+            ],
             footer: true,
-            footerCallback: function updateFooter() { that._updateFooter($table); }.bind(that)
+            footerCallback: function updateFooter() { 
+                that._updateFooter($table); 
+            }.bind(that)
         };
         if (data.layout)
             tableData.layout = data.layout;
