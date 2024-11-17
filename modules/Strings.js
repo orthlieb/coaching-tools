@@ -10,8 +10,8 @@ export const STRINGS = {
     language: 'en',
     
     general: {
-        overallIntensity: 'Overall Intensity',
         columnVisibility: 'Life Languages',
+        overallIntensity: 'Overall Intensity',
         range: 'Range',
         gap: 'Gap',
         low: 'Low',
@@ -32,9 +32,15 @@ export const STRINGS = {
     },
 
     /**
-     * Set of labels for column headings for the person table.
+     * Set of labels for column headings for the person Life Language table.
      */
     columnLabels: ['', 'Full Name', 'M', 'D', 'I', 'R', 'S', 'P', 'C', 'OI'],
+    columnTitles: ['', 'Full Name', 'Mover', 'Doer', 'Influencer', 'Responder', 'Shaper', 'Producer', 'Contemplator', 'Overall Intensity'],
+    
+    /**
+     * Set of labels for column headings for the person Communicaton indicators.
+     */
+    columnCILabels: ['', 'Full Name', 'AL', 'IS', 'IC', 'IL', 'PL', 'SS', 'LPA', 'LPV', 'LPP' ],
     
     /**
      * Set of labels for score ratings. 

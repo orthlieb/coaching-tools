@@ -9,7 +9,7 @@ import { DEBUG } from "./Debug.js";
 import { STRINGS } from "./Strings.js";
 
 import { BarChart } from "./BarChart.js";
-import { DTTable } from "./DTTable.js";
+import { LLTable } from "./LLTable.js";
 import { LLPerson } from "./Person.js";
         
 /** @class */
@@ -32,8 +32,7 @@ export class GBCMediator {
         if (companyName)
             $('.companyname').html(companyName).removeClass('d-none');
         
-        let tableData = this._prepTableData(this.people);
-        this.theTable = new DTTable(tableId, tableData, this);
+        this.theTable = new LLTable(tableId, this.people, this);
 
         this._loadLLTable(this.people);
 
@@ -205,57 +204,7 @@ export class GBCMediator {
         return annotationData;
     }
 
-    /**
-     * Prepare the data for use in the table.
-     * @method
-     * @param {array} people An array of person objects.
-     * @returns {object} Prepared data for initializing and loading the table.
-     * @private
-     */
-    _prepTableData(people) {
-        DEBUG.logArgs('Mediator._prepTableData(people)', arguments);
-
-        let columns = COMMON.llKeys.map(key => { 
-            return { 
-                name: key, 
-                data: key, 
-                title: STRINGS.columnLabels[COMMON.llKeys.indexOf(key) + 2], 
-                orderSequence: ['desc', 'asc'] 
-            };
-        });
-        columns.unshift({ name: 'name', data: 'fullName', title: STRINGS.columnLabels[1] }); 
-        columns.unshift({ name: 'state', data: 'state', title: STRINGS.columnLabels[0] });
-        columns.push({ 
-            name: 'overallIntensity', 
-            data: 'overallIntensity', 
-            title: STRINGS.columnLabels[9], 
-            orderSequence: ['desc', 'asc']
-        });
-        let tableData = {
-            data: people,
-            columns: columns
-        };
-        
-        tableData.layout = {
-            topStart: null,
-            topEnd: {
-                buttons: [
-                    {
-                        text: STRINGS.general.columnVisibility,
-                        extend: 'colvis',
-                        columns: 'th:nth-child(n+3)',
-                        columnText: function (dt, nIndex, cTitle) {
-                            return STRINGS.columnLabels[nIndex];
-                        }
-                    }
-                ]
-            }
-        };
-        
-        return tableData;
-    }
-
-    /**
+     /**
      * Update the data in the LL table.
      * @method
      * @param {array} scores Scores that will be displayed. Assumed to be in ascending or descending order.
@@ -307,44 +256,6 @@ export class GBCMediator {
             `${STRINGS.overallIntensity.pre} ${STRINGS.overallIntensity.info[nRatingIndex]} ${STRINGS.overallIntensity.post}`); 
     }
     
-    /**
-     * Update footer
-     * @method
-     * @param {array} data Array of the data in the table with each row containing an object with the key containing the datum.
-     * @param {array} selectedRows Array containing true/false as to which of the rows are selected.
-     * @param {array} visibleColumns Array containing true/false as to which of the columns are visible.
-     * @public
-     */
-    tableUpdateFooter(data, selectedRows, visibleColumns) {
-        DEBUG.logArgs('Mediator.tableUpdateFooter(data, selectedRows, visibleColumns)', arguments);
-
-        // Find the average values for each column.
-        const aAverages = data.map(function (key, index) {
-            if (visibleColumns[index] && index > 1) {
-                // Data for selected rows
-                const aValues = selectedRows.map(row => { 
-                    return row[key];
-                });
-                return aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
-            } else 
-                return undefined;   // Skip this column.
-        });
-        
-        // Build the footer
-        let arrows = [ 'bi-arrow-down', 'bi-arrow-down-right', 'bi-arrow-right', 'bi-arrow-up-right', 'bi-arrow-up' ];
-        let cFooter = aAverages.reduce((accumulator, nAverage) => {
-            if (nAverage == undefined)
-                return accumulator;
-            accumulator += '<th class="col-1 text-end">';
-            if (nAverage > 0)
-                accumulator += `<i class="bi ${arrows[COMMON.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}</th>`;
-            return accumulator += '</th>';
-        }, '<tr><th class="col-1"></th><th class="col-4">Group Average</th>');
-        cFooter += '</tr>';
-        
-        return cFooter;
-    }
-         
     /**
      * Event listener when one of the rows in the table is selected/unselected.
      * @method
