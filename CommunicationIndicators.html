@@ -274,21 +274,11 @@
 
                 return value == 1;
             }
-            
-            function parseInteractiveStyle(key, value) {
-                if (Array.isArray(value))
-                    return value;
-                
-                // First part is a number
-                let nValue = parseFloat(value);
-                if (Number.isNaN(nValue)) {
-                    return [ value, value ];
-                }
-                
-                // Followed by an I, B, or E.
-                return [nValue, value.slice(-1)];
-            }
 
+            function parseString(key, value) {
+                return value;
+            }
+            
             const ciKeys = {
                 mover: parseNumber,
                 doer: parseNumber,
@@ -299,7 +289,7 @@
                 contemplator: parseNumber,
                 overallIntensity: parseNumber,
                 acceptanceLevel: parseNumber,
-                interactiveStyle: parseInteractiveStyle,
+                interactiveStyle: parseString,
                 interactiveStyleType: parseChar,
                 interactiveStyleScore: parseNumber,
                 internalControl: parseNumber,
@@ -329,7 +319,6 @@
             if (!Array.isArray(params)) 
                 params = [params];
             
-        
             let ci = document.getElementById("cipage-1");
             // Loop over each page of information
             for (let i = 0; i < params.length; i++) {
@@ -343,17 +332,9 @@
                     // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
                     for (const key in params[i]) {
                         let value = params[i][key];
-                        DEBUG.log('processing', key, value);
-                        params[i][key] =
-                        (key in ciKeys) ? ciKeys[key](key, value) : value;   
+                        params[i][key] = (key in ciKeys) ? ciKeys[key](key, value) : value;   
                     }
-                    if ('interactiveStyle' in params[i]) {
-                        // Combination of <number>[E|B|I] instead of individual parameters. Decompose.
-                        params[i].interactiveStyleScore = params[i].interactiveStyle[0];
-                        params[i].interactiveStyleType = params[i].interactiveStyle[1];
-                        delete params[i].interactiveStyle;
-                    }
-                
+                 
                     DEBUG.log('params', JSON.stringify(params[i]));
                     displayCommunicationIndicators(i + 1, params[i]); 
                 } catch (e) { 

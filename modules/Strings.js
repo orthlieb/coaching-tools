@@ -12,6 +12,7 @@ export const STRINGS = {
     general: {
         columnVisibility: 'Life Languages',
         overallIntensity: 'Overall Intensity',
+        groupAverage: 'Group Average',
         range: 'Range',
         gap: 'Gap',
         low: 'Low',
@@ -29,6 +30,18 @@ export const STRINGS = {
         shaper: 'Shaper',
         producer: 'Producer',
         contemplator: 'Contemplator'
+    },
+    
+    ciLabels: {
+        acceptanceLevel: 'Acceptance Level', 
+        interactiveStyle: 'Interactive Style', 
+        internalControl: 'Internal Control', 
+        intrusionLevel: 'Intrusion Level', 
+        projectiveLevel: 'Projective Level', 
+        susceptibilityToStress: 'Susceptibility to Stress', 
+        learningPreferenceAuditory: 'Learning Preference Auditory', 
+        learningPreferenceVisual: 'Learning Preference Visual', 
+        learningPreferencePhysical: 'Learning Preference Physical'        
     },
 
     /**

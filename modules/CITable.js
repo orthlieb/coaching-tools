@@ -205,9 +205,10 @@ export class CITable {
                 let bFlag = false;
 
                 // Add new 50 line
+                let nLimit = nSortIndex == 3 ? 150 : 50;
                 dt.rows().every(function (rowIdx, tableLoop, rowLoop) {
                     let rowData = this.data();
-                    if (!bFlag && ((cSortDir == 'asc' && rowData[columnName] > 50) || (cSortDir == 'desc' && rowData[columnName] < 50))) {
+                    if (!bFlag && ((cSortDir == 'asc' && rowData[columnName] > nLimit) || (cSortDir == 'desc' && rowData[columnName] < nLimit))) {
                         bFlag = true;
                         $(this.node()).addClass(`${columnName}-border-top`);
                     }
@@ -328,26 +329,34 @@ export class CITable {
         let visibleColumns = dt.columns().visible();
 
         // Find the average values for each column.
+        let arrows = [ 'bi-arrow-down', 'bi-arrow-down-right', 'bi-arrow-right', 'bi-arrow-up-right', 'bi-arrow-up' ];
         const aAverages = data.map(function (key, index) {
             if (visibleColumns[index] && index > 1) {
                 // Data for selected rows
                 const aValues = selectedRows.map(row => { 
                     return row[key];
                 });
-                return aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
+                
+                let nAverage = aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
+                
+                if (nAverage == 0)
+                    return '';
+                
+                if (index == 3) {
+                    let is = LLPerson.composeInteractiveStyle(nAverage);
+                    return `${Math.round(is[0])} ${is[1]}`;
+                }
+                return `<i class="bi ${arrows[COMMON.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}`;
              } else 
                 return undefined;   // Skip this column.
         });
         
         // Build the footer
-        let arrows = [ 'bi-arrow-down', 'bi-arrow-down-right', 'bi-arrow-right', 'bi-arrow-up-right', 'bi-arrow-up' ];
-        let cFooter = aAverages.reduce((accumulator, nAverage) => {
-            if (nAverage == undefined)
+        let cFooter = aAverages.reduce((accumulator, cAverage) => {
+            if (cAverage == undefined)
                 return accumulator;
-            accumulator += '<th class="col-1 text-end">';
-            if (nAverage > 0)
-                accumulator += `<i class="bi ${arrows[COMMON.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}</th>`;
-            return accumulator += '</th>';
+            accumulator += `<th class="col-1 text-end">${cAverage}</th>`;
+            return accumulator;
         }, `<tr><th class="col-1"></th><th class="col-4">${STRINGS.general.groupAverage}</th>`);
         cFooter += '</tr>';
         

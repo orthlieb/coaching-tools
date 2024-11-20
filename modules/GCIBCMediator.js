@@ -81,16 +81,13 @@ export class GCIBCMediator {
 
         // Calculate the min, max, and average values for each Life Language
         const scores = COMMON.ciKeys.map(key => {
+            let nScale = key == 'interactiveStyle' ? 3 : 1;
             const values = activePeople.map(person => person[key]);
-            const min = Math.round(Math.min(...values));
-            const max = Math.round(Math.max(...values));
-            const avg = Math.round(values.reduce((sum, val) => sum + val, 0) / values.length);
-
-            // Calculate standard deviation: this is how spread or clumped the data is. 1 = very concentrated, 0 = spread out
-            const variance = values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / values.length;
-            const stdDev = Math.round(Math.sqrt(variance));
+            const min = Math.min(...values) / nScale;
+            const max = Math.max(...values) / nScale;
+            const avg = values.reduce((sum, val) => sum + val, 0) / values.length / nScale;
             
-            return { key, min, avg, max, stdDev };
+            return { key, min, avg, max };
         });
 
         return scores;
@@ -113,7 +110,7 @@ export class GCIBCMediator {
         // Create datasets for the low to average and average to high values
         const minToAvgDataset = {
             label: 'Min to Avg',
-            data: scores.map(score => [ score.min, score.avg ]),
+            data: scores.map(score => [ Math.round(score.min), Math.round(score.avg) ]),
             backgroundColor: scores.map(score => COMMON.ciColors.solid[score.key]),
             borderColor: 'white',
             borderWidth: 1
@@ -121,7 +118,7 @@ export class GCIBCMediator {
 
         const avgToMaxDataset = {
             label: 'Avg to Max',
-            data: scores.map(item => item.max - item.avg), // Difference to stack on top
+            data: scores.map(item => Math.round(item.max - item.avg)), // Difference to stack on top
             backgroundColor: scores.map(score => COMMON.ciColors.solid[score.key]),
             borderColor: 'white',
             borderWidth: 1
@@ -137,9 +134,16 @@ export class GCIBCMediator {
                         const scores = that._getCIScores(people);
                         const dataIndex = tooltipItem.dataIndex;
                         
+                        // Interactive Style
+                        if (dataIndex == 1) {
+                            let min = LLPerson.composeInteractiveStyle(scores[dataIndex].min * 3);
+                            let avg = LLPerson.composeInteractiveStyle(scores[dataIndex].avg * 3);
+                            let max = LLPerson.composeInteractiveStyle(scores[dataIndex].max * 3);
+                            return `Min: ${Math.round(min[0])} ${min[1]} Avg: ${Math.round(avg[0])} ${avg[1]} Max: ${Math.round(max[0])} ${max[1]} `; 
+                        }
+                        
                         // Display the custom label with the value
-                        return `Min: ${scores[dataIndex].min} Avg: ${scores[dataIndex].avg}\nMax: ${scores[dataIndex].max}`; 
-                        // Spread: ${Math.round(scores[dataIndex].stdDev / (scores[dataIndex].max - scores[dataIndex].min) * 100)}%`;
+                        return `Min: ${Math.round(scores[dataIndex].min)} Avg: ${Math.round(scores[dataIndex].avg)} Max: ${Math.round(scores[dataIndex].max)}`; 
                     }
                 }
             }

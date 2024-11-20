@@ -1,6 +1,7 @@
 import { ERROR } from './Error.js';
 import { DEBUG } from "./Debug.js";
 import { COMMON } from './Common.js';
+import { LLPerson } from './Person.js';
 
 /**
  * Given a set of Life Languages Data, sorts it into reverse order.
@@ -370,30 +371,18 @@ function interactiveStyleForensics(cLL, cISType) {
  * Will throw if there is invalid data.
  */
 function validateData(data) {
-    ERROR.assert('fullName' in data, 'validateData missing parameter data.fullName');
-    ERROR.assertType(data.fullName, 'string', `validateData "${data.fullName}" parameter data.fullName`);
+    DEBUG.logArgs('validateData(data)', arguments);
 
-    for (let cKey of COMMON.llKeys) {
-        ERROR.assert(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
-        ERROR.assertType(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
-        ERROR.assertRange(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
-    }
+    let person;
     
-    ERROR.assert('overallIntensity' in data, `validateData "${data.fullName}" missing parameter data.overallIntensity`);
-    ERROR.assertType(data.overallIntensity, 'number', `validateData "${data.fullName}" parameter data.overallIntensity`);
-    ERROR.assertRange(data.overallIntensity, 0, 100, `validateData "${data.fullName}" parameter data.overallIntensity`);
-
-
-    for (let cKey of COMMON.ciKeys) {
-        ERROR.assert(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
-        if (cKey === "interactiveStyleType") {
-            ERROR.assertType(data.interactiveStyleType, 'string', `validateData "${data.fullName}" parameter data.interactiveStyleType`);
-            ERROR.assert(/^[IEB]$/i.test(data.interactiveStyleType), `validateData "${data.fullName}" parameter data.interactiveStyleType should be either the letter I, E, or B, found ${data.interactiveStyleType}`);
-         } else {
-            ERROR.assertType(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
-            ERROR.assertRange(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
-        }
+    try {
+        person = new LLPerson(data);
+    } catch (e) {
+        DEBUG.log(e);
+        ERROR.appendAlert(e, 'error');
     }
+
+    return person;
 }
 
 Chart.register(ChartDataLabels);
@@ -404,18 +393,18 @@ Chart.register(ChartDataLabels);
  * @param {object} data Data to be displayed.
  */
 export function displayCommunicationIndicators(cSuffix, data) {
-    validateData(data);
+    let person = validateData(data);
     
-    let aSortedScores = getSortedScores(data);
+    let aSortedScores = getSortedScores(person);
     let ciElement = document.getElementById("cipage-" + cSuffix);
 
-    ciElement.querySelector(".fullName").innerText = data.fullName;
-    if (data.companyName)
-        ciElement.querySelector(".companyName").innerText = data.companyName;
+    ciElement.querySelector(".fullName").innerText = person.fullName;
+    if (person.companyName)
+        ciElement.querySelector(".companyName").innerText = person.companyName;
     ciElement.querySelector(".shorthand").innerText =
         createShorthandString(aSortedScores);
 
-    // Hide fornesics if not requested.
+    // Hide forensics if not requested.
     let bHidden = !data.showForensics;
     for (let obj of ciElement.getElementsByClassName("forensic")) {
         obj.hidden = bHidden;
@@ -423,26 +412,29 @@ export function displayCommunicationIndicators(cSuffix, data) {
 
     // Acceptance Level Section
     let cKey = "acceptanceLevel";
-    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, data[cKey]);
+    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, person[cKey]);
     ciElement.querySelector(`.${cKey}Status`).innerText = evaluateCILevel(
-        data[cKey],
+        person[cKey],
         [LOW, HIGH],
         ["LOW", "MEDIUM", "HIGH"]
     );
-    ciElement.querySelector(`.${cKey}Score`).innerText = data[cKey];
+    ciElement.querySelector(`.${cKey}Score`).innerText = person[cKey];
     for (let i = 0; i < aSortedScores.length; i++) {
         let element = ciElement.querySelector(`.${cKey}LifeLanguage${i + 1}`);
         element.innerHTML = evaluateForensicLevel(
             cKey,
             aSortedScores[i][0],
-            data[cKey]
+            person[cKey]
         );
     }
 
     // Interactive Style Section
     cKey = "interactiveStyle";
-    let cType = data[`${cKey}Type`];
-    let nValue = data[`${cKey}Score`];
+    let is = LLPerson.composeInteractiveStyle(person[cKey]);
+    let nValue = is[0];
+    let cType = is[1];
+    DEBUG.log('## is', is);
+    
 
     createCIChart(
         ciElement.querySelector(`.${cKey}IntrovertChart`),
@@ -472,82 +464,82 @@ export function displayCommunicationIndicators(cSuffix, data) {
 
     // Internal Control Section
     cKey = "internalControl";
-    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, data[cKey]);
+    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, person[cKey]);
     ciElement.querySelector(`.${cKey}Status`).innerText = evaluateCILevel(
-        data[cKey]
+        person[cKey]
     );
-    ciElement.querySelector(`.${cKey}Score`).innerText = data[cKey];
+    ciElement.querySelector(`.${cKey}Score`).innerText = person[cKey];
     for (let i = 0; i < aSortedScores.length; i++) {
         let element = ciElement.querySelector(`.${cKey}LifeLanguage${i + 1}`);
         element.innerHTML = evaluateForensicLevel(
             cKey,
             aSortedScores[i][0],
-            data[cKey]
+            person[cKey]
         );
     }
 
     // Intrusion Level Section
     cKey = "intrusionLevel";
-    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, data[cKey]);
+    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, person[cKey]);
     ciElement.querySelector(`.${cKey}Status`).innerText = evaluateCILevel(
-        data[cKey]
+        person[cKey]
     );
-    ciElement.querySelector(`.${cKey}Score`).innerText = data[cKey];
+    ciElement.querySelector(`.${cKey}Score`).innerText = person[cKey];
     for (let i = 0; i < aSortedScores.length; i++) {
         let element = ciElement.querySelector(`.${cKey}LifeLanguage${i + 1}`);
         element.innerHTML = evaluateForensicLevel(
             cKey,
             aSortedScores[i][0],
-            data[cKey]
+            person[cKey]
         );
     }
 
     // Projective Level Section
     cKey = "projectiveLevel";
-    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, data[cKey]);
+    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, person[cKey]);
     ciElement.querySelector(`.${cKey}Status`).innerText = evaluateCILevel(
-        data[cKey]
+        person[cKey]
     );
-    ciElement.querySelector(`.${cKey}Score`).innerText = data[cKey];
+    ciElement.querySelector(`.${cKey}Score`).innerText = person[cKey];
     for (let i = 0; i < aSortedScores.length; i++) {
         let element = ciElement.querySelector(`.${cKey}LifeLanguage${i + 1}`);
         element.innerHTML = evaluateForensicLevel(
             cKey,
             aSortedScores[i][0],
-            data[cKey]
+            person[cKey]
         );
     }
 
     // Susceptibility To Stress Section
     cKey = "susceptibilityToStress";
-    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, data[cKey]);
+    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, person[cKey]);
     ciElement.querySelector(`.${cKey}Status`).innerText = evaluateCILevel(
-        data[cKey]
+        person[cKey]
     );
-    ciElement.querySelector(`.${cKey}Score`).innerText = data[cKey];
+    ciElement.querySelector(`.${cKey}Score`).innerText = person[cKey];
 
     // Learning Preference Section
     cKey = "learningPreferenceAuditory";
-    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, data[cKey]);
+    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, person[cKey]);
     ciElement.querySelector(`.${cKey}Status`).innerText = evaluateCILevel(
-        data[cKey]
+        person[cKey]
     );
-    ciElement.querySelector(`.${cKey}Score`).innerText = data[cKey];
+    ciElement.querySelector(`.${cKey}Score`).innerText = person[cKey];
 
     cKey = "learningPreferenceVisual";
-    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, data[cKey]);
+    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, person[cKey]);
     ciElement.querySelector(`.${cKey}Status`).innerText = evaluateCILevel(
-        data[cKey]
+        person[cKey]
     );
-    ciElement.querySelector(`.${cKey}Score`).innerText = data[cKey];
+    ciElement.querySelector(`.${cKey}Score`).innerText = person[cKey];
 
     cKey = "learningPreferencePhysical";
-    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, data[cKey]);
+    createCIChart(ciElement.querySelector(`.${cKey}Chart`), cKey, person[cKey]);
     ciElement.querySelector(`.${cKey}Status`).innerText = evaluateCILevel(
-        data[cKey]
+        person[cKey]
     );
 
-    ciElement.querySelector(`.${cKey}Score`).innerText = data[cKey];
+    ciElement.querySelector(`.${cKey}Score`).innerText = person[cKey];
 
     // Handle printing events.
     window.addEventListener("beforeprint", (event) => {

@@ -26,7 +26,7 @@ export class LLPerson {
         // Interactive style is usually either Score/Type (interactiveStyleScore, interactiveStyleType) or a number/letter string (interactiveStyle).
         if ('interactiveStyle' in data) {
             ERROR.assertType(data.interactiveStyle, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyle`);
-            let is = this.parseInteractiveStyle(data.interactiveStyle);
+            let is = LLPerson.parseInteractiveStyle(data.interactiveStyle);
             data.interactiveStyleScore = is[0];
             data.interactiveStyleType = is[1];
             delete data.interactiveStyle;
@@ -97,6 +97,7 @@ export class LLPerson {
      * @public
      */
     static parseInteractiveStyle(value) {
+        DEBUG.logArgs('parseInteractiveStyle', arguments);
         // First part is a number
         let nValue = parseFloat(value);
         if (Number.isNaN(nValue)) {
@@ -104,7 +105,7 @@ export class LLPerson {
         }
 
         // Followed by an I, B, or E.
-        return [nValue, value.slice(-1).toUpper()];
+        return [nValue, value.slice(-1).toUpperCase()];
     }
     
     /**
