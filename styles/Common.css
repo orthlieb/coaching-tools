@@ -198,6 +198,231 @@
   color: black !important;
 }
 
+.acceptanceLevel-highlight {
+  background-color: #f7d4d6 !important;
+  color: #8a1921 !important;
+}
+
+.interactiveStyle-highlight {
+  background-color: #f6d4f7 !important;
+  color: #861a89 !important;
+}
+
+.internalControl-highlight {
+  background-color: #fae2d1 !important;
+  color: #934610 !important;
+}
+
+.intrusionLevel-highlight {
+  background-color: #fbf3d0 !important;
+  color: #977b0c !important;
+}
+
+.projectiveLevel-highlight {
+  background-color: #e2f3d8 !important;
+  color: #487d26 !important;
+}
+
+.susceptibilityToStress-highlight {
+  background-color: #d8f3f0 !important;
+  color: #267d72 !important;
+}
+
+.learningPreferenceAuditory-highlight {
+  background-color: #d8e2f3 !important;
+  color: #27467c !important;
+}
+
+.learningPreferencePhysical-highlight {
+  background-color: #fef5cd !important;
+  color: #a18402 !important;
+}
+
+.learningPreferenceVisual-highlight {
+  background-color: #f8d3d7 !important;
+  color: #8d1624 !important;
+}
+
+.acceptanceLevel-background {
+  background-color: hsl(356, 69%, 43%) !important;
+}
+
+.acceptanceLevel-border-top {
+  border-top: 2px solid hsl(356, 69%, 43%) !important;
+}
+
+.acceptanceLevel-text-color {
+  color: hsl(356, 69%, 43%) !important;
+}
+
+.interactiveStyle-background {
+  background-color: hsl(298, 68.5%, 45%) !important;
+}
+
+.interactiveStyle-border-top {
+  border-top: 2px solid hsl(298, 68.5%, 45%) !important;
+}
+
+.interactiveStyle-text-color {
+  color: hsl(298, 68.5%, 45%) !important;
+}
+
+.internalControl-background {
+  background-color: hsl(24.5, 80%, 56%) !important;
+}
+
+.internalControl-border-top {
+  border-top: 2px solid hsl(24.5, 80%, 56%) !important;
+}
+
+.internalControl-text-color {
+  color: hsl(24.5, 80%, 56%) !important;
+}
+
+.intrusionLevel-background {
+  background-color: hsl(48, 85.5%, 54.5%) !important;
+}
+
+.intrusionLevel-border-top {
+  border-top: 2px solid hsl(48, 85.5%, 54.5%) !important;
+}
+
+.intrusionLevel-text-color {
+  color: hsl(48, 85.5%, 54.5%) !important;
+}
+
+.projectiveLevel-background {
+  background-color: hsl(97, 53%, 40.5%) !important;
+}
+
+.projectiveLevel-border-top {
+  border-top: 2px solid hsl(97, 53%, 40.5%) !important;
+}
+
+.projectiveLevel-text-color {
+  color: hsl(97, 53%, 40.5%) !important;
+}
+
+.susceptibilityToStress-background {
+  background-color: hsl(172.5, 53.5%, 47%) !important;
+}
+
+.susceptibilityToStress-border-top {
+  border-top: 2px solid hsl(172.5, 53.5%, 47%) !important;
+}
+
+.susceptibilityToStress-text-color {
+  color: hsl(172.5, 53.5%, 47%) !important;
+}
+
+.learningPreferenceAuditory-background {
+  background-color: hsl(218, 52%, 52%) !important;
+}
+
+.learningPreferenceAuditory-border-top {
+  border-top: 2px solid hsl(218, 52%, 52%) !important;
+}
+
+.learningPreferenceAuditory-text-color {
+  color: hsl(218, 52%, 52%) !important;
+}
+
+.learningPreferencePhysical-background {
+  background-color: hsl(49, 97%, 58%) !important;
+}
+
+.learningPreferencePhysical-border-top {
+  border-top: 2px solid hsl(49, 97%, 58%) !important;
+}
+
+.learningPreferencePhysical-text-color {
+  color: hsl(49, 97%, 58%) !important;
+}
+
+.learningPreferenceVisual-background {
+  background-color: hsl(353, 73%, 44%) !important;
+}
+
+.learningPreferenceVisual-border-top {
+  border-top: 2px solid hsl(353, 73%, 44%) !important;
+}
+
+.learningPreferenceVisual-text-color {
+  color: hsl(353, 73%, 44%) !important;
+}
+
+.acceptanceLevel-light-background {
+  background-color: #f7d4d6 !important;
+}
+
+.interactiveStyle-light-background {
+  background-color: #f6d4f7 !important;
+}
+
+.internalControl-light-background {
+  background-color: #fae2d1 !important;
+}
+
+.intrusionLevel-light-background {
+  background-color: #fbf3d0 !important;
+}
+
+.projectiveLevel-light-background {
+  background-color: #e2f3d8 !important;
+}
+
+.susceptibilityToStress-light-background {
+  background-color: #d8f3f0 !important;
+}
+
+.learningPreferenceAuditory-light-background {
+  background-color: #d8e2f3 !important;
+}
+
+.learningPreferencePhysical-light-background {
+  background-color: #fef5cd !important;
+}
+
+.learningPreferenceVisual-light-background {
+  background-color: #f8d3d7 !important;
+}
+
+.acceptanceLevel-dark-text-color {
+  color: #8a1921 !important;
+}
+
+.interactiveStyle-dark-text-color {
+  color: #861a89 !important;
+}
+
+.internalControl-dark-text-color {
+  color: #934610 !important;
+}
+
+.intrusionLevel-dark-text-color {
+  color: #977b0c !important;
+}
+
+.projectiveLevel-dark-text-color {
+  color: #487d26 !important;
+}
+
+.susceptibilityToStress-dark-text-color {
+  color: #267d72 !important;
+}
+
+.learningPreferenceAuditory-dark-text-color {
+  color: #27467c !important;
+}
+
+.learningPreferencePhysical-dark-text-color {
+  color: #a18402 !important;
+}
+
+.learningPreferenceVisual-dark-text-color {
+  color: #8d1624 !important;
+}
+
 .bold {
   font-weight: 700;
 }

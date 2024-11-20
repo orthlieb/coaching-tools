@@ -71,6 +71,79 @@ $prefixes: mover, doer, influencer, responder, shaper, producer, contemplator, o
     }
 }
 
+@function middle-color($color1, $color2) {
+  $hue: calc((hue($color1) + hue($color2)) / 2);
+  $saturation: calc((saturation($color1) + saturation($color2)) / 2);
+  $lightness: calc((lightness($color1) + lightness($color2)) / 2);
+  
+  @return hsl($hue, $saturation, $lightness);
+}
+
+// Colors for Communication Indicators
+$ci-color-map: (
+    acceptanceLevel: middle-color(hsl(354, 67%, 54%), hsl(358, 71%, 32%)),
+    interactiveStyle: middle-color(hsl(238, 52%, 38%), hsl(358, 85%, 52%)),
+    internalControl: middle-color(hsl(29, 93%, 65%), hsl(20, 67%, 47%)),
+    intrusionLevel: middle-color(hsl(49, 97%, 58%), hsl(47, 74%, 51%)),
+    projectiveLevel: middle-color(hsl(69, 67%, 51%), hsl(125, 39%, 30%)),
+    susceptibilityToStress: middle-color(hsl(169, 43%, 68%), hsl(176, 64%, 26%)),
+    learningPreferenceAuditory: hsl(218, 52%, 52%),
+    learningPreferencePhysical: hsl(49, 97%, 58%),
+    learningPreferenceVisual: hsl(353, 73%, 44%),
+);
+
+@function adjust-color-map-lightness($color-map, $lightness) {
+  $new-color-map: ();
+
+  @each $key, $value in $color-map {
+    // Check if the value is a valid color
+    $new-value: if(type-of($value) == 'color', adjust-color($value, $lightness: $lightness - lightness($value)), $value);
+    $new-color-map: map.set($new-color-map, $key, $new-value);
+  }
+
+  @return $new-color-map;
+}
+
+$light-ci-color-map: adjust-color-map-lightness($ci-color-map, 90%);
+
+$dark-ci-color-map: adjust-color-map-lightness($ci-color-map, 32%);
+
+$ci-prefixes: acceptanceLevel, interactiveStyle, internalControl, intrusionLevel, projectiveLevel, susceptibilityToStress, learningPreferenceAuditory, learningPreferencePhysical, learningPreferenceVisual;
+
+@each $prefix in $ci-prefixes {
+    .#{$prefix}-highlight {
+        background-color: #{map.get($light-ci-color-map, $prefix)} !important;
+        color: #{map.get($dark-ci-color-map, $prefix)} !important;
+     }
+}
+
+// Life Language solid colors for background, border top (for table > 50 delineation), and text colors.
+@each $prefix, $color in $ci-color-map {
+    .#{$prefix}-background {
+        background-color: $color !important;
+    }
+    .#{$prefix}-border-top {
+        border-top: 2px solid $color !important;
+    }
+    .#{$prefix}-text-color {
+        color: $color !important;
+    }
+}
+
+// Light background for each Life Language color
+@each $prefix, $color in $light-ci-color-map {
+    .#{$prefix}-light-background {
+        background-color: $color !important;
+    }
+}
+
+// Dark text color to offset light background.
+@each $prefix, $color in $dark-ci-color-map {
+   .#{$prefix}-dark-text-color {
+        color: $color !important;
+    }
+}
+
 .bold {
     font-weight: 700;
 }

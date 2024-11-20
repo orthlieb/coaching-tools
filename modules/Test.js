@@ -100,7 +100,17 @@ export const TEST = {
             shaper: TEST.randomScore(),
             producer: TEST.randomScore(),
             contemplator: TEST.randomScore(),
-            overallIntensity: TEST.randomScore()
+            overallIntensity: TEST.randomScore(),
+            acceptanceLevel: TEST.randomScore(),
+            interactiveStyleScore: TEST.randomScore(),
+            interactiveStyleType: TEST.randomInteractiveStyle(),
+            internalControl: TEST.randomScore(),
+            intrusionLevel: TEST.randomScore(),
+            projectiveLevel: TEST.randomScore(),
+            susceptibilityToStress: TEST.randomScore(),
+            learningPreferenceAuditory: TEST.randomScore(),
+            learningPreferenceVisual: TEST.randomScore(),
+            learningPreferencePhysical: TEST.randomScore()
         };
     },
     

@@ -32,6 +32,7 @@ export const COMMON = {
             producer: 'hsl(152, 100%, 20%)', 
             contemplator: 'hsl(196, 73%, 54%)'
         },
+
         /**
          * Lighter version of colors to be used as backgrounds by key.
          */
@@ -44,6 +45,7 @@ export const COMMON = {
             producer: 'hsl(151, 26%, 84%)',
             contemplator: 'hsl(196, 73%, 92%)'
         },
+        
         /**
          * Darker version of colors to be used as text colors. Access via COMMON.colors.dark[key].
          */
@@ -57,7 +59,7 @@ export const COMMON = {
             contemplator: 'hsl(196, 73%, 34%)'
         },
        /**
-        * Background colors that include a level of transparency. Access via LLCOLORS_BACKGROUND[key].
+        * Background colors that include a level of transparency. Access via COMMON.colors.background[key].
         */
         background: {
             mover: 'hsla(358, 85%, 32%, 0.2)',
@@ -74,8 +76,7 @@ export const COMMON = {
      */
     ciKeys: [
         'acceptanceLevel',
-        'interactiveStyleScore',
-        'interactiveStyleType',
+        'interactiveStyle',
         'internalControl',
         'intrusionLevel',
         'projectiveLevel',
@@ -85,7 +86,21 @@ export const COMMON = {
         'learningPreferencePhysical'
     ],
     
-   /**
+    ciColors: {
+        solid: {
+            acceptanceLevel: 'hsl(356, 69%, 43%)',
+            interactiveStyle: 'hsl(298, 68.5%, 45%)',
+            internalControl: 'hsl(24.5, 80%, 56%)',
+            intrusionLevel:  'hsl(48, 85.5%, 54.5%)',
+            projectiveLevel: 'hsl(97, 53%, 40.5%)',
+            susceptibilityToStress: 'hsl(172.5, 53.5%, 47%)',
+            learningPreferenceAuditory: "hsl(218, 52%, 52%)",
+            learningPreferencePhysical: "hsl(49, 97%, 58%)",
+            learningPreferenceVisual: "hsl(353, 73%, 44%)",
+        }
+    },
+    
+    /**
      * Evaluates whether Score is VERY LOW, LOW, MODERATE, HIGH or VERY HIGH.
      * Suitable for displaying arrows or colors from another array.
      * @param {number} nValue The value to be evaluated.
@@ -99,7 +114,13 @@ export const COMMON = {
     
         return 4;                       // bi-arrow-up score-arrow "\D83E\DC70"; "&#x1F879;"; up
     },
-        
+
+    /**
+     * Creates an info dialog attached to a particular element.
+     * @param {string} cInfoId The id of the element to attach the dialog.
+     * @param {string} cTitle Title of the dialog.
+     * @param {string} cBody Body of the dialog.
+     */
     createInfoDialog(cInfoId, cTitle, cBody) {
         document.getElementById(cInfoId).addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default anchor behavior

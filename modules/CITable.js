@@ -1,19 +1,20 @@
 /*
- * @module modules/LLTable
+ * @module modules/CITable
  * @author Carl Orthlieb
  */
 import { ERROR } from "./Error.js";
 import { DEBUG } from "./Debug.js";
 import { STRINGS } from "./Strings.js";
 import { COMMON } from "./Common.js";
+import { LLPerson } from "./Person.js";
 
 /**
- * Class representing a Life Languages scores table for a group of people.
+ * Class representing a Communication Indicators table for a group of people.
  * @class
  */
-export class LLTable {
+export class CITable {
     /**
-     * LLTable class constructor
+     * CITable class constructor
      * @param {string} cTableId HTML ID of the table we are creating.
      * @param {array} data Data to display in the table. 
      * @param {object} mediator Mediator object that will catch events.
@@ -74,16 +75,28 @@ export class LLTable {
             },
             {   // Full name
                 targets: 1, 
-                className: 'col-3', 
+                className: 'col-1', 
                 asSorting: ['asc', 'desc'] 
             },
             {
-                targets: [2, 3, 4, 5, 6, 7, 8, 9], // Life Language score columns
+                targets: [2, 4, 5, 6, 7, 8, 9, 10], // Communication Indicator columns
                 className: 'col-1 text-end',
                 asSorting: ['asc', 'desc'],
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
                         return Math.round(data); // Round up for display and filtering
+                    }
+                    return data; // Return original value for sorting, etc.
+                }
+            },
+            {   // Interactive Style
+                targets: 3,
+                className: 'col-1 text-end',
+                asSorting: ['asc', 'desc'],
+                render: function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        let is = LLPerson.composeInteractiveStyle(data);
+                        return `${Math.round(is[0])} ${is[1]}`; 
                     }
                     return data; // Return original value for sorting, etc.
                 }
@@ -97,13 +110,10 @@ export class LLTable {
             { name: 'name', data: 'fullName', title: STRINGS.columnLabels[1] }
         ];
         
-        COMMON.llKeys.forEach((key, index) => {
-            columns.push({ name: key, data: key, title: STRINGS.columnLabels[index + 2], orderSequence: ['desc', 'asc'] });
+        COMMON.ciKeys.forEach((key, index) => {
+            columns.push({ name: key, data: key, title: STRINGS.columnCILabels[index + 2], orderSequence: ['desc', 'asc'] });
         });
 
-        columns.push({ name: 'overallIntensity', data: 'overallIntensity', title: STRINGS.columnLabels[9],
-                    orderSequence: ['desc', 'asc'] });
-        
         return columns;
     }
     
@@ -117,7 +127,7 @@ export class LLTable {
                             extend: 'colvis',
                             columns: 'th:nth-child(n+3)',
                             columnText: function (dt, nIndex, cTitle) {
-                                return STRINGS.columnTitles[nIndex];
+                                return STRINGS.columnCITitles[nIndex];
                             }
                         }
                     ]
@@ -325,7 +335,7 @@ export class LLTable {
                     return row[key];
                 });
                 return aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
-            } else 
+             } else 
                 return undefined;   // Skip this column.
         });
         

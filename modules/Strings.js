@@ -41,7 +41,8 @@ export const STRINGS = {
      * Set of labels for column headings for the person Communicaton indicators.
      */
     columnCILabels: ['', 'Full Name', 'AL', 'IS', 'IC', 'IL', 'PL', 'SS', 'LPA', 'LPV', 'LPP' ],
-    
+    columnCITitles: ['', 'Full Name', 'Acceptance Level', 'Interactive Style', 'Internal Control', 'Intrusion Level', 'Projective Level', 'Susceptibility to Stress', 'Learning Preference Auditory', 'Learning Preference Visual', 'Learning Preference Physical'],
+
     /**
      * Set of labels for score ratings. 
      */
