@@ -13,6 +13,7 @@ export const STRINGS = {
         columnVisibility: 'Life Languages',
         overallIntensity: 'Overall Intensity',
         groupAverage: 'Group Average',
+        communicationIndicators: 'Communication Indicators',
         range: 'Range',
         gap: 'Gap',
         low: 'Low',

@@ -123,7 +123,7 @@ export class CITable {
                 topEnd: {
                     buttons: [
                         {
-                            text: STRINGS.general.columnVisibility,
+                            text: STRINGS.general.communicationIndicators,
                             extend: 'colvis',
                             columns: 'th:nth-child(n+3)',
                             columnText: function (dt, nIndex, cTitle) {
