@@ -83,13 +83,27 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            import { testJSON, testCSV, testInvalidData } from "./modules/GroupCIBarChart.test.js";
+            import { testCSV } from "./modules/GroupCIBarChart.test.js";
+            //import { testJSON, testCSV, testInvalidData } from "./modules/GroupCIBarChart.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/GroupCIBarChart.html');
             //url = testCSV("https://www.relatematters.com/coaching-tools/GroupCIBarChart.html");
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/GroupCIBarChart.html');
 
             $("document").ready(function () {
                 try {
+                    let searchParams = url.searchParams;
+                    let params = {};
+
+                    if (searchParams.has("json")) {
+                        params = JSON.parse(searchParams.get("json"));
+                    } else if (searchParams.has("csv")) {
+                        params = convertCSVtoJSON(searchParams.get("csv"));
+                    } else {
+                        DEBUG.log('No data specified, generating test data');
+                        url = testCSV('https://www.relatematters.com/coaching-tools/GroupCIBarChart.html');
+                        params = convertCSVtoJSON(url.searchParams.get('csv')); 
+                    }
+
                     function parseNumber(key, value) {
                         if (typeof value == "number") return value;
                         let nValue = parseFloat(value);
@@ -131,27 +145,17 @@
                         learningPreferencePhysical: parseNumber
                     };
 
-                    let searchParams = url.searchParams;
-                    let params = {};
+                    let parsedParams = [];
+                    params.forEach(param => {
+                        let obj = {};
+                        Object.keys(parseKeys).forEach(key => {
+                            if (param[key])
+                                obj[key] = parseKeys[key](key, param[key]);       
+                        }); 
+                        parsedParams.push(obj);
+                    });
 
-                    if (searchParams.has("json")) {
-                        params = JSON.parse(searchParams.get("json"));
-                    } else if (searchParams.has("csv")) {
-                        params = convertCSVtoJSON(searchParams.get("csv"));
-                    } else {
-                        DEBUG.log('No data specified, generating test data');
-                        url = testCSV('https://www.relatematters.com/coaching-tools/GroupCIBarChart.html');
-                        params = convertCSVtoJSON(url.searchParams.get('csv')); 
-                    }
-
-                    // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
-                    for (let i = 0; i < params.length; i++) {
-                        for (const [key, value] of Object.entries(params[i])) {
-                            params[i][key] = key in parseKeys ? parseKeys[key](key, value) : value;
-                        }
-                    }
-
-                    let theMediator = new GCIBCMediator(params, "the-table", "the-chart");
+                    let theMediator = new GCIBCMediator(parsedParams, "the-table", "the-chart");
                 } catch (e) {
                     ERROR.appendAlert(e, "error");
                 }

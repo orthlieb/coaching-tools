@@ -62,8 +62,6 @@ export class GCIBCMediator {
         
         ERROR.assert(people.length > 0, "Mediator._validatePerson need at least one valid person in incoming data, person count is 0");
 
-        DEBUG.log('## people', people);    
-        
         return people;
     }
 
@@ -149,7 +147,6 @@ export class GCIBCMediator {
             }
         };
         
-        DEBUG.log('## chartData', chartData);
         return chartData;        
     }
     

@@ -433,8 +433,6 @@ export function displayCommunicationIndicators(cSuffix, data) {
     let is = LLPerson.composeInteractiveStyle(person[cKey]);
     let nValue = is[0];
     let cType = is[1];
-    DEBUG.log('## is', is);
-    
 
     createCIChart(
         ciElement.querySelector(`.${cKey}IntrovertChart`),

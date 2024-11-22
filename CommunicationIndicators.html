@@ -240,6 +240,7 @@
         let url = new URL(window.location.href);
 
         // Test data generation
+        import { testCSV } from './modules/CommunicationIndicators.test.js';
         //import { testSingle, testJSON, testCSV, testInvalidEntries } from './modules/CommunicationIndicators.test.js';
         //url = testSingle("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
         //url = testJSON("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
@@ -247,6 +248,30 @@
         //url = testInvalidEntries("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
 
         try {
+            let searchParams = url.searchParams;
+            let params = {};
+
+            if (searchParams.has('json')) {
+                params = JSON.parse(searchParams.get('json'));
+            } else if (searchParams.has('csv')) {
+                params = convertCSVtoJSON(searchParams.get('csv'));
+            } else {
+                let bFlag = false;
+                for (const [key, value] of searchParams.entries()) {
+                    bFlag = true;
+                    params[key] = value;
+                }
+                if (!bFlag) {
+                    // No data found, generate data.
+                    url = testCSV("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
+                    params = convertCSVtoJSON(url.searchParams.get('csv')); 
+                }
+            }
+            
+            // We deal in arrays, so if the params are a singleton, enclose it in an array.
+            if (!Array.isArray(params)) 
+                params = [params];
+
             function parseNumber(key, value) {
                 if (typeof value == 'number')
                     return value;
@@ -279,7 +304,9 @@
                 return value;
             }
             
-            const ciKeys = {
+            const parseKeys = {
+                fullName: parseString,
+                company: parseString,
                 mover: parseNumber,
                 doer: parseNumber,
                 responder: parseNumber,
@@ -302,26 +329,19 @@
                 showForensics: parseBool
             };
             
-            let searchParams = url.searchParams;
-            let params = {};
+            let parsedParams = [];
+            params.forEach(param => {
+                let obj = {};
+                Object.keys(parseKeys).forEach(key => {
+                    if (param[key])
+                        obj[key] = parseKeys[key](key, param[key]);       
+                }); 
+                parsedParams.push(obj);
+            });
 
-            if (searchParams.has('json')) {
-                params = JSON.parse(searchParams.get('json'));
-            } else if (searchParams.has('csv')) {
-                params = convertCSVtoJSON(searchParams.get('csv'));
-            } else {
-                for (const [key, value] of searchParams.entries()) {
-                    params[key] = value;
-                }
-            }
-            
-            // We deal in arrays, so if the params are a singleton, enclose it in an array.
-            if (!Array.isArray(params)) 
-                params = [params];
-            
             let ci = document.getElementById("cipage-1");
             // Loop over each page of information
-            for (let i = 0; i < params.length; i++) {
+            for (let i = 0; i < parsedParams.length; i++) {
                 if (i > 0) {
                     // Create our page from the existing one
                     let divClone = ci.cloneNode(true); // the true is for deep cloning
@@ -329,14 +349,8 @@
                     document.body.appendChild(divClone);
                 }
                 try {
-                    // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
-                    for (const key in params[i]) {
-                        let value = params[i][key];
-                        params[i][key] = (key in ciKeys) ? ciKeys[key](key, value) : value;   
-                    }
-                 
-                    DEBUG.log('params', JSON.stringify(params[i]));
-                    displayCommunicationIndicators(i + 1, params[i]); 
+                    DEBUG.log('params', JSON.stringify(parsedParams[i]));
+                    displayCommunicationIndicators(i + 1, parsedParams[i]); 
                 } catch (e) { 
                     ERROR.displayAlertInDoc(e); 
                 }

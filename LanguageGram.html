@@ -71,71 +71,84 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            //import { testSingle, testJSON, testCSV, testInvalidJSON } from "./modules/LanguageGram.test.js";
+            import { testCSV } from "./modules/LanguageGram.test.js";
+            //import { testSingle, testJSON, testInvalidJSON } from "./modules/LanguageGram.test.js";
             //url = testSingle("https://www.relatematters.com/coaching-tools/LanguageGram.html");
             //url = testJSON("https://www.relatematters.com/coaching-tools/LanguageGram.html");
             //url = testCSV("https://www.relatematters.com/coaching-tools/LanguageGram.html");
             //url = testInvalidJSON("https://www.relatematters.com/coaching-tools/LanguageGram.html");
 
             try {
-                // Utilities to parse the data from string inputs, which happen with GET and CSV
-                function parseScore(param) {
-                    if (typeof param == "string") {
-                        let nValue = parseFloat(param);
-                        if (Number.isNaN(nValue))
-                            return param;
-                        return nValue;
+                let searchParams = url.searchParams;
+                let params = {};
+
+                if (searchParams.has('json')) {
+                    params = JSON.parse(searchParams.get('json'));
+                } else if (searchParams.has('csv')) {
+                    params = convertCSVtoJSON(searchParams.get('csv'));
+                } else {
+                    let bFlag = false;
+                    for (const [key, value] of searchParams.entries()) {
+                        bFlag = true;
+                        params[key] = value;
                     }
-                    return param;
+                    if (!bFlag) {
+                        // No data found, generate data.
+                        DEBUG.log('No data specified, generating test data');
+                        url = testCSV('https://www.relatematters.com/coaching-tools/LanguageGram.html');
+                        params = convertCSVtoJSON(url.searchParams.get('csv')); 
+                     }
+                }
+            
+                // We deal in arrays, so if the params are a singleton, enclose it in an array.
+                if (!Array.isArray(params)) 
+                    params = [params];
+
+                // Utilities to parse the data from string inputs, which happen with GET and CSV
+                function parseNumber(key, value) {
+                    if (typeof value == 'number') return value;
+                    let nValue = parseFloat(value);
+                    if (Number.isNaN(nValue)) return value;
+                    return nValue;
+                }
+ 
+                function parseString(key, value) {
+                    return value;
                 }
 
                 const parseKeys = {
-                    mover: parseScore,
-                    doer: parseScore,
-                    responder: parseScore,
-                    influencer: parseScore,
-                    shaper: parseScore,
-                    producer: parseScore,
-                    contemplator: parseScore,
-                    overallIntensity: parseScore
+                    fullName: parseString,
+                    companyName: parseString,
+                    mover: parseNumber,
+                    doer: parseNumber,
+                    responder: parseNumber,
+                    influencer: parseNumber,
+                    shaper: parseNumber,
+                    producer: parseNumber,
+                    contemplator: parseNumber,
+                    overallIntensity: parseNumber
                 };
 
-                // Handle GET entries
-                let queryParams = {};
-                for (const [key, value] of url.searchParams.entries()) {
-                    queryParams[key] =
-                        key in parseKeys ? parseKeys[key](value) : value;
-                }
-
-                // Handle JSON formatted data
-                if (queryParams.hasOwnProperty("json")) {
-                    queryParams = JSON.parse(queryParams.json);
-                }
-
-                // Handle CSV formatted data
-                if (queryParams.hasOwnProperty("csv")) {
-                    queryParams = convertCSVtoJSON(queryParams.csv);
-                    for (let i = 0; i < queryParams.length; i++) {
-                        for (const [key, value] of Object.entries(queryParams[i])) {
-                             queryParams[i][key] =
-                                key in parseKeys ? parseKeys[key](value) : value;
-                        }
-                    }
-                 }
-
-                // We deal in arrays, so if the params are a singleton, enclose it in an array.
-                if (!Array.isArray(queryParams)) queryParams = [queryParams];
+                let parsedParams = [];
+                params.forEach(param => {
+                    let obj = {};
+                    Object.keys(parseKeys).forEach(key => {
+                        if (param[key])
+                            obj[key] = parseKeys[key](key, param[key]);       
+                    }); 
+                    parsedParams.push(obj);
+                });
 
                 let lgGrid = document.getElementById("language-gram-grid");
                 let lg = document.getElementById("language-gram-1");
-                for (let i = 0; i < queryParams.length; i++) {
+                for (let i = 0; i < parsedParams.length; i++) {
                     if (i > 0) {
                         let divClone = lg.cloneNode(true); // the true is for deep cloning
                         divClone.setAttribute("id", "language-gram-" + (i + 1));
                         lgGrid.appendChild(divClone);
                     }
                     try {
-                        displayLanguageGram(i + 1, queryParams[i]);
+                        displayLanguageGram(i + 1, parsedParams[i]);
                     } catch (e) {
                         // Error.
                         ERROR.displayAlertInDoc(e);

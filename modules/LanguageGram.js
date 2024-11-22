@@ -1,5 +1,7 @@
 import { ERROR } from './Error.js';
 import { COMMON } from './Common.js';
+import { DEBUG } from './Debug.js';
+import { LLPerson } from './Person.js';
 
 /**
  * Given a set of Life Languages Data, sorts it into reverse order.
@@ -37,15 +39,19 @@ function evaluateOverallIntensity(nValue) {
 }
 
 function validateData(data) {
-    ERROR.assert('fullName' in data, 'validateData missing parameter data.fullName');
-     ERROR.assert(data.fullName, 'string', `validateData "${data.fullName}" parameter data.fullName`);
+   DEBUG.logArgs('validateData(data)', arguments);
 
-    for (let cKey of COMMON.llKeys) {
-        ERROR.assert(cKey in data, `validateData "${data.fullName}" missing parameter data.${cKey}`);
-        ERROR.assertType(data[cKey], 'number', `validateData "${data.fullName}" parameter data.${cKey}`);
-        ERROR.assertRange(data[cKey], 0, 100, `validateData "${data.fullName}" parameter data.${cKey}`);
+    let person;
+    
+    try {
+        person = new LLPerson(data);
+    } catch (e) {
+        DEBUG.log(e);
+        ERROR.appendAlert(e, 'error');
     }
-  }
+
+    return person;
+}
 
 /**
  * Main function to draw the Communication Indicators.

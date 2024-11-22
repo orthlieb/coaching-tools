@@ -23,39 +23,43 @@ export class LLPerson {
             this[cKey] = data[cKey];
         });
   
-        // Interactive style is usually either Score/Type (interactiveStyleScore, interactiveStyleType) or a number/letter string (interactiveStyle).
-        if ('interactiveStyle' in data) {
-            ERROR.assertType(data.interactiveStyle, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyle`);
-            let is = LLPerson.parseInteractiveStyle(data.interactiveStyle);
-            data.interactiveStyleScore = is[0];
-            data.interactiveStyleType = is[1];
-            delete data.interactiveStyle;
-        }
-
-        ERROR.assert('interactiveStyleScore' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveScore`);
-        ERROR.assert(data.interactiveStyleScore, 'number', `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
-        ERROR.assertType(data.interactiveStyleScore, 'number', `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
-        ERROR.assertRange(data.interactiveStyleScore, 1, 100, `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
-
-        ERROR.assert('interactiveStyleType' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveType`);
-        ERROR.assertType(data.interactiveStyleType, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyleType`);
-        ERROR.assert(data.interactiveStyleType.length == 1, `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
-        ERROR.assert(data.interactiveStyleType == 'I' || data.interactiveStyleType == 'B' || data.interactiveStyleType == 'E', `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
-
-        // Turn into a normalized score of 0 - 300.
-        data.interactiveStyle = LLPerson.decomposeInteractiveStyle(data.interactiveStyleScore, data.interactiveStyleType);
-        delete data.interactiveStyleScore;
-        delete data.interactiveStyleType;
+        // Some profiles do not have Communication Indicators.
         
-        // For professional profiles
-        COMMON.ciKeys.forEach((cKey) => {
-            ERROR.assert(cKey in data, `validatePerson "${data.fullName}" missing parameter person.${cKey}`);
-            ERROR.assertType(data[cKey], "number", `validatePerson "${data.fullName}" parameter person.${cKey}`);
-            if (cKey != 'interactiveStyle')
-                ERROR.assertRange(data[cKey], 1, 100, `validatePerson "${data.fullName}" parameter person.${cKey}`);
-            this[cKey] = data[cKey];
-        });
-       
+        if ('acceptanceLevel' in data) {
+            // Interactive style is usually either Score/Type (interactiveStyleScore, interactiveStyleType) or a number/letter string (interactiveStyle).
+            if ('interactiveStyle' in data) {
+                ERROR.assertType(data.interactiveStyle, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyle`);
+                let is = LLPerson.parseInteractiveStyle(data.interactiveStyle);
+                data.interactiveStyleScore = is[0];
+                data.interactiveStyleType = is[1];
+                delete data.interactiveStyle;
+            }
+
+            ERROR.assert('interactiveStyleScore' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveScore`);
+            ERROR.assert(data.interactiveStyleScore, 'number', `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
+            ERROR.assertType(data.interactiveStyleScore, 'number', `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
+            ERROR.assertRange(data.interactiveStyleScore, 1, 100, `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
+
+            ERROR.assert('interactiveStyleType' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveType`);
+            ERROR.assertType(data.interactiveStyleType, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyleType`);
+            ERROR.assert(data.interactiveStyleType.length == 1, `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
+            ERROR.assert(data.interactiveStyleType == 'I' || data.interactiveStyleType == 'B' || data.interactiveStyleType == 'E', `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
+
+            // Turn into a normalized score of 0 - 300.
+            data.interactiveStyle = LLPerson.decomposeInteractiveStyle(data.interactiveStyleScore, data.interactiveStyleType);
+            delete data.interactiveStyleScore;
+            delete data.interactiveStyleType;
+
+            // For professional profiles
+            COMMON.ciKeys.forEach((cKey) => {
+                ERROR.assert(cKey in data, `validatePerson "${data.fullName}" missing parameter person.${cKey}`);
+                ERROR.assertType(data[cKey], "number", `validatePerson "${data.fullName}" parameter person.${cKey}`);
+                if (cKey != 'interactiveStyle')
+                    ERROR.assertRange(data[cKey], 1, 100, `validatePerson "${data.fullName}" parameter person.${cKey}`);
+                this[cKey] = data[cKey];
+            });
+        }
+        
         // Whether a person should be shown or hidden.
         this.state = typeof data.state == "boolean" ? data.state : true;
 
