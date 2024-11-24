@@ -75,7 +75,7 @@ export class CITable {
             },
             {   // Full name
                 targets: 1, 
-                className: 'col-1', 
+                className: 'col-2', 
                 asSorting: ['asc', 'desc'] 
             },
             {
