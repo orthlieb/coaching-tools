@@ -35,7 +35,6 @@
         <link rel="stylesheet" href="./styles/PeopleRadarGraph.css" />
     </head>
     <body>
-        <div id="liveAlertPlaceholder"></div>
         <div id="radar-graph-grid" class="container mx-auto">
             <div id="radar-graph" class="radar-graph container col-lg-9 offset-lg-1">
                 <div class="row"><h1 class="bold text-center col-12">Group People Radar Graph</h1></div>
@@ -68,8 +67,8 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            import { testCSV } from "./modules/PeopleRadarGraph.test.js";
-            //import { testJSON, testInvalidData } from "./modules/PeopleRadarGraph.test.js";
+            import { testCSV } from "./modules/test/PeopleRadarGraph.test.js";
+            //import { testJSON, testInvalidData } from "./modules/test/PeopleRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/PeopleRadarGraph.html');
             //url = testCSV('https://www.relatematters.com/coaching-tools/PeopleRadarGraph.html');
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/PeopleRadarGraph.html');
@@ -125,7 +124,7 @@
 
                     let theMediator = new PRGMediator(parsedParams, 'rg-table', 'rg-graph');
                 } catch (e) {
-                    ERROR.appendAlert(e, 'error');
+                    ERROR.displayAlertInDoc(e);
                 }
             });
         </script>

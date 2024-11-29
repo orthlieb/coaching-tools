@@ -373,16 +373,7 @@ function interactiveStyleForensics(cLL, cISType) {
 function validateData(data) {
     DEBUG.logArgs('validateData(data)', arguments);
 
-    let person;
-    
-    try {
-        person = new LLPerson(data);
-    } catch (e) {
-        DEBUG.log(e);
-        ERROR.appendAlert(e, 'error');
-    }
-
-    return person;
+    return new LLPerson(data);
 }
 
 Chart.register(ChartDataLabels);

@@ -1,3 +1,5 @@
+import { DEBUG } from "./Debug.js";
+
 // List of common first names and last names
 const firstNames = [
     "Doris",
@@ -16,7 +18,8 @@ const firstNames = [
     "Daniel",
     "George",
     "Paul",
-    "Ringo"
+    "Ringo",
+    "Chris"
 ];
 const lastNames = [
     "Rosenberg",
@@ -35,7 +38,9 @@ const lastNames = [
     "Bond",
     "McCartney",
     "Kincaid",
-    "Trewlawney"
+    "Trewlawney",
+    "Hogan", 
+    "Santos"
 ];
 const companyNames = [
     "Percepta",
@@ -50,7 +55,8 @@ const companyNames = [
     "Kaboom Fireworks",
     "Compass Mortgage",
     "Marathon Physical Therapy",
-    "Semicolon Bookstore"
+    "Semicolon Bookstore",
+    "Northstar Consulting"
 ];
 
 export const TEST = {
@@ -88,9 +94,18 @@ export const TEST = {
         return companyNames[TEST.randomInt(0, companyNames.length - 1)];
     },
     
+    // Function to generate a random learning preference set.
+    generateRandomLearningPreference: () => {
+        let nAuditory = TEST.randomInt(1, 98);
+        let nVisual = TEST.randomInt(1, 99 - nAuditory);
+        let nPhysical = 100 - nAuditory - nVisual;
+        
+        return { learningPreferenceAuditory: nAuditory, learningPreferenceVisual: nVisual,  learningPreferencePhysical: nPhysical };
+    },
+    
     // Generate a random person
     randomPerson(fullName = null) {
-        return {
+        let person = {
             fullName: fullName ? fullName : TEST.generateRandomNamePair(),
             companyName: TEST.generateRandomCompanyName(),
             mover: TEST.randomScore(),
@@ -108,10 +123,13 @@ export const TEST = {
             intrusionLevel: TEST.randomScore(),
             projectiveLevel: TEST.randomScore(),
             susceptibilityToStress: TEST.randomScore(),
-            learningPreferenceAuditory: TEST.randomScore(),
-            learningPreferenceVisual: TEST.randomScore(),
-            learningPreferencePhysical: TEST.randomScore()
+            showForensics: TEST.randomBool()
         };
+        
+        let lp = TEST.generateRandomLearningPreference();
+        Object.keys(lp).forEach(key => person[key] = lp[key]);
+        
+        return person;
     },
     
     // Generate a set of unique random people

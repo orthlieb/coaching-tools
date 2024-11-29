@@ -47,7 +47,7 @@ function  assertType(object, type, msg) {
  * @throws If there is a type mismatch
  * @returns {boolean} Returns the evaluated expression.
  */
-function  assertRange(value, low, high, msg) {
+function assertRange(value, low, high, msg) {
     assert(value >= low && value <= high, `${msg} must be a number between ${low} and ${high}, found ${value}`);
 }
 
@@ -55,28 +55,34 @@ function  assertRange(value, low, high, msg) {
  * Creates an alert inside a document by cloning a div with the id 'alert' and prepending it to the document and revealing it.
  * @param {error} Error object from a try/catch/throw.
  */
-function displayAlertInDoc(e) {
-    DEBUG.log(e);
-    const alert = document.getElementById('alert');
-    const newAlert = alert.cloneNode(true);
+function displayAlertInDoc(message, alertType = 'alert-danger') {
+    DEBUG.logArgs('ERROR.displayAlertInDoc', arguments);
+ 
+    let icons = {
+        "alert-danger": '<i class="bi bi-exclamation-diamond-fill me-3 fs-3"></i>',
+        "alert-warning": '<i class="bi bi-exclamation-triangle-fill me-3 fs-3"></i>',
+        "alert-success": '<i class="bi bi-check-square-fill me-3 fs-3"></i>',
+        "alert-info": '<i class="bi bi-info-circle-fill me-3 fs-3"></i>',
+    };
+
+    // Create the alert dynamically
+    const newAlert = document.createElement('div');
+    newAlert.className = `alert alert-dismissible d-flex align-items-center m-3 ${alertType}`;
+    newAlert.setAttribute('role', 'alert');
+    
+    // Add the icon, message, and close button
+    const iconHTML = icons[alertType] || '';
+    newAlert.innerHTML = `
+        ${iconHTML} ${message}
+        <button type="button" class="btn-close m-3" data-bs-dismiss="alert" aria-label="Close">
+            <i class="bi bi-x-circle-fill" style="color: inherit;"></i>
+        </button>
+    `;
+    // Prepend the new alert to the body
     document.body.prepend(newAlert);
-    newAlert.innerText = e;
-    newAlert.classList.remove("hidden");
-}
 
-const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-/** Deprecated */
-export function appendAlert (message, type) {
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = [
-        `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-        `   <div>${message}</div>`,
-        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-        '</div>'
-    ].join('');
-
-    alertPlaceholder.append(wrapper);
-    console.error(message);
+    // Automatically remove the alert when the close button is clicked
+    newAlert.querySelector('.btn-close').addEventListener('click', () => newAlert.remove());
 }
 
 /** 
@@ -86,6 +92,5 @@ export const ERROR = {
     assert: assert,
     assertType:  assertType,
     assertRange: assertRange,
-    appendAlert: appendAlert,
     displayAlertInDoc: displayAlertInDoc
 };

@@ -1,19 +1,29 @@
 <head>
     <title>Communication Indicators and Forensics</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <!--Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+
+    <!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap"
-        rel="stylesheet" />
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--Chart.js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <!--Local Files-->
     <link rel="stylesheet" href="./styles/Common.css" />
     <link rel="stylesheet" href="./styles/Error.css" />
     <link rel="stylesheet" href="./styles/CommunicationIndicators.css" /> 
-    
 </head>
 <body>
-    <div class="alert hidden" id="alert" role="alert"></div>
     <div class="CIPage" id="cipage-1">
         <div class="fullName" id="fullName"></div>
         <div class="shorthand" , id="shorthand"></div>
@@ -22,162 +32,116 @@
         <div class="communication-indicator-one-bar">
             <div class="title">1. ACCEPTANCE LEVEL</div>
             <div class="description">
-                How does one view personal strengths and weaknesses? How much
-                self-confidence does one have/display? How comfortable is one
-                receiving compliments?
+                How does one view personal strengths and weaknesses? How much self-confidence does one have/display?
+                How comfortable is one receiving compliments?
             </div>
             <div class="graph">
                 <canvas class="canvas print-full acceptanceLevelChart"></canvas>
             </div>
             <div class="status bold acceptanceLevelStatus"></div>
             <div class="score acceptanceLevelScore"></div>
-            <div
-                class="life-language-1 life-language forensic acceptanceLevelLifeLanguage1"></div>
-            <div
-                class="life-language-2 life-language forensic acceptanceLevelLifeLanguage2"></div>
-            <div
-                class="life-language-3 life-language forensic acceptanceLevelLifeLanguage3"></div>
-            <div
-                class="life-language-4 life-language forensic acceptanceLevelLifeLanguage4"></div>
-            <div
-                class="life-language-5 life-language forensic acceptanceLevelLifeLanguage5"></div>
-            <div
-                class="life-language-6 life-language forensic acceptanceLevelLifeLanguage6"></div>
-            <div
-                class="life-language-7 life-language forensic acceptanceLevelLifeLanguage7"></div>
+            <div class="life-language-1 life-language forensic acceptanceLevelLifeLanguage1"></div>
+            <div class="life-language-2 life-language forensic acceptanceLevelLifeLanguage2"></div>
+            <div class="life-language-3 life-language forensic acceptanceLevelLifeLanguage3"></div>
+            <div class="life-language-4 life-language forensic acceptanceLevelLifeLanguage4"></div>
+            <div class="life-language-5 life-language forensic acceptanceLevelLifeLanguage5"></div>
+            <div class="life-language-6 life-language forensic acceptanceLevelLifeLanguage6"></div>
+            <div class="life-language-7 life-language forensic acceptanceLevelLifeLanguage7"></div>
             <div class="comment forensic acceptanceLevelLifeLanguageComment">
-                * Low unless experiencing career success or in the context of an
-                area of domain knowledge or interest
+                * Low unless experiencing career success or in the context of an area of domain knowledge or
+                interest
             </div>
         </div>
         <div class="communication-indicator-three-bar alt-gray">
             <div class="title">2. INTERACTIVE STYLE</div>
             <div class="description">
-                Prefer to work alone or in groups? Prefer to know people or meet
-                new people easily?
+                Prefer to work alone or in groups? Prefer to know people or meet new people easily?
             </div>
             <div class="subtitle-1 subtitle">Introvert</div>
             <div class="subtitle-2 subtitle">Balanced</div>
             <div class="subtitle-3 subtitle">Extrovert</div>
             <div class="graph-1">
-                <canvas
-                    class="print-one-third interactiveStyleIntrovertChart"></canvas>
+                <canvas class="print-one-third interactiveStyleIntrovertChart"></canvas>
             </div>
             <div class="graph-2">
-                <canvas
-                    class="print-one-third interactiveStyleBalancedChart"></canvas>
+                <canvas class="print-one-third interactiveStyleBalancedChart"></canvas>
             </div>
             <div class="graph-3">
-                <canvas
-                    class="print-one-third interactiveStyleExtrovertChart"></canvas>
+                <canvas class="print-one-third interactiveStyleExtrovertChart"></canvas>
             </div>
             <div class="status bold interactiveStyleStatus"></div>
             <div class="score interactiveStyleScore"></div>
-            <div
-                class="life-language-1 life-language forensic interactiveStyleLifeLanguage1"></div>
-            <div
-                class="life-language-2 life-language forensic interactiveStyleLifeLanguage2"></div>
-            <div
-                class="life-language-3 life-language forensic interactiveStyleLifeLanguage3"></div>
-            <div
-                class="life-language-4 life-language forensic interactiveStyleLifeLanguage4"></div>
-            <div
-                class="life-language-5 life-language forensic interactiveStyleLifeLanguage5"></div>
-            <div
-                class="life-language-6 life-language forensic interactiveStyleLifeLanguage6"></div>
-            <div
-                class="life-language-7 life-language forensic interactiveStyleLifeLanguage7"></div>
+            <div class="life-language-1 life-language forensic interactiveStyleLifeLanguage1"></div>
+            <div class="life-language-2 life-language forensic interactiveStyleLifeLanguage2"></div>
+            <div class="life-language-3 life-language forensic interactiveStyleLifeLanguage3"></div>
+            <div class="life-language-4 life-language forensic interactiveStyleLifeLanguage4"></div>
+            <div class="life-language-5 life-language forensic interactiveStyleLifeLanguage5"></div>
+            <div class="life-language-6 life-language forensic interactiveStyleLifeLanguage6"></div>
+            <div class="life-language-7 life-language forensic interactiveStyleLifeLanguage7"></div>
         </div>
         <div class="communication-indicator-one-bar">
             <div class="title">3. INTERNAL CONTROL</div>
             <div class="description">
-                How much self-control or self-government vs. impulsiveness or
-                spontaneity does one display?
+                How much self-control or self-government vs. impulsiveness or spontaneity does one display?
             </div>
             <div class="graph">
                 <canvas class="print-full internalControlChart"></canvas>
             </div>
             <div class="status bold internalControlStatus"></div>
             <div class="score internalControlScore"></div>
-            <div
-                class="life-language-1 life-language forensic internalControlLifeLanguage1"></div>
-            <div
-                class="life-language-2 life-language forensic internalControlLifeLanguage2"></div>
-            <div
-                class="life-language-3 life-language forensic internalControlLifeLanguage3"></div>
-            <div
-                class="life-language-4 life-language forensic internalControlLifeLanguage4"></div>
-            <div
-                class="life-language-5 life-language forensic internalControlLifeLanguage5"></div>
-            <div
-                class="life-language-6 life-language forensic internalControlLifeLanguage6"></div>
-            <div
-                class="life-language-7 life-language forensic internalControlLifeLanguage7"></div>
-            <div class="comment forensic">
-                * Low unless focused an area of interest or research.
-            </div>
+            <div class="life-language-1 life-language forensic internalControlLifeLanguage1"></div>
+            <div class="life-language-2 life-language forensic internalControlLifeLanguage2"></div>
+            <div class="life-language-3 life-language forensic internalControlLifeLanguage3"></div>
+            <div class="life-language-4 life-language forensic internalControlLifeLanguage4"></div>
+            <div class="life-language-5 life-language forensic internalControlLifeLanguage5"></div>
+            <div class="life-language-6 life-language forensic internalControlLifeLanguage6"></div>
+            <div class="life-language-7 life-language forensic internalControlLifeLanguage7"></div>
+            <div class="comment forensic">* Low unless focused an area of interest or research.</div>
         </div>
         <div class="communication-indicator-one-bar alt-gray">
             <div class="title">4. INTRUSION LEVEL</div>
             <div class="description">
-                How well is one able to allow interruptions, changes,
-                unsolicited opinions - anything one considers an intrusion -
-                without moving to distress as a result?
+                How well is one able to allow interruptions, changes, unsolicited opinions - anything one considers
+                an intrusion - without moving to distress as a result?
             </div>
             <div class="graph">
                 <canvas class="print-full intrusionLevelChart"></canvas>
             </div>
             <div class="status bold intrusionLevelStatus"></div>
             <div class="score intrusionLevelScore"></div>
-            <div
-                class="life-language-1 life-language forensic intrusionLevelLifeLanguage1"></div>
-            <div
-                class="life-language-2 life-language forensic intrusionLevelLifeLanguage2"></div>
-            <div
-                class="life-language-3 life-language forensic intrusionLevelLifeLanguage3"></div>
-            <div
-                class="life-language-4 life-language forensic intrusionLevelLifeLanguage4"></div>
-            <div
-                class="life-language-5 life-language forensic intrusionLevelLifeLanguage5"></div>
-            <div
-                class="life-language-6 life-language forensic intrusionLevelLifeLanguage6"></div>
-            <div
-                class="life-language-7 life-language forensic intrusionLevelLifeLanguage7"></div>
+            <div class="life-language-1 life-language forensic intrusionLevelLifeLanguage1"></div>
+            <div class="life-language-2 life-language forensic intrusionLevelLifeLanguage2"></div>
+            <div class="life-language-3 life-language forensic intrusionLevelLifeLanguage3"></div>
+            <div class="life-language-4 life-language forensic intrusionLevelLifeLanguage4"></div>
+            <div class="life-language-5 life-language forensic intrusionLevelLifeLanguage5"></div>
+            <div class="life-language-6 life-language forensic intrusionLevelLifeLanguage6"></div>
+            <div class="life-language-7 life-language forensic intrusionLevelLifeLanguage7"></div>
         </div>
         <div class="communication-indicator-one-bar">
             <div class="title">5. PROJECTIVE LEVEL</div>
             <div class="description">
-                How important is the opinion of others? How much does one need
-                or want positive feedback or respect? How much do I care about
-                what you think of me?
+                How important is the opinion of others? How much does one need or want positive feedback or respect?
+                How much do I care about what you think of me?
             </div>
             <div class="graph">
                 <canvas class="print-full projectiveLevelChart"></canvas>
             </div>
             <div class="status bold projectiveLevelStatus"></div>
             <div class="score projectiveLevelScore"></div>
-            <div
-                class="life-language-1 life-language forensic projectiveLevelLifeLanguage1"></div>
-            <div
-                class="life-language-2 life-language forensic projectiveLevelLifeLanguage2"></div>
-            <div
-                class="life-language-3 life-language forensic projectiveLevelLifeLanguage3"></div>
-            <div
-                class="life-language-4 life-language forensic projectiveLevelLifeLanguage4"></div>
-            <div
-                class="life-language-5 life-language forensic projectiveLevelLifeLanguage5"></div>
-            <div
-                class="life-language-6 life-language forensic projectiveLevelLifeLanguage6"></div>
-            <div
-                class="life-language-7 life-language forensic projectiveLevelLifeLanguage7"></div>
+            <div class="life-language-1 life-language forensic projectiveLevelLifeLanguage1"></div>
+            <div class="life-language-2 life-language forensic projectiveLevelLifeLanguage2"></div>
+            <div class="life-language-3 life-language forensic projectiveLevelLifeLanguage3"></div>
+            <div class="life-language-4 life-language forensic projectiveLevelLifeLanguage4"></div>
+            <div class="life-language-5 life-language forensic projectiveLevelLifeLanguage5"></div>
+            <div class="life-language-6 life-language forensic projectiveLevelLifeLanguage6"></div>
+            <div class="life-language-7 life-language forensic projectiveLevelLifeLanguage7"></div>
         </div>
         <div class="communication-indicator-one-bar alt-gray">
             <div class="title">6. SUSCEPTIBILITY TO STRESS</div>
             <div class="description">
-                Stress happens to everyone and comes from various sources, even
-                from having too many good things going on at one time. When
-                dealing with problems or crisis do you tend to remain calm,
-                excited, hyper-vigilant or reactive?
+                Stress happens to everyone and comes from various sources, even from having too many good things
+                going on at one time. When dealing with problems or crisis do you tend to remain calm, excited,
+                hyper-vigilant or reactive?
             </div>
             <div class="graph">
                 <canvas class="print-full susceptibilityToStressChart"></canvas>
@@ -188,45 +152,34 @@
         <div class="communication-indicator-three-bar">
             <div class="title">7. LEARNING PREFERENCE</div>
             <div class="description">
-                There are three basic Learning styles--everyone learns in all
-                three ways, but usually one will come more naturally to you, and
-                you will have a preference for it if you have the choice.
+                There are three basic Learning styles--everyone learns in all three ways, but usually one will come
+                more naturally to you, and you will have a preference for it if you have the choice.
             </div>
             <div class="subtitle-1 subtitle">Auditory</div>
             <div class="subtitle-2 subtitle">Visual</div>
             <div class="subtitle-3 subtitle">Physical</div>
             <div class="graph-1">
-                <canvas
-                    class="print-one-third learningPreferenceAuditoryChart"></canvas>
+                <canvas class="print-one-third learningPreferenceAuditoryChart"></canvas>
             </div>
             <div class="graph-2">
-                <canvas
-                    class="print-one-third learningPreferenceVisualChart"></canvas>
+                <canvas class="print-one-third learningPreferenceVisualChart"></canvas>
             </div>
             <div class="graph-3">
-                <canvas
-                    class="print-one-third learningPreferencePhysicalChart"></canvas>
+                <canvas class="print-one-third learningPreferencePhysicalChart"></canvas>
             </div>
             <div class="status bold learningPreferenceAuditoryStatus"></div>
             <div class="score learningPreferenceAuditoryScore"></div>
             <div class="life-language-1"></div>
-            <div
-                class="bold life-language-2 life-language learningPreferenceVisualStatus"></div>
-            <div
-                class="life-language-3 life-language learningPreferenceVisualScore"></div>
+            <div class="bold life-language-2 life-language learningPreferenceVisualStatus"></div>
+            <div class="life-language-3 life-language learningPreferenceVisualScore"></div>
             <div class="life-language-4"></div>
-            <div
-                class="life-language-5 life-language bold learningPreferencePhysicalStatus"></div>
-            <div
-                class="life-language-6 life-language learningPreferencePhysicalScore"></div>
+            <div class="life-language-5 life-language bold learningPreferencePhysicalStatus"></div>
+            <div class="life-language-6 life-language learningPreferencePhysicalScore"></div>
             <div class="life-language-7"></div>
         </div>
-        <div class="warning bold forensic">
-            FOR COACHING USE ONLY! DO NOT GIVE TO CLIENT
-        </div>
+        <div class="warning bold forensic">FOR COACHING USE ONLY! DO NOT GIVE TO CLIENT</div>
         <div class="footer">
-            Copyright &copy; Life Languages International &#x2022; All rights
-            reserved. &#x2022;
+            Copyright &copy; Life Languages International &#x2022; All rights reserved. &#x2022;
             <a href="www.lifelanguages.com">www.lifelanguages.com</a>
         </div>
     </div>
@@ -240,8 +193,8 @@
         let url = new URL(window.location.href);
 
         // Test data generation
-        import { testCSV } from './modules/CommunicationIndicators.test.js';
-        //import { testSingle, testJSON, testCSV, testInvalidEntries } from './modules/CommunicationIndicators.test.js';
+        import { testCSV } from './modules/test/CommunicationIndicators.test.js';
+        //import { testSingle, testJSON, testInvalidEntries } from './modules/test/CommunicationIndicators.test.js';
         //url = testSingle("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
         //url = testJSON("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
         //url = testCSV("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
@@ -349,7 +302,6 @@
                     document.body.appendChild(divClone);
                 }
                 try {
-                    DEBUG.log('params', JSON.stringify(parsedParams[i]));
                     displayCommunicationIndicators(i + 1, parsedParams[i]); 
                 } catch (e) { 
                     ERROR.displayAlertInDoc(e); 

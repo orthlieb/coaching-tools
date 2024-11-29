@@ -1,17 +1,17 @@
-// Generate test data for GroupCIBarChart
-import { DEBUG } from "./Debug.js";
-import { convertJSObjectToCSV } from "./CSVToJSON.js";
-import { TEST } from './Test.js';
+// Generate test data for LifeLanguageRadarGraph
+import { DEBUG } from "../Debug.js";
+import { convertJSObjectToCSV } from "../CSVToJSON.js";
+import { TEST } from '../Test.js';
 
 export function testJSON(cURLPrefix) {
-    let aTestData = TEST.randomPeople(TEST.randomInt(4, 8));
+    let aTestData = TEST.randomPeople(TEST.randomInt(3, 7));
     let str = JSON.stringify(aTestData);
     DEBUG.log(`GENERATED TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`);
 }
 
 export function testCSV(cURLPrefix) {
-    let aTestData = TEST.randomPeople(TEST.randomInt(4, 8));
+    let aTestData = TEST.randomPeople(TEST.randomInt(3, 7));
     let str = convertJSObjectToCSV(aTestData);
     DEBUG.log(`GENERATED CSV TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?csv=${encodeURIComponent(str)}`);

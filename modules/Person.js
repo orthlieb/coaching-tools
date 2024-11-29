@@ -7,10 +7,10 @@ export class LLPerson {
     
     constructor(data) {
         ERROR.assert("fullName" in data, "validatePerson missing parameter person.fullName");
-        ERROR.assertType(data.fullName, "string", `validatePerson "${data.fullName}" parameter person.fullName`);
+        ERROR.assertType(data.fullName, "string", `validatePerson parameter person.fullName`);
         this.fullName = data.fullName;
         
-        ERROR.assert("overallIntensity" in data, "validatePerson missing parameter person.overallIntensity");
+        ERROR.assert("overallIntensity" in data, `validatePerson "${data.fullName}" missing parameter person.overallIntensity`);
         ERROR.assertType(data.overallIntensity, "number", `validatePerson "${data.fullName}" parameter person.overallIntensity`);
         this.overallIntensity = data.overallIntensity;
 
@@ -36,13 +36,12 @@ export class LLPerson {
             }
 
             ERROR.assert('interactiveStyleScore' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveScore`);
-            ERROR.assert(data.interactiveStyleScore, 'number', `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
             ERROR.assertType(data.interactiveStyleScore, 'number', `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
             ERROR.assertRange(data.interactiveStyleScore, 1, 100, `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
 
             ERROR.assert('interactiveStyleType' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveType`);
             ERROR.assertType(data.interactiveStyleType, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyleType`);
-            ERROR.assert(data.interactiveStyleType.length == 1, `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
+            ERROR.assert(data.interactiveStyleType.length == 1, `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be a single letter, found "${data.interactiveStyleType}"`);
             ERROR.assert(data.interactiveStyleType == 'I' || data.interactiveStyleType == 'B' || data.interactiveStyleType == 'E', `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
 
             // Turn into a normalized score of 0 - 300.

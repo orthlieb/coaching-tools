@@ -35,7 +35,6 @@
         <link rel="stylesheet" href="./styles/LifeLanguageRadarGraph.css" />
     </head>
     <body>
-        <div id="liveAlertPlaceholder"></div>
         <div id="radar-graph-grid">
             <div id="radar-graph" class="radar-graph container col-lg-9 offset-lg-1">
                 <div class="row"><h1 class="bold text-center col-12">Group Life Language Radar Graph</h1></div>
@@ -68,8 +67,8 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            import { testCSV } from "./modules/LifeLanguageRadarGraph.test.js";
-            //import { testJSON, testInvalidData } from "./modules/LifeLanguageRadarGraph.test.js";
+            import { testCSV } from "./modules/test/LifeLanguageRadarGraph.test.js";
+            //import { testJSON, testInvalidData } from "./modules/test/LifeLanguageRadarGraph.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
             //url = testCSV('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
@@ -125,7 +124,7 @@
 
                     let theMediator = new LLRGMediator(parsedParams, 'rg-table', 'rg-graph');
                 } catch (e) {
-                    ERROR.appendAlert(e, 'error');
+                    ERROR.displayAlertInDoc(e);
                 }
             });
         </script>

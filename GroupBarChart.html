@@ -35,7 +35,6 @@
         <link rel="stylesheet" href="./styles/GroupBarChart.css" />
     </head>
     <body>
-        <div id="liveAlertPlaceholder"></div>
         <!-- Modal Structure -->
         <div class="modal fade" id="modal-dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -190,7 +189,7 @@
             let url = new URL(window.location.href);
 
             // Test data generation
-            import { testCSV } from "./modules/GroupBarChart.test.js";
+            import { testCSV } from "./modules/test/GroupBarChart.test.js";
             //import { testJSON, testInvalidData } from "./modules/GroupBarChart.test.js";
             //url = testJSON('https://www.relatematters.com/coaching-tools/GroupBarChart.html');
             //url = testCSV("https://www.relatematters.com/coaching-tools/GroupBarChart.html");
@@ -248,7 +247,7 @@
 
                     let theMediator = new GBCMediator(parsedParams, "the-table", "the-ll-table", "the-chart");
                 } catch (e) {
-                    ERROR.appendAlert(e, "error");
+                    ERROR.displayAlertInDoc(e);
                 }
             });
         </script>

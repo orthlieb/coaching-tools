@@ -59,7 +59,7 @@ export class GBCMediator {
                 people.push(person);
             } catch (e) {
                 DEBUG.log(e);
-                ERROR.appendAlert(e, 'error');
+                ERROR.displayAlertInDoc(e);
             }
         }
         
