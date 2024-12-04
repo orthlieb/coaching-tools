@@ -5,6 +5,11 @@ body {
 }
 
 @media print {
+    body {
+        -webkit-print-color-adjust: exact; /* Ensures that colors are preserved in WebKit browsers */
+        color-adjust: exact; /* Ensures that colors are preserved in modern browsers */
+    }
+    
     :root {
         --lg-min-width: 225px;
         --lg-fullname-font-size: 0.75em;
@@ -26,7 +31,7 @@ body {
 
 @media screen {
     :root {
-        --lg-min-width: 450px;
+        --lg-min-width: 525px;
         --lg-fullname-font-size: 1.5em;  
         --lg-companyname-font-size: 1em;
         --lg-1-letter-font-size:  7em;
@@ -44,22 +49,19 @@ body {
      }
 }
 
-#language-gram-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--lg-min-width), 1fr));
-    grid-gap: 10px;
+[id*="language-gram-"] {
+    min-width: var(--lg-min-width);
 }
 
-[id*="language-gram-"] {
+.language-gram-container {
     display: grid;
     grid-template-columns: 1.75fr 1.75fr 1fr 1.25fr;
-    grid-template-rows: 0.5fr 0.4fr repeat(4, 0.5fr) repeat(4, 0.4fr) 0.5fr 0.25fr;
-    grid-column-gap: 0;
-    grid-row-gap: 0;
-    padding: 10px;
+    grid-template-rows: 0.5fr 0.3fr repeat(4, 0.5fr) repeat(4, 0.4fr) 0.5fr 0.25fr;
     align-items: stretch;
-    min-width: var(--lg-min-width);
     break-inside: avoid;
+    background-color: #f4f4f4; /* Styling for demo */
+    border: 1px solid #ddd; /* Styling for demo */
+    border-radius: 8px; /* Styling for demo */
 }
 
 .fullname {
@@ -85,6 +87,7 @@ body {
 .letter-3,
 .score-3,
 .llang-3 {
+    padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,20 +100,20 @@ body {
     font-size: var(--lg-1-letter-font-size);
     color: white;
     text-transform: uppercase;
-    border-width: 2px 0px 1px 2px; /* top right bottom left */
+    border-width: 2px 0 1px 2px; /* top right bottom left */
 }
 
 .score-1 {
     grid-area: 3 / 2 / span 2 / span 1;
     font-size: var(--lg-1-score-font-size);;
     padding-top: 1em;
-    border-width: 2px 1px 0px 0px; /* top right bottom left */
+    border-width: 2px 1px 0 0; /* top right bottom left */
 }
 
 .llang-1 {
     grid-area: 5 / 2 / span 2 / span 1;
     font-size: var(--lg-1-language-font-size);
-    border-width: 0px 1px 1px 0px; /* top right bottom left */
+    border-width: 0 1px 1px 0; /* top right bottom left */
 }
 
 .letter-2 {
@@ -119,21 +122,21 @@ body {
     padding: 0.075em;
     color: white;
     text-transform: uppercase;
-    border-width: 2px 0px 1px 0px; /* top right bottom left */
+    border-width: 2px 0 1px 0; /* top right bottom left */
 }
 
 .score-2 {
     grid-area: 3 / auto / span 1 / span 1;
     font-size: var(--lg-2-score-font-size);
     padding-top: 1em;
-    border-width: 2px 2px 0px 0px; /* top right bottom left */
+    border-width: 2px 2px 0 0; /* top right bottom left */
 }
 
 .llang-2 {
     grid-area: 4 / 4 / span 1 / span 1;
     font-size: var(--lg-2-language-font-size); 
     padding-bottom: 1em;
-    border-width: 0px 2px 1px 0px; /* top right bottom left */
+    border-width: 0 2px 1px 0; /* top right bottom left */
 }
 
 .letter-3 {
@@ -142,19 +145,19 @@ body {
     color: white;
     text-transform: uppercase;
     padding: 0.075em;
-    border-width: 0px 0px 1px 0px; /* top right bottom left */
+    border-width: 0 0 1px 0; /* top right bottom left */
 }
 .score-3 {
     grid-area: 5 / 4 / span 1 / span 1;
     font-size: var(--lg-3-score-font-size);
     padding-top: 1em;
-    border-width: 0px 2px 0px 0px; /* top right bottom left */
+    border-width: 0 2px 0 0; /* top right bottom left */
 }
 .llang-3 {
     grid-area: 6 / 4 / span 1 / span 1;
     font-size:  var(--lg-3-language-font-size);
     padding-bottom: 1em;
-    border-width: 0px 2px 1px 0px; /* top right bottom left */
+    border-width: 0 2px 1px 0; /* top right bottom left */
 }
 
 .letter-4,
@@ -180,63 +183,63 @@ body {
 .letter-4 {
     grid-area: auto;
     text-transform: uppercase;
-    border-width: 0px 1px 1px 2px; /* top right bottom left */
+    border-width: 0 1px 1px 2px; /* top right bottom left */
 }
 
 .score-4 {
     grid-area: auto;
-    border-width: 0px 1px 1px 0px; /* top right bottom left */
+    border-width: 0 1px 1px 0; /* top right bottom left */
 }
 
 .llang-4 {
     grid-area: auto / 3 / span 1 / span 2;
-    border-width: 0px 2px 1px 0px; /* top right bottom left */
+    border-width: 0 2px 1px 0; /* top right bottom left */
 }
 
 .letter-5 {
     grid-area: auto;
     text-transform: uppercase;
-    border-width: 0px 1px 1px 2px; /* top right bottom left */
+    border-width: 0 1px 1px 2px; /* top right bottom left */
 }
 
 .score-5 {
     grid-area: auto;
-    border-width: 0px 1px 1px 0px; /* top right bottom left */
+    border-width: 0 1px 1px 0; /* top right bottom left */
 }
 
 .llang-5 {
     grid-area: auto / auto / span 1 / span 2;
-    border-width: 0px 2px 1px 0px; /* top right bottom left */
+    border-width: 0 2px 1px 0; /* top right bottom left */
 }
 
 .letter-6 {
     grid-area: auto;
-    border-width: 0px 1px 1px 2px; /* top right bottom left */
+    border-width: 0 1px 1px 2px; /* top right bottom left */
 }
 
 .score-6 {
     grid-area: auto;
-    border-width: 0px 1px 1px 0px; /* top right bottom left */
+    border-width: 0 1px 1px 0; /* top right bottom left */
 }
 
 .llang-6 {
     grid-area: auto / auto / span 1 / span 2;
-    border-width: 0px 2px 1px 0px; /* top right bottom left */
+    border-width: 0 2px 1px 0; /* top right bottom left */
 }
 
 .letter-7 {
     grid-area: auto;
-    border-width: 0px 1px 1px 2px; /* top right bottom left */
+    border-width: 0 1px 1px 2px; /* top right bottom left */
 }
 
 .score-7 {
     grid-area: auto;
-    border-width: 0px 1px 1px 0px; /* top right bottom left */
+    border-width: 0 1px 1px 0; /* top right bottom left */
 }
 
 .llang-7 {
     grid-area: auto / auto / span 1 / span 2;
-    border-width: 0px 2px 1px 0px; /* top right bottom left */
+    border-width: 0 2px 1px 0; /* top right bottom left */
 }
 
 .range-title,
@@ -253,24 +256,24 @@ body {
 .range-title {
     grid-area: auto;
     padding: 0.8em;
-    border-width: 0px 0px 2px 2px; /* top right bottom left */
+    border-width: 0 0 2px 2px; /* top right bottom left */
 }
 
 .range-score {
     grid-area:  auto;
     padding: 0.8em;
-    border-width: 0px 1px 2px 0px; /* top right bottom left */
+    border-width: 0 1px 2px 0; /* top right bottom left */
 }
 
 .overall-intensity-title {
     grid-area: auto;
     padding: 0.3em;
-    border-width: 0px 0px 2px 0px; /* top right bottom left */
+    border-width: 0 0 2px 0; /* top right bottom left */
 }
 
 .overall-intensity {
     grid-area: auto;
-    border-width: 0px 2px 2px 0px; /* top right bottom left */
+    border-width: 0 2px 2px 0; /* top right bottom left */
 }
 
 .overall-intensity-arrow {
