@@ -6,8 +6,8 @@ body {
 
 @media print {
     body {
-        -webkit-print-color-adjust: exact; /* Ensures that colors are preserved in WebKit browsers */
-        color-adjust: exact; /* Ensures that colors are preserved in modern browsers */
+        -webkit-print-color-adjust: exact;  /* Ensures that colors are preserved in WebKit browsers */
+        color-adjust: exact;                /* Ensures that colors are preserved in modern browsers */
     }
     
     :root {
@@ -59,9 +59,9 @@ body {
     grid-template-rows: 0.5fr 0.3fr repeat(4, 0.5fr) repeat(4, 0.4fr) 0.5fr 0.25fr;
     align-items: stretch;
     break-inside: avoid;
-    background-color: #f4f4f4; /* Styling for demo */
-    border: 1px solid #ddd; /* Styling for demo */
-    border-radius: 8px; /* Styling for demo */
+    background-color: #f4f4f4; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
 }
 
 .fullname {

@@ -59,9 +59,29 @@ export class LLTable {
             }
         });
         
+        this._addTooltips(dt);
         this._registerEvents($table, that);
         
         dt.draw();
+    }
+    
+    _addTooltips(dt) {
+        // Add tooltips to Life Language columns based on STRINGS.columnTitles, skipping the first two columns
+        dt.columns().every(function(index) {
+            if (index > 1) { // Skip the first two columns
+                const headerCell = $(this.header()); // Get the header cell element
+                headerCell.attr('data-bs-toggle', 'tooltip');
+                headerCell.attr('title', STRINGS.columnTitles[index]);
+            }
+        });
+
+        // Initialize Bootstrap tooltips with trigger set to 'hover' only
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function(tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl, {
+              trigger: 'hover' // Only show tooltip on hover, not focus
+            });
+        });
     }
     
     _getColumnDefs() {

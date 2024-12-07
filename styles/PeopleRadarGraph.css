@@ -5,10 +5,16 @@ body {
 }
  
 @media print {
+   body {
+        -webkit-print-color-adjust: exact;  /* Ensures that colors are preserved in WebKit browsers */
+        color-adjust: exact;                /* Ensures that colors are preserved in modern browsers */
+    }
+    
     :root {
         --rg-title-font-size: 0.75em;
         --rg-companyname-font-size: 0.62em;
         --rg-copyright-font-size: 0.37em;
+        --rg-max-width: 1024px;
     }
 }
 
@@ -17,15 +23,30 @@ body {
         --rg-title-font-size: 1.5em;
         --rg-companyname-font-size: 1.25em;
         --rg-copyright-font-size: 0.75em;
+        --rg-max-width: 1024px;
     }
 }
 
 #radar-graph-grid {
     margin: 0 auto;      /* Center the container */
-    max-width: 2048px;   /* Maximum width to match iPhone 16 in landscape */
+    max-width: var(--rg-max-width);
     width: 100%;         /* Make it responsive */
     padding: 10px;
-    border: 1px solid black;
+    background-color: #f4f4f4; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; }
+
+/* Remove the background color for selected rows */
+table.dataTable tbody tr.selected>* {
+    color: rgb(33, 37, 41) !important;
+    box-shadow: inset 0 0 0 9999px rgba(255, 255, 255, 0) !important;
+}
+.dt-button, .btn {
+    font-size: var(--bs-body-font-size);
+}
+
+#radar-graph: {
+    height: 275px;
 }
 
 .solo-check {
@@ -51,16 +72,7 @@ body {
     padding: 10px;
 }
 
-/* Remove the background color for selected rows */
-table.dataTable tbody tr.selected>* {
-    color: rgb(33, 37, 41) !important;
-    box-shadow: inset 0 0 0 9999px rgba(255, 255, 255, 0) !important;
-}
-
 body {
     --bs-body-font-size: 12px;
 }
 
-.dt-button, .btn {
-    font-size: var(--bs-body-font-size);
-}

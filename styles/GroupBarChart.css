@@ -5,28 +5,36 @@ body {
 }
 
 @media print {
+   body {
+        -webkit-print-color-adjust: exact;  /* Ensures that colors are preserved in WebKit browsers */
+        color-adjust: exact;                /* Ensures that colors are preserved in modern browsers */
+    }
+    
     :root {
-        --rg-title-font-size: 0.75em;
-        --rg-companyname-font-size: 0.62em;
-        --rg-copyright-font-size: 0.37em;
+        --bc-title-font-size: 0.75em;
+        --bc-companyname-font-size: 0.62em;
+        --bc-copyright-font-size: 0.37em;
+        --bc-max-width: 1024px;
     }
 }
 
 @media screen {
     :root {
-        --rg-title-font-size: 1.5em;
-        --rg-companyname-font-size: 1.25em;
-        --rg-copyright-font-size: 0.75em;
+        --bc-title-font-size: 1.5em;
+        --bc-companyname-font-size: 1.25em;
+        --bc-copyright-font-size: 0.75em;
+        --bc-max-width: 1024px;
     }
 }
 
 #the-grid {
-    margin: 0 auto;      /* Center the container */
-    max-width: 2048px;   /* Maximum width to match iPhone 16 in landscape */
+    max-width: var(--bc-max-width);
     width: 100%;         /* Make it responsive */
     box-sizing: border-box;
     padding: 10px;
-    border: 1px solid black;
+    background-color: #f4f4f4; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
 }
 
 #the-ll-table {
@@ -60,37 +68,10 @@ body {
     background-color: #bdbbbb;
 } 
 
-.solo-check {
-    /*text-align: right;*/
-    vertical-align: middle;
-    padding: 0;
-    margin: 0;
-}
-
-.dropdown-menu {
-    max-height: 250px;
-    overflow-y: auto;
-}
-
-.arrow {
-    color: darkgray;
-}
-
-.copyright {
-    font-size: var(--rg-copyright-font-size);
-    font-family: "Roboto Condensed", san-serif;
-    text-align: center;
-    padding: 10px;
-}
-
 /* Remove the background color for selected rows */
 table.dataTable tbody tr.selected>* {
     color: rgb(33, 37, 41) !important;
     box-shadow: inset 0 0 0 9999px rgba(255, 255, 255, 0) !important;
-}
-
-body {
-    --bs-body-font-size: 12px;
 }
 
 .dt-button, .btn {
@@ -104,4 +85,36 @@ body {
 .table td, .table th {
     box-shadow: none;
     border-width: 1px !important;
+}
+
+.solo-check {
+    /*text-align: right;*/
+    vertical-align: middle;
+    padding: 0;
+    margin: 0;
+}
+
+#chart-container {
+    height: 275px;
+}
+
+.dropdown-menu {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.arrow {
+    color: darkgray;
+}
+
+.copyright {
+    font-size: var(--bc-copyright-font-size);
+    font-family: "Roboto Condensed", san-serif;
+    text-align: center;
+    padding: 10px;
+}
+
+
+body {
+    --bs-body-font-size: 12px;
 }

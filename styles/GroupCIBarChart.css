@@ -4,7 +4,6 @@ body {
     margin: 0.125in;
 }
 
- 
 @media print {
    body {
         -webkit-print-color-adjust: exact;  /* Ensures that colors are preserved in WebKit browsers */
@@ -24,18 +23,50 @@ body {
         --rg-title-font-size: 1.5em;
         --rg-companyname-font-size: 1.25em;
         --rg-copyright-font-size: 0.75em;
+        --rg-max-width: 1024px;
     }
 }
 
-#radar-graph-grid {
-    margin: 0 auto;      /* Center the container */
-    max-width: var(--rg-max-width);   
+#the-grid {
+    max-width: var(--rg-max-width);
     width: 100%;         /* Make it responsive */
+    box-sizing: border-box;
     padding: 10px;
-    background-color: #f4f4f4;
+    background-color: #f4f4f4; 
     border: 1px solid #ddd; 
     border-radius: 8px; 
 }
+
+#the-ll-table {
+    margin-top: 12px;
+}
+
+#the-ll-table th, #the-ll-table td {
+    border-color: #7f7f7f;
+    border-width: thin;
+    vertical-align: middle;
+}
+
+#the-ll-table > thead > tr > th {
+    color: white;
+    background-color: #585858;
+    font-weight: 300;
+}
+
+#the-ll-table > tbody > tr > td {
+    background-color: #f2f2f2;
+}
+
+#the-ll-table > tfoot > tr:first-child > td {
+    font-weight: bold;
+    background-color: #d9d9d9;
+}
+
+ /* Style for the second footer row */
+#the-ll-table > tfoot > tr:nth-child(2) > td {
+    font-weight: bold;
+    background-color: #bdbbbb;
+} 
 
 /* Remove the background color for selected rows */
 table.dataTable tbody tr.selected>* {
@@ -47,8 +78,13 @@ table.dataTable tbody tr.selected>* {
     font-size: var(--bs-body-font-size);
 }
 
-#radar-graph {
-    height: 275px;
+.table {
+    border-collapse: collapse;
+}
+
+.table td, .table th {
+    box-shadow: none;
+    border-width: 1px !important;
 }
 
 .solo-check {
@@ -58,8 +94,12 @@ table.dataTable tbody tr.selected>* {
     margin: 0;
 }
 
+#chart-container {
+    height: 275px;
+}
+
 .dropdown-menu {
-    max-height: 250px;
+    max-height: 500px;
     overflow-y: auto;
 }
 
@@ -78,4 +118,3 @@ table.dataTable tbody tr.selected>* {
 body {
     --bs-body-font-size: 12px;
 }
-
