@@ -16,14 +16,14 @@ export function testSingle(cURLPrefix) {
 }
 
 export function testJSON(cURLPrefix) {
-    let people = TEST.randomPeople(2, 10);
+    let people = TEST.randomPeople(5, 15);
     let str = JSON.stringify(people);
     DEBUG.log(`GENERATED TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?json=${encodeURIComponent(str)}`);
 }
 
 export function testCSV(cURLPrefix) {
-    let people = TEST.randomPeople(2, 10);
+    let people = TEST.randomPeople(5, 15);
     let str = convertJSObjectToCSV(people);
     DEBUG.log(`GENERATED CSV TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?csv=${encodeURIComponent(str)}`);

@@ -11,24 +11,24 @@ body {
     }
     
     :root {
-        --rg-title-font-size: 0.75em;
-        --rg-companyname-font-size: 0.62em;
-        --rg-copyright-font-size: 0.37em;
-        --rg-max-width: 1024px;
+        --bc-title-font-size: 0.75em;
+        --bc-companyname-font-size: 0.62em;
+        --bc-copyright-font-size: 0.37em;
+        --bc-max-width: 1024px;
     }
 }
 
 @media screen {
     :root {
-        --rg-title-font-size: 1.5em;
-        --rg-companyname-font-size: 1.25em;
-        --rg-copyright-font-size: 0.75em;
-        --rg-max-width: 1024px;
+        --bc-title-font-size: 1.5em;
+        --bc-companyname-font-size: 1.25em;
+        --bc-copyright-font-size: 0.75em;
+        --bc-max-width: 1024px;
     }
 }
 
 #the-grid {
-    max-width: var(--rg-max-width);
+    max-width: var(--bc-max-width);
     width: 100%;         /* Make it responsive */
     box-sizing: border-box;
     padding: 10px;
@@ -108,7 +108,7 @@ table.dataTable tbody tr.selected>* {
 }
 
 .copyright {
-    font-size: var(--rg-copyright-font-size);
+    font-size: var(--bc-copyright-font-size);
     font-family: "Roboto Condensed", san-serif;
     text-align: center;
     padding: 10px;

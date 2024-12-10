@@ -1,4 +1,4 @@
-const bDebug = false;
+const bDebug = true;
 
 export let DEBUG = {
      logType: function logType(msg, obj, ...args) {
