@@ -62,6 +62,10 @@ export class BarChart {
                         position: chartOptions.legendPosition,
                         onClick: this._onClickLegend
                     }
+                },
+                animation: {
+                    duration: 1000, // Animation duration in milliseconds
+                    easing: 'easeOutElastic', // Easing function for the animation
                 }
             }
         };

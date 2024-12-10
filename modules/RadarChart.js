@@ -48,7 +48,12 @@ export class RadarChart {
                         position: chartOptions.legendPosition,
                         onClick: this._onClickLegend.bind(this)
                     }
-                }
+                },
+                animation: {
+                    duration: 1000, // Animation duration in milliseconds
+                    easing: 'easeOutElastic', // Easing function for the animation
+                },
+
             }
         }; 
         
