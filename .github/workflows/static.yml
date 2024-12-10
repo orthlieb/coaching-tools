@@ -1,0 +1,46 @@
+name: Deploy Coaching Tools
+
+on:
+  push:
+    branches:
+      - main # Trigger deployment on push to the main branch
+
+jobs:
+  deploy:
+    name: Deploy to Webserver via SFTP
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Node.js environment for SCSS compilation
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18' # Use Node.js 18 or your preferred version
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: |
+        npm install -g sass # Install Sass globally if not using a package.json
+        if [ -f package.json ]; then
+          npm ci
+        fi
+
+    # Step 4: Compile SCSS files
+    - name: Compile SCSS to CSS
+      run: |
+        sass scss:styles --no-source-map # Compile all SCSS files in the scss directory to the styles directory
+
+    # Step 5: Deploy using SFTP
+    - name: SFTP Deploy
+      uses: burnett01/rsync-deployments@5.2
+      with:
+        switches: "-avzr --delete"
+        remote_path: /relationshipmatters/coaching-tools # Update this to the correct directory on your server
+        remote_host: home154702416.1and1-data.host # Replace with your webserver hostname or IP
+        remote_user: u39841839       # Replace with your SFTP username
+        remote_key: ${{ secrets.SFTP_KEY }} # SFTP private key stored as a GitHub secret
+        args: "./" # Files to deploy, in this case the entire repository
