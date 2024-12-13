@@ -39,7 +39,6 @@ jobs:
     - name: FTP-Deploy-Action
       uses: SamKirkland/FTP-Deploy-Action@3.1.1
       with:
-        ftp-server: 'sftp://home154702416.1and1-data.host'
-        ftp-username: 'u39841839'
-        ftp-password: ${{ secrets.SFTP_KEY }}
-        
+        ftp-server: "ftp://home154702416.1and1-data.host" # Enclose the server URL in quotes
+        ftp-username: "u39841839"                        # Enclose the username in quotes
+        ftp-password: ${{ secrets.SFTP_KEY }}            # Use the GitHub secret for the password        
