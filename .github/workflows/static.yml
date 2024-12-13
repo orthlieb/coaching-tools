@@ -40,5 +40,5 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@3.1.1
       with:
         ftp-server: ${{ secrets.SFTP_SERVER }}
-        ftp-username: ${{ secrets.SFT_USER }}                       
+        ftp-username: ${{ secrets.SFTP_USER }}                       
         ftp-password: ${{ secrets.SFTP_KEY }}            # Use the GitHub secret for the password        
