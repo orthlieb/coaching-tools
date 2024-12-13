@@ -35,13 +35,11 @@ jobs:
         echo "bork: ${{ secrets.SFTP }}"
         sass scss:styles --no-source-map # Compile all SCSS files in the scss directory to the styles directory
 
-    # Step 5: Deploy using SFTP
-    - name: SFTP Deploy
-      uses: burnett01/rsync-deployments@5.2
+    # Step 5: SFTP files
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@3.1.1
       with:
-        switches: "-avzr --delete"
-        remote_path: /relationshipmatters/coaching-tools # Update this to the correct directory on your server
-        remote_host: home154702416.1and1-data.host # Replace with your webserver hostname or IP
-        remote_user: u39841839       # Replace with your SFTP username
-        remote_key: ${{ secrets.SFTP_KEY }} # SFTP private key stored as a GitHub secret
-        args: "./" # Files to deploy, in this case the entire repository
+        ftp-server: ${{ home154702416.1and1-data.host }}
+        ftp-username: ${{ u39841839 }}
+        ftp-password: ${{ secrets.secrets.SFTP_KEY }}
+        
