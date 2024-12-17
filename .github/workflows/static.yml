@@ -1,0 +1,44 @@
+name: Deploy Coaching Tools
+
+on:
+  push:
+    branches:
+      - main # Trigger deployment on push to the main branch
+
+jobs:
+  deploy:
+    name: Deploy to Webserver via SFTP
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Node.js environment for SCSS compilation
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18' # Use Node.js 18 or your preferred version
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: |
+        npm install -g sass # Install Sass globally if not using a package.json
+        if [ -f package.json ]; then
+          npm ci
+        fi
+
+    # Step 4: Compile SCSS files
+    - name: Compile SCSS to CSS
+      run: |
+        echo "bork: ${{ secrets.SFTP }}"
+        sass scss:styles --no-source-map # Compile all SCSS files in the scss directory to the styles directory
+
+    # Step 5: SFTP files
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      with:
+        ftp-server: ${{ secrets.SFTP_SERVER }}
+        ftp-username: ${{ secrets.SFTP_USER }}                       
+        ftp-password: ${{ secrets.SFTP_KEY }}            # Use the GitHub secret for the password        
