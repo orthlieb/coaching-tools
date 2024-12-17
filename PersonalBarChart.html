@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Short Form Profile</title>
+        <!--Fonts-->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet" />
+
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+
+        
+        <!--Bootstrap-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!--Chart.js-->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"
+            integrity="sha512-Hn1w6YiiFw6p6S2lXv6yKeqTk0PLVzeCwWY9n32beuPjQ5HLcvz5l2QsP+KilEr1ws37rCTw3bZpvfvVIeTh0Q=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+
+        <!--Local-->
+        <link rel="stylesheet" href="./styles/Common.css" />
+        <link rel="stylesheet" href="./styles/Error.css" />
+        <link rel="stylesheet" href="./styles/PersonalBarChart.css" />
+    </head>
+    <body>
+        <!-- Modal Structure -->
+        <div class="modal fade" id="modal-dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal-title">Modal Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div id="modal-body" class="modal-body">
+                This is the content of the modal.
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Structure -->
+        <div id="the-grid" class="mx-auto">
+            <div class="container col-lg-9 offset-lg-1 mx-auto">
+                <div class="row"><h1 id="fullname" class="bold text-center col-12">Short Form Profile</h1></div>
+                <div class="row">
+                    <h2 id="companyname" class="companyname text-center d-none col-12"></h2>
+                </div>
+                <div class="row">
+                    <div id="chart-container" class="col-12">
+                        <canvas id="the-chart"></canvas>
+                    </div>
+                    <div class="col-12">
+                        <table id="the-ll-table" class="table display bordered">
+                            <thead>
+                                <tr>
+                                    <th class="col-4 text-left">Communication Preference</th>
+                                    <th class="col-2 text-center">Language</th>
+                                    <th class="col-2 text-center">Score</th>
+                                    <th class="col-2 text-center">Rating</th>
+                                    <th class="col-2 text-center">Gap</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Primary</td>
+                                    <td class="lllanguage uppercase text-center">MOVER</td>
+                                    <td class="llscore text-center">55</td>
+                                    <td class="llrating text-center">HIGH</td>
+                                    <td class="llgap text-end"></td>
+                                </tr>
+                                <tr>
+                                    <td>Second</td>
+                                    <td class="lllanguage uppercase text-center">MOVER</td>
+                                    <td class="llscore text-center">55</td>
+                                    <td class="llrating text-center">HIGH</td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-1" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <div class="w-100 text-center">
+                                            <span id="gap-1"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Third</td>
+                                    <td class="lllanguage uppercase text-center">MOVER</td>
+                                    <td class="llscore text-center">55</td>
+                                    <td class="llrating text-center">HIGH</td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-2" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <div class="w-100 text-center">
+                                            <span id="gap-2"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Fourth</td>
+                                    <td class="lllanguage uppercase text-center">MOVER</td>
+                                    <td class="llscore text-center">55</td>
+                                    <td class="llrating text-center">HIGH</td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-3" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <span id="gap-3"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Fifth</td>
+                                    <td class="lllanguage uppercase text-center">MOVER</td>
+                                    <td class="llscore text-center">55</td>
+                                    <td class="llrating text-center">HIGH</td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-4" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <span id="gap-4"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sixth</td>
+                                    <td class="lllanguage uppercase text-center">MOVER</td>
+                                    <td class="llscore text-center">55</td>
+                                    <td class="llrating text-center">HIGH</td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-5" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <span id="gap-5"></span>
+                                    </td>
+                                 </tr>
+                                <tr>
+                                    <td>Seventh</td>
+                                    <td class="lllanguage uppercase text-center"></td>
+                                    <td class="llscore text-center"></td>
+                                    <td class="llrating text-center"></td>
+                                    <td class="position-relative text-center">
+                                        <a id="gap-icon-6" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+                                        <span id="gap-6"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">Range</td>
+                                    <td class="position-relative text-center">
+                                        <a id="llrange-info" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog">
+                                            <i class="bi bi-info-circle"></i>
+                                        </a>
+                                        <span id="llrange"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">Overall Intensity</td>
+                                    <td id="lloirating" class="text-center"></td>
+                                    <td class="position-relative text-center">
+                                        <a id="lloi-info" class="position-absolute start-0 ps-2 text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog">
+                                            <i class="bi bi-info-circle"></i>
+                                        </a>
+                                        <span id="lloi"></span>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                 </div>
+                <div class="row">
+                    <div class="copyright col-12">Copyright &copy; Life Languages International.</div>
+                </div>
+            </div>
+        </div>
+        <script type="module">
+            import { ERROR } from "./modules/Error.js";
+            import { DEBUG } from "./modules/Debug.js";
+            import { COMMON } from "./modules/Common.js";
+            import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
+            import { PBCMediator } from "./modules/PBCMediator.js";
+            
+            let url = new URL(window.location.href);
+
+            // Test data generation
+            import { testCSV } from "./modules/test/PersonalBarChart.test.js";
+            //import { testJSON, testInvalidData } from "./modules/PersonalBarChart.test.js";
+            //url = testJSON('https://www.relatematters.com/coaching-tools/PersonalBarChart.html');
+            //url = testCSV("https://www.relatematters.com/coaching-tools/PersonalBarChart.html");
+            //url = testInvalidData('https://www.relatematters.com/coaching-tools/PersonalBarChart.html');
+
+            $("document").ready(function () {
+                try {
+                    let searchParams = url.searchParams;
+                    let params = {};
+
+                    if (searchParams.has('json')) {
+                        params = JSON.parse(searchParams.get('json'));
+                    } else if (searchParams.has('csv')) {
+                        params = convertCSVtoJSON(searchParams.get('csv'));
+                    } else {
+                        let bFlag = false;
+                        for (const [key, value] of searchParams.entries()) {
+                            bFlag = true;
+                            params[key] = value;
+                        }
+                        if (!bFlag) {
+                            // No data found, generate data.
+                            DEBUG.log('No data specified, generating test data');
+                            url = testCSV('https://www.relatematters.com/coaching-tools/PersonalBarChart.html');
+                            params = convertCSVtoJSON(url.searchParams.get('csv')); 
+                        }
+                    }
+            
+                    if (Array.isArray(params))
+                        params = params[0];
+                    
+                    // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
+                    function parseNumber(key, value) {
+                        if (typeof value == "number") return value;
+                        let nValue = parseFloat(value);
+                        if (Number.isNaN(nValue)) return value;
+                        return nValue;
+                    }
+
+                    function parseString(key, value) {
+                        return value;
+                    }
+
+                    const parseKeys = {
+                        fullName: parseString,
+                        mover: parseNumber,
+                        doer: parseNumber,
+                        responder: parseNumber,
+                        influencer: parseNumber,
+                        shaper: parseNumber,
+                        producer: parseNumber,
+                        contemplator: parseNumber,
+                        overallIntensity: parseNumber,
+                        companyName: parseString
+                    };
+
+                    let parsedParams = {};
+                    Object.keys(parseKeys).forEach(key => {
+                        if (params[key])
+                            parsedParams[key] = parseKeys[key](key, params[key]);       
+                    }); 
+
+                    let theMediator = new PBCMediator(parsedParams, "the-ll-table", "the-chart");
+                } catch (e) {
+                    ERROR.displayAlertInDoc(e);
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,88 @@
+body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    margin: 0.125in;
+}
+
+@media print {
+   body {
+        -webkit-print-color-adjust: exact;  /* Ensures that colors are preserved in WebKit browsers */
+        color-adjust: exact;                /* Ensures that colors are preserved in modern browsers */
+    }
+    
+    :root {
+        --bc-title-font-size: 0.75em;
+        --bc-companyname-font-size: 0.62em;
+        --bc-copyright-font-size: 0.37em;
+        --bc-max-width: 1024px;
+    }
+}
+
+@media screen {
+    :root {
+        --bc-title-font-size: 1.5em;
+        --bc-companyname-font-size: 1.25em;
+        --bc-copyright-font-size: 0.75em;
+        --bc-max-width: 1024px;
+    }
+}
+
+#the-grid {
+    max-width: var(--bc-max-width);
+    width: 100%;         /* Make it responsive */
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: #f4f4f4; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+}
+
+#the-ll-table {
+    margin-top: 12px;
+}
+
+#the-ll-table th, #the-ll-table td {
+    border-color: #7f7f7f;
+    border-width: thin;
+    vertical-align: middle;
+}
+
+#the-ll-table > thead > tr > th {
+    color: white;
+    background-color: #585858;
+    font-weight: 300;
+}
+
+#the-ll-table > tbody > tr > td {
+    background-color: #f2f2f2;
+}
+
+#the-ll-table > tfoot > tr:first-child > td {
+    font-weight: bold;
+    background-color: #d9d9d9;
+}
+
+ /* Style for the second footer row */
+#the-ll-table > tfoot > tr:nth-child(2) > td {
+    font-weight: bold;
+    background-color: #bdbbbb;
+} 
+
+#chart-container {
+    height: 275px;
+}
+
+.arrow {
+    color: darkgray;
+}
+
+.copyright {
+    font-size: var(--bc-copyright-font-size);
+    font-family: "Roboto Condensed", san-serif;
+    text-align: center;
+    padding: 10px;
+}
+
+body {
+    --bs-body-font-size: 12px;
+}

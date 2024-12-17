@@ -34,7 +34,7 @@ export class GBCMediator {
         
         this.theTable = new LLTable(tableId, this.people, this);
 
-        this._loadLLTable(this.people);
+        this._loadProfileTable(this.people);
 
         // Columns holds the state of whether a particular dataset is visible or hidden.
         this.columnState = {};
@@ -204,15 +204,15 @@ export class GBCMediator {
         return annotationData;
     }
 
-     /**
+    /**
      * Update the data in the LL table.
      * @method
      * @param {array} scores Scores that will be displayed. Assumed to be in ascending or descending order.
      * @returns {object} Prepared data for initializing and loading the table.
      * @private
      */
-    _loadLLTable(people) {
-        DEBUG.log('Mediator._loadLLTableValues(scores)', arguments);
+    _loadProfileTable(people) {
+        DEBUG.log('Mediator._loadProfileTableValues(scores)', arguments);
         
         const scores = this._getSortedScores(people);
         
@@ -272,7 +272,7 @@ export class GBCMediator {
                 person.state = bSelect;
             });
             
-            this._loadLLTable(this.people);
+            this._loadProfileTable(this.people);
             
             let chartData = this._prepChartData(this.columnState, this.people);
             this.theChart.loadData(chartData);

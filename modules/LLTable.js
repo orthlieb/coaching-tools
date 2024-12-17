@@ -114,7 +114,19 @@ export class LLTable {
     _getColumns() {
         let columns = [
             { name: 'state', data: 'state', title: STRINGS.columnLabels[0] },
-            { name: 'name', data: 'fullName', title: STRINGS.columnLabels[1] }
+            { 
+                name: 'name', 
+                data: 'fullName', 
+                title: STRINGS.columnLabels[1], 
+                render: function (data, type, row) {
+                    // Only render as a link if display is being requested
+                    if (type === 'display') {
+                        const url = `./PersonalBarChart.html?json=${encodeURIComponent(JSON.stringify(row))}`;
+                        return `<a href="${url}" class="name-link">${data}</a>`;
+                    }
+                    return data;
+                }
+            }
         ];
         
         COMMON.llKeys.forEach((key, index) => {

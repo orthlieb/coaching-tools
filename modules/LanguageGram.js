@@ -12,9 +12,6 @@ function getSortedScores(data) {
     let aSortedScores = [];
     
     for (let cLL of COMMON.llKeys) {
-        if (cLL == 'overallIntensity')
-            continue;
-
         aSortedScores.push([cLL, data[cLL]]);
     }
 
