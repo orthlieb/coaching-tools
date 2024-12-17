@@ -28,26 +28,35 @@ export class LLPerson {
         if ('acceptanceLevel' in data) {
             // Interactive style is usually either Score/Type (interactiveStyleScore, interactiveStyleType) or a number/letter string (interactiveStyle).
             if ('interactiveStyle' in data) {
-                ERROR.assertType(data.interactiveStyle, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyle`);
-                let is = LLPerson.parseInteractiveStyle(data.interactiveStyle);
-                data.interactiveStyleScore = is[0];
-                data.interactiveStyleType = is[1];
-                delete data.interactiveStyle;
+                if (typeof(data.interactiveStyle) == 'string') {
+                    // String: number followed by I, B, or E
+                    let is = LLPerson.parseInteractiveStyle(data.interactiveStyle);
+                    data.interactiveStyleScore = is[0];
+                    data.interactiveStyleType = is[1];
+                    delete data.interactiveStyle;
+                } else if (typeof(data.interactiveStyle == 'number')) {
+                    // This is a number normalized between 0 and 300.
+                    ERROR.assertRange(data.interactiveStyle, 0, 300, `validatePerson "${data.fullName}" parameter person.interactiveStyle`);
+                } else {
+                    ERROR.assertType(data.interactiveStyle, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyle`);
+                }
             }
 
-            ERROR.assert('interactiveStyleScore' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveScore`);
-            ERROR.assertType(data.interactiveStyleScore, 'number', `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
-            ERROR.assertRange(data.interactiveStyleScore, 1, 100, `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
+            if (typeof(data.interactiveStyle) == 'undefined') {
+                ERROR.assert('interactiveStyleScore' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveScore`);
+                ERROR.assertType(data.interactiveStyleScore, 'number', `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
+                ERROR.assertRange(data.interactiveStyleScore, 1, 100, `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
 
-            ERROR.assert('interactiveStyleType' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveType`);
-            ERROR.assertType(data.interactiveStyleType, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyleType`);
-            ERROR.assert(data.interactiveStyleType.length == 1, `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be a single letter, found "${data.interactiveStyleType}"`);
-            ERROR.assert(data.interactiveStyleType == 'I' || data.interactiveStyleType == 'B' || data.interactiveStyleType == 'E', `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
+                ERROR.assert('interactiveStyleType' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveType`);
+                ERROR.assertType(data.interactiveStyleType, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyleType`);
+                ERROR.assert(data.interactiveStyleType.length == 1, `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be a single letter, found "${data.interactiveStyleType}"`);
+                ERROR.assert(data.interactiveStyleType == 'I' || data.interactiveStyleType == 'B' || data.interactiveStyleType == 'E', `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
 
-            // Turn into a normalized score of 0 - 300.
-            data.interactiveStyle = LLPerson.decomposeInteractiveStyle(data.interactiveStyleScore, data.interactiveStyleType);
-            delete data.interactiveStyleScore;
-            delete data.interactiveStyleType;
+                // Turn into a normalized score of 0 - 300.
+                data.interactiveStyle = LLPerson.decomposeInteractiveStyle(data.interactiveStyleScore, data.interactiveStyleType);
+                delete data.interactiveStyleScore;
+                delete data.interactiveStyleType;
+            }
 
             // For professional profiles
             COMMON.ciKeys.forEach((cKey) => {
