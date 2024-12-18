@@ -53,16 +53,19 @@ function assertRange(value, low, high, msg) {
 
 /**
  * Creates an alert inside a document by cloning a div with the id 'alert' and prepending it to the document and revealing it.
- * @param {error} Error object from a try/catch/throw.
+ * @param {string} message Message to be displayed.
+ * @param {string} alertType One of 'alert-danger', alert-warning', 'alert-success', or 'alert-custom'
+ * @param {string} alertCustom Custom HTML to use for an icon.
  */
-function displayAlertInDoc(message, alertType = 'alert-danger') {
+function displayAlertInDoc(message, alertType = 'alert-danger', alertCustom = null) {
     DEBUG.logArgs('ERROR.displayAlertInDoc', arguments);
  
     let icons = {
-        "alert-danger": '<i class="bi bi-exclamation-diamond-fill me-3 fs-3"></i>',
-        "alert-warning": '<i class="bi bi-exclamation-triangle-fill me-3 fs-3"></i>',
-        "alert-success": '<i class="bi bi-check-square-fill me-3 fs-3"></i>',
-        "alert-info": '<i class="bi bi-info-circle-fill me-3 fs-3"></i>',
+        "alert-danger": '<i class="fa-solid fa-diamond-exclamation me-3 fs-3"></i>',
+        "alert-warning": '<i class="fa-solid fa-triangle-exclamation me-3 fs-3"></i>',
+        "alert-success": '<i class="fa-solid fa-square-check me-3 fs-3"></i>',
+        "alert-info": '<i class="fa-solid fa-circle-info me-3 fs-3"></i>',
+        "alert-custom": alertCustom
     };
 
     // Create the alert dynamically
@@ -75,7 +78,7 @@ function displayAlertInDoc(message, alertType = 'alert-danger') {
     newAlert.innerHTML = `
         ${iconHTML} ${message}
         <button type="button" class="btn-close m-3" data-bs-dismiss="alert" aria-label="Close">
-            <i class="bi bi-x-circle-fill" style="color: inherit;"></i>
+            <i class="fa-solid fa-circle-xmark" style="color: inherit;"></i>
         </button>
     `;
     // Prepend the new alert to the body

@@ -191,12 +191,12 @@ export class PBCMediator {
             let cGapSymbol = '';
             if (index != 0) {
                 if (scores[index].gap < 5) {
-                    cGapSymbol = '<i class="bi bi-arrows-collapse"></i>';
-                    COMMON.createInfoDialog(`gap-icon-${index}`, `${STRINGS.general.gap}: ${STRINGS.general.low}`, 
+                    cGapSymbol = '<i class="fa-solid fa-down-left-and-up-right-to-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>';
+                    COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol} &nbsp; ${STRINGS.general.gap}: ${STRINGS.general.low}`, 
                         `${STRINGS.gap.pre} ${STRINGS.gap.info[0]} ${STRINGS.gap.post}`);
                 } else if (scores[index].gap > 10) {
-                    cGapSymbol = '<i class="bi bi-arrows-expand"></i>';
-                    COMMON.createInfoDialog(`gap-icon-${index}`, `${STRINGS.general.gap}: ${STRINGS.general.high}`, 
+                    cGapSymbol = '<i class="fa-solid fa-up-right-and-down-left-from-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>';
+                    COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol} &nbsp; ${STRINGS.general.gap}: ${STRINGS.general.high}`, 
                         `${STRINGS.gap.pre} ${STRINGS.gap.info[2]} ${STRINGS.gap.post}`);
                 }
                 row.querySelector(`#gap-icon-${index}`).innerHTML = cGapSymbol;

@@ -126,7 +126,7 @@ export const COMMON = {
             event.preventDefault(); // Prevent default anchor behavior
 
             // Populate the modal title and body content
-            document.getElementById('modal-title').textContent = cTitle;
+            document.getElementById('modal-title').innerHTML = cTitle;
             document.querySelector('#modal-dialog .modal-body').innerHTML = cBody;
             
             // Show the modal programmatically
