@@ -45,8 +45,8 @@ table.dataTable tbody tr.selected>* {
     font-size: var(--bs-body-font-size);
 }
 
-#radar-graph: {
-    height: 275px;
+#graph-container{
+    height: 350px;
 }
 
 .solo-check {

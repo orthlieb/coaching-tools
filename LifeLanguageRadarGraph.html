@@ -40,8 +40,8 @@
                     <h2 id="rg-companyname" class="companyname text-center d-none col-12"></h2>
                 </div>
                 <div class="row">
-                    <div  id="radar-graph" class="col-12">
-                        <canvas id="rg-graph"></canvas>
+                    <div  id="graph-container" class="col-12">
+                        <canvas id="the-graph"></canvas>
                     </div>
                     <div class="col-12">
                          <table id="rg-table" class="table display bordered dt-select-no-highlight">
@@ -60,7 +60,7 @@
             import { DEBUG } from "./modules/Debug.js";
             import { COMMON } from './modules/Common.js';
             import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
-            import { LLRGMediator } from "./modules/LLRGMediator.js";
+            import { LLRGMediator } from "./modules/Mediator.LLRG.js";
             
             let url = new URL(window.location.href);
 
@@ -120,7 +120,7 @@
                         parsedParams.push(obj);
                     });
 
-                    let theMediator = new LLRGMediator(parsedParams, 'rg-table', 'rg-graph');
+                    let theMediator = new LLRGMediator(parsedParams, 'rg-table', 'the-graph');
                 } catch (e) {
                     ERROR.displayAlertInDoc(e);
                 }

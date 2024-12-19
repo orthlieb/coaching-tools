@@ -227,11 +227,11 @@ export class GBCMediator {
             let cGapSymbol = '';
             if (index != 0) {
                 if (scores[index].gap < 5) {
-                    cGapSymbol = '<i class="fa-solid fa-down-left-and-up-right-to-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>';
+                    cGapSymbol = '<i class="gap-compressed fa-solid fa-down-left-and-up-right-to-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>';
                     COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol} &nbsp; ${STRINGS.general.gap}: ${STRINGS.general.low}`, 
                         `${STRINGS.gap.pre} ${STRINGS.gap.info[0]} ${STRINGS.gap.post}`);
                 } else if (scores[index].gap > 10) {
-                    cGapSymbol = '<i class="fa-solid fa-arrow-up-right-and-arrow-down-left-from-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>';
+                    cGapSymbol = '<i class="gap-expanded fa-solid fa-arrow-up-right-and-arrow-down-left-from-center fa-rotate-by" style="--fa-rotate-angle: 135deg;"></i>';
                     COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol} &nbsp; ${STRINGS.general.gap}: ${STRINGS.general.high}`, 
                         `${STRINGS.gap.pre} ${STRINGS.gap.info[2]} ${STRINGS.gap.post}`);
                 }

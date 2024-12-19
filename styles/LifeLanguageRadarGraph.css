@@ -37,6 +37,10 @@ body {
     border-radius: 8px; 
 }
 
+#graph-container{
+    height: 350px;
+}
+
 /* Remove the background color for selected rows */
 table.dataTable tbody tr.selected>* {
     color: rgb(33, 37, 41) !important;
@@ -45,10 +49,6 @@ table.dataTable tbody tr.selected>* {
 
 .dt-button, .btn {
     font-size: var(--bs-body-font-size);
-}
-
-#radar-graph {
-    height: 275px;
 }
 
 .solo-check {
