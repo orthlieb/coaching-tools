@@ -1,3 +1,9 @@
+/**
+ * Module for testing and generating test data.
+ * @author Carl Orthlieb
+ * @namespace TEST
+ */
+
 import { DEBUG } from "./Debug.js";
 
 // List of common first names and last names
@@ -60,41 +66,73 @@ const companyNames = [
 ];
 
 export const TEST = {
+    /**
+     * Generates a random score.
+     * @returns {number} from 1 to 99.
+     */
     randomScore: () => {
         return TEST.randomInt(1, 99);
     },
 
+    /**
+     * Generates a random interactive style type. Either Internal (I), Balanced (B), or External (E).
+     * @returns {string} Character indicating the interactive style.
+     */
     randomInteractiveStyle: () => {
         let interactiveStyleTypeArray = ["I", "B", "E"];
         return interactiveStyleTypeArray[Math.floor(Math.random() * 3)];
     },
 
+    /**
+     * Generates a random boolean.
+     * @returns {boolean} The generated random boolean.
+     */
     randomBool: () => {
         return Math.random() < 0.5;
     },
     
+    /**
+     * Generates a random number.
+     * @param {number} min The minimum of the random number range (inclusive).
+     * @param {number} max The maximum of the random number range (inclusive)
+     * @returns {number} The generated random number.
+     */
     randomNumber: (min, max) => {
         return Math.random() * (max - min + 1) + min;
     },
 
-    // Function to generate a random integer between min and max (inclusive)
+     /**
+     * Generates a integer.
+     * @param {number} min The minimum of the random number range (inclusive).
+     * @param {number} max The maximum of the random number range (inclusive)
+     * @returns {number} The generated random integer.
+     */
     randomInt: (min, max) => {
         return Math.floor(TEST.randomNumber(min, max));
     },
 
-    // Function to generate a random first name-last name pair
+    /**
+     * Generates a random first name last name pair.
+     * @returns {string} The generated name.
+     */
     generateRandomNamePair: () => {
         const firstNameIndex = TEST.randomInt(0, firstNames.length - 1);
         const lastNameIndex = TEST.randomInt(0, lastNames.length - 1);
         return firstNames[firstNameIndex] + " " + lastNames[lastNameIndex];
     },
 
-    // Function to generate a random first name-last name pair
+    /**
+     * Generates a random company name.
+     * @returns {string} The generated name.
+     */
     generateRandomCompanyName: () => {
         return companyNames[TEST.randomInt(0, companyNames.length - 1)];
     },
     
-    // Function to generate a random learning preference set.
+    /**
+     * Generates a random learning preference set. The set scores will all add up to 100.
+     * @returns {object} Object containing random scores for learningPreferenceAuditory, learningPreferenceVisual, and learningPreferencePhysical.
+     */
     generateRandomLearningPreference: () => {
         let nAuditory = TEST.randomInt(1, 98);
         let nVisual = TEST.randomInt(1, 99 - nAuditory);
@@ -103,7 +141,11 @@ export const TEST = {
         return { learningPreferenceAuditory: nAuditory, learningPreferenceVisual: nVisual,  learningPreferencePhysical: nPhysical };
     },
     
-    // Generate a random person
+    /**
+     * Generates a random person object. This is just the data, not a person class instantiation.
+     * @param {string} [fullName] Optional full name to be used for the person.
+     * @returns {object} Object containing random scores for learningPreferenceAuditory, learningPreferenceVisual, and learningPreferencePhysical.
+     */
     randomPerson(fullName = null) {
         let person = {
             fullName: fullName ? fullName : TEST.generateRandomNamePair(),
@@ -132,7 +174,11 @@ export const TEST = {
         return person;
     },
     
-    // Generate a set of unique random people
+    /**
+     * Generates an array of random people.
+     * @param {number} nTestSets Number of people to generate.
+     * @returns {array} Array containing the people.
+     */
     randomPeople(nTestSets) {
         let aTestData = [];
         let uniqueNames = new Set();

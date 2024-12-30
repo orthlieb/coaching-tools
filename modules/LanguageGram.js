@@ -44,7 +44,7 @@ function validateData(data) {
         person = new LLPerson(data);
     } catch (e) {
         DEBUG.log(e);
-        ERROR.displayAlertInDoc(e);
+        COMMON.displayAlertInDoc(e);
     }
 
     return person;

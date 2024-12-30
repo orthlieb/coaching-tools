@@ -1,5 +1,5 @@
 /*
- * @module modules/Mediator
+ * @module modules/GBCMediator
  * @author Carl Orthlieb
  */
 
@@ -15,7 +15,7 @@ import { LLPerson } from "./Person.js";
 /** @class */
 export class GBCMediator {
     /**
-     * Mediator for Datatables Group Barchart
+     * Mediator for Group Barchart
      * @param {array} data Array of people objects (unvalidated).
      * @param {string} tableId Id of the table element to use for individual people.
      * @param {string} tableLLId Id of the table element to use for group scores.
@@ -59,7 +59,7 @@ export class GBCMediator {
                 people.push(person);
             } catch (e) {
                 DEBUG.log(e);
-                ERROR.displayAlertInDoc(e);
+                COMMON.displayAlertInDoc(e);
             }
         }
         

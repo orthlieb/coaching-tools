@@ -1,11 +1,12 @@
-/*
- * @module modules/Common
+/**
+ * Common object with useful common routines and keys for Life Languages
  * @author Carl Orthlieb
+ * @namespace COMMON
  */
 
-/**
- * Common object with useful common routines and keys for Life Languages.
- */
+import { ERROR } from './Error.js';
+import { DEBUG } from './Debug.js';
+
 export const COMMON = {
     /**
      * Keys to use for Life Languages. 
@@ -19,10 +20,14 @@ export const COMMON = {
         'producer',
         'contemplator'
     ],
+    /**
+     * Colors for each of the Life Languages by key.
+     * @description COMMON.colors.solid[llKey] to get a solid color for that Life Language.
+     * COMMON.colors.light[llKey] to get a lighter version of the color for that Life Language.
+     * COMMON.colors.dark[llKey] to get a darker version of the color for that Life Language. Typically used for text colors.
+     * COMMON.colors.background[llKey] to get a semi-transparent background color for that Life Language.
+     */
     colors: {
-        /**
-         * Colors for each of the Life Languages by key.
-         */
         solid: {
             mover: 'hsl(358, 85%, 52%)', 
             doer: 'hsl(28, 92%, 54%)', 
@@ -32,10 +37,6 @@ export const COMMON = {
             producer: 'hsl(152, 100%, 20%)', 
             contemplator: 'hsl(196, 73%, 54%)'
         },
-
-        /**
-         * Lighter version of colors to be used as backgrounds by key.
-         */
         light: {
             mover: 'hsl(358, 85%, 90%)',
             doer: 'hsl(28, 92%, 92%)',
@@ -45,10 +46,6 @@ export const COMMON = {
             producer: 'hsl(151, 26%, 84%)',
             contemplator: 'hsl(196, 73%, 92%)'
         },
-        
-        /**
-         * Darker version of colors to be used as text colors. Access via COMMON.colors.dark[key].
-         */
         dark: {
             mover: 'hsl(358, 85%, 32%)', 
             doer: 'hsl(28, 92%, 34%)', 
@@ -58,9 +55,6 @@ export const COMMON = {
             producer: 'hsl(152, 100%, 15%)', 
             contemplator: 'hsl(196, 73%, 34%)'
         },
-       /**
-        * Background colors that include a level of transparency. Access via COMMON.colors.background[key].
-        */
         background: {
             mover: 'hsla(358, 85%, 32%, 0.2)',
             doer: 'hsla(28, 92%, 54%, 0.2)',
@@ -86,6 +80,10 @@ export const COMMON = {
         'learningPreferencePhysical'
     ],
     
+    /**
+     * Colors for each of the Life Languages by key.
+     * @description COMMON.colors.solid[llKey] to get a solid color for that Life Language.
+     */
     ciColors: {
         solid: {
             acceptanceLevel: 'hsl(356, 69%, 43%)',
@@ -105,6 +103,7 @@ export const COMMON = {
      * Suitable for displaying arrows or colors from another array.
      * @param {number} nValue The value to be evaluated.
      * @returns {number} Returns an integer between 0 and 4 suitable for indexing into an array.
+     * @public
      */
     evaluateScoreLevel: function(nValue) {
         if (nValue < 15) return 0;      // bi-arrow-down "\D83E\DC7B"; "&#x1F87B;";  down
@@ -120,8 +119,10 @@ export const COMMON = {
      * @param {string} cInfoId The id of the element to attach the dialog.
      * @param {string} cTitle Title of the dialog.
      * @param {string} cBody Body of the dialog.
+     * @public
      */
     createInfoDialog(cInfoId, cTitle, cBody) {
+        DEBUG.logArgs('Common.createInfoDialog(cInfoId, cTitle, cBody)', arguments);
         document.getElementById(cInfoId).addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default anchor behavior
 
@@ -134,7 +135,105 @@ export const COMMON = {
                 new bootstrap.Modal(document.getElementById('modal-dialog'));            
             myModal.show();
         });
+    },
+    
+    /**
+     * Creates an alert inside a document by cloning a div with the id 'alert' and prepending it to the document and revealing it.
+     * @param {string} message Message to be displayed.
+     * @param {string} alertType One of 'alert-danger', alert-warning', 'alert-success', or 'alert-custom'
+     * @param {string} alertCustom Custom HTML to use for an icon.
+     * @public
+     */
+    displayAlertInDoc(message, alertType = 'alert-danger', alertCustom = null) {
+        DEBUG.logArgs("COMMON.displayAlertInDoc(message, alertType = 'alert-danger', alertCustom = null)", arguments);
+
+        let icons = {
+            "alert-danger": '<i class="fa-solid fa-diamond-exclamation me-3 fs-3"></i>',
+            "alert-warning": '<i class="fa-solid fa-triangle-exclamation me-3 fs-3"></i>',
+            "alert-success": '<i class="fa-solid fa-square-check me-3 fs-3"></i>',
+            "alert-info": '<i class="fa-solid fa-circle-info me-3 fs-3"></i>',
+            "alert-custom": alertCustom
+        };
+
+        // Create the alert dynamically
+        const newAlert = document.createElement('div');
+        newAlert.className = `alert alert-dismissible d-flex align-items-center m-3 ${alertType}`;
+        newAlert.setAttribute('role', 'alert');
+
+        // Add the icon, message, and close button
+        const iconHTML = icons[alertType] || '';
+        newAlert.innerHTML = `
+            ${iconHTML} ${message}
+            <button type="button" class="btn-close m-3" data-bs-dismiss="alert" aria-label="Close">
+                <i class="fa-solid fa-circle-xmark" style="color: inherit;"></i>
+            </button>
+        `;
+        // Prepend the new alert to the body
+        document.body.prepend(newAlert);
+
+        // Automatically remove the alert when the close button is clicked
+        newAlert.querySelector('.btn-close').addEventListener('click', () => newAlert.remove());
+    },
+    
+    /**
+     * Parse parameters an array containing objects with the supplied template.
+     * @param {array} Array to process.
+     * @param {object} Template containing keys to parse for and parsing functions.
+     * @returns {object} Parsed parameters.
+     */
+    parseParameters(params, parseKeys) {
+        // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
+        let parseFunctions = {
+            string: (key, value) => value,
+            number: (key, value) => {
+                if (typeof value == "number")
+                    return value;
+                let nValue = parseFloat(value);
+                if (Number.isNaN(nValue)) 
+                    return value;
+                return nValue;
+            },
+            character: (key, value) => {
+                if (typeof value == 'string')
+                    return value[0];
+                return value;
+            },
+            boolean: (key, value) => {
+                if (typeof value == 'boolean')
+                    return value;
+                if (typeof value == 'string') {
+                    let cValue = value[0].toLowerCase();
+                    return cValue == "y" || cValue == "t" || cValue == "1";
+                }
+                return value == 1;
+            }
+        };
+
+        let parsedParams = [];
+        params.forEach(param => {
+            let obj = {};
+            Object.keys(parseKeys).forEach(key => {
+                if (param[key])
+                    obj[key] = parseFunctions[parseKeys[key]](key, param[key]);       
+            }); 
+            parsedParams.push(obj);
+        });
+        
+        return parsedParams;
+    },
+    
+    showLoading(id) {
+        document.getElementById('loading').style.display = 'flex';
+        document.getElementById(id).style.display = 'none';
+    },
+
+    hideLoading(id) {
+        setTimeout(() => {
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('loading').style.display = 'none';
+        }, 3000);
     }
 };
+
 
 

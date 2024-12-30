@@ -325,45 +325,6 @@ function evaluateForensicLevel(cCI, cLL, nValue) {
     return cLL[0].toLowerCase();
 }
 
-/**
- * Evaluates whether a particular Life Language is contributing to the score for Interactive Style
- * @param {string} cLL Key for which Life Language might contribute.
- * @param {string} cISType Single letter that indicates whether the individual is an Introvert "I", Balanced "B", or Extrovert "E".
- * @returns {string} Returns an HTML snippet that shows how the specified Life Language contributes to the Interactive Style.
- */
-function interactiveStyleForensics(cLL, cISType) {
-    let cContributor = cLL[0].toLowerCase();
-    switch (cLL) {
-        case "mover": // Balanced to Introvert
-            if (cISType == "B") cContributor = cContributor.toUpperCase();
-            if (cISType != "E")
-                cContributor = "<strong>" + cContributor + "</strong>";
-            break;
-        case "doer": // Introvert
-        case "responder":
-        case "contemplator":
-            if (cISType == "I")
-                cContributor =
-                    "<strong>" + cContributor.toUpperCase() + "</strong>";
-
-            break;
-        case "influencer": // Extrovert
-            if (cISType == "E")
-                cContributor =
-                    "<strong>" + cContributor.toUpperCase() + "</strong>";
-            break;
-        case "shaper": // Balanced
-        case "producer":
-            if (cISType == "E")
-                cContributor =
-                    "<strong>" + cContributor.toUpperCase() + "</strong>";
-            break;
-        default:
-            ERROR.assert(false, "Incorrect Life Language type", cLL);
-            break;
-    }
-    return cContributor;
-}
 
 /**
  * Validate incoming data.

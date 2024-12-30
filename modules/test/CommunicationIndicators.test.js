@@ -4,7 +4,7 @@ import { ERROR } from "../Error.js";
 import { DEBUG } from "../Debug.js";
 import { TEST } from '../Test.js';
 
-import { convertJSObjectToCSV } from "../CSVToJSON.js";
+import { CSV } from "../CSVToJSON.js";
 
 export function testSingle(cURLPrefix) {
     let oTest = TEST.randomPerson("Single");
@@ -29,7 +29,7 @@ export function testJSON(cURLPrefix) {
 
 export function testCSV(cURLPrefix) {
     let aTestData = TEST.randomPeople(TEST.randomInt(4, 8));
-    let str = convertJSObjectToCSV(aTestData);
+    let str = CSV.fromJSObject(aTestData);
     DEBUG.log(`GENERATED CSV TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?csv=${encodeURIComponent(str)}`);
 }

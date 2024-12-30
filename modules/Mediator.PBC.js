@@ -1,11 +1,12 @@
 /*
- * @module modules/Mediator
+ * @module modules/PBCMediator
  * @author Carl Orthlieb
  */
 
 import { ERROR } from "./Error.js";
 import { COMMON } from "./Common.js";
 import { DEBUG } from "./Debug.js";
+
 import { STRINGS } from "./Strings.js";
 
 import { BarChart } from "./BarChart.js";

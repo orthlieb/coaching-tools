@@ -1,11 +1,12 @@
 /*
- * @module modules/Mediator
+ * @module modules/GCIBCMediator
  * @author Carl Orthlieb
  */
 
 import { ERROR } from "./Error.js";
 import { COMMON } from "./Common.js";
 import { DEBUG } from "./Debug.js";
+
 import { STRINGS } from "./Strings.js";
 
 import { BarChart } from "./BarChart.js";
@@ -15,7 +16,7 @@ import { LLPerson } from "./Person.js";
 /** @class */
 export class GCIBCMediator {
     /**
-     * Mediator for Datatables Group Barchart
+     * Mediator for Group Communication Indicators Barchart
      * @param {array} data Array of people objects (unvalidated).
      * @param {string} tableId Id of the table element to use for individual people.
      * @param {string} graphId Id of the graph element to use.
@@ -56,7 +57,7 @@ export class GCIBCMediator {
                 people.push(person);
             } catch (e) {
                 DEBUG.log(e);
-                ERROR.displayAlertInDoc(e);
+                COMMON.displayAlertInDoc(e);
             }
         }
         

@@ -4,8 +4,9 @@
  */
 import { ERROR } from "./Error.js";
 import { DEBUG } from "./Debug.js";
-import { STRINGS } from "./Strings.js";
 import { COMMON } from "./Common.js";
+
+import { STRINGS } from "./Strings.js";
 
 /**
  * Class representing a Life Languages scores table for a group of people.
@@ -65,6 +66,11 @@ export class LLTable {
         dt.draw();
     }
     
+    /**
+     * Add tooltips to the columns of the table.
+     * @param {object} dt Data table object.
+     * @private
+     */
     _addTooltips(dt) {
         // Add tooltips to Life Language columns based on STRINGS.columnTitles, skipping the first two columns
         dt.columns().every(function(index) {
@@ -84,6 +90,10 @@ export class LLTable {
         });
     }
     
+    /**
+     * Get the column definitions for the table.
+     * @private
+     */
     _getColumnDefs() {
        return [
             {   // Select checkbox.
@@ -111,6 +121,10 @@ export class LLTable {
         ];
     }
 
+    /**
+     * Get the column data for the table.
+     * @private
+     */
     _getColumns() {
         let columns = [
             { name: 'state', data: 'state', title: STRINGS.columnLabels[0] },
@@ -139,6 +153,10 @@ export class LLTable {
         return columns;
     }
     
+    /**
+     * Get the layout for the table.
+     * @private
+     */
     _getLayout() {
         return {
                 topStart: null,
@@ -157,6 +175,12 @@ export class LLTable {
             };
     }
     
+    /**
+     * Register for event handling for the table.
+     * @param {object} $table The table jQuery object.
+     * @param {object} that Object to bind to for callbacks.
+     * @private
+     */
     _registerEvents($table, that) {
         let dt = $table.DataTable();
 
@@ -396,7 +420,6 @@ export class LLTable {
     
     /**
      * Hide a particular column in the table.
-     * @method 
      * @param {integer} nIndex Index of the column to hide (zero-based).
      * @param {boolean} bHidden True to hide the column, false to show it.
      * @public

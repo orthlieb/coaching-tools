@@ -33,6 +33,11 @@
         <link rel="stylesheet" href="./styles/PeopleRadarGraph.css" />
     </head>
     <body>
+        <!-- BEGIN Loading Image -->
+        <div id="loading" class="centered">
+            <img src="./images/Life_Languages_Logo_Spin.gif" alt="Loading...">
+        </div>
+        <!-- END Loading Image -->
         <div id="radar-graph-grid" class="container mx-auto">
             <div class="container col-lg-9 offset-lg-1 mx-auto">
                 <div class="row"><h1 class="bold text-center col-12">Group People Radar Graph</h1></div>
@@ -59,7 +64,7 @@
             import { ERROR } from "./modules/Error.js";
             import { DEBUG } from "./modules/Debug.js";
             import { COMMON } from './modules/Common.js';
-            import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
+            import { CSV } from "./modules/CSVToJSON.js";
             import { PRGMediator } from "./modules/Mediator.PRG.js";
     
             let url = new URL(window.location.href);
@@ -71,60 +76,46 @@
             //url = testCSV('https://www.relatematters.com/coaching-tools/PeopleRadarGraph.html');
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/PeopleRadarGraph.html');
            
-            $('document').ready(function () {
+            import { LocalizationReady, STRINGS } from './modules/strings.js';
+            async function main() {
                 try {
+                    COMMON.showLoading('radar-graph-grid');
+                    await LocalizationReady;
+                    COMMON.hideLoading('radar-graph-grid');
+
                     let searchParams = url.searchParams;
                     let params = {};
 
                     if (searchParams.has('json')) {
                         params = JSON.parse(searchParams.get('json'));
                     } else if (searchParams.has('csv')) {
-                        params = convertCSVtoJSON(searchParams.get('csv'));
+                        params = CSV.toJSON(searchParams.get('csv'));
                     } else {
                         DEBUG.log('No data specified, generating test data');
                         url = testCSV('https://www.relatematters.com/coaching-tools/PeopleRadarGraph.html');
-                        params = convertCSVtoJSON(url.searchParams.get('csv')); 
-                    }
-
-                    function parseNumber(key, value) {
-                        if (typeof value == 'number') return value;
-                        let nValue = parseFloat(value);
-                        if (Number.isNaN(nValue)) return value;
-                        return nValue;
-                    }
-
-                    function parseString(key, value) {
-                        return value;
+                        params = CSV.toJSON(url.searchParams.get('csv')); 
                     }
 
                     const parseKeys = {
-                        fullName: parseString,
-                        mover: parseNumber,
-                        doer: parseNumber,
-                        responder: parseNumber,
-                        influencer: parseNumber,
-                        shaper: parseNumber,
-                        producer: parseNumber,
-                        contemplator: parseNumber,
-                        overallIntensity: parseNumber,
-                        companyName: parseString
+                        fullName: 'string',
+                        mover: 'number',
+                        doer: 'number',
+                        responder: 'number',
+                        influencer: 'number',
+                        shaper: 'number',
+                        producer: 'number',
+                        contemplator: 'number',
+                        overallIntensity: 'number',
+                        companyName: 'string'
                     };
-
-                    let parsedParams = [];
-                    params.forEach(param => {
-                        let obj = {};
-                        Object.keys(parseKeys).forEach(key => {
-                            if (param[key])
-                                obj[key] = parseKeys[key](key, param[key]);       
-                        }); 
-                        parsedParams.push(obj);
-                    });
+                    let parsedParams = COMMON.parseParameters(params, parseKeys);
 
                     let theMediator = new PRGMediator(parsedParams, 'rg-table', 'the-graph');
                 } catch (e) {
-                    ERROR.displayAlertInDoc(e);
+                    COMMON.displayAlertInDoc(e);
                 }
-            });
+            }
+            main();
         </script>
     </body>
 </html>

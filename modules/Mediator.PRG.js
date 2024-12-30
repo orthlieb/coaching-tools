@@ -1,11 +1,12 @@
 /*
- * @module modules/Mediator
+ * @module modules/PRGMediator
  * @author Carl Orthlieb
  */
 
 import { ERROR } from "./Error.js";
 import { COMMON } from "./Common.js";
 import { DEBUG } from "./Debug.js";
+
 import { STRINGS } from "./Strings.js";
 
 import { RadarChart } from "./RadarChart.js";
@@ -15,7 +16,7 @@ import { LLPerson } from "./Person.js";
 /** @class */
 export class PRGMediator {
     /**
-     * Mediator for Datatables People Radar Graph
+     * Mediator for People Radar Graph
      * @param {array} data Array of people object (unvalidated)
      * @param {string} tableId Id of the table element to use.
      * @param {string} graphId Id of the graph element to use.
@@ -54,7 +55,7 @@ export class PRGMediator {
                 people.push(person);
             } catch (e) {
                 DEBUG.log(e);
-                ERROR.displayAlertInDoc(e);
+                COMMON.displayAlertInDoc(e);
             }
         }
 

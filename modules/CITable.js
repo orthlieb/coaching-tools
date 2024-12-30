@@ -4,9 +4,9 @@
  */
 import { ERROR } from "./Error.js";
 import { DEBUG } from "./Debug.js";
-import { STRINGS } from "./Strings.js";
 import { COMMON } from "./Common.js";
 import { LLPerson } from "./Person.js";
+import { STRINGS } from "./Strings.js";
 
 /**
  * Class representing a Communication Indicators table for a group of people.

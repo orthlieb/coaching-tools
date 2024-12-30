@@ -1,5 +1,5 @@
 // Generate test data for LanguageGram
-import { convertJSObjectToCSV } from "../CSVToJSON.js";
+import { CSV } from "../CSVToJSON.js";
 import { DEBUG } from "../Debug.js";
 import { ERROR } from "../Error.js";
 import { TEST } from '../Test.js';
@@ -24,7 +24,7 @@ export function testJSON(cURLPrefix) {
 
 export function testCSV(cURLPrefix) {
     let people = TEST.randomPeople(5, 15);
-    let str = convertJSObjectToCSV(people);
+    let str = CSV.fromJSObject(people);
     DEBUG.log(`GENERATED CSV TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?csv=${encodeURIComponent(str)}`);
     

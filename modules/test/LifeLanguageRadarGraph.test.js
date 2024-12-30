@@ -1,6 +1,6 @@
 // Generate test data for LifeLanguageRadarGraph
 import { DEBUG } from "../Debug.js";
-import { convertJSObjectToCSV } from "../CSVToJSON.js";
+import { CSV } from "../CSVToJSON.js";
 import { TEST } from '../Test.js';
 
 export function testJSON(cURLPrefix) {
@@ -12,7 +12,7 @@ export function testJSON(cURLPrefix) {
 
 export function testCSV(cURLPrefix) {
     let aTestData = TEST.randomPeople(TEST.randomInt(3, 7));
-    let str = convertJSObjectToCSV(aTestData);
+    let str = CSV.fromJSObject(aTestData);
     DEBUG.log(`GENERATED CSV TEST DATA: ${str}`);
     return new URL(`${cURLPrefix}?csv=${encodeURIComponent(str)}`);
 }

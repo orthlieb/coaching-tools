@@ -1,10 +1,52 @@
+/*
+ * @module modules/Person
+ * @author Carl Orthlieb
+ */
 import { ERROR } from "./Error.js";
 import { DEBUG } from "./Debug.js";
 import { COMMON } from "./Common.js";
+import { STRINGS } from "./Strings.js";
 
+/**
+ * @typedef {Object} PersonData
+ * @property {string} fullName - Name of the person.
+ * @property {string} [companyName] - Company name for the person.
+ * @property {number} mover - Score for the Mover language (0-100).
+ * @property {number} doer - Score for the Doer language (0-100).
+ * @property {number} influencer - Score for the Influencer language (0-100).
+ * @property {number} responder - Score for the Responder language (0-100).
+ * @property {number} shaper - Score for the Shaper language (0-100).
+ * @property {number} producer - Score for the Producer language (0-100).
+ * @property {number} contemplator - Score for the Contemplator language (0-100).
+ * @property {number} overallIntensity - Score for Overall Intensity (0-100).
+ * @property {number} [acceptanceLevel] - Score for  Acceptance Level (0-100). 
+ * @property {number|string} [interactiveStyle] - Score for Interactive Style as a normalized number (0-300), or a string of the form <number>[I|B|E].
+ * @property {number} [interactiveStyleScore] - If interactiveStyle is not present, this two part score is looked for. This part is the score (0-100).
+ * @property {number} [interactiveStyleType] - If interactiveStyle is not present, this two part score is looked for. This part is the type [I|B|E].
+ * @property {number} [internalControl] - Score for Internal Control (0-100).
+ * @property {number} [intrusionLevel] - Score for Intrusion Level (0-100).
+ * @property {number} [projectiveLevel] - Score for Projective Level (0-100).
+ * @property {number} [susceptibilityToStress] - Score for Susceptibility To Stress (0-100).
+ * @property {number} [learningPreferenceAuditory] - Score for Auditory Learning Preference (0-100). 
+ * @property {number} [learningPreferenceVisual] - Score for Visual Learning Preference (0-100).
+ * @property {number} [learningPreferencePhysical] - Score for Physical Learning Preference (0-100).'
+ * @description If acceptanceLevel is present, all the optional keys must be present.
+ */
+
+/**
+ * Class representing a person and their scores.
+ * @class
+ */
 export class LLPerson {
     static idCounter = 0;
     
+    /**
+     * Person class constructor
+     * @param {PersonData} data Data to construct the person.
+     * @returns {object} Initialized Person object.
+     * @throws {Error} Throws an error if required fields are missing or invalid.
+     * @constructor
+     */
     constructor(data) {
         ERROR.assert("fullName" in data, "validatePerson missing parameter person.fullName");
         ERROR.assertType(data.fullName, "string", `validatePerson parameter person.fullName`);
@@ -22,6 +64,9 @@ export class LLPerson {
             ERROR.assertRange(data[cKey], 1, 100, `validatePerson "${data.fullName}" parameter person.${cKey}`);
             this[cKey] = data[cKey];
         });
+        
+        // Sort scores in descending order.
+        this.sortedScores = COMMON.llKeys.map(cKey => { return { key: cKey, value: this[cKey] }; }).sort((a, b) => b.value - a.value);
   
         // Some profiles do not have Communication Indicators.
         
@@ -147,5 +192,34 @@ export class LLPerson {
         if (nScore > 100)
             return [ nScore - 100, 'B'];
         return [100 - nScore, 'I'];
+    }
+    
+    /**
+     * Creates a shorthand string to visualize the sorted order of the Life Languages for a particular person.
+     * @method
+     * @returns {string} Shorthand string suitable for display. Separator - is a gap > 10, Separator · is a gap between 5 and 10. No separator is < 5.
+     * @public
+     */
+    getShorthandString() {
+        let cShorthandString = "";
+        let nLastScore = -1;
+
+        this.sortedScores.forEach(score => {
+            if (nLastScore != -1) {
+                let nGap = nLastScore - score.value;
+                // Normal
+                if (nGap >= 5 && nGap <= 10) 
+                    cShorthandString += "·";
+                // Significant gap
+                else if (nGap > 10) 
+                    cShorthandString += "-";
+            }
+            nLastScore = score.value;
+
+            let cChar = STRINGS.shorthand[score.key].toUpperCase();
+            cShorthandString += score.value >= 50 ? cChar : cChar.toLowerCase();
+        });
+
+        return cShorthandString;
     }
 }

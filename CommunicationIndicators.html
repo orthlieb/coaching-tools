@@ -24,6 +24,12 @@
     <link rel="stylesheet" href="./styles/CommunicationIndicators.css" /> 
 </head>
 <body>
+    <!-- Modal Structure -->
+    <!-- BEGIN Loading Image -->
+    <div id="loading" class="centered">
+        <img src="./images/Life_Languages_Logo_Spin.gif" alt="Loading...">
+    </div>
+    <!-- END Loading Image -->
     <div id="cipage-1" class="CIPage container mx-auto" >
         <div class="fullName" id="fullName"></div>
         <div class="shorthand" , id="shorthand"></div>
@@ -38,7 +44,7 @@
             <div class="graph">
                 <canvas class="canvas print-full acceptanceLevelChart"></canvas>
             </div>
-            <div class="status bold acceptanceLevelStatus"></div>
+            <div class="status bold acceptanceLevelStatus text-uppercase"></div>
             <div class="score acceptanceLevelScore"></div>
             <div class="life-language-1 life-language forensic acceptanceLevelLifeLanguage1"></div>
             <div class="life-language-2 life-language forensic acceptanceLevelLifeLanguage2"></div>
@@ -69,7 +75,7 @@
             <div class="graph-3">
                 <canvas class="print-one-third interactiveStyleExtrovertChart"></canvas>
             </div>
-            <div class="status bold interactiveStyleStatus"></div>
+            <div class="status bold interactiveStyleStatus text-uppercase"></div>
             <div class="score interactiveStyleScore"></div>
             <div class="life-language-1 life-language forensic interactiveStyleLifeLanguage1"></div>
             <div class="life-language-2 life-language forensic interactiveStyleLifeLanguage2"></div>
@@ -87,7 +93,7 @@
             <div class="graph">
                 <canvas class="print-full internalControlChart"></canvas>
             </div>
-            <div class="status bold internalControlStatus"></div>
+            <div class="status bold internalControlStatus text-uppercase"></div>
             <div class="score internalControlScore"></div>
             <div class="life-language-1 life-language forensic internalControlLifeLanguage1"></div>
             <div class="life-language-2 life-language forensic internalControlLifeLanguage2"></div>
@@ -107,7 +113,7 @@
             <div class="graph">
                 <canvas class="print-full intrusionLevelChart"></canvas>
             </div>
-            <div class="status bold intrusionLevelStatus"></div>
+            <div class="status bold intrusionLevelStatus text-uppercase"></div>
             <div class="score intrusionLevelScore"></div>
             <div class="life-language-1 life-language forensic intrusionLevelLifeLanguage1"></div>
             <div class="life-language-2 life-language forensic intrusionLevelLifeLanguage2"></div>
@@ -126,7 +132,7 @@
             <div class="graph">
                 <canvas class="print-full projectiveLevelChart"></canvas>
             </div>
-            <div class="status bold projectiveLevelStatus"></div>
+            <div class="status bold projectiveLevelStatus text-uppercase"></div>
             <div class="score projectiveLevelScore"></div>
             <div class="life-language-1 life-language forensic projectiveLevelLifeLanguage1"></div>
             <div class="life-language-2 life-language forensic projectiveLevelLifeLanguage2"></div>
@@ -146,7 +152,7 @@
             <div class="graph">
                 <canvas class="print-full susceptibilityToStressChart"></canvas>
             </div>
-            <div class="status bold susceptibilityToStressStatus"></div>
+            <div class="status bold susceptibilityToStressStatus text-uppercase"></div>
             <div class="score susceptibilityToStressScore"></div>
         </div>
         <div class="communication-indicator-three-bar">
@@ -167,17 +173,17 @@
             <div class="graph-3">
                 <canvas class="print-one-third learningPreferencePhysicalChart"></canvas>
             </div>
-            <div class="status bold learningPreferenceAuditoryStatus"></div>
+            <div class="status bold learningPreferenceAuditoryStatus text-uppercase"></div>
             <div class="score learningPreferenceAuditoryScore"></div>
             <div class="life-language-1"></div>
-            <div class="bold life-language-2 life-language learningPreferenceVisualStatus"></div>
+            <div class="bold life-language-2 life-language learningPreferenceVisualStatus text-uppercase"></div>
             <div class="life-language-3 life-language learningPreferenceVisualScore"></div>
             <div class="life-language-4"></div>
-            <div class="life-language-5 life-language bold learningPreferencePhysicalStatus"></div>
+            <div class="life-language-5 life-language bold learningPreferencePhysicalStatus text-uppercase"></div>
             <div class="life-language-6 life-language learningPreferencePhysicalScore"></div>
             <div class="life-language-7"></div>
         </div>
-        <div class="warning bold forensic">FOR COACHING USE ONLY! DO NOT GIVE TO CLIENT</div>
+        <div class="warning bold forensic">FOR COACHING USE ONLY! DO NOT DISTRIBUTE TO CLIENT</div>
         <div class="footer">
             Copyright &copy; Life Languages International &#x2022; All rights reserved. &#x2022;
             <a href="www.lifelanguages.com">www.lifelanguages.com</a>
@@ -187,8 +193,9 @@
     <script type="module">
         import { ERROR } from "./modules/Error.js";
         import { DEBUG } from "./modules/Debug.js";
-        import { displayCommunicationIndicators } from "./modules/CommunicationIndicators.js";
-        import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
+        import { COMMON } from "./modules/Common.js";
+        import { CIWorksheet } from "./modules/CIWorksheet.js";
+        import { CSV } from "./modules/CSVToJSON.js";
 
         let url = new URL(window.location.href);
 
@@ -200,115 +207,66 @@
         //url = testCSV("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
         //url = testInvalidEntries("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
 
-        try {
-            let searchParams = url.searchParams;
-            let params = {};
+        import { LocalizationReady, STRINGS } from './modules/strings.js';
+        async function main() {
+            try {
+                // Preload localization strings
+                COMMON.showLoading('cipage-1');
+                await LocalizationReady;
+                COMMON.hideLoading('cipage-1');
+                    
+                let searchParams = url.searchParams;
+                let params = {};
 
-            if (searchParams.has('json')) {
-                params = JSON.parse(searchParams.get('json'));
-            } else if (searchParams.has('csv')) {
-                params = convertCSVtoJSON(searchParams.get('csv'));
-            } else {
-                let bFlag = false;
-                for (const [key, value] of searchParams.entries()) {
-                    bFlag = true;
-                    params[key] = value;
+                if (searchParams.has('json')) {
+                    params = JSON.parse(searchParams.get('json'));
+                } else if (searchParams.has('csv')) {
+                    params = CSV.toJSON(searchParams.get('csv'));
+                } else {
+                    let bFlag = false;
+                    for (const [key, value] of searchParams.entries()) {
+                        bFlag = true;
+                        params[key] = value;
+                    }
+                    if (!bFlag) {
+                        // No data found, generate data.
+                        url = testCSV("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
+                        params = CSV.toJSON(url.searchParams.get('csv')); 
+                    }
                 }
-                if (!bFlag) {
-                    // No data found, generate data.
-                    url = testCSV("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
-                    params = convertCSVtoJSON(url.searchParams.get('csv')); 
-                }
-            }
-            
-            // We deal in arrays, so if the params are a singleton, enclose it in an array.
-            if (!Array.isArray(params)) 
-                params = [params];
 
-            function parseNumber(key, value) {
-                if (typeof value == 'number')
-                    return value;
+                // We deal in arrays, so if the params are a singleton, enclose it in an array.
+                if (!Array.isArray(params)) 
+                    params = [params];
+
+                const parseKeys = { fullName: 'string', company: 'string', mover: 'number', doer: 'number', responder:
+                'number', influencer: 'number', shaper: 'number', producer: 'number', contemplator: 'number',
+                overallIntensity: 'number', acceptanceLevel: 'number', interactiveStyle: 'string', interactiveStyleType:
+                'character', interactiveStyleScore: 'number', internalControl: 'number', intrusionLevel: 'number',
+                projectiveLevel: 'number', susceptibilityToStress: 'number', learningPreferenceAuditory: 'number',
+                learningPreferenceVisual: 'number', learningPreferencePhysical: 'number', showForensics: 'boolean' };
+                let parsedParams = COMMON.parseParameters(params, parseKeys);
                 
-                let nValue = parseFloat(value);
-                if (Number.isNaN(nValue))
-                    return value;
-                return nValue;
-            }
-
-            function parseChar(key, value) {
-                if (typeof value == 'string')
-                    return value[0];
-                return value;
-            }
-            
-            function parseBool(key, value) {
-                if (typeof value == 'boolean')
-                    return value;
-                
-                if (typeof value == 'string') {
-                    let cValue = value[0].toLowerCase();
-                    return cValue == "y" || cValue == "t" || cValue == "1";
+                let ci = document.getElementById("cipage-1");
+                // Loop over each page of information
+                for (let i = 0; i < parsedParams.length; i++) {
+                    if (i > 0) {
+                        // Create our page from the existing one
+                        let divClone = ci.cloneNode(true); // the true is for deep cloning
+                        divClone.setAttribute("id", "cipage-" + (i + 1));
+                        document.body.appendChild(divClone);
+                    }
+                    try {
+                        let ciWorksheet = new CIWorksheet(parsedParams[i], i + 1);
+                        ciWorksheet.display(); 
+                    } catch (e) { 
+                        COMMON.displayAlertInDoc(e); 
+                    }
                 }
-
-                return value == 1;
+            } catch (e) {
+                COMMON.displayAlertInDoc(e);
             }
-
-            function parseString(key, value) {
-                return value;
-            }
-            
-            const parseKeys = {
-                fullName: parseString,
-                company: parseString,
-                mover: parseNumber,
-                doer: parseNumber,
-                responder: parseNumber,
-                influencer: parseNumber,
-                shaper: parseNumber,
-                producer: parseNumber,
-                contemplator: parseNumber,
-                overallIntensity: parseNumber,
-                acceptanceLevel: parseNumber,
-                interactiveStyle: parseString,
-                interactiveStyleType: parseChar,
-                interactiveStyleScore: parseNumber,
-                internalControl: parseNumber,
-                intrusionLevel: parseNumber,
-                projectiveLevel: parseNumber,
-                susceptibilityToStress: parseNumber,
-                learningPreferenceAuditory: parseNumber,
-                learningPreferenceVisual: parseNumber,
-                learningPreferencePhysical: parseNumber,
-                showForensics: parseBool
-            };
-            
-            let parsedParams = [];
-            params.forEach(param => {
-                let obj = {};
-                Object.keys(parseKeys).forEach(key => {
-                    if (param[key])
-                        obj[key] = parseKeys[key](key, param[key]);       
-                }); 
-                parsedParams.push(obj);
-            });
-
-            let ci = document.getElementById("cipage-1");
-            // Loop over each page of information
-            for (let i = 0; i < parsedParams.length; i++) {
-                if (i > 0) {
-                    // Create our page from the existing one
-                    let divClone = ci.cloneNode(true); // the true is for deep cloning
-                    divClone.setAttribute("id", "cipage-" + (i + 1));
-                    document.body.appendChild(divClone);
-                }
-                try {
-                    displayCommunicationIndicators(i + 1, parsedParams[i]); 
-                } catch (e) { 
-                    ERROR.displayAlertInDoc(e); 
-                }
-            }
-        } catch (e) {
-            ERROR.displayAlertInDoc(e);
         }
+        main();
     </script>
 </body>

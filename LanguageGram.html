@@ -19,7 +19,12 @@
         <link rel="stylesheet" href="./styles/Error.css" />
     </head>
     <body>
-        <div class="container">
+        <!-- BEGIN Loading Image -->
+        <div id="loading" class="centered">
+            <img src="./images/Life_Languages_Logo_Spin.gif" alt="Loading...">
+        </div>
+        <!-- END Loading Image -->
+        <div id="the-container" class="container">
             <div id="language-gram-grid" class="row g-3">
                 <div id="language-gram-1" class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mx-auto">
                     <div class="language-gram-container container">
@@ -77,8 +82,9 @@
         <script type="module">
             import { ERROR } from "./modules/Error.js";
             import { DEBUG } from "./modules/Debug.js";
+            import { COMMON } from "./modules/Common.js";
+            import { CSV } from "./modules/CSVToJSON.js";
             import { displayLanguageGram } from "./modules/LanguageGram.js";
-            import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
 
             let url = new URL(window.location.href);
 
@@ -90,85 +96,72 @@
             //url = testCSV("https://www.relatematters.com/coaching-tools/LanguageGram.html");
             //url = testInvalidJSON("https://www.relatematters.com/coaching-tools/LanguageGram.html");
 
-            try {
-                let searchParams = url.searchParams;
-                let params = {};
+            import { LocalizationReady, STRINGS } from './modules/strings.js';
+            async function main() {
+                try {
+                    COMMON.showLoading('the-container');
+                    await LocalizationReady;
+                    COMMON.hideLoading('the-container');
+                    
+                    let searchParams = url.searchParams;
+                    let params = {};
 
-                if (searchParams.has('json')) {
-                    params = JSON.parse(searchParams.get('json'));
-                } else if (searchParams.has('csv')) {
-                    params = convertCSVtoJSON(searchParams.get('csv'));
-                } else {
-                    let bFlag = false;
-                    for (const [key, value] of searchParams.entries()) {
-                        bFlag = true;
-                        params[key] = value;
+                    if (searchParams.has('json')) {
+                        params = JSON.parse(searchParams.get('json'));
+                    } else if (searchParams.has('csv')) {
+                        params = CSV.toJSON(searchParams.get('csv'));
+                    } else {
+                        let bFlag = false;
+                        for (const [key, value] of searchParams.entries()) {
+                            bFlag = true;
+                            params[key] = value;
+                        }
+                        if (!bFlag) {
+                            // No data found, generate data.
+                            DEBUG.log('No data specified, generating test data');
+                            url = testCSV('https://www.relatematters.com/coaching-tools/LanguageGram.html');
+                            params = CSV.toJSON(url.searchParams.get('csv')); 
+                         }
                     }
-                    if (!bFlag) {
-                        // No data found, generate data.
-                        DEBUG.log('No data specified, generating test data');
-                        url = testCSV('https://www.relatematters.com/coaching-tools/LanguageGram.html');
-                        params = convertCSVtoJSON(url.searchParams.get('csv')); 
-                     }
-                }
-            
-                // We deal in arrays, so if the params are a singleton, enclose it in an array.
-                if (!Array.isArray(params)) 
-                    params = [params];
 
-                // Utilities to parse the data from string inputs, which happen with GET and CSV
-                function parseNumber(key, value) {
-                    if (typeof value == 'number') return value;
-                    let nValue = parseFloat(value);
-                    if (Number.isNaN(nValue)) return value;
-                    return nValue;
-                }
+                    // We deal in arrays, so if the params are a singleton, enclose it in an array.
+                    if (!Array.isArray(params)) 
+                        params = [params];
+
+                    const parseKeys = {
+                        fullName: 'string',
+                        companyName: 'string',
+                        mover: 'number',
+                        doer: 'number',
+                        responder: 'number',
+                        influencer: 'number',
+                        shaper: 'number',
+                        producer: 'number',
+                        contemplator: 'number',
+                        overallIntensity: 'number'
+                    };
+                    let parsedParams = COMMON.parseParameters(params, parseKeys);
  
-                function parseString(key, value) {
-                    return value;
-                }
-
-                const parseKeys = {
-                    fullName: parseString,
-                    companyName: parseString,
-                    mover: parseNumber,
-                    doer: parseNumber,
-                    responder: parseNumber,
-                    influencer: parseNumber,
-                    shaper: parseNumber,
-                    producer: parseNumber,
-                    contemplator: parseNumber,
-                    overallIntensity: parseNumber
-                };
-
-                let parsedParams = [];
-                params.forEach(param => {
-                    let obj = {};
-                    Object.keys(parseKeys).forEach(key => {
-                        if (param[key])
-                            obj[key] = parseKeys[key](key, param[key]);       
-                    }); 
-                    parsedParams.push(obj);
-                });
-
-                let lgGrid = document.getElementById("language-gram-grid");
-                let lg = document.getElementById("language-gram-1");
-                for (let i = 0; i < parsedParams.length; i++) {
-                    if (i > 0) {
-                        let divClone = lg.cloneNode(true); // the true is for deep cloning
-                        divClone.setAttribute("id", "language-gram-" + (i + 1));
-                        lgGrid.appendChild(divClone);
+                    let lgGrid = document.getElementById("language-gram-grid");
+                    let lg = document.getElementById("language-gram-1");
+                    for (let i = 0; i < parsedParams.length; i++) {
+                        if (i > 0) {
+                            let divClone = lg.cloneNode(true); // the true is for deep cloning
+                            divClone.setAttribute("id", "language-gram-" + (i + 1));
+                            lgGrid.appendChild(divClone);
+                        }
+                        try {
+                            displayLanguageGram(i + 1, parsedParams[i]);
+                        } catch (e) {
+                            // Error.
+                            COMMON.displayAlertInDoc(e);
+                        }
                     }
-                    try {
-                        displayLanguageGram(i + 1, parsedParams[i]);
-                    } catch (e) {
-                        // Error.
-                        ERROR.displayAlertInDoc(e);
-                    }
+                } catch (e) {
+                    COMMON.displayAlertInDoc(e);
                 }
-            } catch (e) {
-                ERROR.displayAlertInDoc(e);
             }
+            main();
         </script>
     </body>
 </html>

@@ -44,6 +44,11 @@
           </div>
         </div>
         <!-- Modal Structure -->
+        <!-- BEGIN Loading Image -->
+        <div id="loading" class="centered">
+            <img src="./images/Life_Languages_Logo_Spin.gif" alt="Loading...">
+        </div>
+        <!-- END Loading Image -->
         <div id="the-grid" class="mx-auto">
             <div class="container col-lg-9 offset-lg-1 mx-auto">
                 <div class="row"><h1 id="fullname" class="bold text-center col-12">Short Form Profile</h1></div>
@@ -171,7 +176,7 @@
             import { ERROR } from "./modules/Error.js";
             import { DEBUG } from "./modules/Debug.js";
             import { COMMON } from "./modules/Common.js";
-            import { convertCSVtoJSON } from "./modules/CSVToJSON.js";
+            import { CSV } from "./modules/CSVToJSON.js";
             import { PBCMediator } from "./modules/Mediator.PBC.js";
             
             let url = new URL(window.location.href);
@@ -183,15 +188,20 @@
             //url = testCSV("https://www.relatematters.com/coaching-tools/PersonalBarChart.html");
             //url = testInvalidData('https://www.relatematters.com/coaching-tools/PersonalBarChart.html');
 
-            $("document").ready(function () {
+            import { LocalizationReady, STRINGS } from './modules/strings.js';
+            async function main() {
                 try {
+                    COMMON.showLoading('the-grid');
+                    await LocalizationReady;
+                    COMMON.hideLoading('the-grid');
+
                     let searchParams = url.searchParams;
                     let params = {};
 
                     if (searchParams.has('json')) {
                         params = JSON.parse(searchParams.get('json'));
                     } else if (searchParams.has('csv')) {
-                        params = convertCSVtoJSON(searchParams.get('csv'));
+                        params = CSV.toJSON(searchParams.get('csv'));
                     } else {
                         let bFlag = false;
                         for (const [key, value] of searchParams.entries()) {
@@ -202,49 +212,33 @@
                             // No data found, generate data.
                             DEBUG.log('No data specified, generating test data');
                             url = testCSV('https://www.relatematters.com/coaching-tools/PersonalBarChart.html');
-                            params = convertCSVtoJSON(url.searchParams.get('csv')); 
+                            params = CSV.toJSON(url.searchParams.get('csv')); 
                         }
                     }
             
                     if (Array.isArray(params))
                         params = params[0];
                     
-                    // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
-                    function parseNumber(key, value) {
-                        if (typeof value == "number") return value;
-                        let nValue = parseFloat(value);
-                        if (Number.isNaN(nValue)) return value;
-                        return nValue;
-                    }
-
-                    function parseString(key, value) {
-                        return value;
-                    }
-
                     const parseKeys = {
-                        fullName: parseString,
-                        mover: parseNumber,
-                        doer: parseNumber,
-                        responder: parseNumber,
-                        influencer: parseNumber,
-                        shaper: parseNumber,
-                        producer: parseNumber,
-                        contemplator: parseNumber,
-                        overallIntensity: parseNumber,
-                        companyName: parseString
+                        fullName: 'string',
+                        mover: 'number',
+                        doer: 'number',
+                        responder: 'number',
+                        influencer: 'number',
+                        shaper: 'number',
+                        producer: 'number',
+                        contemplator: 'number',
+                        overallIntensity: 'number',
+                        companyName: 'string'
                     };
-
-                    let parsedParams = {};
-                    Object.keys(parseKeys).forEach(key => {
-                        if (params[key])
-                            parsedParams[key] = parseKeys[key](key, params[key]);       
-                    }); 
+                    let parsedParams = COMMON.parseParameters(params, parseKeys);
 
                     let theMediator = new PBCMediator(parsedParams, "the-ll-table", "the-chart");
                 } catch (e) {
-                    ERROR.displayAlertInDoc(e);
+                    COMMON.displayAlertInDoc(e);
                 }
-            });
+            }
+            main();
         </script>
     </body>
 </html>

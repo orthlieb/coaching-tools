@@ -171,3 +171,12 @@ $ci-prefixes: acceptanceLevel, interactiveStyle, internalControl, intrusionLevel
 .gap-expanded {
     color: blueviolet;
 }
+
+/* Center the div vertically and horizontally */
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
