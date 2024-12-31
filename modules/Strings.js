@@ -18,7 +18,6 @@ class Localization {
       const response = await fetch(`./locales/${this.language}.json`);
       if (!response.ok) throw new Error(`Failed to load ${this.language}`);
       this.localizedData[this.language] = await response.json();
-      DEBUG.log('Loaded localized strings', this.localizedData.language);
     } catch (error) {
       console.warn(`Failed to load "${this.language}". Falling back to "${this.fallbackLanguage}".`);
       try {

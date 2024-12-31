@@ -252,7 +252,9 @@
                 for (let i = 0; i < parsedParams.length; i++) {
                     if (i > 0) {
                         // Create our page from the existing one
-                        let divClone = ci.cloneNode(true); // the true is for deep cloning
+                        let divClone = ci.cloneNode(true);      // The true is for deep cloning
+                        divClone.style.display = 'block';       // In case it is hidden before loading finishes.
+
                         divClone.setAttribute("id", "cipage-" + (i + 1));
                         document.body.appendChild(divClone);
                     }

@@ -228,10 +228,8 @@ export const COMMON = {
     },
 
     hideLoading(id) {
-        setTimeout(() => {
-            document.getElementById(id).style.display = 'block';
-            document.getElementById('loading').style.display = 'none';
-        }, 3000);
+        document.getElementById(id).style.display = 'block';
+        document.getElementById('loading').style.display = 'none';
     }
 };
 

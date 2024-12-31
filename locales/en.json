@@ -46,6 +46,19 @@
         "learningPreferenceVisual": "Learning Preference Visual",
         "learningPreferencePhysical": "Learning Preference Physical"
     },
+    "ciChartLabels": {
+        "acceptanceLevel": "Acceptance Level",
+        "interactiveStyleIntrovert": "Introvert",
+        "interactiveStyleBalanced": "Balanced",
+        "interactiveStyleExtrovert": "Extrovert",
+        "internalControl": "Internal Control",
+        "intrusionLevel": "Intrusion Level",
+        "projectiveLevel": "Projective Level",
+        "susceptibilityToStress": "Susceptibility to Stress",
+        "learningPreferenceAuditory": "Auditory",
+        "learningPreferenceVisual": "Visual",
+        "learningPreferencePhysical": "Physical"
+    },
     "columnLabels": [
         "",
         "Full Name",
