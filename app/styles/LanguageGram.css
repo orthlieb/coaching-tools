@@ -31,7 +31,7 @@ body {
 
 @media screen {
     :root {
-        --lg-min-width: 525px;
+        --lg-min-width: 550px;
         --lg-fullname-font-size: 1.5em;  
         --lg-companyname-font-size: 1em;
         --lg-1-letter-font-size:  7em;

@@ -99,7 +99,7 @@ export const COMMON = {
     },
     
     /**
-     * Arrows to use to display diffferent score levels
+     * Arrows to use to display different score levels
      */
     scoreLevelArrows: [ 
         'fa-arrow-down', 'fa-arrow-down-right', 'fa-arrow-right', 'fa-arrow-up-right', 'fa-arrow-up' 

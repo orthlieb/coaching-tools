@@ -8,18 +8,32 @@ import { COMMON } from "./Common.js";
 import { STRINGS } from "./Strings.js";
 
 /**
+ * @typedef {'mover' | 'doer' | 'influencer' | 'responder' | 'shaper' | 'producer' | 'contemplator'} llKey
+ */
+
+/**
+ * @typedef {object} SortedScore
+ * @property {llKey} key Key of the score.
+ * @property {number} value Number value of the score.
+ * @property {number} gap Gap between the previous score and this score.
+ * @property {number} valueLevel Integer between 0 and 4 indicating the level of the score. Suitable for indexing COMMON.scoreLevelArrows.
+ * @property {number} gapLevel Integer between 0 and 2 indicating the level of the gap. 
+ */ 
+
+/**
  * @typedef {Object} PersonData
- * @property {string} fullName - Name of the person.
- * @property {string} [companyName] - Company name for the person.
- * @property {number} mover - Score for the Mover language (0-100).
- * @property {number} doer - Score for the Doer language (0-100).
- * @property {number} influencer - Score for the Influencer language (0-100).
- * @property {number} responder - Score for the Responder language (0-100).
- * @property {number} shaper - Score for the Shaper language (0-100).
- * @property {number} producer - Score for the Producer language (0-100).
- * @property {number} contemplator - Score for the Contemplator language (0-100).
- * @property {number} overallIntensity - Score for Overall Intensity (0-100).
- * @property {number} [acceptanceLevel] - Score for  Acceptance Level (0-100). 
+ * @property {string} fullName Name of the person.
+ * @property {string} [companyName] Company name for the person.
+ * @property {number} mover Score for the Mover language (0-100).
+ * @property {number} doer Score for the Doer language (0-100).
+ * @property {number} influencer Score for the Influencer language (0-100).
+ * @property {number} responder Score for the Responder language (0-100).
+ * @property {number} shaper Score for the Shaper language (0-100).
+ * @property {number} producer Score for the Producer language (0-100).
+ * @property {number} contemplator Score for the Contemplator language (0-100).
+ * @property {number} overallIntensity Score for Overall Intensity (0-100).
+ * @property {number} overallIntensityLevel Calculated. Integer between 0 and 4 indicating the level of the overall intensity. Suitable for indexing COMMON.scoreLevelArrows.
+ * @property {number} [acceptanceLevel] - Score for  Acceptance Level (0-100). N.B. If acceptanceLevel is present, all the other CI keys must be present. 
  * @property {number|string} [interactiveStyle] - Score for Interactive Style as a normalized number (0-300), or a string of the form <number>[I|B|E].
  * @property {number} [interactiveStyleScore] - If interactiveStyle is not present, this two part score is looked for. This part is the score (0-100).
  * @property {number} [interactiveStyleType] - If interactiveStyle is not present, this two part score is looked for. This part is the type [I|B|E].
@@ -30,7 +44,9 @@ import { STRINGS } from "./Strings.js";
  * @property {number} [learningPreferenceAuditory] - Score for Auditory Learning Preference (0-100). 
  * @property {number} [learningPreferenceVisual] - Score for Visual Learning Preference (0-100).
  * @property {number} [learningPreferencePhysical] - Score for Physical Learning Preference (0-100).'
- * @description If acceptanceLevel is present, all the optional keys must be present.
+ * @property {Array<SortedScore>} sortedScores Calculated. The scores provided, sorted in reverse order.
+ * @property {number} range Calculated. Difference between the highest and the lowest sortedScore.
+ * @property {number} rangeLevel - Calculated. Integer between 0 and 4 indicating the level of the range. Suitable for indexing COMMON.scoreLevelArrows.
  */
 
 /**
@@ -55,6 +71,7 @@ export class LLPerson {
         ERROR.assert("overallIntensity" in data, `validatePerson "${data.fullName}" missing parameter person.overallIntensity`);
         ERROR.assertType(data.overallIntensity, "number", `validatePerson "${data.fullName}" parameter person.overallIntensity`);
         this.overallIntensity = data.overallIntensity;
+        this.overallIntensityLevel = COMMON.evaluateScoreLevel(this.overallIntensity);
 
         this.companyName = data.companyName ? data.companyName : '';
         
@@ -65,11 +82,21 @@ export class LLPerson {
             this[cKey] = data[cKey];
         });
         
-        // Sort scores in descending order.
-        this.sortedScores = COMMON.llKeys.map(cKey => { return { key: cKey, value: this[cKey] }; }).sort((a, b) => b.value - a.value);
+        // Sort scores in descending order, calculate gap.
+        let sortedScores = COMMON.llKeys.map(cKey => { 
+            return { key: cKey, value: this[cKey], valueLevel: COMMON.evaluateScoreLevel(this[cKey]) }; 
+        }).sort((a, b) => b.value - a.value);
+        let lastScore = -1;
+        this.sortedScores = sortedScores.map(score => { 
+            score.gap = lastScore == -1 ? 0 : lastScore - score.value;
+            score.gapLevel = score.gap < 5 ? 0 : score.gap <= 10 ? 1 : 2;
+            lastScore = score.value;
+            return score;
+        });
+        this.range = this.sortedScores[0].value - this.sortedScores.at(-1).value;
+        this.rangeLevel = COMMON.evaluateScoreLevel(this.range);
   
         // Some profiles do not have Communication Indicators.
-        
         if ('acceptanceLevel' in data) {
             // Interactive style is usually either Score/Type (interactiveStyleScore, interactiveStyleType) or a number/letter string (interactiveStyle).
             if ('interactiveStyle' in data) {
@@ -95,7 +122,9 @@ export class LLPerson {
                 ERROR.assert('interactiveStyleType' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveType`);
                 ERROR.assertType(data.interactiveStyleType, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyleType`);
                 ERROR.assert(data.interactiveStyleType.length == 1, `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be a single letter, found "${data.interactiveStyleType}"`);
-                ERROR.assert(data.interactiveStyleType == 'I' || data.interactiveStyleType == 'B' || data.interactiveStyleType == 'E', `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
+                ERROR.assert(data.interactiveStyleType == STRINGS.ciInteractiveStyleShorthand.introvert || 
+                             data.interactiveStyleType == STRINGS.ciInteractiveStyleShorthand.balanced || 
+                             data.interactiveStyleType == STRINGS.ciInteractiveStyleShorthand.extrovert, `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
 
                 // Turn into a normalized score of 0 - 300.
                 data.interactiveStyle = LLPerson.decomposeInteractiveStyle(data.interactiveStyleScore, data.interactiveStyleType);
@@ -188,10 +217,10 @@ export class LLPerson {
      */
     static composeInteractiveStyle(nScore) {
         if (nScore > 200)
-            return [ nScore - 200, 'E'];
+            return [ nScore - 200, STRINGS.ciInteractiveStyleShorthand.extrovert];
         if (nScore > 100)
-            return [ nScore - 100, 'B'];
-        return [100 - nScore, 'I'];
+            return [ nScore - 100, STRINGS.ciInteractiveStyleShorthand.balanced];
+        return [100 - nScore, STRINGS.ciInteractiveStyleShorthand.balanced];
     }
     
     /**

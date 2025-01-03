@@ -11,12 +11,6 @@
         "medium": "Medium",
         "high": "High"
     },
-    "ciLevels": {
-        "low": "Low",
-        "medium": "Medium",
-        "moderate": "Moderate",
-        "high": "High"
-    },
     "labels": {
         "mover": "Mover",
         "doer": "Doer",
@@ -35,6 +29,7 @@
         "producer": "P",
         "contemplator": "C"
     },    
+    "gapLevels": ["Low", "", "High"],
     "ciLabels": {
         "acceptanceLevel": "Acceptance Level",
         "interactiveStyle": "Interactive Style",
@@ -58,6 +53,12 @@
         "learningPreferenceAuditory": "Auditory",
         "learningPreferenceVisual": "Visual",
         "learningPreferencePhysical": "Physical"
+    },
+    "ciLevels": {
+        "low": "Low",
+        "medium": "Medium",
+        "moderate": "Moderate",
+        "high": "High"
     },
     "columnLabels": [
         "",
@@ -109,7 +110,12 @@
         "Learning Preference Visual",
         "Learning Preference Physical"
     ],
-    "scoreLabels": [
+    "ciInteractiveStyleShorthand": {
+        "introvert": "I",
+        "balanced": "B",
+        "extrovert": "E"
+    },
+    "scoreLevelLabels": [
         "Very Low",
         "Low",
         "Moderate",

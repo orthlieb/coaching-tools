@@ -4,52 +4,68 @@ import { DEBUG } from './Debug.js';
 import { STRINGS } from './Strings.js';
 import { LLPerson } from './Person.js';
 
-function validateData(data) {
-   DEBUG.logArgs('validateData(data)', arguments);
-
-    let person;
-    
-    try {
-        person = new LLPerson(data);
-    } catch (e) {
-        DEBUG.log(e);
-        COMMON.displayAlertInDoc(e);
-    }
-
-    return person;
-}
-
 /**
- * Main function to draw the Communication Indicators.
- * @param {object} data Data to be displayed.
+ * Class representing a LanguageGram.
+ * @class
  */
-export function displayLanguageGram(cSuffix, data) {
-    let person = validateData(data);
-     
-    let lgElement = document.getElementById('language-gram-' + cSuffix);
-
-    let lgFullname = lgElement.querySelector('.fullname').innerText = person.fullName;
-    if (person.companyName) {
-        lgElement.querySelector('.companyname').innerText = person.companyName;
+export class LanguageGram {
+    /**
+     * Initializes a LanguageGram instance.
+     * @param {string} suffix - Suffix to identify the LanguageGram element.
+     * @param {object} data - Data to be displayed.
+     */
+    constructor(suffix, data) {
+        this.suffix = suffix;
+        this.data = data;
+        this.person = this._validateData(data);
     }
 
-    // Life Language scores
-    DEBUG.log('## sortedScores', person.sortedScores);
-    person.sortedScores.forEach((score, index) => {
-        let field = lgElement.querySelector('.letter-' + (index + 1));
-        field.innerText = STRINGS.shorthand[score.key];
-        if (index < 3) {    // Larger letters are colored
-            field.style.backgroundColor = COMMON.colors.solid[score.key];
+    /**
+     * Validates the provided data and creates a person object.
+     * @param {object} data - Data to validate.
+     * @returns {LLPerson} - A validated person object.
+     * @private
+     */
+    _validateData(data) {
+        DEBUG.logArgs('validateData(data)', arguments);
+        try {
+            return new LLPerson(data);
+        } catch (e) {
+            DEBUG.log(e);
+            COMMON.displayAlertInDoc(e);
+            throw e;
         }
-        lgElement.querySelector('.score-' + (index + 1)).innerText = Math.round(score.value);
-        lgElement.querySelector('.llang-' + (index + 1)).innerText = STRINGS.labels[score.key];
-    });
-        
-    // Range
-    lgElement.querySelector('.range-score').innerText = Math.round(person.sortedScores[0].value - person.sortedScores[6].value);
+    }
 
-    // Overall Intensity
-    lgElement.querySelector('.overall-intensity-score').innerText = Math.round(person.overallIntensity);
-    lgElement.querySelector('.overall-intensity-arrow').innerHTML = 
-        `<i class="fa-solid ${COMMON.scoreLevelArrows[COMMON.evaluateScoreLevel(person.overallIntensity)]}"></i>`;
+    /**
+     * Displays the LanguageGram on the page.
+     */
+    display() {
+        const lgElement = document.getElementById('language-gram-' + this.suffix);
+
+        // Display full name
+        lgElement.querySelector('.fullname').innerText = this.person.fullName;
+        if (this.person.companyName) {
+            lgElement.querySelector('.companyname').innerText = this.person.companyName;
+        }
+
+        // Display Life Language scores
+        this.person.sortedScores.forEach((score, index) => {
+            let field = lgElement.querySelector('.letter-' + (index + 1));
+            field.innerText = STRINGS.shorthand[score.key];
+            if (index < 3) {
+                field.style.backgroundColor = COMMON.colors.solid[score.key];
+            }
+            lgElement.querySelector('.score-' + (index + 1)).innerText = Math.round(score.value);
+            lgElement.querySelector('.llang-' + (index + 1)).innerText = STRINGS.labels[score.key];
+        });
+
+        // Display range
+        lgElement.querySelector('.range-score').innerText = Math.round(this.person.range);
+
+        // Display overall intensity
+        lgElement.querySelector('.overall-intensity-score').innerText = Math.round(this.person.overallIntensity);
+        lgElement.querySelector('.overall-intensity-arrow').innerHTML = 
+            `<i class="fa-solid ${COMMON.scoreLevelArrows[this.person.overallIntensityLevel]}"></i>`;
+    }
 }

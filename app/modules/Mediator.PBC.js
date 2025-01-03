@@ -56,40 +56,6 @@ export class PBCMediator {
     }
 
     /**
-     * Get sorted scores for a person
-     * @method
-     * @param {object} person A person object.
-     * @returns {array} Array of sorted objects, with key, min, avg, and max values for each Life Language.
-     */
-    _getSortedScores(person) {
-        DEBUG.logArgs('Mediator._getSortedScores(person)', arguments);
-
-        // Calculate the min, max, and average values for each Life Language
-        const scores = COMMON.llKeys.map(key => {
-            return { 
-                key: key, 
-                value: person[key], 
-                languageLabel: STRINGS.labels[key], 
-                rating: STRINGS.scoreLabels[COMMON.evaluateScoreLevel(person[key])] 
-            };
-        });
-
-        // Sort the scores in descending order by average score
-        scores.sort((a, b) => b.value - a.value);   
-        
-        // Calculate the score order label and gap.
-        let lastScore = 0;
-        scores.map((score, index) => {
-            score.gap = Math.max(lastScore - score.value, 0);
-            lastScore = score.value;
-            
-            return score;
-        });
-        
-        return scores;
-    }
-    
-     /**
      * Prepare the data for use in the chart for a single person.
      * @method
      * @param {object} columnState A set of key value pairs indicating which columns are shown.
@@ -101,7 +67,7 @@ export class PBCMediator {
         DEBUG.logArgs('Mediator._prepChartData(columnState, person)', arguments);
 
         // Prepare scores for a single person
-        const scores = this._getSortedScores(person).map(score => {
+        const scores = person.sortedScores.map(score => {
             score.color = COMMON.colors.solid[score.key];
             return score;
         });
@@ -117,7 +83,7 @@ export class PBCMediator {
 
         // Prepare chart data
         const chartData = {
-            labels: scores.map(score => score.languageLabel), // Use labels for Life Languages
+            labels: scores.map(score => STRINGS.labels[score.key]), // Use labels for Life Languages
             datasets: [dataset],
             annotations: this._prepAnnotationData(scores.map(score => score.value)) // Optional annotation logic
         };
@@ -175,8 +141,6 @@ export class PBCMediator {
     _loadProfileTable(person) {
         DEBUG.log('Mediator._loadProfileTable(scores)', arguments);
         
-        const scores = this._getSortedScores(person);
-        
         document.getElementById('fullname').textContent = person.fullName;
         if (person.companyName)
             document.getElementById('companyname').textContent = person.companyName;
@@ -185,38 +149,32 @@ export class PBCMediator {
         const table = document.getElementById('the-ll-table');
         const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
         [...rows].forEach((row, index) => {
-            row.querySelector('.lllanguage').textContent = scores[index].languageLabel;
-            row.querySelector('.llscore').textContent = scores[index].value;
-            row.querySelector('.llrating').textContent = scores[index].rating;
+            row.querySelector('.lllanguage').textContent = STRINGS.labels[person.sortedScores[index].key];
+            row.querySelector('.llscore').textContent = person.sortedScores[index].value;
+            row.querySelector('.llrating').textContent = STRINGS.scoreLevelLabels[person.sortedScores[index].valueLevel];
             
-            let cGapSymbol = '';
+            let score = person.sortedScores[index];
             if (index != 0) {
-                if (scores[index].gap < 5) {
-                    cGapSymbol = '<i class="gap-compressed fa-solid fa-down-left-and-up-right-to-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>';
-                    COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol} &nbsp; ${STRINGS.general.gap}: ${STRINGS.general.low}`, 
-                        `${STRINGS.gap.pre} ${STRINGS.gap.info[0]} ${STRINGS.gap.post}`);
-                } else if (scores[index].gap > 10) {
-                    cGapSymbol = '<i class="gap-expanded fa-solid fa-up-right-and-down-left-from-center fa-rotate-by" style="--fa-rotate-angle: 135deg;"></i>';
-                    COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol} &nbsp; ${STRINGS.general.gap}: ${STRINGS.general.high}`, 
-                        `${STRINGS.gap.pre} ${STRINGS.gap.info[2]} ${STRINGS.gap.post}`);
+                let cGapSymbol = ['<i class="gap-compressed fa-solid fa-down-left-and-up-right-to-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>',
+                                 '',
+                                 '<i class="gap-expanded fa-solid fa-up-right-and-down-left-from-center fa-rotate-by" style="--fa-rotate-angle: 135deg;"></i>'];
+                if (score.gapLevel != 1) {
+                    COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol[score.gapLevel]} &nbsp; ${STRINGS.general.gap}: ${STRINGS.gapLevels[score.gapLevel]}`, 
+                        `${STRINGS.gap.pre} ${STRINGS.gap.info[score.gapLevel]} ${STRINGS.gap.post}`);
                 }
-                row.querySelector(`#gap-icon-${index}`).innerHTML = cGapSymbol;
-                row.querySelector(`#gap-${index}`).innerHTML = scores[index].gap;
+                row.querySelector(`#gap-icon-${index}`).innerHTML = cGapSymbol[score.gapLevel];
+                row.querySelector(`#gap-${index}`).innerHTML = Math.round(score.gap);
             }
         });
         
         // Handle the table footer.
-        const nRange = Math.abs(scores[0].value - scores[6].value);
-        const nRangeIndex = COMMON.evaluateScoreLevel(nRange);
-        const nRatingIndex = COMMON.evaluateScoreLevel(person.overallIntensity);
-
-        document.getElementById('llrange').textContent = nRange;
-        COMMON.createInfoDialog('llrange-info', `${STRINGS.general.range}: ${STRINGS.scoreLabels[nRangeIndex]}`,
-            `${STRINGS.range.pre} ${STRINGS.range.info[nRangeIndex]} ${STRINGS.range.post}`); 
+        document.getElementById('llrange').textContent = person.range;
+        COMMON.createInfoDialog('llrange-info', `${STRINGS.general.range}: ${STRINGS.scoreLevelLabels[person.rangeLevel]}`,
+            `${STRINGS.range.pre} ${STRINGS.range.info[person.rangeLevel]} ${STRINGS.range.post}`); 
         document.getElementById('lloi').textContent = person.overallIntensity; 
-        document.getElementById('lloirating').textContent = STRINGS.scoreLabels[nRatingIndex];
-        COMMON.createInfoDialog('lloi-info', `${STRINGS.general.overallIntensity}: ${STRINGS.scoreLabels[nRatingIndex]}`,
-            `${STRINGS.overallIntensity.pre} ${STRINGS.overallIntensity.info[nRatingIndex]} ${STRINGS.overallIntensity.post}`); 
+        document.getElementById('lloirating').textContent = STRINGS.scoreLevelLabels[person.overallIntensityLevel];
+        COMMON.createInfoDialog('lloi-info', `${STRINGS.general.overallIntensity}: ${STRINGS.scoreLevelLabels[person.overallIntensityLevel]}`,
+            `${STRINGS.overallIntensity.pre} ${STRINGS.overallIntensity.info[person.overallIntensityLevel]} ${STRINGS.overallIntensity.post}`); 
     }
 
 }

@@ -86,7 +86,7 @@ export class GBCMediator {
             const min = Math.round(Math.min(...values));
             const max = Math.round(Math.max(...values));
             const avg = Math.round(values.reduce((sum, val) => sum + val, 0) / values.length);
-            const rating = STRINGS.scoreLabels[COMMON.evaluateScoreLevel(avg)];
+            const rating = STRINGS.scoreLevelLabels[COMMON.evaluateScoreLevel(avg)];
             const languageLabel = STRINGS.labels[key];
 
             // Calculate standard deviation: this is how spread or clumped the data is. 1 = very concentrated, 0 = spread out
@@ -248,11 +248,11 @@ export class GBCMediator {
         const nRatingIndex = COMMON.evaluateScoreLevel(overallIntensity);
 
         document.getElementById('llrange').textContent = nRange;
-        COMMON.createInfoDialog('llrange-info', `${STRINGS.general.range}: ${STRINGS.scoreLabels[nRangeIndex]}`,
+        COMMON.createInfoDialog('llrange-info', `${STRINGS.general.range}: ${STRINGS.scoreLevelLabels[nRangeIndex]}`,
             `${STRINGS.range.pre} ${STRINGS.range.info[nRangeIndex]} ${STRINGS.range.post}`); 
         document.getElementById('lloi').textContent = overallIntensity; 
-        document.getElementById('lloirating').textContent = STRINGS.scoreLabels[nRatingIndex];
-        COMMON.createInfoDialog('lloi-info', `${STRINGS.general.overallIntensity}: ${STRINGS.scoreLabels[nRatingIndex]}`,
+        document.getElementById('lloirating').textContent = STRINGS.scoreLevelLabels[nRatingIndex];
+        COMMON.createInfoDialog('lloi-info', `${STRINGS.general.overallIntensity}: ${STRINGS.scoreLevelLabels[nRatingIndex]}`,
             `${STRINGS.overallIntensity.pre} ${STRINGS.overallIntensity.info[nRatingIndex]} ${STRINGS.overallIntensity.post}`); 
     }
     

@@ -274,17 +274,17 @@ export class CIWorksheet {
                 this._createCIChart(
                     ciElement.querySelector(`.${cSection}IntrovertChart`),
                     'interactiveStyleIntrovert',
-                    cType == "I" ? nValue : 0
+                    cType == STRINGS.ciInteractiveStyleShorthand.introvert ? nValue : 0
                 );
                 this._createCIChart(
                     ciElement.querySelector(`.${cSection}BalancedChart`),
                     'interactiveStyleBalanced',
-                    cType == "B" ? nValue : 0
+                    cType == STRINGS.ciInteractiveStyleShorthand.balanced ? nValue : 0
                 );
                 this._createCIChart(
                     ciElement.querySelector(`.${cSection}ExtrovertChart`),
                     'interactiveStyleExtrovert',
-                    cType == "E" ? nValue : 0
+                    cType == STRINGS.ciInteractiveStyleShorthand.extrovert ? nValue : 0
                 );        
                 break;
             case 'learningPreference':
@@ -410,28 +410,28 @@ export class CIWorksheet {
      * @private
      */
     _interactiveStyleForensics(cLL, cISType) {
+        // XXX Remove ISType eventually.
         let cContributor = STRINGS.shorthand[cLL].toLowerCase();
         switch (cLL) {
             case "mover": // Balanced to Introvert
-                if (cISType == "B") 
+                if (cISType == STRINGS.ciInteractiveStyleShorthand.balanced) 
                     cContributor = cContributor.toUpperCase();
-                if (cISType != "E")
+                if (cISType !=  STRINGS.ciInteractiveStyleShorthand.extrovert)
                     cContributor = "<strong>" + cContributor + "</strong>";
                 break;
             case "doer": // Introvert
             case "responder":
             case "contemplator":
-                if (cISType == "I")
+                if (cISType == STRINGS.ciInteractiveStyleShorthand.introvert)
                     cContributor = "<strong>" + cContributor.toUpperCase() + "</strong>";
-
                 break;
             case "influencer": // Extrovert
-                if (cISType == "E")
+                if (cISType == STRINGS.ciInteractiveStyleShorthand.extrovert)
                     cContributor = "<strong>" + cContributor.toUpperCase() + "</strong>";
                 break;
             case "shaper": // Balanced
             case "producer":
-                if (cISType == "E")
+                if (cISType == STRINGS.ciInteractiveStyleShorthand.extrovert)
                     cContributor = "<strong>" + cContributor.toUpperCase() + "</strong>";
                 break;
             default:
