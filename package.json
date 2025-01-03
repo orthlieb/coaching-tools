@@ -1,5 +1,13 @@
 {
-  "dependencies": {
-    "chartjs-plugin-annotation": "^3.0.1"
+  "scripts": {
+    "clean-docs": "rimraf docs",
+    "build-scss": "sass scss:app/styles",
+    "build-docs": "jsdoc -c jsdoc.json app",
+    "build": "npm run clean-docs && npm run build-scss && npm run build-docs"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.0",
+    "sass": "^1.63.6",
+    "jsdoc": "^4.0.0"
   }
 }

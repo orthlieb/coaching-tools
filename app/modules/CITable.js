@@ -361,7 +361,6 @@ export class CITable {
         let visibleColumns = dt.columns().visible();
 
         // Find the average values for each column.
-        let arrows = [ 'fa-arrow-down', 'fa-arrow-down-right', 'fa-arrow-right', 'fa-arrow-up-right', 'fa-arrow-up' ];
         const aAverages = data.map(function (key, index) {
             if (visibleColumns[index] && index > 1) {
                 // Data for selected rows
@@ -378,7 +377,7 @@ export class CITable {
                     let is = LLPerson.composeInteractiveStyle(nAverage);
                     return `${Math.round(is[0])} ${is[1]}`;
                 }
-                return `<i class="fa-solid ${arrows[COMMON.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}`;
+                return `<i class="fa-solid ${COMMON.scoreLevelArrows[COMMON.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}`;
              } else 
                 return undefined;   // Skip this column.
         });

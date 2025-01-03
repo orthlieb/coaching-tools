@@ -444,11 +444,11 @@
 }
 
 .gap-compressed {
-  color: blueviolet;
+  color: 0x0d6efd;
 }
 
 .gap-expanded {
-  color: blueviolet;
+  color: #0d6efd;
 }
 
 /* Center the div vertically and horizontally */

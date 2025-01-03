@@ -215,9 +215,9 @@
                             params = CSV.toJSON(url.searchParams.get('csv')); 
                         }
                     }
-            
-                    if (Array.isArray(params))
-                        params = params[0];
+
+                    if (!Array.isArray(params))
+                        params = [ params ];
                     
                     const parseKeys = {
                         fullName: 'string',
@@ -233,7 +233,7 @@
                     };
                     let parsedParams = COMMON.parseParameters(params, parseKeys);
 
-                    let theMediator = new PBCMediator(parsedParams, "the-ll-table", "the-chart");
+                    let theMediator = new PBCMediator(parsedParams[0], "the-ll-table", "the-chart");
                 } catch (e) {
                     COMMON.displayAlertInDoc(e);
                 }

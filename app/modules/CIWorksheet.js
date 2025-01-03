@@ -1,3 +1,8 @@
+/*
+ * @module modules/CIWorksheet
+ * @author Carl Orthlieb
+ */
+
 import { ERROR } from "./Error.js";
 import { DEBUG } from "./Debug.js";
 import { COMMON } from "./Common.js";
@@ -57,9 +62,6 @@ const LOW = 33;
 const MODERATE = 50;
 const HIGH = 66;
 
-/**
- * Forensics mapping table by CI key. If a number, is used to do a range check, if a function, function is executed.
- */
 const _forensicsTable = {
     acceptanceLevel: {
         mover: LOW,
@@ -118,6 +120,7 @@ const _forensicsTable = {
     }
 };
 
+/** @class */
 export class CIWorksheet {
     // Detailed title, color info, and whether a bar graph needs to be reverse axis.
 

@@ -99,6 +99,13 @@ export const COMMON = {
     },
     
     /**
+     * Arrows to use to display diffferent score levels
+     */
+    scoreLevelArrows: [ 
+        'fa-arrow-down', 'fa-arrow-down-right', 'fa-arrow-right', 'fa-arrow-up-right', 'fa-arrow-up' 
+    ],
+    
+    /**
      * Evaluates whether Score is VERY LOW, LOW, MODERATE, HIGH or VERY HIGH.
      * Suitable for displaying arrows or colors from another array.
      * @param {number} nValue The value to be evaluated.
@@ -182,6 +189,7 @@ export const COMMON = {
      * @returns {object} Parsed parameters.
      */
     parseParameters(params, parseKeys) {
+        DEBUG.logArgs('Common.parseParameters(params, parseKeys)', arguments);
         // Parse all the parameters, CSV and forms have strings for numbers, we need to convert them.
         let parseFunctions = {
             string: (key, value) => value,
