@@ -84,7 +84,7 @@
             import { DEBUG } from "./modules/Debug.js";
             import { COMMON } from "./modules/Common.js";
             import { CSV } from "./modules/CSVToJSON.js";
-            import { displayLanguageGram } from "./modules/LanguageGram.js";
+            import { LanguageGram } from "./modules/LanguageGram.js";
 
             let url = new URL(window.location.href);
 
@@ -142,21 +142,19 @@
                     };
                     let parsedParams = COMMON.parseParameters(params, parseKeys);
  
-                    let lgGrid = document.getElementById("language-gram-grid");
-                    let lg = document.getElementById("language-gram-1");
-                    for (let i = 0; i < parsedParams.length; i++) {
-                        if (i > 0) {
-                            let divClone = lg.cloneNode(true); // the true is for deep cloning
-                            divClone.setAttribute("id", "language-gram-" + (i + 1));
-                            lgGrid.appendChild(divClone);
+                    const lgGrid = document.getElementById("language-gram-grid");
+                    const lgTemplate = document.getElementById("language-gram-1");
+
+                    parsedParams.forEach((param, index) => {
+                        if (index != 0) {
+                            let lgElement = lgTemplate.cloneNode(true);
+                            lgElement.setAttribute("id", "language-gram-" + (index + 1));
+                            lgGrid.appendChild(lgElement);
                         }
-                        try {
-                            displayLanguageGram(i + 1, parsedParams[i]);
-                        } catch (e) {
-                            // Error.
-                            COMMON.displayAlertInDoc(e);
-                        }
-                    }
+                        // Create a LanguageGram instance and display it
+                        const lg = new LanguageGram(index + 1, param);
+                        lg.display();
+                    });
                 } catch (e) {
                     COMMON.displayAlertInDoc(e);
                 }
