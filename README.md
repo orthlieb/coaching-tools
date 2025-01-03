@@ -1,12 +1,4 @@
-# **Project Title** 🛠️
-
-_Tools for Life Language Coaches_
-
-![GitHub License](https://img.shields.io/github/license/orthlieb/coaching-tools)  
-![GitHub Repo Size](https://img.shields.io/github/repo-size/orthlieb/coaching-tools)  
-![GitHub Stars](https://img.shields.io/github/starsorthlieb/coaching-tools?style=social)
-
----
+# **🛠️ Tools for Life Language Coaches** 
 
 ## **📋 Table of Contents**
 

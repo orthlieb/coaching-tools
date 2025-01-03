@@ -26,7 +26,7 @@
 <body>
     <!-- Modal Structure -->
     <!-- BEGIN Loading Image -->
-    <div id="loading" class="centered">
+    <div id="loading" class="centered no-print">
         <img src="./images/Life_Languages_Logo_Spin.gif" alt="Loading...">
     </div>
     <!-- END Loading Image -->
@@ -249,22 +249,22 @@
                 
                 let ci = document.getElementById("cipage-1");
                 // Loop over each page of information
-                for (let i = 0; i < parsedParams.length; i++) {
-                    if (i > 0) {
+                parsedParams.forEach((param, index) => {
+                    if (index > 0) {
                         // Create our page from the existing one
                         let divClone = ci.cloneNode(true);      // The true is for deep cloning
                         divClone.style.display = 'block';       // In case it is hidden before loading finishes.
 
-                        divClone.setAttribute("id", "cipage-" + (i + 1));
+                        divClone.setAttribute("id", "cipage-" + (index + 1));
                         document.body.appendChild(divClone);
                     }
                     try {
-                        let ciWorksheet = new CIWorksheet(parsedParams[i], i + 1);
+                        let ciWorksheet = new CIWorksheet(param, index + 1);
                         ciWorksheet.display(); 
                     } catch (e) { 
                         COMMON.displayAlertInDoc(e); 
                     }
-                }
+                });
             } catch (e) {
                 COMMON.displayAlertInDoc(e);
             }
