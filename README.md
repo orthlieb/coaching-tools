@@ -1,6 +1,6 @@
-# **🛠️ Tools for Life Language Coaches** 
+# **Tools for Life Language Coaches** 
 
-## **📋 Table of Contents**
+## **Table of Contents**
 
 - [About the Project](#about-the-project)
 - [Getting Started](#getting-started)
@@ -11,12 +11,12 @@
 
 ---
 
-## **📖 About the Project**
+## **About the Project**
 
 One of the biggest advantages of Life Languages is the ability to take groups of people, teams and organizations, and evaluate them. 
 This project introduces a number of tools that allow you to generate client-side HTML for analysis.
 
-## **🛠️ Tools**
+## **Tools**
 ### **Communication Indicators**
 This tool fills out the Communication Indicators worksheet programmatically. Use the 
 CI worksheet when you are coaching, especially if you turn on the forensics, which will tell you which languages are 
@@ -84,7 +84,7 @@ Click on a column heading to sort in descending/ascending order of that Communic
 
 ---
 
-## **🚀 Getting Started**
+## **Getting Started**
 
 Follow these steps to set up the project locally.
 
@@ -109,7 +109,7 @@ Follow these steps to set up the project locally.
 
 ---
 
-## **⚙️ Usage**
+## **Usage**
 
 ```bash
 npm run build
@@ -134,7 +134,7 @@ Documentation for the various classes and files can be found in the docs folder 
 
 ---
 
-## **🤝 Contributing**
+## **Contributing**
 
 Contributions are welcome! Please follow these steps to contribute:
 
@@ -146,19 +146,19 @@ Contributions are welcome! Please follow these steps to contribute:
 
 ---
 
-## **📄 License**
+## **License**
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-## **📧 Contact**
+## **Contact**
 
 Carl Orthlieb - [github@orthlieb.com](mailto:github@orthlieb.com.com)  
 GitHub: [https://github.com/orthlieb](https://github.com/orthlieb)  
 
 ---
 
-## **📝 Acknowledgements**
+## **Acknowledgements**
 
 - Life Languages is copyright [Life Languages International](https://www.lifelanguages.com)

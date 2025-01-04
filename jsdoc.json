@@ -1,8 +1,17 @@
 {
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "plugins": ["plugins/markdown"],
   "opts": {
     "destination": "./docs",
     "private": true,
-    "recurse": true
+    "recurse": true,
+    "readme": "./README.md"
   },
-  "sourceType": "module"
+  "sourceType": "module",
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": true
+  }
 }
