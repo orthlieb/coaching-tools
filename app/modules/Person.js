@@ -218,9 +218,9 @@ export class LLPerson {
     static composeInteractiveStyle(nScore) {
         if (nScore > 200)
             return [ nScore - 200, STRINGS.ciInteractiveStyleShorthand.extrovert];
-        if (nScore > 100)
+        else if (nScore > 100)
             return [ nScore - 100, STRINGS.ciInteractiveStyleShorthand.balanced];
-        return [100 - nScore, STRINGS.ciInteractiveStyleShorthand.balanced];
+        return [100 - nScore, STRINGS.ciInteractiveStyleShorthand.introvert];
     }
     
     /**

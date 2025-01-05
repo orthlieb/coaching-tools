@@ -313,9 +313,9 @@ export class CIWorksheet {
                 break;
             case 'interactiveStyle':
                 // Interactive style is a number from 0 - 300. We decompose to introvert, balanced, extrovert.
-                let interactiveStyle = LLPerson.composeInteractiveStyle(this.person.interactiveStyle);
-                ciElement.querySelector(`.${cSection}Status`).innerText = this._evaluateCILevel(interactiveStyle[0]);
-                ciElement.querySelector(`.${cSection}Score`).innerText = `${interactiveStyle[0]} ${interactiveStyle[1]}`;
+                let is = LLPerson.composeInteractiveStyle(this.person.interactiveStyle);
+                ciElement.querySelector(`.${cSection}Status`).innerText = this._evaluateCILevel(is[0]);
+                ciElement.querySelector(`.${cSection}Score`).innerText = `${is[0]} ${is[1]}`;
                 break;
             case 'learningPreference':
                 let cSubSection = 'learningPreferenceAuditory';
@@ -381,8 +381,7 @@ export class CIWorksheet {
         DEBUG.logArgs('_evaluateForensicLevel(cCI, cLL, nValue)', arguments);
 
         if (cCI == 'interactiveStyle') {
-            let interactiveStyle = LLPerson.composeInteractiveStyle(nValue);
-            return this._interactiveStyleForensics(cLL, interactiveStyle[1]);
+            return this._interactiveStyleForensics(cLL, nValue);
         } 
 
         let metric = _forensicsTable[cCI][cLL];
@@ -405,33 +404,37 @@ export class CIWorksheet {
     /**
      * Evaluates whether a particular Life Language is contributing to the score for Interactive Style
      * @param {string} cLL Key for which Life Language might contribute.
-     * @param {string} cISType Single letter that indicates whether the individual is an Introvert "I", Balanced "B", or Extrovert "E".
+     * @param {number} nInteractiveStyle Normalized interactive style score from 0 to 300.
      * @returns {string} Returns an HTML snippet that shows how the specified Life Language contributes to the Interactive Style.
      * @private
      */
-    _interactiveStyleForensics(cLL, cISType) {
+    _interactiveStyleForensics(cLL, nInteractiveStyle) {
         // XXX Remove ISType eventually.
         let cContributor = STRINGS.shorthand[cLL].toLowerCase();
+        let is = LLPerson.composeInteractiveStyle(nInteractiveStyle)[1];
+        let bIntrovert = (is == STRINGS.ciInteractiveStyleShorthand.introvert);
+        let bBalanced = (is == STRINGS.ciInteractiveStyleShorthand.balanced);
+        let bExtrovert = (is == STRINGS.ciInteractiveStyleShorthand.extrovert);
         switch (cLL) {
             case "mover": // Balanced to Introvert
-                if (cISType == STRINGS.ciInteractiveStyleShorthand.balanced) 
+                if (bBalanced) 
                     cContributor = cContributor.toUpperCase();
-                if (cISType !=  STRINGS.ciInteractiveStyleShorthand.extrovert)
+                else if (bExtrovert)
                     cContributor = "<strong>" + cContributor + "</strong>";
                 break;
             case "doer": // Introvert
             case "responder":
             case "contemplator":
-                if (cISType == STRINGS.ciInteractiveStyleShorthand.introvert)
+                if (bIntrovert)
                     cContributor = "<strong>" + cContributor.toUpperCase() + "</strong>";
                 break;
             case "influencer": // Extrovert
-                if (cISType == STRINGS.ciInteractiveStyleShorthand.extrovert)
+                if (bExtrovert)
                     cContributor = "<strong>" + cContributor.toUpperCase() + "</strong>";
                 break;
             case "shaper": // Balanced
             case "producer":
-                if (cISType == STRINGS.ciInteractiveStyleShorthand.extrovert)
+                if (bExtrovert)
                     cContributor = "<strong>" + cContributor.toUpperCase() + "</strong>";
                 break;
             default:
