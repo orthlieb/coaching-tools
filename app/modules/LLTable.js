@@ -17,11 +17,12 @@ export class LLTable {
      * LLTable class constructor
      * @param {string} cTableId HTML ID of the table we are creating.
      * @param {array} data Data to display in the table. 
-     * @param {object} mediator Mediator object that will catch events.
+     * @param {object} [mediator=null] Mediator object that will catch events.
+     * @param {boolean} [bColumnSelection=true] Allow the user to turn on/off columns 
      * @returns {object} Initialized LLTable object.
      * @constructor
      */
-    constructor(cTableId, data, mediator = null) {
+    constructor(cTableId, data, mediator = null, bColumnSelection = true) {
         DEBUG.logArgs('LLTable.constructor(cTableId, data)', arguments);
         this.mediator = mediator;
         this.cTableId = '#' + cTableId;
@@ -34,14 +35,13 @@ export class LLTable {
             searching: false,
             paging: false,
             info: false,
-            responsive: true,
             select: {
                 style: 'multi',
                 selector: 'td:first-child'
             },
             order: [[ 1, 'asc']],
             columnDefs: this._getColumnDefs(),
-            layout: this._getLayout(),
+            layout: this._getLayout(bColumnSelection),
             footer: true,
             footerCallback: function updateFooter() { 
                 that._updateFooter($table); 
@@ -92,6 +92,7 @@ export class LLTable {
     
     /**
      * Get the column definitions for the table.
+     * @returns {array} Array containing column definitions.
      * @private
      */
     _getColumnDefs() {
@@ -123,6 +124,7 @@ export class LLTable {
 
     /**
      * Get the column data for the table.
+     * @returns {array} Array containing column data.
      * @private
      */
     _getColumns() {
@@ -155,9 +157,14 @@ export class LLTable {
     
     /**
      * Get the layout for the table.
+     * @param {boolean} bColumnSelection Determines whether to show the column selection drop down.
+     * @returns {object} Defined layout.
      * @private
      */
-    _getLayout() {
+    _getLayout(bColumnSelection) {
+        if (!bColumnSelection) 
+            return { topStart: null, topEnd: null };
+
         return {
                 topStart: null,
                 topEnd: {

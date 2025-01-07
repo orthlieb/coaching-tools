@@ -32,7 +32,7 @@ export class GCIBCMediator {
         if (companyName)
             $('.companyname').html(companyName).removeClass('d-none');
         
-        this.theTable = new CITable(tableId, this.people, this);
+        this.theTable = new CITable(tableId, this.people, this, false);
 
         // Columns holds the state of whether a particular dataset is visible or hidden.
         this.columnState = {};

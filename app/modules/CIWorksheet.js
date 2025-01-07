@@ -409,7 +409,6 @@ export class CIWorksheet {
      * @private
      */
     _interactiveStyleForensics(cLL, nInteractiveStyle) {
-        // XXX Remove ISType eventually.
         let cContributor = STRINGS.shorthand[cLL].toLowerCase();
         let is = LLPerson.composeInteractiveStyle(nInteractiveStyle)[1];
         let bIntrovert = (is == STRINGS.ciInteractiveStyleShorthand.introvert);

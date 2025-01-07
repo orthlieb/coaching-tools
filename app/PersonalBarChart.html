@@ -219,18 +219,9 @@
                     if (!Array.isArray(params))
                         params = [ params ];
                     
-                    const parseKeys = {
-                        fullName: 'string',
-                        mover: 'number',
-                        doer: 'number',
-                        responder: 'number',
-                        influencer: 'number',
-                        shaper: 'number',
-                        producer: 'number',
-                        contemplator: 'number',
-                        overallIntensity: 'number',
-                        companyName: 'string'
-                    };
+                    const parseKeys = { fullName: 'string', mover: 'number', doer: 'number', responder: 'number',
+                    influencer: 'number', shaper: 'number', producer: 'number', contemplator: 'number',
+                    overallIntensity: 'number', companyName: 'string' };
                     let parsedParams = COMMON.parseParameters(params, parseKeys);
 
                     let theMediator = new PBCMediator(parsedParams[0], "the-ll-table", "the-chart");

@@ -220,18 +220,9 @@
                         params = CSV.toJSON(url.searchParams.get('csv')); 
                     }
                     
-                    const parseKeys = {
-                        fullName: 'string',
-                        mover: 'number',
-                        doer: 'number',
-                        responder: 'number',
-                        influencer: 'number',
-                        shaper: 'number',
-                        producer: 'number',
-                        contemplator: 'number',
-                        overallIntensity: 'number',
-                        companyName: 'string'
-                    };
+                    const parseKeys = { fullName: 'string', mover: 'number', doer: 'number', responder: 'number',
+                    influencer: 'number', shaper: 'number', producer: 'number', contemplator: 'number',
+                    overallIntensity: 'number', companyName: 'string' };
                     params = COMMON.parseParameters(params, parseKeys);
 
                     let theMediator = new GBCMediator(params, "the-table", "the-ll-table", "the-chart");

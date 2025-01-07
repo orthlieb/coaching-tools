@@ -96,18 +96,9 @@
                         params = CSV.toJSON(url.searchParams.get('csv')); 
                     }
 
-                    const parseKeys = {
-                        fullName: 'string',
-                        mover: 'number',
-                        doer: 'number',
-                        responder: 'number',
-                        influencer: 'number',
-                        shaper: 'number',
-                        producer: 'number',
-                        contemplator: 'number',
-                        overallIntensity: 'number',
-                        companyName: 'string'
-                    };
+                    const parseKeys = { fullName: 'string', mover: 'number', doer: 'number', responder: 'number',
+                    influencer: 'number', shaper: 'number', producer: 'number', contemplator: 'number',
+                    overallIntensity: 'number', companyName: 'string' };
                     let parsedParams = COMMON.parseParameters(params, parseKeys);
 
                     let theMediator = new LLRGMediator(parsedParams, 'rg-table', 'the-graph');

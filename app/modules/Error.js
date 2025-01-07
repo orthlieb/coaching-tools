@@ -26,7 +26,7 @@ export const ERROR = {
      * Evaluates that the supplied object is the specified type. 
      * Supports 'array' unlike traditional Javascript. NaN is not considered a number.
      * @param {object} object Object to test type.
-     * @param {string} type One of the JS types in typeof but also supports 'array'.
+     * @param {string} type One of the JS types in typeof but also supports 'array' and 'character'.
      * @param {object} msg Additional message to be used at the front of the error message for the error object.
      * @throws If there is a type mismatch
      * @returns {boolean} Returns the evaluated expression.
@@ -38,8 +38,12 @@ export const ERROR = {
     assertType(object, type, msg) {
         let cType = Array.isArray(object) ? 'array' : typeof object;
 
+        if (type == 'character')
+            return this.assert(cType == 'string' && object.length == 1, `${msg} has an invalid type, expected ${type} but found ${cType} ${JSON.stringify(object)}`);
+
         if (cType == 'number' && Number.isNaN(object))
-            cType = 'nan';
+            cType = 'NaN';
+
         this.assert(cType == type, `${msg} has an invalid type, expected ${type} but found ${cType} ${JSON.stringify(object)}`);
     },
 

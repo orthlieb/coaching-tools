@@ -17,11 +17,12 @@ export class CITable {
      * CITable class constructor
      * @param {string} cTableId HTML ID of the table we are creating.
      * @param {array} data Data to display in the table. 
-     * @param {object} mediator Mediator object that will catch events.
+     * @param {object} [mediator=null] Mediator object that will catch events.
+     * @param {boolean} [bColumnSelection=true] Determines whether to show the column selection drop down.
      * @returns {object} Initialized LLTable object.
      * @constructor
      */
-    constructor(cTableId, data, mediator = null) {
+    constructor(cTableId, data, mediator = null, bColumnSelection = true) {
         DEBUG.logArgs('LLTable.constructor(cTableId, data)', arguments);
         this.mediator = mediator;
         this.cTableId = '#' + cTableId;
@@ -34,14 +35,13 @@ export class CITable {
             searching: false,
             paging: false,
             info: false,
-            responsive: true,
             select: {
                 style: 'multi',
                 selector: 'td:first-child'
             },
             order: [[ 1, 'asc']],
             columnDefs: this._getColumnDefs(),
-            layout: this._getLayout(),
+            layout: this._getLayout(bColumnSelection),
             footer: true,
             footerCallback: function updateFooter() { 
                 that._updateFooter($table); 
@@ -149,7 +149,19 @@ export class CITable {
         return columns;
     }
     
-    _getLayout() {
+    /*
+     * Returns the layout for the table controls.
+     * @param {boolean} bColumnSelection Determines whether to show the column selection drop down.
+     * @returns {object} Layout for the table.
+     * @private
+     */
+    _getLayout(bColumnSelection) {
+        if (bColumnSelection) {
+            return {
+                topStart: null,
+                topEnd: null
+            };
+        }
         return {
                 topStart: null,
                 topEnd: {

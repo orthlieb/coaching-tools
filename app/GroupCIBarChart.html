@@ -112,29 +112,13 @@
                         params = CSV.toJSON(url.searchParams.get('csv')); 
                     }
 
-                    const parseKeys = {
-                        fullName: 'string',
-                        mover: 'number',
-                        doer: 'number',
-                        responder: 'number',
-                        influencer: 'number',
-                        shaper: 'number',
-                        producer: 'number',
-                        contemplator: 'number',
-                        overallIntensity: 'number',
-                        companyName: 'string',
-                        acceptanceLevel: 'number',
-                        interactiveStyle: 'string',
-                        interactiveStyleType: 'character',
-                        interactiveStyleScore: 'number',
-                        internalControl: 'number',
-                        intrusionLevel: 'number',
-                        projectiveLevel: 'number',
-                        susceptibilityToStress: 'number',
-                        learningPreferenceAuditory: 'number',
-                        learningPreferenceVisual: 'number',
-                        learningPreferencePhysical: 'number'
-                    };
+                    const parseKeys = { fullName: 'string', mover: 'number', doer: 'number', responder: 'number',
+                    influencer: 'number', shaper: 'number', producer: 'number', contemplator: 'number',
+                    overallIntensity: 'number', companyName: 'string', acceptanceLevel: 'number', interactiveStyle:
+                    'string', interactiveStyleType: 'character', interactiveStyleScore: 'number', internalControl:
+                    'number', intrusionLevel: 'number', projectiveLevel: 'number', susceptibilityToStress: 'number',
+                    learningPreferenceAuditory: 'number', learningPreferenceVisual: 'number',
+                    learningPreferencePhysical: 'number' };
 
                     let parsedParams = COMMON.parseParameters(params, parseKeys);
                     let theMediator = new GCIBCMediator(parsedParams, "the-table", "the-chart");

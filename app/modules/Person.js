@@ -203,8 +203,11 @@ export class LLPerson {
      * @public
      */
     static decomposeInteractiveStyle(nScore, cType) {
+        ERROR.assertType(nScore, 'number', 'LLPerson.decomposeInteractiveStyle nScore');
+        ERROR.assertType(cType, 'character', 'LLPerson.decomposeInteractiveStyle cType');
         let base = { I: 0, B: 100, E: 200 };
-        let n = cType == 'I' ? 100 - nScore : nScore;
+        // Handle both a localized and a non-localized shorthand.
+        let n = (cType == STRINGS.ciInteractiveStyleShorthand.introvert || cType == 'I') ? 100 - nScore : nScore;
         return base[cType] + n;
     }
     

@@ -128,18 +128,9 @@
                     if (!Array.isArray(params)) 
                         params = [params];
 
-                    const parseKeys = {
-                        fullName: 'string',
-                        companyName: 'string',
-                        mover: 'number',
-                        doer: 'number',
-                        responder: 'number',
-                        influencer: 'number',
-                        shaper: 'number',
-                        producer: 'number',
-                        contemplator: 'number',
-                        overallIntensity: 'number'
-                    };
+                    const parseKeys = { fullName: 'string', companyName: 'string', mover: 'number', doer: 'number',
+                    responder: 'number', influencer: 'number', shaper: 'number', producer: 'number', contemplator:
+                    'number', overallIntensity: 'number' };
                     let parsedParams = COMMON.parseParameters(params, parseKeys);
  
                     const lgGrid = document.getElementById("language-gram-grid");
