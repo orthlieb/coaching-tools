@@ -26,7 +26,7 @@
         <!-- END Loading Image -->
         <div id="the-container" class="container">
             <div id="language-gram-grid" class="row g-3">
-                <div id="language-gram-1" class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mx-auto">
+                <div id="language-gram-1" class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mx-auto d-none">
                     <div class="language-gram-container container">
                         <div id="lg-fullname" class="fullname bold"></div>
                         <div id="lg-companyname" class="companyname"></div>
@@ -137,14 +137,22 @@
                     const lgTemplate = document.getElementById("language-gram-1");
 
                     parsedParams.forEach((param, index) => {
-                        if (index != 0) {
+                        if (index > 0) {
                             let lgElement = lgTemplate.cloneNode(true);
                             lgElement.setAttribute("id", "language-gram-" + (index + 1));
                             lgGrid.appendChild(lgElement);
                         }
-                        // Create a LanguageGram instance and display it
-                        const lg = new LanguageGram(index + 1, param);
-                        lg.display();
+                        try {
+                            // Create a LanguageGram instance and display it
+                            const lgElement = document.getElementById('language-gram-' + (index + 1));
+                            const lg = new LanguageGram(index + 1, param);
+                            lg.display();
+                            lgElement.classList.remove('d-none');
+                        } catch (e) {
+                            const lgElement = document.getElementById('language-gram-' + (index + 1));
+                            lgElement.classList.add('d-none');
+                            COMMON.displayAlertInDoc(e);
+                        }
                     });
                 } catch (e) {
                     COMMON.displayAlertInDoc(e);

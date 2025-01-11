@@ -25,27 +25,27 @@ body {
         --lg-3-language-font-size: 0.5em;
         --lg-4567-font-size:  0.62em;
         --lg-range-overall-intensity-font-size: 0.5em;
-        --lg-copyright-font-size: 0.25;
+        --lg-copyright-font-size: 0.25em;
      }
 }
 
 @media screen {
     :root {
         --lg-min-width: 550px;
-        --lg-fullname-font-size: 1.5em;  
-        --lg-companyname-font-size: 1em;
-        --lg-1-letter-font-size:  7em;
-        --lg-1-score-font-size: 4em;
-        --lg-1-language-font-size: 1.5em;
-        --lg-2-letter-font-size: 5em;
-        --lg-2-score-font-size: 2em;
-        --lg-2-language-font-size: 1em;
-        --lg-3-letter-font-size: 5em;
-        --lg-3-score-font-size: 2em;
-        --lg-3-language-font-size: 1em;
-        --lg-4567-font-size:  1.25em;
-        --lg-range-overall-intensity-font-size: 1em;
-        --lg-copyright-font-size: 0.5em;
+        --lg-fullname-font-size: 1.25em;  
+        --lg-companyname-font-size: 0.75em;
+        --lg-1-letter-font-size:  6.75em;
+        --lg-1-score-font-size: 3.75em;
+        --lg-1-language-font-size: 1.25em;
+        --lg-2-letter-font-size: 4.75em;
+        --lg-2-score-font-size: 1.75em;
+        --lg-2-language-font-size: 0.75em;
+        --lg-3-letter-font-size: 4.75em;
+        --lg-3-score-font-size: 1.75em;
+        --lg-3-language-font-size: 0.75em;
+        --lg-4567-font-size:  1em;
+        --lg-range-overall-intensity-font-size: 0.75em;
+        --lg-copyright-font-size: 0.25em;
      }
 }
 

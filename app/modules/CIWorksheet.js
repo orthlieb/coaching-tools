@@ -302,7 +302,7 @@ export class CIWorksheet {
                 break;
             case 'interactiveStyle':
                 // Interactive style is a number from 0 - 300. We decompose to introvert, balanced, extrovert.
-                let is = person.composeInteractiveStyle(this.person.interactiveStyle);
+                let is = LLPerson.composeInteractiveStyle(this.person.interactiveStyle);
                 ciElement.querySelector(`.${cSection}Status`).innerText = this._evaluateCILevel(is[0]);
                 ciElement.querySelector(`.${cSection}Score`).innerText = `${is[0]} ${is[1]}`;
                 break;
@@ -399,7 +399,7 @@ export class CIWorksheet {
      */
     _interactiveStyleForensics(cLL, nInteractiveStyle) {
         let cContributor = STRINGS.shorthand[cLL].toLowerCase();
-        let is = this.person.composeInteractiveStyle(nInteractiveStyle)[1];
+        let is = LLPerson.composeInteractiveStyle(nInteractiveStyle)[1];
         let bIntrovert = (is == STRINGS.ciInteractiveStyleShorthand.introvert);
         let bBalanced = (is == STRINGS.ciInteractiveStyleShorthand.balanced);
         let bExtrovert = (is == STRINGS.ciInteractiveStyleShorthand.extrovert);

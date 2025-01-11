@@ -17,24 +17,7 @@ export class LanguageGram {
     constructor(suffix, data) {
         this.suffix = suffix;
         this.data = data;
-        this.person = this._validateData(data);
-    }
-
-    /**
-     * Validates the provided data and creates a person object.
-     * @param {object} data - Data to validate.
-     * @returns {LLPerson} - A validated person object.
-     * @private
-     */
-    _validateData(data) {
-        DEBUG.logArgs('validateData(data)', arguments);
-        try {
-            return new LLPerson(data);
-        } catch (e) {
-            DEBUG.log(e);
-            COMMON.displayAlertInDoc(e);
-            throw e;
-        }
+        this.person = new LLPerson(data);
     }
 
     /**

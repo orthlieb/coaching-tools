@@ -37,17 +37,18 @@ export function testCSV(cURLPrefix) {
 export function testInvalidEntries(cURLPrefix) {
     let aTestData = [];
 
-    // Missing Key
-    let oTest = TEST.randomPerson("Missing LL Key");
+    let oTest = TEST.randomPerson("Missing name");
+    delete oTest.fullName;
+    aTestData.push(oTest);
+
+    oTest = TEST.randomPerson("Missing LL Key");
     delete oTest.mover;
     aTestData.push(oTest);
 
-    // Invalid type
     oTest = TEST.randomPerson("Invalid LL Type");
     oTest.doer = "dingdingding";
     aTestData.push(oTest);
 
-    // Out of range score
     oTest = TEST.randomPerson("LL Score Out of Range");
     oTest.influencer = 300;
     aTestData.push(oTest);

@@ -33,19 +33,29 @@ export function testCSV(cURLPrefix) {
 export function testInvalidJSON(cURLPrefix) {
     let aTestData = [];
 
-    // Missing Key
-    let oTest = TEST.randomPerson("Missing Key");
+    let oTest = TEST.randomPerson("Missing name");
+    delete oTest.fullName;
+    aTestData.push(oTest);
+
+    oTest = TEST.randomPerson("Missing LL Key");
     delete oTest.mover;
     aTestData.push(oTest);
-    
-    // Invalid type
-    oTest = TEST.randomPerson("Invalid Type");
+
+    oTest = TEST.randomPerson("Invalid LL Type");
     oTest.doer = "dingdingding";
     aTestData.push(oTest);
- 
-   // Out of range score
-    oTest = TEST.randomPerson("Out of Range");
-    oTest.influencer = 300;
+
+    // Out of range score
+    oTest = TEST.randomPerson("LL Score Out of Range");
+    oTest.influencer = 80085;
+    aTestData.push(oTest);
+    
+    oTest = TEST.randomPerson("Missing Overall Intensity");
+    delete oTest.overallIntensity;
+    aTestData.push(oTest);
+    
+    oTest = TEST.randomPerson("Overall Intensity Out of Range");
+    oTest.overallIntensity = 80085;
     aTestData.push(oTest);
     
     let str = JSON.stringify(aTestData);
