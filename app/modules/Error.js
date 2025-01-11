@@ -58,6 +58,25 @@ export const ERROR = {
      * @public
      */
     assertRange(value, low, high, msg) {
+        this.assertType(value, 'number', msg);
         this.assert(value >= low && value <= high, `${msg} must be a number between ${low} and ${high}, found ${value}`);
+    },
+    
+    /**
+     * Evaluates that the supplied object contains the required keys. 
+     * @param {object} obj Object to be tested
+     * @param {array} keys Array of keys to be tested against.
+     * @param {object} msg Additional message to be prepended if the assertion fails.
+     * @throws If there is a type mismatch
+     * @returns {boolean} Returns the evaluated expression.
+     * @public 
+     * @example
+     * let joeBlow = { mover: 10, doer: 20 };
+     * ERROR.assertEveryKey(joeBlow, ['mover', 'doer', 'influencer'], 'Joe Blow');
+     * @public
+     */
+    assertEveryKey(obj, keys, msg) {
+        const missing = keys.filter(key => !obj.hasOwnProperty(key));
+        this.assert(missing.length == 0, `${msg} is missing required parameters [${missing.join(', ')}]`);
     }
  };

@@ -133,7 +133,7 @@ export class CIWorksheet {
         DEBUG.logArgs('CIWorksheet.constructor(data, suffix)', arguments);
         this.data = data;
         this.suffix = suffix;
-        this.person = this._validateData(data);
+        this.person = new LLPerson(data);
         this.showForensics = data.showForensics;
     }
 
@@ -169,17 +169,6 @@ export class CIWorksheet {
 
         window.addEventListener("beforeprint", this._handleBeforePrint.bind(this));
         window.addEventListener("afterprint", this._handleAfterPrint.bind(this));
-    }
-
-    /**
-     * Validates the input data and initializes an LLPerson instance.
-     * @private
-     * @param {Object} data - The input data.
-     * @returns {LLPerson} - The validated LLPerson instance.
-     */
-    _validateData(data) {
-        DEBUG.logArgs("validateData(data)", arguments);
-        return new LLPerson(data);
     }
 
     /**
@@ -313,7 +302,7 @@ export class CIWorksheet {
                 break;
             case 'interactiveStyle':
                 // Interactive style is a number from 0 - 300. We decompose to introvert, balanced, extrovert.
-                let is = LLPerson.composeInteractiveStyle(this.person.interactiveStyle);
+                let is = person.composeInteractiveStyle(this.person.interactiveStyle);
                 ciElement.querySelector(`.${cSection}Status`).innerText = this._evaluateCILevel(is[0]);
                 ciElement.querySelector(`.${cSection}Score`).innerText = `${is[0]} ${is[1]}`;
                 break;
@@ -410,7 +399,7 @@ export class CIWorksheet {
      */
     _interactiveStyleForensics(cLL, nInteractiveStyle) {
         let cContributor = STRINGS.shorthand[cLL].toLowerCase();
-        let is = LLPerson.composeInteractiveStyle(nInteractiveStyle)[1];
+        let is = this.person.composeInteractiveStyle(nInteractiveStyle)[1];
         let bIntrovert = (is == STRINGS.ciInteractiveStyleShorthand.introvert);
         let bBalanced = (is == STRINGS.ciInteractiveStyleShorthand.balanced);
         let bExtrovert = (is == STRINGS.ciInteractiveStyleShorthand.extrovert);

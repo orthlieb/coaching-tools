@@ -31,7 +31,7 @@ export class LLRGMediator {
         if (companyName)
             $('.companyname').html(companyName).removeClass('d-none');
         
-        this.theTable = new LLTable(tableId, this.people, this);
+        this.theTable = new LLTable(tableId, this.people, this, false);
         
         // Columns holds the state of whether a particular dataset is visible or hidden.
         this.columnState = {};
@@ -137,7 +137,7 @@ export class LLRGMediator {
             this.debounce = false;
             let key = COMMON.llKeys[nIndex];
             this.columnState[key] = !bHidden;
-            this.theTable.hideColumn(key, bHidden);
+        //    this.theTable.hideColumn(key, bHidden);
             this.debounce = true;
         }
     }
@@ -155,7 +155,7 @@ export class LLRGMediator {
             this.debounce = false;
             // Because we are affecting a dataset in the chart we can use the built-in hideDataset instead of reloading.
             this.columnState[key] = bChecked;
-            this.theChart.hideDataset(COMMON.llKeys.indexOf(key), !bChecked);
+        //    this.theChart.hideDataset(COMMON.llKeys.indexOf(key), !bChecked);
             this.debounce = true;
         }
     }

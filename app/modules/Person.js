@@ -64,21 +64,14 @@ export class LLPerson {
      * @constructor
      */
     constructor(data) {
-        ERROR.assert("fullName" in data, "validatePerson missing parameter person.fullName");
-        ERROR.assertType(data.fullName, "string", `validatePerson parameter person.fullName`);
+        ERROR.assert('fullName' in data, 'LLPerson missing required parameter fullName');
         this.fullName = data.fullName;
-        
-        ERROR.assert("overallIntensity" in data, `validatePerson "${data.fullName}" missing parameter person.overallIntensity`);
-        ERROR.assertType(data.overallIntensity, "number", `validatePerson "${data.fullName}" parameter person.overallIntensity`);
-        this.overallIntensity = data.overallIntensity;
-        this.overallIntensityLevel = COMMON.evaluateScoreLevel(this.overallIntensity);
-
         this.companyName = data.companyName ? data.companyName : '';
         
+        // Must have Life Language score keys
         COMMON.llKeys.forEach((cKey) => {
-            ERROR.assert(cKey in data, `validatePerson "${data.fullName}" missing parameter person.${cKey}`);
-            ERROR.assertType(data[cKey], "number", `validatePerson "${data.fullName}" parameter person.${cKey}`);
-            ERROR.assertRange(data[cKey], 1, 100, `validatePerson "${data.fullName}" parameter person.${cKey}`);
+            ERROR.assert(cKey in data, `LLPerson "${data.fullName}" missing required parameter ${cKey}`);
+            ERROR.assertRange(data[cKey], 1, 100, `LLPerson "${data.fullName}" parameter ${cKey}`);
             this[cKey] = data[cKey];
         });
         
@@ -96,59 +89,46 @@ export class LLPerson {
         this.range = this.sortedScores[0].value - this.sortedScores.at(-1).value;
         this.rangeLevel = COMMON.evaluateScoreLevel(this.range);
   
-        // Some profiles do not have Communication Indicators.
-        if ('acceptanceLevel' in data) {
-            // Interactive style is usually either Score/Type (interactiveStyleScore, interactiveStyleType) or a number/letter string (interactiveStyle).
-            if ('interactiveStyle' in data) {
-                if (typeof(data.interactiveStyle) == 'string') {
-                    // String: number followed by I, B, or E
-                    let is = LLPerson.parseInteractiveStyle(data.interactiveStyle);
-                    data.interactiveStyleScore = is[0];
-                    data.interactiveStyleType = is[1];
-                    delete data.interactiveStyle;
-                } else if (typeof(data.interactiveStyle == 'number')) {
-                    // This is a number normalized between 0 and 300.
-                    ERROR.assertRange(data.interactiveStyle, 0, 300, `validatePerson "${data.fullName}" parameter person.interactiveStyle`);
-                } else {
-                    ERROR.assertType(data.interactiveStyle, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyle`);
-                }
-            }
+        ERROR.assert('overallIntensity' in data, `LLPerson "${data.fullName}" missing required parameter overallIntensity`);
+        ERROR.assertRange(data.overallIntensity, 0, 100, `LLPerson "${data.fullName}" parameter overallIntensity`);
+        this.overallIntensity = data.overallIntensity;
+        this.overallIntensityLevel = COMMON.evaluateScoreLevel(this.overallIntensity);
 
-            if (typeof(data.interactiveStyle) == 'undefined') {
-                ERROR.assert('interactiveStyleScore' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveScore`);
-                ERROR.assertType(data.interactiveStyleScore, 'number', `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
-                ERROR.assertRange(data.interactiveStyleScore, 1, 100, `validatePerson "${data.fullName}" parameter person.interactiveStyleScore`);
-
-                ERROR.assert('interactiveStyleType' in data, `validatePerson "${data.fullName}" missing parameter person.interactiveType`);
-                ERROR.assertType(data.interactiveStyleType, 'string', `validatePerson "${data.fullName}" parameter person.interactiveStyleType`);
-                ERROR.assert(data.interactiveStyleType.length == 1, `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be a single letter, found "${data.interactiveStyleType}"`);
-                ERROR.assert(data.interactiveStyleType == STRINGS.ciInteractiveStyleShorthand.introvert || 
-                             data.interactiveStyleType == STRINGS.ciInteractiveStyleShorthand.balanced || 
-                             data.interactiveStyleType == STRINGS.ciInteractiveStyleShorthand.extrovert, `validatePerson "${data.fullName}" parameter person.interactiveStyleType should be 'I', 'B', or 'E', found "${data.interactiveStyleType}"`);
-
-                // Turn into a normalized score of 0 - 300.
-                data.interactiveStyle = LLPerson.decomposeInteractiveStyle(data.interactiveStyleScore, data.interactiveStyleType);
-                delete data.interactiveStyleScore;
-                delete data.interactiveStyleType;
-            }
-
-            // For professional profiles
-            COMMON.ciKeys.forEach((cKey) => {
-                ERROR.assert(cKey in data, `validatePerson "${data.fullName}" missing parameter person.${cKey}`);
-                ERROR.assertType(data[cKey], "number", `validatePerson "${data.fullName}" parameter person.${cKey}`);
-                if (cKey != 'interactiveStyle')
-                    ERROR.assertRange(data[cKey], 1, 100, `validatePerson "${data.fullName}" parameter person.${cKey}`);
-                this[cKey] = data[cKey];
-            });
-        }
-        
         // Whether a person should be shown or hidden.
         this.state = typeof data.state == "boolean" ? data.state : true;
 
         // Give each person a unique id.
         this.id = LLPerson.idCounter++;
-     }
-    
+        
+       // XXX Probably should factor out the CI keys into their own structure
+        // Test to see if any of the Communication Indicators are present. This would be a professional profile.
+        if (COMMON.ciKeys.some(key => key in data)) {
+            if (typeof(data.interactiveStyle) == 'string') {
+                // Combined string of <number>[I | B | E]. Anachronistic.
+                let is = this.parseInteractiveStyle(data.interactiveStyle);
+                data.interactiveStyleScore = is[0];
+                data.interactiveStyleType = is[1];
+            }
+            
+            let isKeys = ['interactiveStyleScore', 'interactiveStyleType'];
+            if (isKeys.some(key => data.hasOwnProperty(key))) {
+                // This means that there should be a decomposed Interactive Style score and type.
+                ERROR.assertEveryKey(data, isKeys, `LLPerson "${data.fullName}"`);
+                let cType = this.validateInteractiveStyleType(data.interactiveStyleType);
+                data.interactiveStyle = this.normalizeInteractiveStyle(data.interactiveStyleScore, cType);
+                delete data.interactiveStyleScore;
+                delete data.interactiveStyleType;
+            }
+            
+            // Must have all Communication Indicator keys
+            COMMON.ciKeys.forEach((cKey) => {
+                ERROR.assert(cKey in data, `LLPerson "${data.fullName}" missing required parameter ${cKey}`);
+                ERROR.assertRange(data[cKey], 1, (cKey == 'interactiveStyle' ? 300 : 100), `LLPerson "${data.fullName}" parameter ${cKey}`);
+                this[cKey] = data[cKey];
+            });
+        }
+    }
+
     /**
      * Iterate over each language score in the person.
      * @method
@@ -176,54 +156,75 @@ export class LLPerson {
     }
 
     /**
-     * Parse an interactive Style from a string.
+     * Parse an interactive Style from a string. There is no error checking here on values or characters. 
+     * Needs to happen in the caller.
      * @method
-     * @param {string} value String of the form <number>[I|B|E]
+     * @param {string} cInteractiveStyle String of the form <number>[I|B|E]
      * @returns {array} Array whose first element is the interactive style score and the second the character code for internal, balanced, and external (IBE).
      * @public
      */
-    static parseInteractiveStyle(value) {
+    parseInteractiveStyle(cInteractiveStyle) {
         DEBUG.logArgs('parseInteractiveStyle', arguments);
         // First part is a number
-        let nValue = parseFloat(value);
+        let nValue = parseFloat(cInteractiveStyle);
         if (Number.isNaN(nValue)) {
-            return [ value, value ];
+            return [ cInteractiveStyle, cInteractiveStyle ];
         }
-
         // Followed by an I, B, or E.
-        return [nValue, value.slice(-1).toUpperCase()];
+        return [nValue, cInteractiveStyle.slice(-1).toUpperCase()];
     }
     
     /**
-     * Decompose an interactive style score/type into a normalized number from 0 - 300.
+     * Validates an interactive style type character into an index 0-2. Returns -1 if invalid. The character can be localized.
+     * @parameter {string} cType Incoming character to check.
+     * @returns {string} Character of I | B | E.
+     * @throws {error} If cType is not a single character or not I | B | E or their localized variants.
+     * @public
+     */
+    validateInteractiveStyleType(cType) {
+        ERROR.assertType(cType, 'character', `LLPerson "${this.fullName}" parseInteractiveStyleType`);
+        let validTypes = { I: 'I', B: 'B', E: 'E' };
+        validTypes[STRINGS.ciInteractiveStyleShorthand.introvert] = 'I';
+        validTypes[STRINGS.ciInteractiveStyleShorthand.balanced] = 'B';
+        validTypes[STRINGS.ciInteractiveStyleShorthand.extrovert] = 'E';
+ 
+        ERROR.assert(cType in validTypes, `LLPerson "${this.fullName}" parseInteractiveStyleType should be I | B | E but found ${cType}`);
+        return validTypes[cType];
+    }
+            
+    /**
+     * Normalize an interactive style score/type into a normalized number from 0 - 300.
      * @method
      * @param {number} nScore Interactive style score
      * @param {number} cType Interactive style type (IBE).
-     * @returns {number} Number for interactive style from 0 - 300 suitable for sorting.
+     * @returns {number} Normalized score for interactive style from 0 - 300 suitable for sorting.
+     * @throws {error} If nScore is not a number or not in range.
      * @public
      */
-    static decomposeInteractiveStyle(nScore, cType) {
-        ERROR.assertType(nScore, 'number', 'LLPerson.decomposeInteractiveStyle nScore');
-        ERROR.assertType(cType, 'character', 'LLPerson.decomposeInteractiveStyle cType');
+    normalizeInteractiveStyle(nScore, cType) {
+        ERROR.assertRange(nScore, 1, 100, `LLPerson "${this.fullName}" normalizeInteractiveStyle nScore`);
+        cType = this.validateInteractiveStyleType(cType);
         let base = { I: 0, B: 100, E: 200 };
-        // Handle both a localized and a non-localized shorthand.
-        let n = (cType == STRINGS.ciInteractiveStyleShorthand.introvert || cType == 'I') ? 100 - nScore : nScore;
-        return base[cType] + n;
+        return base[cType] + ((cType == 'I') ? 100 - nScore : nScore);
     }
     
      /**
-     * Compose an interactive style score/type from a number from 0 - 300.
+     * Compose an interactive style score/type from a normalized IS number from 0 - 300. It is composed into a space 
+     * of three bands: introvert, balanced, and extrovert, each with a range of 0 - 100. 
+     * Paradoxically, the introvert band is reversed. e.g. 100 - 0 Introvert, 0 - 100 Balanced, 0 - 100 Extrovert
      * @method
-     * @param {number} nScore Interactive style normalized score
+     * @param {number} nNormalizedScore Interactive style normalized score
      * @returns {array} Array of two elements, the first is a score from 0 - 100, the second is the interactive style type (I|B|E).
+     * @throws {error} If nNormalizedScore is not a number or not in range of 0 to 300.
      * @public
      */
-    static composeInteractiveStyle(nScore) {
-        if (nScore > 200)
-            return [ nScore - 200, STRINGS.ciInteractiveStyleShorthand.extrovert];
-        else if (nScore > 100)
-            return [ nScore - 100, STRINGS.ciInteractiveStyleShorthand.balanced];
-        return [100 - nScore, STRINGS.ciInteractiveStyleShorthand.introvert];
+    static composeInteractiveStyle(nNormalizedScore) {
+        ERROR.assertRange(nNormalizedScore, 1, 300, `LLPerson "${this.fullName}" composeInteractiveStyle nNormalizedScore`);
+        if (nNormalizedScore > 200)
+            return [ nNormalizedScore - 200, STRINGS.ciInteractiveStyleShorthand.extrovert];
+        else if (nNormalizedScore > 100)
+            return [ nNormalizedScore - 100, STRINGS.ciInteractiveStyleShorthand.balanced];
+        return [ 100 - nNormalizedScore, STRINGS.ciInteractiveStyleShorthand.introvert ];
     }
     
     /**

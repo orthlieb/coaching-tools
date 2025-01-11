@@ -19,11 +19,11 @@ export class CITable {
      * @param {array} data Data to display in the table. 
      * @param {object} [mediator=null] Mediator object that will catch events.
      * @param {boolean} [bColumnSelection=true] Determines whether to show the column selection drop down.
-     * @returns {object} Initialized LLTable object.
+     * @returns {object} Initialized CITable object.
      * @constructor
      */
     constructor(cTableId, data, mediator = null, bColumnSelection = true) {
-        DEBUG.logArgs('LLTable.constructor(cTableId, data)', arguments);
+        DEBUG.logArgs('CITable.constructor(cTableId, data)', arguments);
         this.mediator = mediator;
         this.cTableId = '#' + cTableId;
         let $table = $(this.cTableId);
@@ -66,6 +66,11 @@ export class CITable {
         dt.draw();
     }
   
+    /**
+     * Add tooltips to the columns of the table.
+     * @param {object} dt Data table object.
+     * @private
+     */
     _addTooltips(dt) {
         // Add tooltips to Life Language columns based on STRINGS.columnTitles, skipping the first two columns
         dt.columns().every(function(index) {
@@ -85,7 +90,11 @@ export class CITable {
         });
     }
     
-    
+    /**
+     * Get the column definitions for the table.
+     * @returns {array} Array containing column definitions.
+     * @private
+     */
     _getColumnDefs() {
        return [
             {   // Select checkbox.
@@ -125,6 +134,11 @@ export class CITable {
         ];
     }
 
+    /**
+     * Get the column data for the table.
+     * @returns {array} Array containing column data.
+     * @private
+     */
     _getColumns() {
         let columns = [
             { name: 'state', data: 'state', title: STRINGS.columnLabels[0] },
@@ -156,12 +170,9 @@ export class CITable {
      * @private
      */
     _getLayout(bColumnSelection) {
-        if (bColumnSelection) {
-            return {
-                topStart: null,
-                topEnd: null
-            };
-        }
+        if (!bColumnSelection)
+            return { topStart: null, topEnd: null };
+
         return {
                 topStart: null,
                 topEnd: {
@@ -179,6 +190,11 @@ export class CITable {
             };
     }
     
+    /**
+     * Get the column data for the table.
+     * @returns {array} Array containing column data.
+     * @private
+     */
     _registerEvents($table, that) {
         let dt = $table.DataTable();
 
@@ -414,7 +430,7 @@ export class CITable {
      * @public
      */
     selectRow(nIndex, bSelect) {
-        DEBUG.logArgs('LLTable.selectRow(nIndex, bSelect)', arguments);
+        DEBUG.logArgs('CITable.selectRow(nIndex, bSelect)', arguments);
         let $table = $(this.cTableId);
         let dt = $table.DataTable();
         
@@ -432,7 +448,7 @@ export class CITable {
      * @public
      */
     hideColumn(columnName, bHidden) {
-        DEBUG.logArgs('LLTable.hideColumn(columnName, bHidden)', arguments);
+        DEBUG.logArgs('CITable.hideColumn(columnName, bHidden)', arguments);
         let $table = $(this.cTableId);
         let dt = $table.DataTable();
         

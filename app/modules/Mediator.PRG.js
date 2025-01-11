@@ -32,7 +32,7 @@ export class PRGMediator {
         if (companyName)
             $('.companyname').html(companyName).removeClass('d-none');
         
-        this.theTable = new LLTable(tableId, this.people, this);
+        this.theTable = new LLTable(tableId, this.people, this, false);
         
         // Columns holds the state of whether a particular dataset is visible or hidden.
         this.columnState = {};

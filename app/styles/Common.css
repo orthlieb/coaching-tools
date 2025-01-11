@@ -199,48 +199,48 @@
 }
 
 .acceptanceLevel-highlight {
-  background-color: #f7d4d6 !important;
-  color: #8a1921 !important;
+  background-color: hsl(356, 69%, 90%) !important;
+  color: hsl(356, 69%, 32%) !important;
 }
 
 .interactiveStyle-highlight {
-  background-color: #f6d4f7 !important;
-  color: #861a89 !important;
+  background-color: hsl(298, 68.5%, 90%) !important;
+  color: hsl(298, 68.5%, 32%) !important;
 }
 
 .internalControl-highlight {
-  background-color: #fae2d1 !important;
-  color: #934610 !important;
+  background-color: hsl(24.5, 80%, 90%) !important;
+  color: hsl(24.5, 80%, 32%) !important;
 }
 
 .intrusionLevel-highlight {
-  background-color: #fbf3d0 !important;
-  color: #977b0c !important;
+  background-color: hsl(48, 85.5%, 90%) !important;
+  color: hsl(48, 85.5%, 32%) !important;
 }
 
 .projectiveLevel-highlight {
-  background-color: #e2f3d8 !important;
-  color: #487d26 !important;
+  background-color: hsl(97, 53%, 90%) !important;
+  color: hsl(97, 53%, 32%) !important;
 }
 
 .susceptibilityToStress-highlight {
-  background-color: #d8f3f0 !important;
-  color: #267d72 !important;
+  background-color: hsl(172.5, 53.5%, 90%) !important;
+  color: hsl(172.5, 53.5%, 32%) !important;
 }
 
 .learningPreferenceAuditory-highlight {
-  background-color: #d8e2f3 !important;
-  color: #27467c !important;
+  background-color: hsl(218, 52%, 90%) !important;
+  color: hsl(218, 52%, 32%) !important;
 }
 
 .learningPreferencePhysical-highlight {
-  background-color: #fef5cd !important;
-  color: #a18402 !important;
+  background-color: hsl(49, 97%, 90%) !important;
+  color: hsl(49, 97%, 32%) !important;
 }
 
 .learningPreferenceVisual-highlight {
-  background-color: #f8d3d7 !important;
-  color: #8d1624 !important;
+  background-color: hsl(353, 73%, 90%) !important;
+  color: hsl(353, 73%, 32%) !important;
 }
 
 .acceptanceLevel-background {
@@ -352,75 +352,75 @@
 }
 
 .acceptanceLevel-light-background {
-  background-color: #f7d4d6 !important;
+  background-color: hsl(356, 69%, 90%) !important;
 }
 
 .interactiveStyle-light-background {
-  background-color: #f6d4f7 !important;
+  background-color: hsl(298, 68.5%, 90%) !important;
 }
 
 .internalControl-light-background {
-  background-color: #fae2d1 !important;
+  background-color: hsl(24.5, 80%, 90%) !important;
 }
 
 .intrusionLevel-light-background {
-  background-color: #fbf3d0 !important;
+  background-color: hsl(48, 85.5%, 90%) !important;
 }
 
 .projectiveLevel-light-background {
-  background-color: #e2f3d8 !important;
+  background-color: hsl(97, 53%, 90%) !important;
 }
 
 .susceptibilityToStress-light-background {
-  background-color: #d8f3f0 !important;
+  background-color: hsl(172.5, 53.5%, 90%) !important;
 }
 
 .learningPreferenceAuditory-light-background {
-  background-color: #d8e2f3 !important;
+  background-color: hsl(218, 52%, 90%) !important;
 }
 
 .learningPreferencePhysical-light-background {
-  background-color: #fef5cd !important;
+  background-color: hsl(49, 97%, 90%) !important;
 }
 
 .learningPreferenceVisual-light-background {
-  background-color: #f8d3d7 !important;
+  background-color: hsl(353, 73%, 90%) !important;
 }
 
 .acceptanceLevel-dark-text-color {
-  color: #8a1921 !important;
+  color: hsl(356, 69%, 32%) !important;
 }
 
 .interactiveStyle-dark-text-color {
-  color: #861a89 !important;
+  color: hsl(298, 68.5%, 32%) !important;
 }
 
 .internalControl-dark-text-color {
-  color: #934610 !important;
+  color: hsl(24.5, 80%, 32%) !important;
 }
 
 .intrusionLevel-dark-text-color {
-  color: #977b0c !important;
+  color: hsl(48, 85.5%, 32%) !important;
 }
 
 .projectiveLevel-dark-text-color {
-  color: #487d26 !important;
+  color: hsl(97, 53%, 32%) !important;
 }
 
 .susceptibilityToStress-dark-text-color {
-  color: #267d72 !important;
+  color: hsl(172.5, 53.5%, 32%) !important;
 }
 
 .learningPreferenceAuditory-dark-text-color {
-  color: #27467c !important;
+  color: hsl(218, 52%, 32%) !important;
 }
 
 .learningPreferencePhysical-dark-text-color {
-  color: #a18402 !important;
+  color: hsl(49, 97%, 32%) !important;
 }
 
 .learningPreferenceVisual-dark-text-color {
-  color: #8d1624 !important;
+  color: hsl(353, 73%, 32%) !important;
 }
 
 .bold {
@@ -444,7 +444,7 @@
 }
 
 .gap-compressed {
-  color: 0x0d6efd;
+  color: #0d6efd;
 }
 
 .gap-expanded {

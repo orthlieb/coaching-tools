@@ -32,7 +32,7 @@ export class GBCMediator {
         if (companyName)
             $('.companyname').html(companyName).removeClass('d-none');
         
-        this.theTable = new LLTable(tableId, this.people, this, false);
+        this.theTable = new LLTable(tableId, this.people, this);
 
         this._loadProfileTable(this.people);
 
@@ -224,19 +224,28 @@ export class GBCMediator {
             row.querySelector('.llscore').textContent = scores[index].avg;
             row.querySelector('.llrating').textContent = scores[index].rating;
             
-            let cGapSymbol = '';
+            // Assign gap symbols and tooltips to the score, the primary does not have a gap.
             if (index != 0) {
-                if (scores[index].gap < 5) {
+                let cGapSymbol = '';
+                const tooltipSpan = document.getElementById(`gap-icon-${index}-tooltip`);
+                tooltipSpan.setAttribute('title', STRINGS.general.moderate);
+
+                if (scores[index].gap < 5) {    // Compressed
                     cGapSymbol = '<i class="gap-compressed fa-solid fa-down-left-and-up-right-to-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>';
                     COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol} &nbsp; ${STRINGS.general.gap}: ${STRINGS.general.low}`, 
                         `${STRINGS.gap.pre} ${STRINGS.gap.info[0]} ${STRINGS.gap.post}`);
-                } else if (scores[index].gap > 10) {
+                        tooltipSpan.setAttribute('title', STRINGS.general.low);
+                } else if (scores[index].gap > 10) {    // Gulf
                     cGapSymbol = '<i class="gap-expanded fa-solid fa-arrow-up-right-and-arrow-down-left-from-center fa-rotate-by" style="--fa-rotate-angle: 135deg;"></i>';
                     COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol} &nbsp; ${STRINGS.general.gap}: ${STRINGS.general.high}`, 
                         `${STRINGS.gap.pre} ${STRINGS.gap.info[2]} ${STRINGS.gap.post}`);
+                        tooltipSpan.setAttribute('title', STRINGS.general.high);
                 }
                 row.querySelector(`#gap-icon-${index}`).innerHTML = cGapSymbol;
                 row.querySelector(`#gap-${index}`).innerHTML = scores[index].gap;
+
+                // Reinitialize the tooltip to update the new text
+                new bootstrap.Tooltip(tooltipSpan);
             }
         });
         

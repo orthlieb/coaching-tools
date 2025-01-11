@@ -52,71 +52,89 @@ export function testInvalidEntries(cURLPrefix) {
     oTest.influencer = 300;
     aTestData.push(oTest);
     
-    // Missing Key
     oTest = TEST.randomPerson("Missing CI Key");
     delete oTest.acceptanceLevel;
     aTestData.push(oTest);
 
-    // Invalid type
     oTest = TEST.randomPerson("Invalid CI Type");
     oTest.internalControl = "dingdingding";
     aTestData.push(oTest);
 
-    // Out of range score
     oTest = TEST.randomPerson("CI Score Out of Range");
     oTest.intrusionLevel = 300;
     aTestData.push(oTest);
     
-    // Bad interactive style
-    oTest = TEST.randomPerson("Bad Interactive Style Type");
-    delete oTest.interactiveStyleType;
-    delete oTest.interactiveStyleScore;
-    oTest.interactiveStyle = '35.0Q';
-    aTestData.push(oTest);
+    // Combined
     
-    // Missing interactive style
-    oTest = TEST.randomPerson("Missing Interactive Style Type");
+    oTest = TEST.randomPerson("Missing Interactive Style Type (combined)");
     delete oTest.interactiveStyleType;
     delete oTest.interactiveStyleScore;
     oTest.interactiveStyle = '35.0';
     aTestData.push(oTest);   
 
-    // Missing interactive style
-    oTest = TEST.randomPerson("Invalid Interactive Style Score");
+    oTest = TEST.randomPerson("Invalid Interactive Style Type (combined)");
     delete oTest.interactiveStyleType;
     delete oTest.interactiveStyleScore;
-    oTest.interactiveStyle = 'Q';
+    oTest.interactiveStyle = '35.0Q';
+    aTestData.push(oTest);
+    
+    oTest = TEST.randomPerson("Missing Interactive Style Score (combined)");
+    delete oTest.interactiveStyleType;
+    delete oTest.interactiveStyleScore;
+    oTest.interactiveStyle = 'I';
     aTestData.push(oTest);   
     
-    // Missing interactive style score (decomposed)
-    oTest = TEST.randomPerson("Missing Interactive Style Score (decomposed)");
-    delete oTest.interactiveStyle;
+    oTest = TEST.randomPerson("Invalid Interactive Style Score (combined)");
+    delete oTest.interactiveStyleType;
     delete oTest.interactiveStyleScore;
+    oTest.interactiveStyle = 'ABCI';
+    aTestData.push(oTest);   
+    
+    oTest = TEST.randomPerson("Out of Range Interactive Style Score (combined)");
+    delete oTest.interactiveStyleType;
+    delete oTest.interactiveStyleScore;
+    oTest.interactiveStyle = '125I';
     aTestData.push(oTest);   
 
-     // Missing interactive style type (decomposed)
-    oTest = TEST.randomPerson("Missing Interactive Style Type (decomposed)");
+    // Separate
+    
+    oTest = TEST.randomPerson("Missing Interactive Style Type (separate)");
     delete oTest.interactiveStyle;
     delete oTest.interactiveStyleType;
+    oTest.interactiveStyleScore = 35.0;
     aTestData.push(oTest);  
-    
-    // Bad interactive style score (decomposed)
-    oTest = TEST.randomPerson("Bad Interactive Style Score (decomposed)");
+
+    oTest = TEST.randomPerson("Invalid Interactive Style Type (separate)");
     delete oTest.interactiveStyle;
-    oTest.interactiveStyleScore = 'biss';
-     aTestData.push(oTest);
-        
-    // Bad interactive style type (decomposed)
-    oTest = TEST.randomPerson("Bad Interactive Style Type (decomposed)");
-    delete oTest.interactiveStyle;
-    oTest.interactiveStyleType = 'ABC';
-    aTestData.push(oTest); 
-  
-    // Bad interactive style type (decomposed)
-    oTest = TEST.randomPerson("Invalid Interactive Style Type (decomposed)");
-    delete oTest.interactiveStyle;
+    oTest.interactiveStyleScore = 35.0;
     oTest.interactiveStyleType = 'Q';
-    aTestData.push(oTest); 
+    aTestData.push(oTest);
+
+    oTest = TEST.randomPerson("Missing Interactive Style Score (separate)");
+    delete oTest.interactiveStyle;
+    delete oTest.interactiveStyleScore;
+    oTest.interactiveStyleType = 'I';
+    aTestData.push(oTest);   
+
+    oTest = TEST.randomPerson("Invalid Interactive Style Score");
+    delete oTest.interactiveStyle;
+    oTest.interactiveStyleScore = 'ABC';
+    oTest.interactiveStyleType = 'I';
+    aTestData.push(oTest);
+        
+    oTest = TEST.randomPerson("Out of Range Interactive Style Score");
+    delete oTest.interactiveStyle;
+    oTest.interactiveStyleScore = 135.0;
+    oTest.interactiveStyleType = 'I';
+    aTestData.push(oTest);
+        
+    // Normalized
+
+    oTest = TEST.randomPerson("Out of Range Interactive Style");
+    delete oTest.interactiveStyleType;
+    delete oTest.interactiveStyleScore;
+    oTest.interactiveStyle = 335.0;
+    aTestData.push(oTest);
     
     let str = JSON.stringify(aTestData);
     DEBUG.log(`GENERATED INVALID JSON DATA: ${str}`);
