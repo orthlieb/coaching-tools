@@ -4,7 +4,6 @@ body {
     margin: 0.125in;
 }
 
- 
 @media print {
    body {
         -webkit-print-color-adjust: exact;  /* Ensures that colors are preserved in WebKit browsers */
@@ -24,6 +23,7 @@ body {
         --rg-title-font-size: 1.5em;
         --rg-companyname-font-size: 1.25em;
         --rg-copyright-font-size: 0.75em;
+        --rg-max-width: 1024px;
     }
 }
 
@@ -73,7 +73,6 @@ table.dataTable tbody tr.selected>* {
     text-align: center;
     padding: 10px;
 }
-
 
 body {
     --bs-body-font-size: 12px;

@@ -3,11 +3,14 @@
     "clean-docs": "rimraf docs",
     "build-scss": "sass scss:app/styles",
     "build-docs": "jsdoc -c jsdoc.json app",
-    "build": "npm run clean-docs && npm run build-scss && npm run build-docs"
+    "build": "npm run clean-docs && npm run build-scss && npm run build-docs",
+    "deploy": "node deploy.js"
   },
   "devDependencies": {
+    "dotenv": "^16.4.7",
+    "ftp-deploy": "^2.4.7",
+    "jsdoc": "^4.0.0",
     "rimraf": "^5.0.0",
-    "sass": "^1.63.6",
-    "jsdoc": "^4.0.0"
+    "sass": "^1.83.1"
   }
 }

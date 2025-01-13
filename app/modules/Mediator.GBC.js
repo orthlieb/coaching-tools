@@ -32,7 +32,7 @@ export class GBCMediator {
         if (companyName)
             $('.companyname').html(companyName).removeClass('d-none');
         
-        this.theTable = new LLTable(tableId, this.people, this);
+        this.theTable = new LLTable(tableId, this.people, this, false);
 
         this._loadProfileTable(this.people);
 

@@ -1,3 +1,4 @@
 app/styles/Common.css.map
 docs/
 node_modules/
+.env
