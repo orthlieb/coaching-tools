@@ -129,8 +129,28 @@ let str = JSON.stringify(data);
 let url = new URL(`${cTargetURLPrefix}?json=${encodeURIComponent(str)}`);
 window.location.href = url;
 ```
-
 Documentation for the various classes and files can be found in the docs folder after the build.
+```bash
+npm run deploy
+```
+After making changes, you can deploy your files to your static web server using the deploy command.
+Make sure you create a .env file with the following variables.
+
+```
+SFTP_USER=<your sftp user name>
+SFTP_PASS=<your sftp password>
+SFTP_HOST=<your sftp host>
+SFTP_DIR=<your deploy directory>
+```
+You can deploy certain types files with a matching pattern:
+```
+npm run deploy **/*.js
+```
+This example deploys all javascript files found in all directories.
+You can deploy individual files by supplying a path and filename:
+```
+npm run deploy modules/Debug.js
+```
 
 ---
 
@@ -148,7 +168,7 @@ Contributions are welcome! Please follow these steps to contribute:
 
 ## **License**
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See  [LICENSE.TXT](./LICENSE.txt) for more information.
 
 ---
 

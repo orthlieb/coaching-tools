@@ -1,46 +1,55 @@
-require("dotenv").config();
+require('dotenv').config();
 const FtpDeploy = require("ftp-deploy");
 const ftpDeploy = new FtpDeploy();
 const path = require("path");
-const fs = require("fs");
+const glob = require("glob"); // For pattern matching
 
-// Get the pattern from the command-line argument, default to "*"
-const filePattern = process.argv[2] || "*";
+// Get the pattern from the command-line argument, default to "**/*" (all files)
+const filePattern = process.argv[2] || "**/*";
 
-// Utility function to filter files based on pattern
-function getFilesMatchingPattern(dir, pattern) {
-  const regex = new RegExp(pattern.replace("*", ".*"));
-  return fs.readdirSync(dir).filter(file => regex.test(file));
+// Set the local and remote roots
+const localRoot = path.join(__dirname, "app");
+const remoteRoot = process.env.SFTP_DIR;
+
+// Utility function to get files matching a pattern
+function getFilesMatchingPattern(pattern) {
+  return glob.sync(pattern, { cwd: localRoot, nodir: true });
 }
 
-const localRoot = path.join(__dirname, "app");
+// Determine files to include based on the provided pattern
+const filesToInclude = getFilesMatchingPattern(filePattern);
+console.log("filesToInclude", filesToInclude);
 
-// Filter files to include only those matching the pattern, or all files if no pattern is specified
-const filesToInclude = filePattern === "*" ? ["**/*"] : getFilesMatchingPattern(localRoot, filePattern).map(file => path.join("**", file));
+if (filesToInclude.length === 0) {
+  console.error(`No files matched the pattern: ${filePattern}`);
+  process.exit(1);
+}
 
 const config = {
-    user: process.env.SFTP_USER, // Use environment variables for credentials
-    password: process.env.SFTP_PASS,
-    host: process.env.SFTP_HOST,
-    port: 22,
-    localRoot: __dirname + "/app", // Adjust this to your local build folder
-    remoteRoot: process.env.SFTP_DIR, 
-    include: filesToInclude,
-    deleteRemote: filePattern === "*", // When full deploy delete the directory contents first.
-    forcePasv: true, // Use passive mode for FTP
-    sftp: true, // Use SFTP instead of FTP
-    log: true
+  user: process.env.SFTP_USER,
+  password: process.env.SFTP_PASS,
+  host: process.env.SFTP_HOST,
+  port: 22,
+  localRoot: localRoot,
+  remoteRoot: remoteRoot,
+  include: filesToInclude,
+  deleteRemote: false,
+  forcePasv: true,
+  sftp: true,
+  log: true,
 };
 
 // Deploy the files
 ftpDeploy
   .deploy(config)
-  .then(res => console.log("Deployment finished successfully:", res))
-  .catch(err => console.error("Deployment failed:", err));
+  .then((res) => console.log("Deployment finished successfully:", res))
+  .catch((err) => console.error("Deployment failed:", err));
 
 // Event listeners for verbose output
 ftpDeploy.on("uploading", (data) => {
-  console.log(`Uploading: ${data.transferredFileCount}/${data.totalFilesCount} files, Current file: ${data.filename}`);
+  console.log(
+    `Uploading: ${data.transferredFileCount}/${data.totalFilesCount} files, Current file: ${data.filename}`
+  );
 });
 
 ftpDeploy.on("uploaded", (data) => {
