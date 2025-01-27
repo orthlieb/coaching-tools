@@ -405,7 +405,7 @@ export class CITable {
                     let is = LLPerson.composeInteractiveStyle(nAverage);
                     return `${Math.round(is[0])} ${is[1]}`;
                 }
-                return `<i class="fa-solid ${COMMON.scoreLevelArrows[COMMON.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}`;
+                return `<i class="fa-solid ${COMMON.ciScoreLevelArrows[COMMON.evaluateCIScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}`;
              } else 
                 return undefined;   // Skip this column.
         });

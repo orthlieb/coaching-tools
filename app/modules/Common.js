@@ -120,7 +120,27 @@ export const COMMON = {
     
         return 4;                       // bi-arrow-up score-arrow "\D83E\DC70"; "&#x1F879;"; up
     },
+    
+   /**
+     * Evaluates whether CI Score is LOW, MODERATE, HIGH.
+     * Suitable for displaying arrows or colors from another array.
+     * @param {number} nValue The value to be evaluated.
+     * @returns {number} Returns an integer between 0 and 2 suitable for indexing into an array.
+     * @public
+     */
+    evaluateCIScoreLevel: function (nValue) {
+        if (nValue < 35) return 0;
+        else if (nValue < 65) return 1;
+        return 2;
+    },
 
+    /**
+     * Arrows to use to display different CI score levels
+     */
+    scoreCILevelArrows: [ 
+        'fa-arrow-down', 'fa-arrow-right', 'fa-arrow-up' 
+    ],
+    
     /**
      * Creates an info dialog attached to a particular element.
      * @param {string} cInfoId The id of the element to attach the dialog.
