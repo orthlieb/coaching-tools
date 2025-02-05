@@ -5,7 +5,7 @@
 import { ERROR } from "./Error.js";
 import { DEBUG } from "./Debug.js";
 import { COMMON } from "./Common.js";
-import { LLPerson } from "./Person.js";
+import { LLCommunicationIndicators } from "./Person.js";
 import { STRINGS } from "./Strings.js";
 
 /**
@@ -125,7 +125,7 @@ export class CITable {
                 asSorting: ['asc', 'desc'],
                 render: function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
-                        let is = LLPerson.composeInteractiveStyle(data);
+                        let is = LLCommunicationIndicators.composeInteractiveStyle(data);
                         return `${Math.round(is[0])} ${is[1]}`; 
                     }
                     return data; // Return original value for sorting, etc.
@@ -384,43 +384,109 @@ export class CITable {
     _updateFooter($table) {
         DEBUG.logArgs('table._updateFooter($table)', arguments); 
         let dt = $table.DataTable();
-        let data = dt.columns().dataSrc();
         let selectedRows = dt.rows({ selected: true }).data();
         let visibleColumns = dt.columns().visible();
 
-        // Find the average values for each column.
-        const aAverages = data.map(function (key, index) {
-            if (visibleColumns[index] && index > 1) {
-                // Data for selected rows
-                const aValues = selectedRows.map(row => { 
-                    return row[key];
-                });
-                
-                let nAverage = aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
-                
-                if (nAverage == 0)
-                    return '';
-                
-                if (index == 3) {
-                    let is = LLPerson.composeInteractiveStyle(nAverage);
-                    return `${Math.round(is[0])} ${is[1]}`;
-                }
-                return `<i class="fa-solid ${COMMON.ciScoreLevelArrows[COMMON.evaluateCIScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}`;
-             } else 
-                return undefined;   // Skip this column.
+        let dialogs = [];
+        let cFooter = '<tr>';
+        cFooter += '<th class="col-1"></th>';
+        cFooter += `<th class="col-4">${STRINGS.general.groupAverage}</th>`;
+
+        let ciData = {};
+        COMMON.ciKeys.forEach((key, nIndex) => {
+            let aValues = selectedRows.map(row => row.ci[key]);
+            let nAverage = aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
+            ciData[key] = nAverage;
         });
+        let ci = new LLCommunicationIndicators(ciData);
         
-        // Build the footer
-        let cFooter = aAverages.reduce((accumulator, cAverage) => {
-            if (cAverage == undefined)
-                return accumulator;
-            accumulator += `<th class="col-1 text-end">${cAverage}</th>`;
-            return accumulator;
-        }, `<tr><th class="col-1"></th><th class="col-4">${STRINGS.general.groupAverage}</th>`);
+        // Find the average values for each column.
+        COMMON.ciKeys.forEach((key, nIndex) => {
+            if (visibleColumns[nIndex + 2]) { // We don't do hidden columns
+                switch (key) {
+                    case 'interactiveStyle':
+                        // Interactive Style
+                        cFooter += '<th class="col-1 text-end">';
+                        if (ci[key] > 0) {
+                            let is = LLCommunicationIndicators.composeInteractiveStyle(ci[key]);
+                            cFooter += `<a id= "footer-info-${nIndex}" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog">${Math.round(is[0])} ${is[1]}</a>`;
+
+                            let nISIndex = is[1] == 'I' ? 0 : (is[1] == 'B' ? 1 : 2); 
+                            let cISName = STRINGS.ciInteractiveStyleNames[is[1]];
+                            let levelInfo = STRINGS.ciLevelInfo[key];
+                            dialogs.push({ 
+                                index: nIndex, 
+                                title: `${levelInfo.name}: ${cISName}`, 
+                                body: `${levelInfo.pre}<br><br>${levelInfo.info[nISIndex]}<br><br>${levelInfo.post}` 
+                            });
+                        }
+                        cFooter += '</th>';
+                    break;
+                    case 'learningPreferenceAuditory':
+                    case 'learningPreferenceVisual':
+                    case 'learningPreferencePhysical':
+                        cFooter += '<th class="col-1 text-end">';
+                        if (ci[key] > 0) {
+                            let nScoreLevel = LLCommunicationIndicators.evaluateScoreLevel(ci[key]);
+                            let cScoreLevelSymbol = LLCommunicationIndicators.scoreLevelArrows[nScoreLevel];
+                            cFooter += `<a id= "footer-info-${nIndex}" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"><i class="fa-solid ${cScoreLevelSymbol} score-arrow"></i></a> ${Math.round(ci[key])}`; 
+
+                            let levelInfo = STRINGS.ciLevelInfo['learningPreference'];
+                            dialogs.push({ 
+                                index: nIndex, 
+                                title: `${STRINGS.ciLabels[key]}: ${STRINGS.ciLevels[nScoreLevel]}`, 
+                                body: `${levelInfo.pre}<br><br>${levelInfo.info[key]}<br><br>${levelInfo.post}` 
+                            });
+                        }
+                        cFooter += '</th>';
+                     break;
+                    default:
+                        cFooter += '<th class="col-1 text-end">';
+                        if (ci[key] > 0) {
+                            let nScoreLevel = LLCommunicationIndicators.evaluateScoreLevel(ci[key]);
+                            let cScoreLevelSymbol = LLCommunicationIndicators.scoreLevelArrows[nScoreLevel];
+                            cFooter += `<a id= "footer-info-${nIndex}" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"><i class="fa-solid ${cScoreLevelSymbol} score-arrow"></i></a> ${Math.round(ci[key])}`; 
+
+                            let levelInfo = STRINGS.ciLevelInfo[key];
+                            dialogs.push({ 
+                                index: nIndex, 
+                                title: `${levelInfo.name}: ${STRINGS.ciLevels[nScoreLevel]}`, 
+                                body: `${levelInfo.pre}<br><br>${levelInfo.info[nScoreLevel]}<br><br>${levelInfo.post}` 
+                            });
+                        }
+                        cFooter += '</th>';
+                    break;
+                }
+            }
+        });
+
         cFooter += '</tr>';
+        $(dt.table().footer()).html(cFooter);   // Apply the footer to the table.
         
-        $(dt.table().footer()).html(cFooter); 
+        // Now attach the dialogs
+        dialogs.forEach(dialog => COMMON.createInfoDialog(`footer-info-${dialog.index}`, dialog.title, dialog.body));
+        
         this._updateColumnHighlight($table);
+    }
+    
+    /**
+     * Evaluates Learning Preferences and returns an array of dominant preference keys.
+     * @method
+     * @param {object} scores Learning Preference scores for auditory, visual, and physical.
+     * @returns {array} Returns an array with keys that are considered dominant from COMMON.ciKeys.
+     * @private
+     */
+    _evaluateCILearningPreference(scores) {
+        let keys = Object.keys(scores);
+
+        // Find the max value
+        let nMax = keys.reduce((accum, key) => (scores[key] > accum ? scores[key] : accum), 0);
+
+        // Find keys that match max value
+        return keys.reduce((accum, key) => {
+            if (scores[key] === nMax) accum.push(key);
+            return accum;
+        }, []);
     }
     
     /**

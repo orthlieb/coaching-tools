@@ -99,58 +99,19 @@ export const COMMON = {
     },
     
     /**
-     * Arrows to use to display different score levels
-     */
-    scoreLevelArrows: [ 
-        'fa-arrow-down', 'fa-arrow-down-right', 'fa-arrow-right', 'fa-arrow-up-right', 'fa-arrow-up' 
-    ],
-    
-    /**
-     * Evaluates whether Score is VERY LOW, LOW, MODERATE, HIGH or VERY HIGH.
-     * Suitable for displaying arrows or colors from another array.
-     * @param {number} nValue The value to be evaluated.
-     * @returns {number} Returns an integer between 0 and 4 suitable for indexing into an array.
-     * @public
-     */
-    evaluateScoreLevel: function(nValue) {
-        if (nValue < 15) return 0;      // bi-arrow-down "\D83E\DC7B"; "&#x1F87B;";  down
-        else if (nValue < 35) return 1; // bi-arrow-down-right "&#x1F87E;"; down-right
-        else if (nValue < 65) return 2; // bi-arrow-right "&#x1F87A;"; right
-        else if (nValue < 85) return 3; // bi-arrow-up-right "&#x1F87D;"; up-right
-    
-        return 4;                       // bi-arrow-up score-arrow "\D83E\DC70"; "&#x1F879;"; up
-    },
-    
-   /**
-     * Evaluates whether CI Score is LOW, MODERATE, HIGH.
-     * Suitable for displaying arrows or colors from another array.
-     * @param {number} nValue The value to be evaluated.
-     * @returns {number} Returns an integer between 0 and 2 suitable for indexing into an array.
-     * @public
-     */
-    evaluateCIScoreLevel: function (nValue) {
-        if (nValue < 35) return 0;
-        else if (nValue < 65) return 1;
-        return 2;
-    },
-
-    /**
-     * Arrows to use to display different CI score levels
-     */
-    scoreCILevelArrows: [ 
-        'fa-arrow-down', 'fa-arrow-right', 'fa-arrow-up' 
-    ],
-    
-    /**
      * Creates an info dialog attached to a particular element.
-     * @param {string} cInfoId The id of the element to attach the dialog.
+     * @param {object|string} infoElement Either a element or the id of an element.
      * @param {string} cTitle Title of the dialog.
      * @param {string} cBody Body of the dialog.
      * @public
      */
-    createInfoDialog(cInfoId, cTitle, cBody) {
-        DEBUG.logArgs('Common.createInfoDialog(cInfoId, cTitle, cBody)', arguments);
-        document.getElementById(cInfoId).addEventListener('click', function(event) {
+    createInfoDialog(infoElement, cTitle, cBody) {
+        //DEBUG.logArgs('Common.createInfoDialog(cInfoId, cTitle, cBody)', arguments);
+        
+        if (typeof infoElement == 'string')
+            infoElement = document.getElementById(infoElement);
+        
+        infoElement.addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default anchor behavior
 
             // Populate the modal title and body content
@@ -174,6 +135,15 @@ export const COMMON = {
     displayAlertInDoc(message, alertType = 'alert-danger', alertCustom = null) {
         DEBUG.logArgs("COMMON.displayAlertInDoc(message, alertType = 'alert-danger', alertCustom = null)", arguments);
 
+        // Find out who called us.
+        const stack = new Error().stack.split("\n");
+        const callerInfo = stack[2].trim().match(/at (\S+) \((.*):(\d+):(\d+)\)/);
+        let callerStr = "Unknown caller";
+        if (callerInfo) {
+            const [, functionName, file, line, col] = callerInfo;
+            callerStr = `${functionName} (${file}:${line}:${col})`;
+        }
+        
         let icons = {
             "alert-danger": '<i class="fa-solid fa-diamond-exclamation me-3 fs-3"></i>',
             "alert-warning": '<i class="fa-solid fa-triangle-exclamation me-3 fs-3"></i>',
@@ -190,7 +160,7 @@ export const COMMON = {
         // Add the icon, message, and close button
         const iconHTML = icons[alertType] || '';
         newAlert.innerHTML = `
-            ${iconHTML} ${message}
+            ${iconHTML} ${callerInfo} ${message}
             <button type="button" class="btn-close m-3" data-bs-dismiss="alert" aria-label="Close">
                 <i class="fa-solid fa-circle-xmark" style="color: inherit;"></i>
             </button>

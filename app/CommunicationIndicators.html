@@ -24,7 +24,21 @@
     <link rel="stylesheet" href="./styles/CommunicationIndicators.css" /> 
 </head>
 <body>
-    <!-- Modal Structure -->
+    <!-- BEGIN Modal Structure -->
+    <div class="modal fade" id="modal-dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-title">Modal Title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div id="modal-body" class="modal-body">
+            This is the content of the modal.
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END Modal Structure -->
     <!-- BEGIN Loading Image -->
     <div id="loading" class="centered no-print">
         <img src="./images/Life_Languages_Logo_Spin.gif" alt="Loading...">
@@ -44,7 +58,11 @@
             <div class="graph">
                 <canvas class="canvas print-full acceptanceLevelChart"></canvas>
             </div>
-            <div class="status bold acceptanceLevelStatus text-uppercase"></div>
+            <div class="status bold text-uppercase">
+                <a class="acceptanceLevelStatus" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog">
+                    MODERATE
+                </a>
+            </div>
             <div class="score acceptanceLevelScore"></div>
             <div class="life-language-1 life-language forensic acceptanceLevelLifeLanguage1"></div>
             <div class="life-language-2 life-language forensic acceptanceLevelLifeLanguage2"></div>
@@ -75,8 +93,11 @@
             <div class="graph-3">
                 <canvas class="print-one-third interactiveStyleExtrovertChart"></canvas>
             </div>
-            <div class="status bold interactiveStyleStatus text-uppercase"></div>
-            <div class="score interactiveStyleScore"></div>
+            <div class="status bold text-uppercase">
+                <a class="interactiveStyleStatus" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog">
+                </a>
+            </div>
+             <div class="score interactiveStyleScore"></div>
             <div class="life-language-1 life-language forensic interactiveStyleLifeLanguage1"></div>
             <div class="life-language-2 life-language forensic interactiveStyleLifeLanguage2"></div>
             <div class="life-language-3 life-language forensic interactiveStyleLifeLanguage3"></div>
@@ -93,7 +114,9 @@
             <div class="graph">
                 <canvas class="print-full internalControlChart"></canvas>
             </div>
-            <div class="status bold internalControlStatus text-uppercase"></div>
+            <div class="status bold  text-uppercase">                
+                <a class="internalControlStatus" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+            </div>
             <div class="score internalControlScore"></div>
             <div class="life-language-1 life-language forensic internalControlLifeLanguage1"></div>
             <div class="life-language-2 life-language forensic internalControlLifeLanguage2"></div>
@@ -113,7 +136,9 @@
             <div class="graph">
                 <canvas class="print-full intrusionLevelChart"></canvas>
             </div>
-            <div class="status bold intrusionLevelStatus text-uppercase"></div>
+            <div class="status bold text-uppercase">
+                <a class="intrusionLevelStatus" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+            </div>
             <div class="score intrusionLevelScore"></div>
             <div class="life-language-1 life-language forensic intrusionLevelLifeLanguage1"></div>
             <div class="life-language-2 life-language forensic intrusionLevelLifeLanguage2"></div>
@@ -132,7 +157,9 @@
             <div class="graph">
                 <canvas class="print-full projectiveLevelChart"></canvas>
             </div>
-            <div class="status bold projectiveLevelStatus text-uppercase"></div>
+            <div class="status bold text-uppercase">
+                <a class="projectiveLevelStatus" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+            </div>
             <div class="score projectiveLevelScore"></div>
             <div class="life-language-1 life-language forensic projectiveLevelLifeLanguage1"></div>
             <div class="life-language-2 life-language forensic projectiveLevelLifeLanguage2"></div>
@@ -152,7 +179,9 @@
             <div class="graph">
                 <canvas class="print-full susceptibilityToStressChart"></canvas>
             </div>
-            <div class="status bold susceptibilityToStressStatus text-uppercase"></div>
+            <div class="status bold text-uppercase">
+                <a class="susceptibilityToStressStatus" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+            </div>
             <div class="score susceptibilityToStressScore"></div>
         </div>
         <div class="communication-indicator-three-bar">
@@ -173,13 +202,20 @@
             <div class="graph-3">
                 <canvas class="print-one-third learningPreferencePhysicalChart"></canvas>
             </div>
-            <div class="status bold learningPreferenceAuditoryStatus text-uppercase"></div>
+            <div class="status bold text-uppercase">
+                <a class="learningPreferenceAuditoryStatus" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+            </div>
             <div class="score learningPreferenceAuditoryScore"></div>
             <div class="life-language-1"></div>
-            <div class="bold life-language-2 life-language learningPreferenceVisualStatus text-uppercase"></div>
+            <div class="bold life-language-2 life-language text-uppercase">
+                <a class="learningPreferenceVisualStatus" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+            </div>
             <div class="life-language-3 life-language learningPreferenceVisualScore"></div>
             <div class="life-language-4"></div>
-            <div class="life-language-5 life-language bold learningPreferencePhysicalStatus text-uppercase"></div>
+            <div class="life-language-5 life-language bold text-uppercase">
+                <a class="learningPreferencePhysicalStatus" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"></a>
+
+            </div>
             <div class="life-language-6 life-language learningPreferencePhysicalScore"></div>
             <div class="life-language-7"></div>
         </div>

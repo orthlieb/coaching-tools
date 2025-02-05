@@ -144,7 +144,7 @@ export const TEST = {
     /**
      * Generates a random person object. This is just the data, not a person class instantiation.
      * @param {string} [fullName] Optional full name to be used for the person.
-     * @returns {object} Object containing random scores for learningPreferenceAuditory, learningPreferenceVisual, and learningPreferencePhysical.
+     * @returns {object} Object containing random scores for a person.
      */
     randomPerson(fullName = null) {
         let person = {

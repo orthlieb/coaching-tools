@@ -49,6 +49,6 @@ export class LanguageGram {
         // Display overall intensity
         lgElement.querySelector('.overall-intensity-score').innerText = Math.round(this.person.overallIntensity);
         lgElement.querySelector('.overall-intensity-arrow').innerHTML = 
-            `<i class="fa-solid ${COMMON.scoreLevelArrows[this.person.overallIntensityLevel]}"></i>`;
+            `<i class="fa-solid ${LLPerson.scoreLevelArrows[this.person.overallIntensityLevel]}"></i>`;
     }
 }

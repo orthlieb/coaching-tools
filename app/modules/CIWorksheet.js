@@ -6,7 +6,7 @@
 import { ERROR } from "./Error.js";
 import { DEBUG } from "./Debug.js";
 import { COMMON } from "./Common.js";
-import { LLPerson } from "./Person.js";
+import { LLPerson, LLCommunicationIndicators } from "./Person.js";
 import { STRINGS } from "./Strings.js";
 
 Chart.register(ChartDataLabels);
@@ -256,7 +256,7 @@ export class CIWorksheet {
         // Chart(s)
         switch (cSection) {
             case 'interactiveStyle':
-                let is = LLPerson.composeInteractiveStyle(person[cSection]);
+                let is = LLCommunicationIndicators.composeInteractiveStyle(person[cSection]);
                 let nValue = is[0];
                 let cType = is[1];
 
@@ -294,39 +294,65 @@ export class CIWorksheet {
         
         // Status and score
         let nScore = 0;
+        let nScoreLevel, cScoreLevel, levelInfo, statusElement;
         switch (cSection) {
-            case 'acceptanceLevel':
-                ciElement.querySelector(`.${cSection}Status`).innerText = this._evaluateCILevel(this.person[cSection],
-                    [LOW, HIGH], [STRINGS.ciLevels.low, STRINGS.ciLevels.medium, STRINGS.ciLevels.high]);
-                ciElement.querySelector(`.${cSection}Score`).innerText = this.person[cSection];
-                break;
             case 'interactiveStyle':
-                // Interactive style is a number from 0 - 300. We decompose to introvert, balanced, extrovert.
-                let is = LLPerson.composeInteractiveStyle(this.person.interactiveStyle);
-                ciElement.querySelector(`.${cSection}Status`).innerText = this._evaluateCILevel(is[0]);
+                // Interactive style is a number from 0 - 300. We decompose to introvert [I], balanced [B], extrovert [E].
+                let is = LLCommunicationIndicators.composeInteractiveStyle(this.person.ci.interactiveStyle);
+                nScoreLevel = LLCommunicationIndicators.evaluateScoreLevel(is[0]);
+                cScoreLevel = STRINGS.ciLevels[nScoreLevel];
+                statusElement = ciElement.querySelector(`.${cSection}Status`);
+
+                statusElement.innerText =  STRINGS.ciLevels[nScoreLevel];
+
+                levelInfo = STRINGS.ciLevelInfo[cSection];
+                COMMON.createInfoDialog(statusElement, `${levelInfo.name}: ${STRINGS.ciLevels[nScoreLevel]} ${STRINGS.ciInteractiveStyleNames[is[1]]}`,
+                    `${levelInfo.pre}<br><br>${levelInfo.info[is[1] == 'I' ? 0 : is[1] == 'B' ? 1 : 2]}<br><br>${levelInfo.post}`); 
+
                 ciElement.querySelector(`.${cSection}Score`).innerText = `${is[0]} ${is[1]}`;
-                break;
+            break;
             case 'learningPreference':
-                let cSubSection = 'learningPreferenceAuditory';
-                nScore = person[cSubSection];
-                ciElement.querySelector(`.${cSubSection}Status`).innerText = this._evaluateCILevel(nScore);
-                ciElement.querySelector(`.${cSubSection}Score`).innerText = nScore;
+                let aSubSections = ['learningPreferenceAuditory', 'learningPreferenceVisual', 'learningPreferencePhysical'];
+                
+                aSubSections.forEach(cSubSection => {
+                    let nScoreLevel = LLCommunicationIndicators.evaluateScoreLevel(this.person[cSubSection]);
+                    let cScoreLevel = STRINGS.ciLevels[nScoreLevel];
+                    let nScore = person.ci[cSubSection];
 
-                cSubSection = 'learningPreferenceVisual';
-                nScore = person[cSubSection];
-                ciElement.querySelector(`.${cSubSection}Status`).innerText = this._evaluateCILevel(nScore);
-                ciElement.querySelector(`.${cSubSection}Score`).innerText = nScore;
+                    let statusElement = ciElement.querySelector(`.${cSubSection}Status`);
+                    statusElement.innerText = cScoreLevel;
 
-                cSubSection = 'learningPreferencePhysical';
-                nScore = person[cSubSection];
-                ciElement.querySelector(`.${cSubSection}Status`).innerText = this._evaluateCILevel(nScore);
-                ciElement.querySelector(`.${cSubSection}Score`).innerText = nScore;
-                break;
+                    let levelInfo = STRINGS.ciLevelInfo[cSection];
+                    let cTitle, cBody;
+                    if (person.ci.preferredLearningStyle.indexOf(cSubSection) != -1) {
+                        if (person.ci.preferredLearningStyle.length > 1)
+                            cTitle = `${STRINGS.ciLabels[cSubSection]}: ${cScoreLevel} ${levelInfo.tied}`;
+                        else
+                            cTitle = `${STRINGS.ciLabels[cSubSection]}: ${cScoreLevel} ${levelInfo.dominant}`;
+                        
+                        cBody = `${levelInfo.pre}<br><br>${levelInfo.info[cSubSection]}<br><br>${levelInfo.post}`;
+
+                    } else {
+                        cTitle = `${STRINGS.ciLabels[cSubSection]}: ${cScoreLevel}`;
+                        cBody = `${levelInfo.pre}<br><br>${levelInfo.post}`;
+                    }
+                    COMMON.createInfoDialog(statusElement, cTitle, cBody); 
+                    
+                    ciElement.querySelector(`.${cSubSection}Score`).innerText = nScore;
+                });
+            break;
             default:
-                nScore = person[cSection];
-                ciElement.querySelector(`.${cSection}Status`).innerText = this._evaluateCILevel(nScore);
-                ciElement.querySelector(`.${cSection}Score`).innerText = nScore;
-                break;
+                nScoreLevel = LLCommunicationIndicators.evaluateScoreLevel(this.person.ci[cSection]);
+                cScoreLevel = STRINGS.ciLevels[nScoreLevel];
+                statusElement = ciElement.querySelector(`.${cSection}Status`);
+                statusElement.innerText =  cScoreLevel;
+
+                levelInfo = STRINGS.ciLevelInfo[cSection];
+                COMMON.createInfoDialog(statusElement, `${levelInfo.name}: ${cScoreLevel}`,
+                    `${levelInfo.pre}<br><br>${levelInfo.info[nScoreLevel]}<br><br>${levelInfo.post}`); 
+
+                ciElement.querySelector(`.${cSection}Score`).innerText = this.person[cSection];
+            break;
         }
          
         // Forensics is for every CI except susceptibilityToStress and learningPreference*
@@ -339,25 +365,6 @@ export class CIWorksheet {
         }
     }
 
-    /**
-     * Evaluates the communication indicator level (e.g., Low, Moderate, High).
-     * @private
-     * @param {number} nValue - The value to evaluate.
-     * @param {number[]} [aLevels=[33, 66]] - Thresholds for the levels.
-     * @param {string[]} [cLevels=null] - Custom level labels.
-     * @returns {string} - The level (e.g., "Low", "Moderate", "High").
-     * @private
-     */
-    _evaluateCILevel(nValue, aLevels = [LOW, HIGH], cLevels = null) {
-        if (!Array.isArray(cLevels)) {
-            cLevels = [STRINGS.ciLevels.low, STRINGS.ciLevels.moderate, STRINGS.ciLevels.high];
-        }
-
-        if (nValue <= aLevels[0]) return cLevels[0];
-        if (nValue >= aLevels[1]) return cLevels[2];
-        return cLevels[1];
-    }
-    
     /**
      * Evaluates whether a particular Life Language is contributing to the score for a particular Communication Indicator (except Interactive Style)
      * @param {string} cCI Key for which Communication Indicator to evaluate.
@@ -399,7 +406,7 @@ export class CIWorksheet {
      */
     _interactiveStyleForensics(cLL, nInteractiveStyle) {
         let cContributor = STRINGS.shorthand[cLL].toLowerCase();
-        let is = LLPerson.composeInteractiveStyle(nInteractiveStyle)[1];
+        let is = LLCommunicationIndicators.composeInteractiveStyle(nInteractiveStyle)[1];
         let bIntrovert = (is == STRINGS.ciInteractiveStyleShorthand.introvert);
         let bBalanced = (is == STRINGS.ciInteractiveStyleShorthand.balanced);
         let bExtrovert = (is == STRINGS.ciInteractiveStyleShorthand.extrovert);

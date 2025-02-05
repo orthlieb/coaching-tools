@@ -11,7 +11,7 @@ import { STRINGS } from "./Strings.js";
 
 import { BarChart } from "./BarChart.js";
 import { CITable } from "./CITable.js";
-import { LLPerson } from "./Person.js";
+import { LLPerson, LLCommunicationIndicators } from "./Person.js";
         
 /** @class */
 export class GCIBCMediator {
@@ -81,7 +81,7 @@ export class GCIBCMediator {
         // Calculate the min, max, and average values for each Life Language
         const scores = COMMON.ciKeys.map(key => {
             let nScale = key == 'interactiveStyle' ? 3 : 1;
-            const values = activePeople.map(person => person[key]);
+            const values = activePeople.map(person => person.ci[key]);
             const min = Math.min(...values) / nScale;
             const max = Math.max(...values) / nScale;
             const avg = values.reduce((sum, val) => sum + val, 0) / values.length / nScale;
@@ -135,9 +135,9 @@ export class GCIBCMediator {
                         
                         // Interactive Style
                         if (dataIndex == 1) {
-                            let min = LLPerson.composeInteractiveStyle(scores[dataIndex].min * 3);
-                            let avg = LLPerson.composeInteractiveStyle(scores[dataIndex].avg * 3);
-                            let max = LLPerson.composeInteractiveStyle(scores[dataIndex].max * 3);
+                            let min = LLCommunicationIndicators.composeInteractiveStyle(scores[dataIndex].min * 3);
+                            let avg = LLCommunicationIndicators.composeInteractiveStyle(scores[dataIndex].avg * 3);
+                            let max = LLCommunicationIndicators.composeInteractiveStyle(scores[dataIndex].max * 3);
                             return `Min: ${Math.round(min[0])} ${min[1]} Avg: ${Math.round(avg[0])} ${avg[1]} Max: ${Math.round(max[0])} ${max[1]} `; 
                         }
                         

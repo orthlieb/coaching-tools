@@ -5,6 +5,7 @@
         "overallIntensity": "Overall Intensity",
         "groupAverage": "Group Average",
         "communicationIndicators": "Communication Indicators",
+        "learningPreference": "Learning Preference",
         "range": "Range",
         "gap": "Gap",
         "low": "Low",
@@ -28,8 +29,12 @@
         "shaper": "S",
         "producer": "P",
         "contemplator": "C"
-    },    
-    "gapLevels": ["Low", "", "High"],
+    },
+    "gapLevels": [
+        "Low",
+        "",
+        "High"
+    ],
     "ciLabels": {
         "acceptanceLevel": "Acceptance Level",
         "interactiveStyle": "Interactive Style",
@@ -54,11 +59,84 @@
         "learningPreferenceVisual": "Visual",
         "learningPreferencePhysical": "Physical"
     },
-    "ciLevels": {
-        "low": "Low",
-        "medium": "Medium",
-        "moderate": "Moderate",
-        "high": "High"
+    "ciLevels": [
+        "Low",
+        "Moderate",
+        "High"
+    ],
+    "ciLevelInfo": {
+        "acceptanceLevel": {
+            "name": "Acceptance Level",
+            "pre": "This scale measures how you tend to view yourself, whether you more easily see your strengths and positive attributes or your weaknesses and negative qualities. Or whether you see a balance between the two — easily and honestly seeing both your negative and positive qualities.",
+            "info": [
+                "A <b>Low Acceptance Level</b> indicates that you tend to have more introspection and awareness of your weaknesses than your strengths or positive attributes. You have many positive attributes and can choose to identify and develop awareness of them, although you will usually have to work through the negatives to get there. Positive input about yourself by others possibly makes you uncomfortable. Focusing more on your strengths, positive attributes and successes can raise a Low Acceptance Level. It may be easier for you to see the positive things about others than it is to see your own. You may be very open and sometime perhaps too open to advice and counsel, trusting others’ insights more confidently than you do your own.",
+                "A <b>Moderate Acceptance Level</b> indicates that you tend to have a balanced awareness of yourself and accept and focus equally on your positive attributes versus your negative attributes. You are probably not uncomfortable or especially troubled with either. Negative input about yourself by others, while you will not like it, will not shake your Acceptance. Positive input about yourself by others will be appreciated and enjoyed, but it will not typically change your Acceptance. If you see that you are focusing too much on the negative, you can easily make the adjustment and move your focus to the positive.",
+                "A <b>High Acceptance Level</b> indicates that you are comfortable in the way you see and accept yourself. You tend to focus more on your positive attributes, recalling your successes and strengths. Negative input about yourself by others, probably will not bother you too greatly or for too long, and your Acceptance will generally not be shaken. Positive input about yourself by others will confirm your Acceptance and will be enjoyed. Those with High Acceptance may want to guard themselves against seeming over-confident by developing humility and a willingness to seek counsel, guidance and suggestions."
+            ],
+            "post": "No matter what your Internal Control score is, our goal in Life Languages is self-awareness so that we can be our best and give our best to those around us."
+        },
+        "interactiveStyle": {
+            "name": "Interactive Style",
+            "pre": "The Life Languages measurement of Introvert and Extrovert is somewhat different from other measurements; it measures preference rather than overall behavior. This scale indicates how comfortable you are with people most of the time. For example, it measures whether you prefer working alone or in groups or working with those you know or do not know. As another example, according to our measurements, a person who scores as an Introvert may seem outgoing and somewhat extroverted to those he or she knows well. However, with strangers or those not known as well, the Introvert will typically be less verbal, less outgoing, and not desire to mix with them.",
+            "info": [
+                "Your Interactive Style is <b>Introvert</b> which indicates that you are comfortable not being the center of attention unless you are with people you know well. You are comfortable working behind the scenes and enjoy small groups (or one-on-one). Constantly being around a lot of people, especially those you do not know well, can be exhausting and you may withdraw to prevent stress. You also may be self-motivated and enjoy working alone; however, when working with groups, you prefer those you know well or people you are comfortable with.",
+                "Your Interactive Style is <b>Balanced</b> which indicates that you generally do not want to work alone all the time, nor do you want to work with others all the time. You prefer to balance your activity between the two. Although you can be a self-starter and work alone, you can also be a team player. However, doing one all the time to the exclusion of the other could potentially cause you stress and distress. There will probably be times when you go from one extreme to the other. You can work behind the scenes, or when called upon, you can move more toward the stage center. Neither is compulsive. Overall this helps you be more flexible than many because, whether outgoing or quiet, you are comfortable in most settings.",
+                "Your Interactive Style is <b>Extrovert</b> which indicates that you prefer to focus your attention and interests on people, relationships, and interactive activities. You turn toward life and others. You are comfortable being seen and heard, enjoy groups of all sizes, and are energized by being around strangers as well as people you know. When focusing on thoughts, ideas and plans, you generally prefer teamwork, rather than working alone."
+            ],
+            "post": "No matter what your Internal Control score is, our goal in Life Languages is self-awareness so that we can be our best and give our best to those around us."
+        },
+        "internalControl": {
+            "name": "Internal Control",
+            "pre": "This scale indicates how you see yourself in self-discipline and/or self-governing vs. spontaneity and/or impulsiveness. If we have high Internal Control, we are less prone to being externally controlled, either by others, circumstances, or experiences. Some people prefer to get tasks done ahead of schedule, and some seem to work better or more creatively doing things at the last minute under a time pressure. The higher our Internal Control, the more disciplined, and the lower our Internal Control the more flexible and spontaneous we are.",
+            "info": [
+                "A <b>Low Internal Control</b> level suggests you are likely to be flexible or spontaneous and possibly impulsive, as opposed to being more self-disciplined. This may mean that you can be a “spur of the moment” kind of person. Self-discipline for you is probably by choice, decision, and determination, or when the situation or task is important or demanding. Doing something more enjoyable may often pull you away unless you have chosen to add self-government to your character. A paradox in your life is that you will probably do well in an environment that requires flexibility yet has existing structure.",
+                "A <b>Moderate Internal Control</b> level suggests a relative balance between being self-governed and self-disciplined vs. spontaneous and flexible. This score indicates that you can choose to be self-disciplined when needed or to put aside tasks when appropriate, for example, when someone or a situation interjects itself. Maintaining a healthy balance in this area is probably relatively easy for you, and a goal all of us can seek.",
+                "A <b>High Internal Control</b> level suggests that it is easy and natural for you to be a self-disciplined or self-governing individual. Those who can easily govern themselves can usually rise above the internal and external influences (including feelings and circumstances) and do what is important at the time or for the future. This typically means that you can postpone immediate gratification for long-range benefits. However, an extremely high score might indicate a propensity to rigidness or compulsiveness in some areas. Do guard yourself to control tasks, rather than allowing tasks to compulsively control you."
+            ],
+            "post": "No matter what your Internal Control score is, our goal in Life Languages is self-awareness so that we can be our best and give our best to those around us."
+        },
+        "intrusionLevel": {
+            "name": "Intrusion Level",
+            "pre": "This scale measures how you see yourself handling interruptions, intrusions, interference, outside stimuli, people, or situations foreign to you, usually uninvited or unexpected. Intrusion Level indicates how comfortable and tolerant you are with distractions and differences. Some people like a more structured environment, and others flow more easily with uninvited or unscheduled people or situations. For all of us, a good habit to form is the ability to gently or kindly communicate when intrusions become an issue.",
+            "info": [
+                "A <b>Low Intrusion Level</b> indicates a lower level of comfort and tolerance for life as it is presented. Interruptions, intrusions, unexpected circumstances, and outside interferences tend to test your patience and may even be an irritation. Differences in others can be distracting, and you may want to guard yourself against seeming impatient, critical, or sending unfavorable signals that appear to be judgmental. A Low Intrusion Level can help you to stay focused on tasks, but you may want to make sure you sincerely and gently express yourself without projecting a dismissive attitude that could be hurtful to another.",
+                "A <b>Moderate Intrusion Level</b> indicates that you are probably about average in dealing with intrusion, interruptions, and outside interference. Your reaction or response to outside stimuli such as people and unexpected circumstances would not be excessive. You can accept and tolerate much of life as it comes most of the time, but there are also times when you are bothered. You usually handle these unexpected intrusions well - depending on your situation, allowing some amount of time to deal with them, but not letting them take all your time inappropriately.",
+                "A <b>High Intrusion Level</b> indicates higher levels of comfort, patience and tolerance for life as it is presented. You tend to be okay with those who are considerably different and/or speak different Life Languages than yourself. You probably easily overlook intrusions or interruptions. You have the ability to accept others, their differences, and much of life without making judgments or needing to change it. However, you must guard yourself against allowing intrusions to be an escape from necessary tasks that achieve quality results."
+            ],
+            "post": "No matter what your Intrusion Level score is, our goal in Life Languages is self-awareness so that we can be our best and give our best to those around us."
+        },
+        "projectiveLevel": {
+            "name": "Projective Level",
+            "pre": "This scale indicates how important other’s perception and opinions are to you. For example: a person with a high projective score could be greatly concerned if others had a less than positive opinion of them. A person with a low score would probably shrug it off and not let it bother them. A balance between high and low is valuable because it provides objectivity so that you can evaluate others’ attitudes about yourself and thereby remain open to feedback.",
+            "info": [
+                "A <b>Low Projective Level</b> suggests that if others are indifferent to you or even disrespectful, you can probably shrug it off. The opinions of others do not generally impact your attitude or activities. An extremely Low Projective Level can cause others to possibly see you as indifferent, not easily motivated by others, and unconcerned about others' opinions. Generally, you do what you want to, without a great deal of concern. This tends to make you not overly subjected to peer pressure.",
+                "A <b>Moderate Projective Level</b> indicates that you certainly prefer for people to like you and to receive favor from others. However, if you do experience indifference, disfavor, and even disrespect, it would probably bother you but not devastate you. What others think, say, or do would probably not control your emotions or actions for long, if at all. Of course, unfavorable responses can cause distress in any person when they are intense and continuous. Generally, though, even if you are bothered by other peoples’ opinions, you seldom let it go into distress. You very possibly have ability to objectively dialogue with yourself, keeping things in perspective.",
+                "A <b>High Projective Level</b> indicates that you desire for others to like you, and you expect favor. If that does not occur, then you want them to at least respect you. When you experience or perceive indifference, disrespect, or dislike, you are typically stressed and troubled. If it is not handled quickly and appropriately, it can become distress. A person with a High Projective Level generally tries hard to please others, and because of this, could be somewhat easier to motivate and a good employee. Those with a High Projective Level must guard themselves to be sure they don’t try to please everyone, thereby, being subject to burn out and/or peer pressure."
+            ],
+            "post": "No matter what your Projective Level score is, our goal in Life Languages is self-awareness so that we can be our best and give our best to those around us."
+        },
+        "susceptibilityToStress": {
+            "name": "Susceptibility to Stress",
+            "pre": "This scale measures vulnerability to stress that comes into our lives. Stress is in all our worlds, and comes from various sources, even from having too many good things going on at one time. We are more susceptible to stress when we are too busy, lacking sleep, not feeling well, fatigued, frus-trated, lacking exercise, and even unable to express ourselves adequately. Failure to handle stress properly can cause us to move into one or more of the Distress Levels of our Life Languages. We can learn to recognize our stress and do what is necessary to de-stress. Distress, by Life Languages definition, is when you respond negatively to any situation. A key to avoid over reaction to stress and distress is H.A.L.T. Avoid stressful situations when you are: H-hungry, A-angry, L-lonely and T-tired.",
+            "info": [
+                "A <b>Low Susceptibility to Stress</b> indicates that, when in stressful situations or when dealing with problems or crises, you tend to remain calm rather than overly excited or even panicked. You most likely respond to challenging or unpleasant situations in a similar manner as you do under normal conditions. By allowing stress to pass over you, it is not likely to be a factor in causing you to descend into your Distress Levels. On the other hand, people who have a Low Susceptibility to Stress may be less aware of danger and may not notice that something is different or amiss as a hyper-vigilant, High Susceptibility to Stress person would.",
+                "A <b>Moderate Susceptibility to Stress</b> indicates that under most circumstances you tend to handle stress appropriately. When those situations arise, and you are experienc-ing external or internal pressures leading to stress, you generally do not escalate to a high level being highly vigilant or reactive, nor de-escalate to a low level being very laid back and relaxed. You tend to handle stress in a more positive way most of the time.",
+                "A <b>High Susceptibility to Stress</b> causes one to be hyper-vigilant, creating a sense of excitement and energy that is often accompanied by an adrenaline rush. High Stress can be positive, leading to a quick sense of danger and noticing if something is wrong or unusual. But ultimately or over time, it can leave you exhausted. Some people may become addicted to the adrenaline caused by stressful living, thereby becoming masterful at creating it. The challenge is to recognize when we are becoming stressed and train ourselves to direct that energy in a positive way, such as taking a walk, going for a swim, reading a book, etc. rather than allowing it to take you into the Distress Levels. When stress is intensified, the major safeguard is to quickly recognize it is happening and respond (not react) with character and positive action before the stress escalates."
+            ],
+            "post": "No matter what your Projective Level score is, our goal in Life Languages is self-awareness so that we can be our best and give our best to those around us."
+        },
+        "learningPreference": {
+            "name": "Learning Preference",
+            "dominant": "Preferred",
+            "tied": "Tied Preferred",
+            "pre": "There are three basic Learning Styles and our preferential way is the one that is easiest for us. We learn in all three ways, but when there is a choice, the one that is more natural, distinct, and clear will typically be our preference. It will usually be our most effective way to experience and sharpen our learning skills.",
+            "info": {
+                "learningPreferenceAuditory": "If your <b>Auditory</b> learning preference is dominant that indicates that you prefer to hear instructions explained to you, and you quickly understand and can follow verbal instructions. You are sensitive to sounds in your environment. You can tell a great deal about a person's mood or attitude by the sound of the person's voice, usually easily determining stress and feelings that a person may think they are hiding. Listening to audio CDs or podcasts are a valuable method of learning for you.",
+                "learningPreferenceVisual": "If your <b>Visual</b> learning preference is dominant, that indicates that you tend to think in pictures. For example, when learning something new, or learning how to do something, you prefer to see the item, equipment, or at least a picture or diagram. The visual picture stays with you. If you can see it as you learn, you remember it. When you hear or read information, you usually translate it into a visual 'pictures' in your mind. When someone tells you a story, you often hear it 'visually' - the words become pictures. You probably read body language and facial expressions well also. Watching instructive videos would be a valuable method of learning for you.",
+                "learningPreferencePhysical": "If your <b>Physical</b> learning preference is dominant, that indicates that you learn best by participating, experimenting, or by watching someone show you how to do something. Often you may just start doing something that you have never done before, and you learn by 'doing' or experiencing the process. There are times when you figure something out without instructions, by jumping in and 'learning as you go'. You tend to learn by using all your senses, as well as through actual involvement and hands-on activities. You probably easily grasp what you have seen and learn rapidly and accurately."
+            },
+            "post": "Examine your learning style scores, the highest one is your preferred Learning Preference. No matter what your Learning Preference score is, our goal in Life Languages is self-awareness so that we can give our best."
+        }
     },
     "columnLabels": [
         "",
@@ -114,6 +192,11 @@
         "introvert": "I",
         "balanced": "B",
         "extrovert": "E"
+    },
+    "ciInteractiveStyleNames": {
+        "I": "Introvert",
+        "B": "Balanced",
+        "E": "Extrovert"
     },
     "scoreLevelLabels": [
         "Very Low",

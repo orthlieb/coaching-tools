@@ -86,7 +86,7 @@ export class GBCMediator {
             const min = Math.round(Math.min(...values));
             const max = Math.round(Math.max(...values));
             const avg = Math.round(values.reduce((sum, val) => sum + val, 0) / values.length);
-            const rating = STRINGS.scoreLevelLabels[COMMON.evaluateScoreLevel(avg)];
+            const rating = STRINGS.scoreLevelLabels[LLPerson.evaluateScoreLevel(avg)];
             const languageLabel = STRINGS.labels[key];
 
             // Calculate standard deviation: this is how spread or clumped the data is. 1 = very concentrated, 0 = spread out
@@ -252,9 +252,9 @@ export class GBCMediator {
         // Handle the table footer.
         const activePeople = people.filter(person => person.state);
         const nRange = Math.abs(scores[0].avg - scores[6].avg);
-        const nRangeIndex = COMMON.evaluateScoreLevel(nRange);
+        const nRangeIndex = LLPerson.evaluateScoreLevel(nRange);
         const overallIntensity = Math.round(activePeople.reduce((sum, person) => sum + person.overallIntensity, 0) / activePeople.length);
-        const nRatingIndex = COMMON.evaluateScoreLevel(overallIntensity);
+        const nRatingIndex = LLPerson.evaluateScoreLevel(overallIntensity);
 
         document.getElementById('llrange').textContent = nRange;
         COMMON.createInfoDialog('llrange-info', `${STRINGS.general.range}: ${STRINGS.scoreLevelLabels[nRangeIndex]}`,

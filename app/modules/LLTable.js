@@ -5,6 +5,7 @@
 import { ERROR } from "./Error.js";
 import { DEBUG } from "./Debug.js";
 import { COMMON } from "./Common.js";
+import { LLPerson } from "./Person.js";
 
 import { STRINGS } from "./Strings.js";
 
@@ -398,7 +399,7 @@ export class LLTable {
                 return accumulator;
             accumulator += '<th class="col-1 text-end">';
             if (nAverage > 0)
-                accumulator += `<i class="fa-solid ${COMMON.scoreLevelArrows[COMMON.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}</th>`;
+                accumulator += `<i class="fa-solid ${LLPerson.scoreLevelArrows[LLPerson.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}</th>`;
             return accumulator += '</th>';
         }, `<tr><th class="col-1"></th><th class="col-4">${STRINGS.general.groupAverage}</th>`);
         cFooter += '</tr>';
