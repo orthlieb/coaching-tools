@@ -173,8 +173,8 @@ export class PBCMediator {
             `${STRINGS.range.pre} ${STRINGS.range.info[person.rangeLevel]} ${STRINGS.range.post}`); 
         document.getElementById('lloi').textContent = person.overallIntensity; 
         document.getElementById('lloirating').textContent = STRINGS.scoreLevelLabels[person.overallIntensityLevel];
-        COMMON.createInfoDialog('lloi-info', `${STRINGS.general.overallIntensity}: ${STRINGS.scoreLevelLabels[person.overallIntensityLevel]}`,
-            `${STRINGS.overallIntensity.pre} ${STRINGS.overallIntensity.info[person.overallIntensityLevel]} ${STRINGS.overallIntensity.post}`); 
+        COMMON.createInfoDialog('lloi-info', `${STRINGS.llLevelInfo.overallIntensity.name}: ${STRINGS.scoreLevelLabels[person.overallIntensityLevel]}`,
+            `${STRINGS.overallIntensity.pre}<br><br>${STRINGS.llLevelInfo.overallIntensity.info[person.overallIntensityLevel]}<br><br>${STRINGS.llLevelInfo.overallIntensity.post}`); 
     }
 
 }
