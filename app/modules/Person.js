@@ -61,7 +61,7 @@ export class LLPerson {
         // Must have Life Language score keys
         COMMON.llKeys.forEach((cKey) => {
             ERROR.assert(cKey in data, `LLPerson "${data.fullName}" missing required parameter ${cKey}`);
-            ERROR.assertRange(data[cKey], 1, 100, `LLPerson "${data.fullName}" parameter ${cKey}`);
+            ERROR.assertRange(data[cKey], 0, 100, `LLPerson "${data.fullName}" parameter ${cKey}`);
             this[cKey] = data[cKey];
         });
 

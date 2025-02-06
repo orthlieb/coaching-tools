@@ -377,36 +377,55 @@ export class LLTable {
     _updateFooter($table) {
         DEBUG.logArgs('table._updateFooter($table)', arguments); 
         let dt = $table.DataTable();
-        let data = dt.columns().dataSrc();
         let selectedRows = dt.rows({ selected: true }).data();
         let visibleColumns = dt.columns().visible();
 
-        // Find the average values for each column.
-        const aAverages = data.map(function (key, index) {
-            if (visibleColumns[index] && index > 1) {
-                // Data for selected rows
-                const aValues = selectedRows.map(row => { 
-                    return row[key];
-                });
-                return aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
-            } else 
-                return undefined;   // Skip this column.
+        let dialogs = [];
+        let cFooter = '<tr>';
+        cFooter += '<th class="col-1"></th>';
+        cFooter += `<th class="col-4">${STRINGS.general.groupAverage}</th>`;
+
+        let personKeys = [ ...COMMON.llKeys, 'overallIntensity' ];
+        let personData = {};
+        personKeys.forEach((key, nIndex) => {
+            let aValues = selectedRows.map(row => row[key]);
+            let nAverage = aValues.length > 0 ? (aValues.reduce((sum, val) => sum + val, 0) / aValues.length) : 0;
+            personData[key] = nAverage;
         });
+        personData.fullName = 'The Group';
+        let person = new LLPerson(personData);
         
-        // Build the footer
-        let cFooter = aAverages.reduce((accumulator, nAverage) => {
-            if (nAverage == undefined)
-                return accumulator;
-            accumulator += '<th class="col-1 text-end">';
-            if (nAverage > 0)
-                accumulator += `<i class="fa-solid ${LLPerson.scoreLevelArrows[LLPerson.evaluateScoreLevel(nAverage)]} score-arrow"></i> ${Math.round(nAverage)}</th>`;
-            return accumulator += '</th>';
-        }, `<tr><th class="col-1"></th><th class="col-4">${STRINGS.general.groupAverage}</th>`);
+        // Format each column footer.
+        personKeys.forEach((key, nIndex) => {
+            if (visibleColumns[nIndex + 2]) { // We don't do hidden columns
+                switch (key) {
+                    default:
+                        cFooter += '<th class="col-1 text-end">';
+                        if (person[key] > 0) {
+                            let nScoreLevel = LLPerson.evaluateScoreLevel(person[key]);
+                            let cScoreLevelSymbol = LLPerson.scoreLevelArrows[nScoreLevel];
+                            cFooter += `<a id= "footer-info-${nIndex}" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"><i class="fa-solid ${cScoreLevelSymbol} score-arrow"></i></a> ${Math.round(person[key])}`; 
+
+                            DEBUG.log('## KEY', key);
+                            let levelInfo = STRINGS.ciLevelInfo[key];
+                            dialogs.push({ 
+                                index: nIndex, 
+                                title: `${levelInfo.name}: ${STRINGS.scoreLevelLabels[nScoreLevel]}`, 
+                                body: `${levelInfo.pre}<br><br>${levelInfo.info[nScoreLevel]}<br><br>${levelInfo.post}` 
+                            });
+                        }
+                        cFooter += '</th>';
+                    break;
+                }
+            }
+        });
         cFooter += '</tr>';
+        $(dt.table().footer()).html(cFooter);   // Apply the footer to the table.
         
-        $(dt.table().footer()).html(cFooter); 
-        this._updateColumnHighlight($table);
-    }
+        // Now attach the dialogs
+        dialogs.forEach(dialog => COMMON.createInfoDialog(`footer-info-${dialog.index}`, dialog.title, dialog.body));
+        
+        this._updateColumnHighlight($table);    }
     
     /**
      * Select or deselect the specified row in the table
