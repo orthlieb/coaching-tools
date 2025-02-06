@@ -406,8 +406,7 @@ export class LLTable {
                             let cScoreLevelSymbol = LLPerson.scoreLevelArrows[nScoreLevel];
                             cFooter += `<a id= "footer-info-${nIndex}" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"><i class="fa-solid ${cScoreLevelSymbol} score-arrow"></i></a> ${Math.round(person[key])}`; 
 
-                            DEBUG.log('## KEY', key);
-                            let levelInfo = STRINGS.ciLevelInfo[key];
+                            let levelInfo = STRINGS.llLevelInfo[key];
                             dialogs.push({ 
                                 index: nIndex, 
                                 title: `${levelInfo.name}: ${STRINGS.scoreLevelLabels[nScoreLevel]}`, 
