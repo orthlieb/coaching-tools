@@ -155,12 +155,13 @@ export class PBCMediator {
             
             let score = person.sortedScores[index];
             if (index != 0) {
-                let cGapSymbol = ['<i class="gap-compressed fa-solid fa-down-left-and-up-right-to-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>',
-                                 '',
-                                 '<i class="gap-expanded fa-solid fa-up-right-and-down-left-from-center fa-rotate-by" style="--fa-rotate-angle: 135deg;"></i>'];
+                let cGapSymbol = [
+                    '<i class="gap-compressed fa-solid fa-down-left-and-up-right-to-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>',
+                    '',
+                    '<i class="gap-expanded fa-solid fa-up-right-and-down-left-from-center fa-rotate-by" style="--fa-rotate-angle: 135deg;"></i>'];
                 if (score.gapLevel != 1) {
-                    COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol[score.gapLevel]} &nbsp; ${STRINGS.general.gap}: ${STRINGS.gapLevels[score.gapLevel]}`, 
-                        `${STRINGS.gap.pre} ${STRINGS.gap.info[score.gapLevel]} ${STRINGS.gap.post}`);
+                    COMMON.createPopupDialog(`gap-icon-${index}`, `${STRINGS.general.gap}: ${STRINGS.gapLevels[score.gapLevel]}`, 
+                        `${STRINGS.gap.pre}<br><br>${STRINGS.gap.info[score.gapLevel]}<br><br>${STRINGS.gap.post}`, cGapSymbol[score.gapLevel] );
                 }
                 row.querySelector(`#gap-icon-${index}`).innerHTML = cGapSymbol[score.gapLevel];
                 row.querySelector(`#gap-${index}`).innerHTML = Math.round(score.gap);
@@ -169,11 +170,11 @@ export class PBCMediator {
         
         // Handle the table footer.
         document.getElementById('llrange').textContent = person.range;
-        COMMON.createInfoDialog('llrange-info', `${STRINGS.general.range}: ${STRINGS.scoreLevelLabels[person.rangeLevel]}`,
-            `${STRINGS.range.pre} ${STRINGS.range.info[person.rangeLevel]} ${STRINGS.range.post}`); 
+        COMMON.createPopupDialog('llrange-info', `${STRINGS.general.range}: ${STRINGS.scoreLevelLabels[person.rangeLevel]}`,
+            `${STRINGS.range.pre}<br><br>${STRINGS.range.info[person.rangeLevel]}<br><br>${STRINGS.range.post}`); 
         document.getElementById('lloi').textContent = person.overallIntensity; 
         document.getElementById('lloirating').textContent = STRINGS.scoreLevelLabels[person.overallIntensityLevel];
-        COMMON.createInfoDialog('lloi-info', `${STRINGS.llLevelInfo.overallIntensity.name}: ${STRINGS.scoreLevelLabels[person.overallIntensityLevel]}`,
+        COMMON.createPopupDialog('lloi-info', `${STRINGS.llLevelInfo.overallIntensity.name}: ${STRINGS.scoreLevelLabels[person.overallIntensityLevel]}`,
             `${STRINGS.llLevelInfo.overallIntensity.pre}<br><br>${STRINGS.llLevelInfo.overallIntensity.info[person.overallIntensityLevel]}<br><br>${STRINGS.llLevelInfo.overallIntensity.post}`); 
     }
 

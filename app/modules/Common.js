@@ -99,14 +99,34 @@ export const COMMON = {
     },
     
     /**
+     * @type {Object}
+     * @description Object whose keys are types of icons to display in dialog titles and in document alerts. 
+     * @private
+     */
+    _iconTypes: {
+        danger: '<i class="fa-solid fa-diamond-exclamation text-danger me-3 fs-3"></i>',
+        warning: '<i class="fa-solid fa-triangle-exclamation text-warning me-3 fs-3"></i>',
+        success: '<i class="fa-solid fa-square-check text-success me-3 fs-3"></i>',
+        info: '<i class="fa-solid fa-circle-info text-info me-3 fs-3"></i>',
+        none: null
+    },
+
+    /**
+     * @typedef {'alert' | 'warning' | 'info' | 'success' | 'none'} AlertIcons
+     * Represents predefined alert icons.
+     */
+   
+    /**
      * Creates an info dialog attached to a particular element.
      * @param {object|string} infoElement Either a element or the id of an element.
-     * @param {string} cTitle Title of the dialog.
+     * @param {string} cTitle Title of the dialog. T
      * @param {string} cBody Body of the dialog.
+     * @param {AlertIcons | string} [icon='info'] Icon to display before the title. Should be one of _iconTypes or a custom string.
      * @public
      */
-    createInfoDialog(infoElement, cTitle, cBody) {
-        //DEBUG.logArgs('Common.createInfoDialog(cInfoId, cTitle, cBody)', arguments);
+    createPopupDialog(infoElement, cTitle, cBody, icon = 'info') {
+        //DEBUG.logArgs('Common.createPopupDialog(cInfoId, cTitle, cBody)', arguments);
+        ERROR.assertType(icon, 'string', 'COMMON.createPopupDialog parameter icon');
         
         if (typeof infoElement == 'string')
             infoElement = document.getElementById(infoElement);
@@ -115,7 +135,15 @@ export const COMMON = {
             event.preventDefault(); // Prevent default anchor behavior
 
             // Populate the modal title and body content
-            document.getElementById('modal-title').innerHTML = cTitle;
+            let finalTitle;
+            if (icon == 'none') 
+                finalTitle = cTitle;    
+            else if (icon in COMMON._iconTypes)
+                finalTitle = `${COMMON._iconTypes[icon]} ${cTitle}`;    
+            else
+                finalTitle = `${icon} ${cTitle}`;
+                
+            document.getElementById('modal-title').innerHTML = finalTitle;
             document.querySelector('#modal-dialog .modal-body').innerHTML = cBody;
             
             // Show the modal programmatically
@@ -128,39 +156,23 @@ export const COMMON = {
     /**
      * Creates an alert inside a document by cloning a div with the id 'alert' and prepending it to the document and revealing it.
      * @param {string} message Message to be displayed.
-     * @param {string} alertType One of 'alert-danger', alert-warning', 'alert-success', or 'alert-custom'
-     * @param {string} alertCustom Custom HTML to use for an icon.
+     * @param {AlertIcons | string} [alertType='info'] Type of alert to display.
      * @public
      */
-    displayAlertInDoc(message, alertType = 'alert-danger', alertCustom = null) {
-        DEBUG.logArgs("COMMON.displayAlertInDoc(message, alertType = 'alert-danger', alertCustom = null)", arguments);
+    displayAlertInDoc(message, alertType = 'danger') {
+        DEBUG.logArgs("COMMON.displayAlertInDoc(message, alertType = 'alert-danger')", arguments);
 
-        // Find out who called us.
-        const stack = new Error().stack.split("\n");
-        const callerInfo = stack[2].trim().match(/at (\S+) \((.*):(\d+):(\d+)\)/);
-        let callerStr = "Unknown caller";
-        if (callerInfo) {
-            const [, functionName, file, line, col] = callerInfo;
-            callerStr = `${functionName} (${file}:${line}:${col})`;
-        }
-        
-        let icons = {
-            "alert-danger": '<i class="fa-solid fa-diamond-exclamation me-3 fs-3"></i>',
-            "alert-warning": '<i class="fa-solid fa-triangle-exclamation me-3 fs-3"></i>',
-            "alert-success": '<i class="fa-solid fa-square-check me-3 fs-3"></i>',
-            "alert-info": '<i class="fa-solid fa-circle-info me-3 fs-3"></i>',
-            "alert-custom": alertCustom
-        };
+        let cAlertClass = (alertType in COMMON._iconTypes) ? `alert-${alertType}` : '';
+        let cIconHTML = (alertType in COMMON._iconTypes) ? COMMON._iconTypes[alertType] : alertType;
 
         // Create the alert dynamically
         const newAlert = document.createElement('div');
-        newAlert.className = `alert alert-dismissible d-flex align-items-center m-3 ${alertType}`;
+        newAlert.className = `alert alert-dismissible d-flex align-items-center m-3 ${cAlertClass}`;
         newAlert.setAttribute('role', 'alert');
 
         // Add the icon, message, and close button
-        const iconHTML = icons[alertType] || '';
         newAlert.innerHTML = `
-            ${iconHTML} ${callerInfo} ${message}
+            ${cIconHTML} ${message}
             <button type="button" class="btn-close m-3" data-bs-dismiss="alert" aria-label="Close">
                 <i class="fa-solid fa-circle-xmark" style="color: inherit;"></i>
             </button>

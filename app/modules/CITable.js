@@ -431,7 +431,7 @@ export class CITable {
                             let cScoreLevelSymbol = LLCommunicationIndicators.scoreLevelArrows[nScoreLevel];
                             cFooter += `<a id= "footer-info-${nIndex}" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"><i class="fa-solid ${cScoreLevelSymbol} score-arrow"></i></a> ${Math.round(ci[key])}`; 
 
-                            let levelInfo = STRINGS.ciLevelInfo['learningPreference'];
+                            let levelInfo = STRINGS.ciLevelInfo.learningPreference;
                             dialogs.push({ 
                                 index: nIndex, 
                                 title: `${STRINGS.ciLabels[key]}: ${STRINGS.ciLevels[nScoreLevel]}`, 
@@ -464,7 +464,7 @@ export class CITable {
         $(dt.table().footer()).html(cFooter);   // Apply the footer to the table.
         
         // Now attach the dialogs
-        dialogs.forEach(dialog => COMMON.createInfoDialog(`footer-info-${dialog.index}`, dialog.title, dialog.body));
+        dialogs.forEach(dialog => COMMON.createPopupDialog(`footer-info-${dialog.index}`, dialog.title, dialog.body));
         
         this._updateColumnHighlight($table);
     }

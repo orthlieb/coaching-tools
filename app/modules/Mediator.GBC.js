@@ -232,14 +232,14 @@ export class GBCMediator {
 
                 if (scores[index].gap < 5) {    // Compressed
                     cGapSymbol = '<i class="gap-compressed fa-solid fa-down-left-and-up-right-to-center fa-rotate-by" style="--fa-rotate-angle: 45deg;"></i>';
-                    COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol} &nbsp; ${STRINGS.general.gap}: ${STRINGS.general.low}`, 
-                        `${STRINGS.gap.pre} ${STRINGS.gap.info[0]} ${STRINGS.gap.post}`);
-                        tooltipSpan.setAttribute('title', STRINGS.general.low);
+                    COMMON.createPopupDialog(`gap-icon-${index}`, `${STRINGS.general.gap}: ${STRINGS.general.low}`, 
+                        `${STRINGS.gap.pre}<br><br>${STRINGS.gap.info[0]}<br><br>${STRINGS.gap.post}`, cGapSymbol);
+                    tooltipSpan.setAttribute('title', STRINGS.general.low);
                 } else if (scores[index].gap > 10) {    // Gulf
                     cGapSymbol = '<i class="gap-expanded fa-solid fa-arrow-up-right-and-arrow-down-left-from-center fa-rotate-by" style="--fa-rotate-angle: 135deg;"></i>';
-                    COMMON.createInfoDialog(`gap-icon-${index}`, `${cGapSymbol} &nbsp; ${STRINGS.general.gap}: ${STRINGS.general.high}`, 
-                        `${STRINGS.gap.pre} ${STRINGS.gap.info[2]} ${STRINGS.gap.post}`);
-                        tooltipSpan.setAttribute('title', STRINGS.general.high);
+                    COMMON.createPopupDialog(`gap-icon-${index}`, `${STRINGS.general.gap}: ${STRINGS.general.high}`, 
+                        `${STRINGS.gap.pre}<br><br>${STRINGS.gap.info[2]}<br><br>${STRINGS.gap.post}`, cGapSymbol);
+                    tooltipSpan.setAttribute('title', STRINGS.general.high);
                 }
                 row.querySelector(`#gap-icon-${index}`).innerHTML = cGapSymbol;
                 row.querySelector(`#gap-${index}`).innerHTML = scores[index].gap;
@@ -257,12 +257,14 @@ export class GBCMediator {
         const nRatingIndex = LLPerson.evaluateScoreLevel(overallIntensity);
 
         document.getElementById('llrange').textContent = nRange;
-        COMMON.createInfoDialog('llrange-info', `${STRINGS.general.range}: ${STRINGS.scoreLevelLabels[nRangeIndex]}`,
-            `${STRINGS.range.pre} ${STRINGS.range.info[nRangeIndex]} ${STRINGS.range.post}`); 
+        COMMON.createPopupDialog('llrange-info', `${STRINGS.general.range}: ${STRINGS.scoreLevelLabels[nRangeIndex]}`,
+            `${STRINGS.range.pre}<br><br>${STRINGS.range.info[nRangeIndex]}<br><br>${STRINGS.range.post}`); 
         document.getElementById('lloi').textContent = overallIntensity; 
         document.getElementById('lloirating').textContent = STRINGS.scoreLevelLabels[nRatingIndex];
-        COMMON.createInfoDialog('lloi-info', `${STRINGS.general.overallIntensity}: ${STRINGS.scoreLevelLabels[nRatingIndex]}`,
-            `${STRINGS.overallIntensity.pre} ${STRINGS.overallIntensity.info[nRatingIndex]} ${STRINGS.overallIntensity.post}`); 
+        DEBUG.log('## overallIntensity nRatingIndex', overallIntensity, nRatingIndex);
+        COMMON.createPopupDialog('lloi-info', 
+            `${STRINGS.general.overallIntensity}: ${STRINGS.scoreLevelLabels[nRatingIndex]}`,
+            `${STRINGS.overallIntensity.pre}<br><br>${STRINGS.overallIntensity.info[nRatingIndex]}<br><br>${STRINGS.overallIntensity.post}`); 
     }
     
     /**

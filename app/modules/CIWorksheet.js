@@ -306,7 +306,7 @@ export class CIWorksheet {
                 statusElement.innerText =  STRINGS.ciLevels[nScoreLevel];
 
                 levelInfo = STRINGS.ciLevelInfo[cSection];
-                COMMON.createInfoDialog(statusElement, `${levelInfo.name}: ${STRINGS.ciLevels[nScoreLevel]} ${STRINGS.ciInteractiveStyleNames[is[1]]}`,
+                COMMON.createPopupDialog(statusElement, `${levelInfo.name}: ${STRINGS.ciLevels[nScoreLevel]} ${STRINGS.ciInteractiveStyleNames[is[1]]}`,
                     `${levelInfo.pre}<br><br>${levelInfo.info[is[1] == 'I' ? 0 : is[1] == 'B' ? 1 : 2]}<br><br>${levelInfo.post}`); 
 
                 ciElement.querySelector(`.${cSection}Score`).innerText = `${is[0]} ${is[1]}`;
@@ -323,20 +323,15 @@ export class CIWorksheet {
                     statusElement.innerText = cScoreLevel;
 
                     let levelInfo = STRINGS.ciLevelInfo[cSection];
-                    let cTitle, cBody;
+                    let cTitle = `${STRINGS.ciLabels[cSubSection]}: ${cScoreLevel} `;
                     if (person.ci.preferredLearningStyle.indexOf(cSubSection) != -1) {
                         if (person.ci.preferredLearningStyle.length > 1)
-                            cTitle = `${STRINGS.ciLabels[cSubSection]}: ${cScoreLevel} ${levelInfo.tied}`;
+                            cTitle += levelInfo.tied;
                         else
-                            cTitle = `${STRINGS.ciLabels[cSubSection]}: ${cScoreLevel} ${levelInfo.dominant}`;
-                        
-                        cBody = `${levelInfo.pre}<br><br>${levelInfo.info[cSubSection]}<br><br>${levelInfo.post}`;
-
-                    } else {
-                        cTitle = `${STRINGS.ciLabels[cSubSection]}: ${cScoreLevel}`;
-                        cBody = `${levelInfo.pre}<br><br>${levelInfo.post}`;
+                            cTitle += levelInfo.dominant;
                     }
-                    COMMON.createInfoDialog(statusElement, cTitle, cBody); 
+                    COMMON.createPopupDialog(statusElement, cTitle, 
+                        `${levelInfo.pre}<br><br>${levelInfo.info[cSubSection]}<br><br>${levelInfo.post}`); 
                     
                     ciElement.querySelector(`.${cSubSection}Score`).innerText = nScore;
                 });
@@ -348,7 +343,7 @@ export class CIWorksheet {
                 statusElement.innerText =  cScoreLevel;
 
                 levelInfo = STRINGS.ciLevelInfo[cSection];
-                COMMON.createInfoDialog(statusElement, `${levelInfo.name}: ${cScoreLevel}`,
+                COMMON.createPopupDialog(statusElement, `${levelInfo.name}: ${cScoreLevel}`,
                     `${levelInfo.pre}<br><br>${levelInfo.info[nScoreLevel]}<br><br>${levelInfo.post}`); 
 
                 ciElement.querySelector(`.${cSection}Score`).innerText = this.person[cSection];

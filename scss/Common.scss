@@ -180,3 +180,6 @@ $ci-prefixes: acceptanceLevel, interactiveStyle, internalControl, intrusionLevel
   height: 100vh; /* Full viewport height */
 }
 
+.modal-body b {
+  font-weight: 600;
+}

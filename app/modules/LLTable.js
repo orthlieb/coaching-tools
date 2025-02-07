@@ -150,8 +150,12 @@ export class LLTable {
             columns.push({ name: key, data: key, title: STRINGS.columnLabels[index + 2], orderSequence: ['desc', 'asc'] });
         });
 
-        columns.push({ name: 'overallIntensity', data: 'overallIntensity', title: STRINGS.columnLabels[9],
-                    orderSequence: ['desc', 'asc'] });
+        columns.push({
+            name: "overallIntensity",
+            data: "overallIntensity",
+            title: STRINGS.columnLabels[9],
+            orderSequence: ["desc", "asc"]
+        });
         
         return columns;
     }
@@ -422,7 +426,7 @@ export class LLTable {
         $(dt.table().footer()).html(cFooter);   // Apply the footer to the table.
         
         // Now attach the dialogs
-        dialogs.forEach(dialog => COMMON.createInfoDialog(`footer-info-${dialog.index}`, dialog.title, dialog.body));
+        dialogs.forEach(dialog => COMMON.createPopupDialog(`footer-info-${dialog.index}`, dialog.title, dialog.body));
         
         this._updateColumnHighlight($table);    }
     

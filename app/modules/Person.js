@@ -44,6 +44,11 @@ import { STRINGS } from "./Strings.js";
  * @class
  */
 export class LLPerson {
+    /**
+     * Internal counter used to create unique ids for created person objects.
+     * @type {number}
+     * @static
+     */
     static _idCounter = 0;
 
     /**
@@ -151,7 +156,18 @@ export class LLPerson {
     }
     
     /**
-     * Arrows to use to display different score levels
+     * Icons representing different score levels. Use with LLPerson.evaluateScoreLevel.
+     *
+     * The array contains FontAwesome class names corresponding to:
+     * - `fa-arrow-down` → Lowest score level
+     * - `fa-arrow-down-right` → Low score level
+     * - `fa-arrow-right` → Moderate score level
+     * - `fa-arrow-up-right` → High score level
+     * - `fa-arrow-up` → Highest score level
+     *
+     * @type {string[]}  // Specifies an array of strings
+     * @static  // Indicates a static class property
+     * @public  // Specifies it is publicly accessible
      */
     static scoreLevelArrows = [ 
         'fa-arrow-down', 'fa-arrow-down-right', 'fa-arrow-right', 'fa-arrow-up-right', 'fa-arrow-up' 
