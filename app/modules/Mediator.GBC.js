@@ -263,8 +263,8 @@ export class GBCMediator {
         document.getElementById('lloirating').textContent = STRINGS.scoreLevelLabels[nRatingIndex];
         DEBUG.log('## overallIntensity nRatingIndex', overallIntensity, nRatingIndex);
         COMMON.createPopupDialog('lloi-info', 
-            `${STRINGS.general.overallIntensity}: ${STRINGS.scoreLevelLabels[nRatingIndex]}`,
-            `${STRINGS.overallIntensity.pre}<br><br>${STRINGS.overallIntensity.info[nRatingIndex]}<br><br>${STRINGS.overallIntensity.post}`); 
+            `${STRINGS.llLevelInfo.overallIntensity.name}: ${STRINGS.scoreLevelLabels[nRatingIndex]}`,
+            `${STRINGS.llLevelInfo.overallIntensity.pre}<br><br>${STRINGS.llLevelInfo.overallIntensity.info[nRatingIndex]}<br><br>${STRINGS.llLevelInfo.overallIntensity.post}`); 
     }
     
     /**

@@ -25,9 +25,10 @@ export const DEBUG = {
             cType = 'array';
         console.log('LOGTYPE', msg, 'Type:', cType, 'Value:', obj, ...args);
     },
-   /**
-     * Log a message to the console.
-     * @param {...object} args Values to display in the log.
+
+    /**
+     * Log a message to the console with caller function and line number.
+     * @param {...any} args Values to display in the log.
      */
     log: function log(...args) {
         console.log(...args);
@@ -48,7 +49,6 @@ export const DEBUG = {
      */
     logArgs: function logArgs(msg, args) {
         console.log('LOGARGS', msg, ...args);
-
     }
 };
 

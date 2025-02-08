@@ -17,7 +17,16 @@ export const ERROR = {
      */
     assert(assertion, ...msgs) {
         if (!assertion) {
-            throw new Error(msgs.reduce((cMsg, cSnippet) => (cMsg += cSnippet)));
+            // Find out who called us.
+            const stack = new Error().stack.split("\n");
+            const callerInfo = stack[2].trim().match(/at (\S+) \((.*):(\d+):(\d+)\)/);
+            let callerStr = "Unknown caller";
+            if (callerInfo) {
+                const [, functionName, file, line, col] = callerInfo;
+                callerStr = `${functionName} (${file}:${line}:${col})`;
+            }
+            
+            throw new Error(msgs.reduce((cMsg, cSnippet) => (cMsg += cSnippet)) + ' ' + callerStr);
         }
         return assertion;
     },
@@ -77,6 +86,6 @@ export const ERROR = {
      */
     assertEveryKey(obj, keys, msg) {
         const missing = keys.filter(key => !obj.hasOwnProperty(key));
-        this.assert(missing.length == 0, `${msg} is missing required parameters [${missing.join(', ')}]`);
+        this.assert(missing.length == 0, `${msg} is missing required properties [${missing.join(', ')}]`);
     }
  };

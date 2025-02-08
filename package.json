@@ -4,7 +4,7 @@
     "build-scss": "sass scss:app/styles",
     "build-docs": "jsdoc -c jsdoc.json app",
     "build": "npm run clean-docs && npm run build-scss && npm run build-docs",
-    "deploy": "node deploy.js"
+    "deploy": "node ./scripts/deploy.js"
   },
   "devDependencies": {
     "dotenv": "^16.4.7",

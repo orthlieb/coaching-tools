@@ -5,7 +5,7 @@ const path = require("path");
 const glob = require("glob");
 
 // Set the local and remote roots
-const localRoot = path.join(__dirname, "app");
+const localRoot = path.join(__dirname, "../app");
 const remoteRoot = process.env.SFTP_DIR;
 
 // ✅ Utility function to get all files recursively

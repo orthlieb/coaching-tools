@@ -165,9 +165,9 @@ export class LLPerson {
      * - `fa-arrow-up-right` → High score level
      * - `fa-arrow-up` → Highest score level
      *
-     * @type {string[]}  // Specifies an array of strings
-     * @static  // Indicates a static class property
-     * @public  // Specifies it is publicly accessible
+     * @type {string[]} 
+     * @static
+     * @public  
      */
     static scoreLevelArrows = [ 
         'fa-arrow-down', 'fa-arrow-down-right', 'fa-arrow-right', 'fa-arrow-up-right', 'fa-arrow-up' 
