@@ -432,9 +432,16 @@ export class CITable {
                             cFooter += `<a id= "footer-info-${nIndex}" href="#" data-bs-toggle="modal" data-bs-target="#modal-dialog"><i class="fa-solid ${cScoreLevelSymbol} score-arrow"></i></a> ${Math.round(ci[key])}`; 
 
                             let levelInfo = STRINGS.ciLevelInfo.learningPreference;
+                            // Determine dominant learning preference.
+                            let aDominant = ci.preferredLearningStyle;
+                            let cDominant = '';
+                            if (aDominant.indexOf(key) != -1)
+                                cDominant = levelInfo.dominant;
+                                if (aDominant.length > 1)
+                                    cDominant = levelInfo.tied;
                             dialogs.push({ 
                                 index: nIndex, 
-                                title: `${STRINGS.ciLabels[key]}: ${STRINGS.ciLevels[nScoreLevel]}`, 
+                                title: `${STRINGS.ciLabels[key]}: ${STRINGS.ciLevels[nScoreLevel]} ${cDominant}`, 
                                 body: `${levelInfo.pre}<br><br>${levelInfo.info[key]}<br><br>${levelInfo.post}` 
                             });
                         }

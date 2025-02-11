@@ -3,14 +3,19 @@
     "clean-docs": "rimraf docs",
     "build-scss": "sass scss:app/styles",
     "build-docs": "jsdoc -c jsdoc.json app",
-    "build": "npm run clean-docs && npm run build-scss && npm run build-docs",
-    "deploy": "node ./scripts/deploy.js"
+    "minify-css": "npx cleancss -o prod/styles.css prod/styles.css",
+    "build-dev": "npm run clean-docs && npm run build-scss && npm run build-docs",
+    "build-prod": "npm run build-dev && node scripts/build-prod.mjs",
+    "deploy-dev": "node scripts/deploy.mjs app",
+    "deploy-prod": "node scripts/deploy.mjs prod"
   },
   "devDependencies": {
+    "csso": "^5.0.5",
     "dotenv": "^16.4.7",
     "ftp-deploy": "^2.4.7",
     "jsdoc": "^4.0.0",
     "rimraf": "^5.0.0",
-    "sass": "^1.83.4"
+    "sass": "^1.83.4",
+    "terser": "^5.38.2"
   }
 }

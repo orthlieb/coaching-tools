@@ -7,7 +7,7 @@ export const DEBUG = {
     /**
      * Set this to true to log debugging statements to the console.
      */
-    bEnable: false,
+    bEnable: true,
     
     /**
      * Log the type of the arguments to the console.

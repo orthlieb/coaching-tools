@@ -130,19 +130,20 @@ export class GCIBCMediator {
                 callbacks: {
                     // Customize the tooltip label for each individual bar
                     label: function(tooltipItem) {
-                        const scores = that._getCIScores(people);
-                        const dataIndex = tooltipItem.dataIndex;
-                        
+                        let dataIndex = tooltipItem.dataIndex;
+                        let s = that._getCIScores(people)[dataIndex];
+                        let tt = STRINGS.groupBarChart.tooltip;
+
                         // Interactive Style
                         if (dataIndex == 1) {
-                            let min = LLCommunicationIndicators.composeInteractiveStyle(scores[dataIndex].min * 3);
-                            let avg = LLCommunicationIndicators.composeInteractiveStyle(scores[dataIndex].avg * 3);
-                            let max = LLCommunicationIndicators.composeInteractiveStyle(scores[dataIndex].max * 3);
-                            return `Min: ${Math.round(min[0])} ${min[1]} Avg: ${Math.round(avg[0])} ${avg[1]} Max: ${Math.round(max[0])} ${max[1]} `; 
+                            let min = LLCommunicationIndicators.composeInteractiveStyle(s.min * 3);
+                            let avg = LLCommunicationIndicators.composeInteractiveStyle(s.avg * 3);
+                            let max = LLCommunicationIndicators.composeInteractiveStyle(s.max * 3);
+                            return `${tt.min} ${Math.round(min[0])} ${min[1]} ${tt.avg} ${Math.round(avg[0])} ${avg[1]} ${tt.max} ${Math.round(max[0])} ${max[1]} `; 
                         }
                         
                         // Display the custom label with the value
-                        return `Min: ${Math.round(scores[dataIndex].min)} Avg: ${Math.round(scores[dataIndex].avg)} Max: ${Math.round(scores[dataIndex].max)}`; 
+                        return `${tt.min} ${Math.round(s.min)} ${tt.avg} ${Math.round(s.avg)} ${tt.max} ${Math.round(s.max)}`; 
                     }
                 }
             }

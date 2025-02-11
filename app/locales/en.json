@@ -12,6 +12,15 @@
         "medium": "Medium",
         "high": "High"
     },
+    "groupBarChart": {
+        "tooltip": {
+            "min": "Min:",
+            "avg": "Avg:",
+            "max": "Max:",
+            "fluent": "Fluent:",
+            "stddev": "Stddev:"
+        }
+    },
     "labels": {
         "mover": "Mover",
         "doer": "Doer",

@@ -88,12 +88,13 @@ export class GBCMediator {
             const avg = Math.round(values.reduce((sum, val) => sum + val, 0) / values.length);
             const rating = STRINGS.scoreLevelLabels[LLPerson.evaluateScoreLevel(avg)];
             const languageLabel = STRINGS.labels[key];
+            const percentFluent = values.length > 0 ? values.reduce((nFluent, nScore) => nScore >= 50 ? ++nFluent : nFluent, 0) / values.length : 0;
 
             // Calculate standard deviation: this is how spread or clumped the data is. 1 = very concentrated, 0 = spread out
             const variance = values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / values.length;
             const stdDev = Math.round(Math.sqrt(variance));
             
-            return { key, min, avg, max, stdDev, rating, languageLabel };
+            return { key, min, avg, max, stdDev, rating, languageLabel, percentFluent };
         });
 
         // Sort the scores in descending order by average score
@@ -150,12 +151,14 @@ export class GBCMediator {
                 callbacks: {
                     // Customize the tooltip label for each individual bar
                     label: function(tooltipItem) {
-                        const scores = that._getSortedScores(people);
-                        const dataIndex = tooltipItem.dataIndex;
+                        let s = that._getSortedScores(people)[tooltipItem.dataIndex];
                         
                         // Display the custom label with the value
-                        return `Min: ${scores[dataIndex].min} Avg: ${scores[dataIndex].avg}\nMax: ${scores[dataIndex].max}`; 
-                        // Spread: ${Math.round(scores[dataIndex].stdDev / (scores[dataIndex].max - scores[dataIndex].min) * 100)}%`;
+                        let tt = STRINGS.groupBarChart.tooltip;
+                        let cTip = `${tt.min} ${s.min}\n${tt.avg} ${s.avg}\n${tt.max} ${s.max}`;
+                        cTip += `\n${tt.fluent} ${Math.round(s.percentFluent * 100)}%`; 
+                        // Spread: + `${tt.stddev} ${Math.round(s.stdDev / (s.max - s.min) * 100)}%}`;
+                        return cTip;
                     }
                 }
             }

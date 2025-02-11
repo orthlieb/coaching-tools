@@ -75,8 +75,15 @@ export class BarChart {
 
         // Handle printing events.
         const mediaQuery = window.matchMedia('print');
-        mediaQuery.addEventListener('change', () => chart.resize(parentContainer.clientHeight, parentContainer.clientWidth));
-      }
+
+        mediaQuery.addEventListener('change', (event) => {
+            if (event.matches) { 
+                this.chart.resize();  // Resize before printing
+            } else { 
+                setTimeout(() => this.chart.resize(), 500); // Resize after printing
+            }
+        });      
+    }
     
     /**
      * Event handler when legend entry is clicked
