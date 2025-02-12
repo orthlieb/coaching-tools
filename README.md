@@ -110,14 +110,12 @@ Follow these steps to set up the project locally.
 ---
 
 ## **Usage**
+You can build the project in the *app* directory, which compiles scss and documentation by running the following command: `npm run build-dev`
 
-```bash
-npm run build
-```
-After the build, you should be able use the html files in the app directory directly. They will generate test data if 
-they are not provided with either json or csv data attached to the URL.
+After the build, you should be able use the html files in the *app* directory directly. E.g. you can open up CommunicationIndicators.html in your browser. They will generate test data if they are not provided with either 
+json or csv data attached to the URL.
 
-Here is an example to provide JSON data to the URL.
+Here is a Javascript example to package up JSON data:
 
 ```javascript
 let person1 = { fullName: "John Smith", companyName: "Acme Inc", mover: 65, doer: 77, ... };
@@ -129,18 +127,23 @@ let str = JSON.stringify(data);
 let url = new URL(`${cTargetURLPrefix}?json=${encodeURIComponent(str)}`);
 window.location.href = url;
 ```
-Documentation for the various classes and files can be found in the docs folder after the build.
-```bash
-npm run deploy
-```
-After making changes, you can deploy your files to your static web server using the deploy command.
-Make sure you create a .env file with the following variables.
+Documentation for the various classes and files can be found in the *docs* folder after the build.
+
+After making changes and debugging, you can build the production version which minifies the JS and CSS and turns off debug logging: `npm run build-prod`
+
+The production files show up in the *prod* directory. You may want to test them again before deployment.
+To deploy to production, make sure you create a .env file with the following variables.
+
 ```
 SFTP_USER=<your sftp user name>
 SFTP_PASS=<your sftp password>
 SFTP_HOST=<your sftp host>
 SFTP_DIR=<your deploy directory>
 ```
+Then run the following command: `npm run deploy-prod`
+**This deploy will delete the remote target directory supplied in your .env file, so be careful.** 
+
+Note that if you need to debug in production you can also deploy the dev version with: `npm run deploy-dev`
 
 ---
 
