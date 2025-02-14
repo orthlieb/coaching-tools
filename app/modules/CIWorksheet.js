@@ -84,8 +84,8 @@ const _forensicsTable = {
         shaper: HIGH,
         producer: (nValue) => {
             if (nValue <= LOW) 
-                return `<strong>${STRINGS.shorthand.contemplator.toUpperCase()}*</strong>`;
-            return `${STRINGS.shorthand.contemplator.toLowerCase()}*`;
+                return `<strong>${STRINGS.shorthand.producer.toUpperCase()}*</strong>`;
+            return `${STRINGS.shorthand.producer.toLowerCase()}*`;
         },
         contemplator: (nValue) => {
             // Moderate to High
