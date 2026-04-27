@@ -198,57 +198,36 @@
             </div>
         </div>
         <script type="module">
-            import { ERROR } from "./modules/Error.js";
-            import { DEBUG } from "./modules/Debug.js";
-            import { COMMON } from "./modules/Common.js";
-            import { CSV } from "./modules/CSVToJSON.js";
+            import { bootstrapPage } from "./modules/bootstrap.js";
             import { GBCMediator } from "./modules/Mediator.GBC.js";
-            
-            let url = new URL(window.location.href);
 
-            // Test data generation
-            import { testCSV } from "./modules/test/GroupBarChart.test.js";
-            //import { testJSON, testInvalidData } from "./modules/test/GroupBarChart.test.js";
-            //url = testJSON('https://www.relatematters.com/coaching-tools/GroupBarChart.html');
-            //url = testCSV("https://www.relatematters.com/coaching-tools/GroupBarChart.html");
-            //url = testInvalidData('https://www.relatematters.com/coaching-tools/GroupBarChart.html');
-            
-            import { LocalizationReady, STRINGS } from './modules/Strings.js';
-            async function main() {
-                
-                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-                tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+            // Tooltip init for any [data-bs-toggle="tooltip"] elements present in the static HTML.
+            document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(
+                (el) => new bootstrap.Tooltip(el),
+            );
 
-                try {
-                    // Preload localization strings
-                    COMMON.showLoading('the-grid');
-                    await LocalizationReady;
-                    COMMON.hideLoading('the-grid');
-                    
-                    let searchParams = url.searchParams;
-                    let params = {};
-
-                    if (searchParams.has("json")) {
-                        params = JSON.parse(searchParams.get("json"));
-                    } else if (searchParams.has("csv")) {
-                        params = CSV.toJSON(searchParams.get("csv"));
-                    } else {
-                        DEBUG.log('No data specified, generating test data');
-                        url = testCSV('https://www.relatematters.com/coaching-tools/GroupBarChart.html');
-                        params = CSV.toJSON(url.searchParams.get('csv')); 
-                    }
-                    
-                    const parseKeys = { fullName: 'string', mover: 'number', doer: 'number', responder: 'number',
-                    influencer: 'number', shaper: 'number', producer: 'number', contemplator: 'number',
-                    overallIntensity: 'number', companyName: 'string' };
-                    params = COMMON.parseParameters(params, parseKeys);
-
-                    let theMediator = new GBCMediator(params, "the-table", "the-ll-table", "the-chart");
-                } catch (e) {
-                    COMMON.displayAlertInDoc(e);
-                }
-            }
-            main();
+            bootstrapPage({
+                loadingId: "the-grid",
+                parseKeys: {
+                    fullName: "string",
+                    mover: "number",
+                    doer: "number",
+                    responder: "number",
+                    influencer: "number",
+                    shaper: "number",
+                    producer: "number",
+                    contemplator: "number",
+                    overallIntensity: "number",
+                    companyName: "string",
+                },
+                mount: (params) => new GBCMediator(params, "the-table", "the-ll-table", "the-chart"),
+                // BEGIN-TEST-FALLBACK (dev only — stripped by build-prod)
+                testFallback: async () => {
+                    const { testCSV } = await import("./modules/test/GroupBarChart.test.js");
+                    return testCSV("https://www.relatematters.com/coaching-tools/GroupBarChart.html");
+                },
+                // END-TEST-FALLBACK
+            });
         </script>
     </body>
 </html>

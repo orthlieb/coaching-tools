@@ -1,309 +1,254 @@
 body {
-    font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 @media print {
-   body {
-        -webkit-print-color-adjust: exact;  /* Ensures that colors are preserved in WebKit browsers */
-        color-adjust: exact;                /* Ensures that colors are preserved in modern browsers */
-    }
+  body {
+    -webkit-print-color-adjust: exact; /* Ensures that colors are preserved in WebKit browsers */
+    color-adjust: exact; /* Ensures that colors are preserved in modern browsers */
+  }
 }
-
 .CIPage {
-    background-color: white; 
-    border: 1px solid #ddd; 
-    border-radius: 8px; 
-    break-inside: avoid;
-    margin: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  break-inside: avoid;
+  margin: 10px;
 }
 
 .fullName {
-    font-weight: 700;
-    font-size: 2.0em;
-    text-align: center;
+  font-weight: 700;
+  font-size: 2em;
+  text-align: center;
 }
 
 .shorthand {
-    font-family: 'Roboto Mono', monospace;
-    font-weight: 700;
-    font-size: 1.5em;
-    text-align: center;
-    margin: 0 10px 10px 10px;
+  font-family: "Roboto Mono", monospace;
+  font-weight: 700;
+  font-size: 1.5em;
+  text-align: center;
+  margin: 0 10px 10px 10px;
 }
 
 .companyName {
-    font-weight: 700;
-    font-size: 1.25em;
-    text-align: center;
-    margin: 10px;
+  font-weight: 700;
+  font-size: 1.25em;
+  text-align: center;
+  margin: 10px;
 }
 
 .alt-gray {
-    background-color: lightgray;
+  background-color: lightgray;
 }
 
 .title {
-    font-weight: 700;
-    text-align: left;
-    font-size: 1.15em;
-    grid-area: title;
-    /* background-color: rgba(0,255,0,0.5); */
+  font-weight: 700;
+  text-align: left;
+  font-size: 1.15em;
+  grid-area: title;
+  /* background-color: rgba(0,255,0,0.5); */
 }
 
 .description {
-    grid-area: desc;
-    font-weight: 300;
-    font-size: 0.75em;
-    align-items: center;
-    justify-content: center;
+  grid-area: desc;
+  font-weight: 300;
+  font-size: 0.75em;
+  align-items: center;
+  justify-content: center;
 }
 
 .subtitle {
-    justify-self: center;
-    font-weight: 700;
-    text-align: center;
-    font-size: 1em;
+  justify-self: center;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1em;
 }
 
 .subtitle-1 {
-    grid-area: subtitle1;
-    /*background-color: yellow;*/
- }
+  grid-area: subtitle1;
+  /*background-color: yellow;*/
+}
 
 .subtitle-2 {
-    grid-area: subtitle2;
-    /*background-color: yellow;*/
- }
+  grid-area: subtitle2;
+  /*background-color: yellow;*/
+}
 
 .subtitle-3 {
-    grid-area: subtitle3;
-    /*background-color: yellow;*/
- }
+  grid-area: subtitle3;
+  /*background-color: yellow;*/
+}
 
 /* Small screens */
 @media screen and (max-width: 600px) {
-    .communication-indicator-one-bar {
-        display: grid;
-        grid-template-rows: auto;
-        grid-template-columns: repeat(7, 1fr);
-        grid-template-areas:
-            "title title title title title title title" 
-            "desc desc desc desc desc desc desc"
-            "graph graph graph graph graph graph graph"
-            "status status status status score score score"
-            "ll1 ll2 ll3 ll4 ll5 ll6 ll7"
-            "comment comment comment comment comment comment comment";
-        grid-row-gap: 0.5em;
-        padding: 0.5em;
-    }
-    .communication-indicator-three-bar {
-        display: grid;
-        grid-template-rows: auto;
-        grid-template-columns: repeat(7, 1fr);
-        grid-template-areas:
-            "title title title title title title title" 
-            "desc desc desc desc desc desc desc"
-            "subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1"
-            "graph1 graph1 graph1 graph1 graph1 graph1 graph1"
-            "subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2"
-            "graph2 graph2 graph2 graph2 graph2 graph2 graph2"
-            "subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3"
-            "graph3 graph3 graph3 graph3 graph3 graph3 graph3"
-            "status status status status score score score"
-            "ll1 ll2 ll3 ll4 ll5 ll6 ll7"
-            "comment comment comment comment comment comment comment";
-        grid-row-gap: 0.5em;
-        padding: 0.5em;
-    }
-    .communication-indicator-three-bar-three-status {
-        display: grid;
-        grid-template-rows: auto;
-        grid-template-columns: repeat(7, 1fr);
-        grid-template-areas:
-            "title title title title title title title" 
-            "desc desc desc desc desc desc desc"
-            "subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1"
-            "graph1 graph1 graph1 graph1 graph1 graph1 graph1"
-            "status1 status1 status1 status1 score1 score1 score1"
-            "subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2"
-            "graph2 graph2 graph2 graph2 graph2 graph2 graph2"
-            "status2 status2 status2 status2 score2 score2 score2"
-            "subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3"
-            "graph3 graph3 graph3 graph3 graph3 graph3 graph3"
-            "status3 status3 status3 status3 score3 score3 score3"
-            "comment comment comment comment comment comment comment";
-        grid-row-gap: 0.5em;
-        padding: 0.5em;
-    }
-
-    
+  .communication-indicator-one-bar {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-areas: "title title title title title title title" "desc desc desc desc desc desc desc" "graph graph graph graph graph graph graph" "status status status status score score score" "ll1 ll2 ll3 ll4 ll5 ll6 ll7" "comment comment comment comment comment comment comment";
+    grid-row-gap: 0.5em;
+    padding: 0.5em;
+  }
+  .communication-indicator-three-bar {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-areas: "title title title title title title title" "desc desc desc desc desc desc desc" "subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1" "graph1 graph1 graph1 graph1 graph1 graph1 graph1" "subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2" "graph2 graph2 graph2 graph2 graph2 graph2 graph2" "subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3" "graph3 graph3 graph3 graph3 graph3 graph3 graph3" "status status status status score score score" "ll1 ll2 ll3 ll4 ll5 ll6 ll7" "comment comment comment comment comment comment comment";
+    grid-row-gap: 0.5em;
+    padding: 0.5em;
+  }
+  .communication-indicator-three-bar-three-status {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-areas: "title title title title title title title" "desc desc desc desc desc desc desc" "subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1 subtitle1" "graph1 graph1 graph1 graph1 graph1 graph1 graph1" "status1 status1 status1 status1 score1 score1 score1" "subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2 subtitle2" "graph2 graph2 graph2 graph2 graph2 graph2 graph2" "status2 status2 status2 status2 score2 score2 score2" "subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3 subtitle3" "graph3 graph3 graph3 graph3 graph3 graph3 graph3" "status3 status3 status3 status3 score3 score3 score3" "comment comment comment comment comment comment comment";
+    grid-row-gap: 0.5em;
+    padding: 0.5em;
+  }
 }
-
 /* Larger screens */
 @media screen and (min-width: 601px) {
-    .communication-indicator-one-bar {
-        display: grid;
-        grid-template-rows: auto;
-        grid-template-columns: repeat(9, 1fr);
-        grid-template-areas:
-            "title title title title desc desc desc desc desc"
-            "graph graph graph graph graph graph graph graph graph"
-            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
-            ". comment comment comment comment comment comment comment comment";
-        grid-row-gap: 0.5em;
-        padding: 10px;
-    } 
-    .communication-indicator-three-bar {
-        display: grid;
-        grid-template-rows: auto;
-        grid-template-columns: repeat(9, 1fr);
-        grid-template-areas:
-            "title title title title desc desc desc desc desc"
-            "subtitle1 subtitle1 subtitle1 subtitle2 subtitle2 subtitle2 subtitle3 subtitle3 subtitle3"
-            "graph1 graph1 graph1 graph2 graph2 graph2 graph3 graph3 graph3"
-            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
-            ". comment comment comment comment comment comment comment comment";
-        grid-row-gap: 0.5em;
-        padding: 10px;
-    }
+  .communication-indicator-one-bar {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-areas: "title title title title desc desc desc desc desc" "graph graph graph graph graph graph graph graph graph" "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7" ". comment comment comment comment comment comment comment comment";
+    grid-row-gap: 0.5em;
+    padding: 10px;
+  }
+  .communication-indicator-three-bar {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-areas: "title title title title desc desc desc desc desc" "subtitle1 subtitle1 subtitle1 subtitle2 subtitle2 subtitle2 subtitle3 subtitle3 subtitle3" "graph1 graph1 graph1 graph2 graph2 graph2 graph3 graph3 graph3" "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7" ". comment comment comment comment comment comment comment comment";
+    grid-row-gap: 0.5em;
+    padding: 10px;
+  }
 }
-
 /* Printing */
 @media print {
-    body {
-        height: 100%;
-    }
-    .communication-indicator-one-bar {
-        display: grid;
-        grid-template-rows: auto;
-        grid-template-columns: repeat(9, 1fr);
-        grid-template-areas:
-            "title title title title desc desc desc desc desc"
-            "graph graph graph graph graph graph graph graph graph"
-            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
-            ". comment comment comment comment comment comment comment comment";
-        grid-row-gap: 0.5em;
-        padding: 10px;
-        width: 100% !important;
-        height: auto !important;
-    } 
-    .communication-indicator-three-bar {
-        display: grid;
-        grid-template-rows: auto;
-        grid-template-columns: repeat(9, 1fr);
-        grid-template-areas:
-            "title title title title desc desc desc desc desc"
-            "subtitle1 subtitle1 subtitle1 subtitle2 subtitle2 subtitle2 subtitle3 subtitle3 subtitle3"
-            "graph1 graph1 graph1 graph2 graph2 graph2 graph3 graph3 graph3"
-            "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7"
-            ". comment comment comment comment comment comment comment comment";
-        grid-row-gap: 0.5em;
-        padding: 10px;
-        width: 100% !important;
-        height: auto !important;
-    }
+  body {
+    height: 100%;
+  }
+  .communication-indicator-one-bar {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-areas: "title title title title desc desc desc desc desc" "graph graph graph graph graph graph graph graph graph" "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7" ". comment comment comment comment comment comment comment comment";
+    grid-row-gap: 0.5em;
+    padding: 10px;
+    width: 100% !important;
+    height: auto !important;
+  }
+  .communication-indicator-three-bar {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-areas: "title title title title desc desc desc desc desc" "subtitle1 subtitle1 subtitle1 subtitle2 subtitle2 subtitle2 subtitle3 subtitle3 subtitle3" "graph1 graph1 graph1 graph2 graph2 graph2 graph3 graph3 graph3" "status score ll1 ll2 ll3 ll4 ll5 ll6 ll7" ". comment comment comment comment comment comment comment comment";
+    grid-row-gap: 0.5em;
+    padding: 10px;
+    width: 100% !important;
+    height: auto !important;
+  }
 }
-
-
 .graph {
-    grid-area: graph;
-    /*background-color: rgba(255,0,255,0.5);*/
-    position: relative;
-	height: 75px;
+  grid-area: graph;
+  /*background-color: rgba(255,0,255,0.5);*/
+  position: relative;
+  height: 75px;
 }
 
 .graph-1 {
-    grid-area: graph1;
-    /*background-color: rgba(255,0,255,0.5);*/
-    position: relative;
-	height: 75px;
+  grid-area: graph1;
+  /*background-color: rgba(255,0,255,0.5);*/
+  position: relative;
+  height: 75px;
 }
 
 .graph-2 {
-    grid-area: graph2;
-    /*background-color: rgba(255,0,255,0.6);*/
-    position: relative;
-	height: 75px;
+  grid-area: graph2;
+  /*background-color: rgba(255,0,255,0.6);*/
+  position: relative;
+  height: 75px;
 }
 
 .graph-3 {
-    grid-area: graph3;
-    /*background-color: rgba(255,0,255,0.7);*/
-    position: relative;
-	height: 75px;
+  grid-area: graph3;
+  /*background-color: rgba(255,0,255,0.7);*/
+  position: relative;
+  height: 75px;
 }
 
 .status {
-    grid-area: status;
-    font-size: 1em;
-    text-align: center;
-    /*background-color: rgba(0,255,255,0.5);*/
+  grid-area: status;
+  font-size: 1em;
+  text-align: center;
+  /*background-color: rgba(0,255,255,0.5);*/
 }
 
 .score {
-    grid-area: score;
-    font-weight: 300;
-    font-size: 1em;
-    text-align: center;
-    /*background-color: rgba(0,255,255,0.5);*/
+  grid-area: score;
+  font-weight: 300;
+  font-size: 1em;
+  text-align: center;
+  /*background-color: rgba(0,255,255,0.5);*/
 }
 
 .life-language {
-    font-size: 1em;
-    text-align: center;
+  font-size: 1em;
+  text-align: center;
 }
 
 .life-language-1 {
-    grid-area: ll1;
-    /*background-color: rgba(255,0,0,0.5);*/
+  grid-area: ll1;
+  /*background-color: rgba(255,0,0,0.5);*/
 }
 
 .life-language-2 {
-    grid-area: ll2;
-    /*background-color: rgba(255,0,0,0.5);*/
+  grid-area: ll2;
+  /*background-color: rgba(255,0,0,0.5);*/
 }
 
 .life-language-3 {
-    grid-area: ll3;
-    /*background-color: rgba(255,0,0,0.5);*/
+  grid-area: ll3;
+  /*background-color: rgba(255,0,0,0.5);*/
 }
 
 .life-language-4 {
-    grid-area: ll4;
-    /*background-color: rgba(255,0,0,0.5);*/
+  grid-area: ll4;
+  /*background-color: rgba(255,0,0,0.5);*/
 }
 
 .life-language-5 {
-    grid-area: ll5;
-    /*background-color: rgba(255,0,0,0.5);*/
+  grid-area: ll5;
+  /*background-color: rgba(255,0,0,0.5);*/
 }
 
 .life-language-6 {
-    grid-area: ll6;
-    /*background-color: rgba(255,0,0,0.5);*/
+  grid-area: ll6;
+  /*background-color: rgba(255,0,0,0.5);*/
 }
 
 .life-language-7 {
-    grid-area: ll7;
-    /*background-color: rgba(255,0,0,0.5);*/
+  grid-area: ll7;
+  /*background-color: rgba(255,0,0,0.5);*/
 }
 
 .comment {
-    grid-area: comment;
-    text-align: left;
-    font-size: 0.75em;
-    /*background-color: pink;*/
+  grid-area: comment;
+  text-align: left;
+  font-size: 0.75em;
+  /*background-color: pink;*/
 }
 
 .warning {
-    color: red;
-    font-size: 1em;
-    text-align: center;
+  color: red;
+  font-size: 1em;
+  text-align: center;
 }
 
 .footer {
-    padding: 0.5em;
-    font-size: 0.5em;
-    text-align: center;
+  padding: 0.5em;
+  font-size: 0.5em;
+  text-align: center;
 }
-

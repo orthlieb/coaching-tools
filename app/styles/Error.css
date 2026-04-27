@@ -1,7 +1,7 @@
 .alert .btn-close {
-    color: inherit !important; /* Makes the close button inherit the text color */
-    opacity: 1; /* Ensures visibility since Bootstrap's close button is semi-transparent by default */
-    background: none; /* Removes the default SVG background */
-    border: none; /* Optional: Removes the button's border if visible */
-    padding: 0; /* Optional: Adjusts padding for custom close icon alignment */
+  color: inherit !important; /* Makes the close button inherit the text color */
+  opacity: 1; /* Ensures visibility since Bootstrap's close button is semi-transparent by default */
+  background: none; /* Removes the default SVG background */
+  border: none; /* Optional: Removes the button's border if visible */
+  padding: 0; /* Optional: Adjusts padding for custom close icon alignment */
 }

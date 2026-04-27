@@ -101,30 +101,9 @@ export class LLPerson {
         this.id = LLPerson._idCounter++;
 
         // Test to see if any of the Communication Indicators are present. This would be a professional profile.
+        // Access CI fields via `person.ci.<key>` (e.g., person.ci.acceptanceLevel).
         if (COMMON.ciKeys.some((key) => key in data) || 'ci' in data) {
             this.ci = new LLCommunicationIndicators(data.ci || data);
-            
-            // Define backward-compatible getters for COMMON.ciKeys
-            Object.defineProperties(this, Object.fromEntries(
-                COMMON.ciKeys.map(key => [ 
-                    key, { 
-                        get: () => {
-                            // Extract caller information (2nd line in stack trace)
-                            const stack = new Error().stack.split("\n");
-                            const callerInfo = stack[2].trim().match(/at (\S+) \((.*):(\d+):(\d+)\)/);
-                            let callerStr = "Unknown caller";
-                            if (callerInfo) {
-                                const [, functionName, file, line, col] = callerInfo;
-                                callerStr = `${functionName} (${file}:${line}:${col})`;
-                            }
-//                            DEBUG.log(`## DEPRECATED ${callerStr} Person.${key} use Person.ci.${key}`);
-                            return this.ci[key];
-                        }, 
-                        enumerable: true, 
-                        configurable: false 
-                    }]
-                )
-            ));
         }
     }
 

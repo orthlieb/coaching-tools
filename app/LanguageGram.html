@@ -80,85 +80,45 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
         <script type="module">
-            import { ERROR } from "./modules/Error.js";
-            import { DEBUG } from "./modules/Debug.js";
+            import { bootstrapPage } from "./modules/bootstrap.js";
             import { COMMON } from "./modules/Common.js";
-            import { CSV } from "./modules/CSVToJSON.js";
             import { LanguageGram } from "./modules/LanguageGram.js";
 
-            let url = new URL(window.location.href);
-
-            // Test data generation
-            import { testCSV } from "./modules/test/LanguageGram.test.js";
-            //import { testSingle, testJSON, testInvalidJSON } from "./modules/test/LanguageGram.test.js";
-            //url = testSingle("https://www.relatematters.com/coaching-tools/LanguageGram.html");
-            //url = testJSON("https://www.relatematters.com/coaching-tools/LanguageGram.html");
-            //url = testCSV("https://www.relatematters.com/coaching-tools/LanguageGram.html");
-            //url = testInvalidJSON("https://www.relatematters.com/coaching-tools/LanguageGram.html");
-
-            import { LocalizationReady, STRINGS } from './modules/Strings.js';
-            async function main() {
-                try {
-                    COMMON.showLoading('the-container');
-                    await LocalizationReady;
-                    COMMON.hideLoading('the-container');
-                    
-                    let searchParams = url.searchParams;
-                    let params = {};
-
-                    if (searchParams.has('json')) {
-                        params = JSON.parse(searchParams.get('json'));
-                    } else if (searchParams.has('csv')) {
-                        params = CSV.toJSON(searchParams.get('csv'));
-                    } else {
-                        let bFlag = false;
-                        for (const [key, value] of searchParams.entries()) {
-                            bFlag = true;
-                            params[key] = value;
-                        }
-                        if (!bFlag) {
-                            // No data found, generate data.
-                            DEBUG.log('No data specified, generating test data');
-                            url = testCSV('https://www.relatematters.com/coaching-tools/LanguageGram.html');
-                            params = CSV.toJSON(url.searchParams.get('csv')); 
-                         }
-                    }
-
-                    // We deal in arrays, so if the params are a singleton, enclose it in an array.
-                    if (!Array.isArray(params)) 
-                        params = [params];
-
-                    const parseKeys = { fullName: 'string', companyName: 'string', mover: 'number', doer: 'number',
-                    responder: 'number', influencer: 'number', shaper: 'number', producer: 'number', contemplator:
-                    'number', overallIntensity: 'number' };
-                    let parsedParams = COMMON.parseParameters(params, parseKeys);
- 
+            bootstrapPage({
+                loadingId: "the-container",
+                parseKeys: {
+                    fullName: "string", companyName: "string",
+                    mover: "number", doer: "number", responder: "number",
+                    influencer: "number", shaper: "number", producer: "number",
+                    contemplator: "number", overallIntensity: "number",
+                },
+                mount: (parsedParams) => {
                     const lgGrid = document.getElementById("language-gram-grid");
                     const lgTemplate = document.getElementById("language-gram-1");
 
                     parsedParams.forEach((param, index) => {
                         if (index > 0) {
-                            let lgElement = lgTemplate.cloneNode(true);
-                            lgElement.setAttribute("id", "language-gram-" + (index + 1));
-                            lgGrid.appendChild(lgElement);
+                            const cloned = lgTemplate.cloneNode(true);
+                            cloned.setAttribute("id", "language-gram-" + (index + 1));
+                            lgGrid.appendChild(cloned);
                         }
+                        const lgElement = document.getElementById("language-gram-" + (index + 1));
                         try {
-                            // Create a LanguageGram instance and display it
-                            const lgElement = document.getElementById('language-gram-' + (index + 1));
-                            const lg = new LanguageGram(index + 1, param);
-                            lg.display();
-                            lgElement.classList.remove('d-none');
+                            new LanguageGram(index + 1, param).display();
+                            lgElement.classList.remove("d-none");
                         } catch (e) {
-                            const lgElement = document.getElementById('language-gram-' + (index + 1));
-                            lgElement.classList.add('d-none');
-                            COMMON.displayAlertInDoc(e);
+                            lgElement.classList.add("d-none");
+                            COMMON.displayAlertInDoc(e.message || String(e));
                         }
                     });
-                } catch (e) {
-                    COMMON.displayAlertInDoc(e);
-                }
-            }
-            main();
+                },
+                // BEGIN-TEST-FALLBACK (dev only — stripped by build-prod)
+                testFallback: async () => {
+                    const { testCSV } = await import("./modules/test/LanguageGram.test.js");
+                    return testCSV("https://www.relatematters.com/coaching-tools/LanguageGram.html");
+                },
+                // END-TEST-FALLBACK
+            });
         </script>
     </body>
 </html>

@@ -226,84 +226,50 @@
     </div>
 
     <script type="module">
-        import { ERROR } from "./modules/Error.js";
-        import { DEBUG } from "./modules/Debug.js";
+        import { bootstrapPage } from "./modules/bootstrap.js";
         import { COMMON } from "./modules/Common.js";
         import { CIWorksheet } from "./modules/CIWorksheet.js";
-        import { CSV } from "./modules/CSVToJSON.js";
 
-        let url = new URL(window.location.href);
-
-        // Test data generation
-        import { testCSV } from './modules/test/CommunicationIndicators.test.js';
-        //import { testSingle, testJSON, testInvalidEntries } from './modules/test/CommunicationIndicators.test.js';
-        //url = testSingle("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
-        //url = testJSON("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
-        //url = testCSV("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
-        //url = testInvalidEntries("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
-
-        import { LocalizationReady, STRINGS } from './modules/Strings.js';
-        async function main() {
-            try {
-                // Preload localization strings
-                COMMON.showLoading('cipage-1');
-                await LocalizationReady;
-                COMMON.hideLoading('cipage-1');
-                    
-                let searchParams = url.searchParams;
-                let params = {};
-
-                if (searchParams.has('json')) {
-                    params = JSON.parse(searchParams.get('json'));
-                } else if (searchParams.has('csv')) {
-                    params = CSV.toJSON(searchParams.get('csv'));
-                } else {
-                    let bFlag = false;
-                    for (const [key, value] of searchParams.entries()) {
-                        bFlag = true;
-                        params[key] = value;
-                    }
-                    if (!bFlag) {
-                        // No data found, generate data.
-                        url = testCSV("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
-                        params = CSV.toJSON(url.searchParams.get('csv')); 
-                    }
-                }
-
-                // We deal in arrays, so if the params are a singleton, enclose it in an array.
-                if (!Array.isArray(params)) 
-                    params = [params];
-
-                const parseKeys = { fullName: 'string', company: 'string', mover: 'number', doer: 'number', responder:
-                'number', influencer: 'number', shaper: 'number', producer: 'number', contemplator: 'number',
-                overallIntensity: 'number', acceptanceLevel: 'number', interactiveStyle: 'string', interactiveStyleType:
-                'character', interactiveStyleScore: 'number', internalControl: 'number', intrusionLevel: 'number',
-                projectiveLevel: 'number', susceptibilityToStress: 'number', learningPreferenceAuditory: 'number',
-                learningPreferenceVisual: 'number', learningPreferencePhysical: 'number', showForensics: 'boolean' };
-                let parsedParams = COMMON.parseParameters(params, parseKeys);
-                
-                let ci = document.getElementById("cipage-1");
-                // Loop over each page of information
+        bootstrapPage({
+            loadingId: "cipage-1",
+            parseKeys: {
+                fullName: "string", companyName: "string",
+                mover: "number", doer: "number", responder: "number",
+                influencer: "number", shaper: "number", producer: "number",
+                contemplator: "number", overallIntensity: "number",
+                acceptanceLevel: "number",
+                interactiveStyle: "string",
+                interactiveStyleType: "character",
+                interactiveStyleScore: "number",
+                internalControl: "number", intrusionLevel: "number",
+                projectiveLevel: "number", susceptibilityToStress: "number",
+                learningPreferenceAuditory: "number",
+                learningPreferenceVisual: "number",
+                learningPreferencePhysical: "number",
+                showForensics: "boolean",
+            },
+            mount: (parsedParams) => {
+                const template = document.getElementById("cipage-1");
                 parsedParams.forEach((param, index) => {
                     if (index > 0) {
-                        // Create our page from the existing one
-                        let divClone = ci.cloneNode(true);      // The true is for deep cloning
-                        divClone.style.display = 'block';       // In case it is hidden before loading finishes.
-
+                        const divClone = template.cloneNode(true);
+                        divClone.style.display = "block";
                         divClone.setAttribute("id", "cipage-" + (index + 1));
                         document.body.appendChild(divClone);
                     }
                     try {
-                        let ciWorksheet = new CIWorksheet(param, index + 1);
-                        ciWorksheet.display(); 
-                    } catch (e) { 
-                        COMMON.displayAlertInDoc(e); 
+                        new CIWorksheet(param, index + 1).display();
+                    } catch (e) {
+                        COMMON.displayAlertInDoc(e.message || String(e));
                     }
                 });
-            } catch (e) {
-                COMMON.displayAlertInDoc(e);
-            }
-        }
-        main();
+            },
+            // BEGIN-TEST-FALLBACK (dev only — stripped by build-prod)
+            testFallback: async () => {
+                const { testCSV } = await import("./modules/test/CommunicationIndicators.test.js");
+                return testCSV("https://www.relatematters.com/coaching-tools/CommunicationIndicators.html");
+            },
+            // END-TEST-FALLBACK
+        });
     </script>
 </body>

@@ -10,23 +10,20 @@ import { DEBUG } from "./Debug.js";
 export class RadarChart {
     /**
      * Load data into an existing chart.
-     * @param {array} data Array of datasets to be charted.
-     * @param {array} columns Array of strings naming the keys, in order, to extract from each dataset.
-     * @param {array} labels Array of strings to use as labels for each column.
+     * @param {object} chartData Chart.js data object containing labels and datasets.
      * @public
      */
-    loadData(data, columns, labels) {
-        DEBUG.logArgs('RadarChart.loadData(data, columns, labels)', arguments);
-        this.chart.data = data;
+    loadData(chartData) {
+        DEBUG.logArgs('RadarChart.loadData(chartData)', arguments);
+        this.chart.data = chartData;
         this.chart.update();
     }
     
     /**
      * Radar chart based on Chart.js
-     * @param {integer} id ID of the canvas element that will house the chart.
-     * @param {array} data Array of datasets objects, each composed of key value pairs of data.
-     * @param {array} columns Array of strings naming the keys, in order, to extract from each dataset.
-     * @param {array} labels Array of strings to use as labels for each column.
+     * @param {string} id ID of the canvas element that will house the chart.
+     * @param {object} chartData Chart.js data object containing labels and datasets.
+     * @param {object} [chartOptions] Options for displaying the legend.
      * @param {object} [mediator] Mediator object to handle events. Default is null.
      * @constructor
      */
@@ -61,8 +58,14 @@ export class RadarChart {
 
         // Handle printing events.
         const mediaQuery = window.matchMedia('print');
-        mediaQuery.addEventListener('change', () => chart.resize(parentContainer.clientHeight, parentContainer.clientWidth));
-      }
+        mediaQuery.addEventListener('change', (event) => {
+            if (event.matches) {
+                this.chart.resize();  // Resize before printing
+            } else {
+                setTimeout(() => this.chart.resize(), 500); // Resize after printing
+            }
+        });
+    }
     
     /**
      * Event handleer when legend entry is clicked

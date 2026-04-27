@@ -76,52 +76,26 @@
             </div>
         </div>
         <script type="module">
-            import { ERROR } from "./modules/Error.js";
-            import { DEBUG } from "./modules/Debug.js";
-            import { COMMON } from './modules/Common.js';
-            import { CSV } from "./modules/CSVToJSON.js";
+            import { bootstrapPage } from "./modules/bootstrap.js";
             import { LLRGMediator } from "./modules/Mediator.LLRG.js";
-            
-            let url = new URL(window.location.href);
 
-            // Test data generation
-            import { testCSV } from "./modules/test/LifeLanguageRadarGraph.test.js";
-            //import { testJSON, testInvalidData } from "./modules/test/LifeLanguageRadarGraph.test.js";
-            //url = testJSON('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
-            //url = testCSV('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
-            //url = testInvalidData('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
-           
-            import { LocalizationReady, STRINGS } from './modules/Strings.js';
-            async function main() {
-                try {
-                    COMMON.showLoading('radar-graph-grid');
-                    await LocalizationReady;
-                    COMMON.hideLoading('radar-graph-grid');
-                    
-                    let searchParams = url.searchParams;
-                    let params = {};
-
-                    if (searchParams.has('json')) {
-                        params = JSON.parse(searchParams.get('json'));
-                    } else if (searchParams.has('csv')) {
-                        params = CSV.toJSON(searchParams.get('csv'));
-                    } else {
-                        DEBUG.log('No data specified, generating test data');
-                        url = testCSV('https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html');
-                        params = CSV.toJSON(url.searchParams.get('csv')); 
-                    }
-
-                    const parseKeys = { fullName: 'string', mover: 'number', doer: 'number', responder: 'number',
-                    influencer: 'number', shaper: 'number', producer: 'number', contemplator: 'number',
-                    overallIntensity: 'number', companyName: 'string' };
-                    let parsedParams = COMMON.parseParameters(params, parseKeys);
-
-                    let theMediator = new LLRGMediator(parsedParams, 'rg-table', 'the-graph');
-                } catch (e) {
-                    COMMON.displayAlertInDoc(e);
-                }
-            }
-            main();
+            bootstrapPage({
+                loadingId: "radar-graph-grid",
+                parseKeys: {
+                    fullName: "string",
+                    mover: "number", doer: "number", responder: "number",
+                    influencer: "number", shaper: "number", producer: "number",
+                    contemplator: "number", overallIntensity: "number",
+                    companyName: "string",
+                },
+                mount: (params) => new LLRGMediator(params, "rg-table", "the-graph"),
+                // BEGIN-TEST-FALLBACK (dev only — stripped by build-prod)
+                testFallback: async () => {
+                    const { testCSV } = await import("./modules/test/LifeLanguageRadarGraph.test.js");
+                    return testCSV("https://www.relatematters.com/coaching-tools/LifeLanguageRadarGraph.html");
+                },
+                // END-TEST-FALLBACK
+            });
         </script>
     </body>
 </html>

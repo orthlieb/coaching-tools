@@ -173,63 +173,27 @@
             </div>
         </div>
         <script type="module">
-            import { ERROR } from "./modules/Error.js";
-            import { DEBUG } from "./modules/Debug.js";
-            import { COMMON } from "./modules/Common.js";
-            import { CSV } from "./modules/CSVToJSON.js";
+            import { bootstrapPage } from "./modules/bootstrap.js";
             import { PBCMediator } from "./modules/Mediator.PBC.js";
-            
-            let url = new URL(window.location.href);
 
-            // Test data generation
-            import { testCSV } from "./modules/test/PersonalBarChart.test.js";
-            //import { testJSON, testInvalidData } from "./modules/test/PersonalBarChart.test.js";
-            //url = testJSON('https://www.relatematters.com/coaching-tools/PersonalBarChart.html');
-            //url = testCSV("https://www.relatematters.com/coaching-tools/PersonalBarChart.html");
-            //url = testInvalidData('https://www.relatematters.com/coaching-tools/PersonalBarChart.html');
-
-            import { LocalizationReady, STRINGS } from './modules/Strings.js';
-            async function main() {
-                try {
-                    COMMON.showLoading('the-grid');
-                    await LocalizationReady;
-                    COMMON.hideLoading('the-grid');
-
-                    let searchParams = url.searchParams;
-                    let params = {};
-
-                    if (searchParams.has('json')) {
-                        params = JSON.parse(searchParams.get('json'));
-                    } else if (searchParams.has('csv')) {
-                        params = CSV.toJSON(searchParams.get('csv'));
-                    } else {
-                        let bFlag = false;
-                        for (const [key, value] of searchParams.entries()) {
-                            bFlag = true;
-                            params[key] = value;
-                        }
-                        if (!bFlag) {
-                            // No data found, generate data.
-                            DEBUG.log('No data specified, generating test data');
-                            url = testCSV('https://www.relatematters.com/coaching-tools/PersonalBarChart.html');
-                            params = CSV.toJSON(url.searchParams.get('csv')); 
-                        }
-                    }
-
-                    if (!Array.isArray(params))
-                        params = [ params ];
-                    
-                    const parseKeys = { fullName: 'string', mover: 'number', doer: 'number', responder: 'number',
-                    influencer: 'number', shaper: 'number', producer: 'number', contemplator: 'number',
-                    overallIntensity: 'number', companyName: 'string' };
-                    let parsedParams = COMMON.parseParameters(params, parseKeys);
-
-                    let theMediator = new PBCMediator(parsedParams[0], "the-ll-table", "the-chart");
-                } catch (e) {
-                    COMMON.displayAlertInDoc(e);
-                }
-            }
-            main();
+            bootstrapPage({
+                loadingId: "the-grid",
+                parseKeys: {
+                    fullName: "string",
+                    mover: "number", doer: "number", responder: "number",
+                    influencer: "number", shaper: "number", producer: "number",
+                    contemplator: "number", overallIntensity: "number",
+                    companyName: "string",
+                },
+                // Single-person mediator — take the first parsed entry.
+                mount: (params) => new PBCMediator(params[0], "the-ll-table", "the-chart"),
+                // BEGIN-TEST-FALLBACK (dev only — stripped by build-prod)
+                testFallback: async () => {
+                    const { testCSV } = await import("./modules/test/PersonalBarChart.test.js");
+                    return testCSV("https://www.relatematters.com/coaching-tools/PersonalBarChart.html");
+                },
+                // END-TEST-FALLBACK
+            });
         </script>
     </body>
 </html>

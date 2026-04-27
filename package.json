@@ -1,9 +1,8 @@
 {
   "scripts": {
     "clean-docs": "rimraf docs",
-    "build-scss": "sass scss:app/styles",
+    "build-scss": "sass scss:app/styles --no-source-map",
     "build-docs": "jsdoc -c jsdoc.json app",
-    "minify-css": "npx cleancss -o prod/styles.css prod/styles.css",
     "build-dev": "npm run clean-docs && npm run build-scss && npm run build-docs",
     "build-prod": "npm run build-dev && node scripts/build-prod.mjs",
     "deploy-dev": "node scripts/deploy.mjs app",

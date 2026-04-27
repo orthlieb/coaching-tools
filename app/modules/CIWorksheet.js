@@ -256,7 +256,7 @@ export class CIWorksheet {
         // Chart(s)
         switch (cSection) {
             case 'interactiveStyle':
-                let is = LLCommunicationIndicators.composeInteractiveStyle(person[cSection]);
+                let is = LLCommunicationIndicators.composeInteractiveStyle(person.ci[cSection]);
                 let nValue = is[0];
                 let cType = is[1];
 
@@ -274,21 +274,21 @@ export class CIWorksheet {
                     ciElement.querySelector(`.${cSection}ExtrovertChart`),
                     'interactiveStyleExtrovert',
                     cType == STRINGS.ciInteractiveStyleShorthand.extrovert ? nValue : 0
-                );        
+                );
                 break;
             case 'learningPreference':
                 this._createCIChart(
                     ciElement.querySelector(`.${cSection}AuditoryChart`),
-                    'learningPreferenceAuditory', person.learningPreferenceAuditory);
+                    'learningPreferenceAuditory', person.ci.learningPreferenceAuditory);
                 this._createCIChart(
                     ciElement.querySelector(`.${cSection}VisualChart`),
-                    'learningPreferenceVisual', person.learningPreferenceVisual);
+                    'learningPreferenceVisual', person.ci.learningPreferenceVisual);
                 this._createCIChart(
                     ciElement.querySelector(`.${cSection}PhysicalChart`),
-                    'learningPreferencePhysical', person.learningPreferencePhysical);
+                    'learningPreferencePhysical', person.ci.learningPreferencePhysical);
                 break;
             default:
-                this._createCIChart(ciElement.querySelector(`.${cSection}Chart`), cSection, this.person[cSection]);
+                this._createCIChart(ciElement.querySelector(`.${cSection}Chart`), cSection, this.person.ci[cSection]);
                 break;
         }
         
@@ -315,7 +315,7 @@ export class CIWorksheet {
                 let aSubSections = ['learningPreferenceAuditory', 'learningPreferenceVisual', 'learningPreferencePhysical'];
                 
                 aSubSections.forEach(cSubSection => {
-                    let nScoreLevel = LLCommunicationIndicators.evaluateScoreLevel(this.person[cSubSection]);
+                    let nScoreLevel = LLCommunicationIndicators.evaluateScoreLevel(this.person.ci[cSubSection]);
                     let cScoreLevel = STRINGS.ciLevels[nScoreLevel];
                     let nScore = person.ci[cSubSection];
 
@@ -346,16 +346,16 @@ export class CIWorksheet {
                 COMMON.createPopupDialog(statusElement, `${levelInfo.name}: ${cScoreLevel}`,
                     `${levelInfo.pre}<br><br>${levelInfo.info[nScoreLevel]}<br><br>${levelInfo.post}`); 
 
-                ciElement.querySelector(`.${cSection}Score`).innerText = this.person[cSection];
+                ciElement.querySelector(`.${cSection}Score`).innerText = this.person.ci[cSection];
             break;
         }
-         
+
         // Forensics is for every CI except susceptibilityToStress and learningPreference*
         if (cSection != 'susceptibilityToStress' && cSection != 'learningPreference') {
             for (let i = 0; i < this.person.sortedScores.length; i++) {
                 const element = ciElement.querySelector(`.${cSection}LifeLanguage${i + 1}`);
-                element.innerHTML = this._evaluateForensicLevel(cSection, 
-                    this.person.sortedScores[i].key, this.person[cSection]);
+                element.innerHTML = this._evaluateForensicLevel(cSection,
+                    this.person.sortedScores[i].key, this.person.ci[cSection]);
             }
         }
     }

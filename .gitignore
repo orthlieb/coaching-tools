@@ -1,8 +1,17 @@
-app/styles/Common.css.map
+# Generated CSS — all SCSS sources live in scss/, sass writes them into app/styles/
+app/styles/*.css
+app/styles/*.css.map
+
+# Generated JSDoc output
 docs/
+
+# Local install / config
 node_modules/
 .env
 .DS_Store
 package-lock.json
-app/styles/Common.css
+
+# Production build output
 prod/
+.DS_Store
+CodeReview.md

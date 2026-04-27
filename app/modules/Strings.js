@@ -34,11 +34,22 @@ class Localization {
   }
 
   /**
-   * Get a localized string.
+   * Get a localized string. Falls back to fallback-language data, then to the bare key
+   * (so client-facing UI never shows a "[Missing: …]" literal in production).
+   * Logs a warning the first time each missing key is observed.
    */
+  static _missingKeysReported = new Set();
   static get(key) {
-    const localization = this.localizedData[this.language] || this.localizedData[this.fallbackLanguage] || {};
-    return localization[key] || `[Missing: ${key}]`;
+    const primary = this.localizedData[this.language];
+    const fallback = this.localizedData[this.fallbackLanguage];
+    if (primary && key in primary) return primary[key];
+    if (fallback && key in fallback) return fallback[key];
+
+    if (!this._missingKeysReported.has(key)) {
+      this._missingKeysReported.add(key);
+      console.warn(`STRINGS: missing localization key "${key}"`);
+    }
+    return key;
   }
 }
 
@@ -50,7 +61,7 @@ export const STRINGS = new Proxy({}, {
   get(target, prop) {
     if (!Localization.isLoaded) {
       console.warn(`Localization not yet loaded for "${prop}".`);
-      return `[Loading: ${prop}]`;
+      return prop;
     }
     return Localization.get(prop);
   }

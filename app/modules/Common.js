@@ -29,20 +29,20 @@ export const COMMON = {
      */
     colors: {
         solid: {
-            mover: 'hsl(358, 85%, 52%)', 
-            doer: 'hsl(28, 92%, 54%)', 
-            influencer: 'hsl(48, 100%, 52%)', 
-            responder: 'hsl(274, 54%, 41%)',
-            shaper: 'hsl(218, 52%, 52%)', 
-            producer: 'hsl(152, 100%, 20%)', 
-            contemplator: 'hsl(196, 73%, 54%)'
+            mover: '#ed1d23', 
+            doer: '#f6831e', 
+            influencer: '#ffce0a', 
+            responder: '#7030a1',
+            shaper: '#4574c4', 
+            producer: '#006636', 
+            contemplator: '#34b2df'
         },
         light: {
             mover: 'hsl(358, 85%, 90%)',
             doer: 'hsl(28, 92%, 92%)',
             influencer: 'hsl(48, 100%, 90%)',
-            responder:' hsl(274, 54%, 90%)',    
-            shaper:' hsl(218, 52%, 90%)',
+            responder: 'hsl(274, 54%, 90%)',    
+            shaper: 'hsl(218, 52%, 90%)',
             producer: 'hsl(151, 26%, 84%)',
             contemplator: 'hsl(196, 73%, 92%)'
         },
