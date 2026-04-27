@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * Module for testing and generating test data.
  * @author Carl Orthlieb

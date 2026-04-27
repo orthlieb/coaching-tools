@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * Common object with useful common routines and keys for Life Languages
  * @author Carl Orthlieb
@@ -185,10 +186,10 @@ export const COMMON = {
     },
     
     /**
-     * Parse parameters an array containing objects with the supplied template.
-     * @param {array} Array to process.
-     * @param {object} Template containing keys to parse for and parsing functions.
-     * @returns {object} Parsed parameters.
+     * Parse an array of param objects, coercing string values per the supplied schema.
+     * @param {object[]} params Array to process.
+     * @param {Record<string, 'string'|'number'|'character'|'boolean'>} parseKeys Schema mapping param key → coercion type.
+     * @returns {object[]} Parsed parameters.
      */
     parseParameters(params, parseKeys) {
         DEBUG.logArgs('Common.parseParameters(params, parseKeys)', arguments);

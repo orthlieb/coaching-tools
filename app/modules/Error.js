@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * Useful routines to convert to/from CSV from/to JSON.
  * @author Carl Orthlieb
@@ -9,10 +10,10 @@ import { DEBUG } from './Debug.js';
 export const ERROR = {
     /**
      * Evaluates the assertion and if false throws an error object with the supplied message text.
-     * @param {object} assertion Assertion expression to be tested.
-     * @param {object} msgs Additional messages to be concatenated and then used as the error message for the error object.
-     * @throws If the assertion is false.
-     * @returns {boolean} Returns the evaluated expression.
+     * @param {*} assertion Expression to be tested for truthiness.
+     * @param {...string} msgs Additional messages concatenated for the thrown error.
+     * @throws {Error} If the assertion is falsy.
+     * @returns {*} Returns the assertion value when truthy.
      * @public
      */
     assert(assertion, ...msgs) {
@@ -32,23 +33,25 @@ export const ERROR = {
     },
 
     /**
-     * Evaluates that the supplied object is the specified type. 
-     * Supports 'array' unlike traditional Javascript. NaN is not considered a number.
-     * @param {object} object Object to test type.
-     * @param {string} type One of the JS types in typeof but also supports 'array' and 'character'.
-     * @param {object} msg Additional message to be used at the front of the error message for the error object.
-     * @throws If there is a type mismatch
-     * @returns {boolean} Returns the evaluated expression.
+     * Evaluates that the supplied object is the specified type.
+     * Supports 'array' (in addition to typeof's outputs) and 'character' (string of length 1).
+     * NaN is treated as type 'NaN' rather than 'number'.
+     * @param {*} object Value to test.
+     * @param {string} type One of the JS types in typeof, plus 'array' or 'character'.
+     * @param {string} msg Message prefix for the thrown error.
+     * @throws {Error} If the value's type doesn't match.
      * @public
      * @example
      * ERROR.assertType([ 1 ], 'number', 'Array [1]');
-     * // Throws an error 'Array [1] has an invalid type, expected number but found array'
+     * // Throws 'Array [1] has an invalid type, expected number but found array'
      */
     assertType(object, type, msg) {
         let cType = Array.isArray(object) ? 'array' : typeof object;
 
-        if (type == 'character')
-            return this.assert(cType == 'string' && object.length == 1, `${msg} has an invalid type, expected ${type} but found ${cType} ${JSON.stringify(object)}`);
+        if (type == 'character') {
+            this.assert(cType == 'string' && object.length == 1, `${msg} has an invalid type, expected ${type} but found ${cType} ${JSON.stringify(object)}`);
+            return;
+        }
 
         if (cType == 'number' && Number.isNaN(object))
             cType = 'NaN';
@@ -57,13 +60,12 @@ export const ERROR = {
     },
 
     /**
-     * Evaluates that the supplied value is >= the low and <= high value. 
+     * Evaluates that the supplied value is >= the low and <= high value.
      * @param {number} value Value to be tested.
      * @param {number} low Lower boundary of the test. The supplied value must be >= this number.
      * @param {number} high Top boundary of the test. The supplied value must be <= this number.
-     * @param {object} msgs Additional messages to be concatenated and then used as the error message for the error object.
-     * @throws If there is a type mismatch
-     * @returns {boolean} Returns the evaluated expression.
+     * @param {string} msg Message prefix for the thrown error.
+     * @throws {Error} If `value` is out of range or not a number.
      * @public
      */
     assertRange(value, low, high, msg) {
@@ -72,17 +74,15 @@ export const ERROR = {
     },
     
     /**
-     * Evaluates that the supplied object contains the required keys. 
-     * @param {object} obj Object to be tested
-     * @param {array} keys Array of keys to be tested against.
-     * @param {object} msg Additional message to be prepended if the assertion fails.
-     * @throws If there is a type mismatch
-     * @returns {boolean} Returns the evaluated expression.
-     * @public 
+     * Evaluates that the supplied object contains the required keys.
+     * @param {object} obj Object to be tested.
+     * @param {string[]} keys Array of keys to be tested against.
+     * @param {string} msg Message prefix for the thrown error.
+     * @throws {Error} If any required keys are missing.
+     * @public
      * @example
      * let joeBlow = { mover: 10, doer: 20 };
      * ERROR.assertEveryKey(joeBlow, ['mover', 'doer', 'influencer'], 'Joe Blow');
-     * @public
      */
     assertEveryKey(obj, keys, msg) {
         const missing = keys.filter(key => !obj.hasOwnProperty(key));

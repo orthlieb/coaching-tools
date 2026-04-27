@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/bootstrap
  * @author Carl Orthlieb
@@ -24,8 +25,8 @@ import { LocalizationReady } from "./Strings.js";
  * @param {object} options
  * @param {string} options.loadingId  HTML id of the element to hide while loading.
  * @param {object} options.parseKeys  COMMON.parseParameters schema for this page.
- * @param {(params: object|object[]) => void} options.mount  Page-specific renderer.
- * @param {() => Promise<URL>} [options.testFallback]  Optional dev-only test data generator.
+ * @param {function(Array<object>): void} options.mount  Page-specific renderer that takes the parsed param array.
+ * @param {function(): Promise<URL>} [options.testFallback]  Optional dev-only test data generator.
  *        Returns a URL containing the test data; only invoked when no params are in the live URL.
  */
 export async function bootstrapPage({ loadingId, parseKeys, mount, testFallback }) {

@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/PBCMediator
  * @author Carl Orthlieb
@@ -89,17 +90,17 @@ export class PBCMediator extends BaseMediator {
                 );
             }
             row.querySelector(`#gap-icon-${index}`).innerHTML = cGapSymbol[score.gapLevel];
-            row.querySelector(`#gap-${index}`).innerHTML = Math.round(score.gap);
+            row.querySelector(`#gap-${index}`).innerHTML = String(Math.round(score.gap));
         });
 
         // Footer.
-        document.getElementById("llrange").textContent = person.range;
+        document.getElementById("llrange").textContent = String(person.range);
         COMMON.createPopupDialog(
             "llrange-info",
             `${STRINGS.general.range}: ${STRINGS.scoreLevelLabels[person.rangeLevel]}`,
             `${STRINGS.range.pre}<br><br>${STRINGS.range.info[person.rangeLevel]}<br><br>${STRINGS.range.post}`,
         );
-        document.getElementById("lloi").textContent = person.overallIntensity;
+        document.getElementById("lloi").textContent = String(person.overallIntensity);
         document.getElementById("lloirating").textContent = STRINGS.scoreLevelLabels[person.overallIntensityLevel];
         const oi = STRINGS.llLevelInfo.overallIntensity;
         COMMON.createPopupDialog(

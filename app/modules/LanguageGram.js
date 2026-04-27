@@ -1,8 +1,16 @@
-import { ERROR } from './Error.js';
+// @ts-check
 import { COMMON } from './Common.js';
-import { DEBUG } from './Debug.js';
 import { STRINGS } from './Strings.js';
 import { LLPerson } from './Person.js';
+
+/**
+ * Typed querySelector — returns HTMLElement so .innerText / .style resolve.
+ * @template {HTMLElement} T
+ * @param {ParentNode} parent
+ * @param {string} selector
+ * @returns {T}
+ */
+const $$ = (parent, selector) => /** @type {T} */ (parent.querySelector(selector));
 
 /**
  * Class representing a LanguageGram.
@@ -11,7 +19,7 @@ import { LLPerson } from './Person.js';
 export class LanguageGram {
     /**
      * Initializes a LanguageGram instance.
-     * @param {string} suffix - Suffix to identify the LanguageGram element.
+     * @param {string|number} suffix - Suffix to identify the LanguageGram element.
      * @param {object} data - Data to be displayed.
      */
     constructor(suffix, data) {
@@ -27,28 +35,28 @@ export class LanguageGram {
         const lgElement = document.getElementById('language-gram-' + this.suffix);
 
         // Display full name
-        lgElement.querySelector('.fullname').innerText = this.person.fullName;
+        $$(lgElement, '.fullname').innerText = this.person.fullName;
         if (this.person.companyName) {
-            lgElement.querySelector('.companyname').innerText = this.person.companyName;
+            $$(lgElement, '.companyname').innerText = this.person.companyName;
         }
 
         // Display Life Language scores
         this.person.sortedScores.forEach((score, index) => {
-            let field = lgElement.querySelector('.letter-' + (index + 1));
+            const field = $$(lgElement, '.letter-' + (index + 1));
             field.innerText = STRINGS.shorthand[score.key];
             if (index < 3) {
                 field.style.backgroundColor = COMMON.colors.solid[score.key];
             }
-            lgElement.querySelector('.score-' + (index + 1)).innerText = Math.round(score.value);
-            lgElement.querySelector('.llang-' + (index + 1)).innerText = STRINGS.labels[score.key];
+            $$(lgElement, '.score-' + (index + 1)).innerText = String(Math.round(score.value));
+            $$(lgElement, '.llang-' + (index + 1)).innerText = STRINGS.labels[score.key];
         });
 
         // Display range
-        lgElement.querySelector('.range-score').innerText = Math.round(this.person.range);
+        $$(lgElement, '.range-score').innerText = String(Math.round(this.person.range));
 
         // Display overall intensity
-        lgElement.querySelector('.overall-intensity-score').innerText = Math.round(this.person.overallIntensity);
-        lgElement.querySelector('.overall-intensity-arrow').innerHTML = 
+        $$(lgElement, '.overall-intensity-score').innerText = String(Math.round(this.person.overallIntensity));
+        $$(lgElement, '.overall-intensity-arrow').innerHTML =
             `<i class="fa-solid ${LLPerson.scoreLevelArrows[this.person.overallIntensityLevel]}"></i>`;
     }
 }

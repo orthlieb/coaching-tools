@@ -1,3 +1,4 @@
+// @ts-check
 import { DEBUG } from "./Debug.js";
 
 class Localization {
@@ -56,13 +57,19 @@ class Localization {
 // Export a promise that resolves when preloading is complete
 export const LocalizationReady = Localization.preloadLocalizations();
 
-// Proxy for accessing localized strings
-export const STRINGS = new Proxy({}, {
+/**
+ * Proxy for accessing localized strings. Treated as a free-form record by the type checker
+ * because every property access goes through `Localization.get` (which can return strings,
+ * arrays, or nested objects depending on what's in the locale JSON).
+ *
+ * @type {Record<string, any>}
+ */
+export const STRINGS = /** @type {any} */ (new Proxy({}, {
   get(target, prop) {
     if (!Localization.isLoaded) {
-      console.warn(`Localization not yet loaded for "${prop}".`);
+      console.warn(`Localization not yet loaded for "${String(prop)}".`);
       return prop;
     }
     return Localization.get(prop);
   }
-});
+}));

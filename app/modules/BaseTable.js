@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/BaseTable
  * @author Carl Orthlieb
@@ -92,6 +93,9 @@ export class BaseTable {
      */
     _buildColumns() {
         const c = this.config;
+        // The columns array is a mix of shapes (some have render, some have orderSequence) —
+        // type as any[] so DataTables' loose column-config schema doesn't fight us.
+        /** @type {any[]} */
         const columns = [
             { name: "state", data: "state", title: c.columnLabels[0] },
             {

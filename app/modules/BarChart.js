@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/BarChart
  * @author Carl Orthlieb
@@ -10,7 +11,7 @@ import { DEBUG } from "./Debug.js";
 export class BarChart {
     /**
      * Load data into an existing chart.
-     * @param {array} data Array of datasets to be charted.
+     * @param {object} chartData Chart.js data object containing labels, datasets, annotations, and tooltip.
      * @public
      */
     loadData(chartData) {
@@ -19,13 +20,12 @@ export class BarChart {
         this.chart.options.plugins.annotation.annotations = chartData.annotations;
         this.chart.update();
     }
-    
+
     /**
      * Bar chart based on Chart.js
-     * @param {integer} id ID of the canvas element that will house the chart.
-     * @param {array} chartData Array of datasets objects, each composed of key value pairs of data.
-     * @param {object} chartOptions Set of options for displaying legend and where.
-     * @param {object} annotationData Annotations to add to the chart.
+     * @param {string} id ID of the canvas element that will house the chart.
+     * @param {object} chartData Chart.js data object — has labels, datasets, annotations, tooltip.
+     * @param {object} [chartOptions] Set of options for displaying legend and where.
      * @param {object} [mediator] Mediator object to handle events. Default is null.
      * @constructor
      */
@@ -70,7 +70,8 @@ export class BarChart {
             }
         };
         
-        this.chart = new Chart(document.getElementById(id).getContext('2d'), config);
+        const canvas = /** @type {HTMLCanvasElement} */ (document.getElementById(id));
+        this.chart = new Chart(canvas.getContext('2d'), config);
         this.chart.theChart = this;
 
         // Handle printing events.
@@ -108,7 +109,7 @@ export class BarChart {
     
     /**
      * Hides/shows a particular dataset.
-     * @param {integer} index Index of the dataset to hide.
+     * @param {number} nIndex Index of the dataset to hide.
      * @param {boolean} bHidden If true, hide this dataset, otherwise, show this dataset.
      * @public
      */

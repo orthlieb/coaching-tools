@@ -3,8 +3,9 @@
     "clean-docs": "rimraf docs",
     "build-scss": "sass scss:app/styles --no-source-map",
     "build-docs": "jsdoc -c jsdoc.json app",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
     "build-dev": "npm run clean-docs && npm run build-scss && npm run build-docs",
-    "build-prod": "npm run build-dev && node scripts/build-prod.mjs",
+    "build-prod": "npm run typecheck && npm run build-dev && node scripts/build-prod.mjs",
     "deploy-dev": "node scripts/deploy.mjs app",
     "deploy-prod": "node scripts/deploy.mjs prod"
   },
@@ -15,6 +16,7 @@
     "jsdoc": "^4.0.0",
     "rimraf": "^5.0.0",
     "sass": "^1.83.4",
-    "terser": "^5.38.2"
+    "terser": "^5.38.2",
+    "typescript": "^5.6.3"
   }
 }

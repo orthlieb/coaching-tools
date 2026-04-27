@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/RadarChart
  * @author Carl Orthlieb
@@ -30,7 +31,7 @@ export class RadarChart {
     constructor(id, chartData, chartOptions = { displayLegend: true, legendPosition: 'right' }, mediator = null) {
         DEBUG.logArgs('RadarChart.constructor(id, chartData, chartOptions)', arguments);
         this.mediator = mediator;
-        
+
         const config = {
             type: "radar",
             data: chartData,
@@ -52,9 +53,10 @@ export class RadarChart {
                 },
 
             }
-        }; 
-        
-        this.chart = new Chart(document.getElementById(id).getContext('2d'), config);
+        };
+
+        const canvas = /** @type {HTMLCanvasElement} */ (document.getElementById(id));
+        this.chart = new Chart(canvas.getContext('2d'), config);
 
         // Handle printing events.
         const mediaQuery = window.matchMedia('print');
@@ -90,7 +92,7 @@ export class RadarChart {
     
     /**
      * Hides/shows a particular dataset.
-     * @param {integer} index Index of the dataset to hide.
+     * @param {number} nIndex Index of the dataset to hide.
      * @param {boolean} bHidden If true, hide this dataset, otherwise, show this dataset.
      * @public
      */

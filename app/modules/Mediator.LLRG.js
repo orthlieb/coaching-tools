@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/LLRGMediator
  * @author Carl Orthlieb

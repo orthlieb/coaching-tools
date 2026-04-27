@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/ChartHelpers
  * @author Carl Orthlieb

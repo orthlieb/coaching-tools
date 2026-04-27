@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    // Type-check JS files using their JSDoc annotations. Don't emit anything — this
+    // is purely a static analyzer; the runtime code stays vanilla ES modules.
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+
+    // Target / module — match modern browsers + ES module loading.
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+
+    // Strictness — moderate for a JSDoc-typed codebase. We don't want to drown in
+    // implicit-any errors from third-party globals; explicit ones from your own code
+    // are still surfaced. Crank these up later as JSDoc coverage improves.
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "noImplicitThis": false,
+    "alwaysStrict": false,
+
+    // Catch obvious bugs that don't depend on type annotations.
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+
+    // Misc.
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "isolatedModules": false,
+
+    // Browser DOM, modern JS.
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": []
+  },
+  "include": [
+    "app/modules/**/*.js",
+    "app/modules/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "prod",
+    "docs",
+    "app/modules/test/**"
+  ]
+}

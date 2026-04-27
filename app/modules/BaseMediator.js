@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/BaseMediator
  * @author Carl Orthlieb

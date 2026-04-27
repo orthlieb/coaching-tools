@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/LLTable
  * @author Carl Orthlieb
@@ -50,6 +51,7 @@ export class LLTable extends BaseTable {
                 valueForKey: (row, key) => row[key],
                 fluentThresholdFor: () => 50,               // 50 line for every column
                 aggregate: (selectedRows) => {
+                    /** @type {any} */
                     const personData = { fullName: "The Group" };
                     KEYS.forEach((key) => {
                         const aValues = selectedRows.map((row) => row[key]);

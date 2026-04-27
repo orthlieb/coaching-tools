@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/CIWorksheet
  * @author Carl Orthlieb
@@ -10,6 +11,15 @@ import { LLPerson, LLCommunicationIndicators } from "./Person.js";
 import { STRINGS } from "./Strings.js";
 
 Chart.register(ChartDataLabels);
+
+/**
+ * Typed querySelector — returns HTMLElement so .innerText / .style resolve.
+ * @template {HTMLElement} T
+ * @param {ParentNode} parent
+ * @param {string} selector
+ * @returns {T}
+ */
+const $$ = (parent, selector) => /** @type {T} */ (parent.querySelector(selector));
 
 const _communicationIndicatorDetails = {
     acceptanceLevel: {
@@ -144,11 +154,11 @@ export class CIWorksheet {
         DEBUG.logArgs('CIWorksheet.display', arguments);
         
         const ciElement = document.getElementById(`cipage-${this.suffix}`);
-        ciElement.querySelector(".fullName").innerText = this.person.fullName;
+        $$(ciElement, ".fullName").innerText = this.person.fullName;
         if (this.person.companyName) {
-            ciElement.querySelector(".companyName").innerText = this.person.companyName;
+            $$(ciElement, ".companyName").innerText = this.person.companyName;
         }
-        ciElement.querySelector(".shorthand").innerText = this.person.getShorthandString();
+        $$(ciElement, ".shorthand").innerText = this.person.getShorthandString();
 
         // Determine the visibility class based on the showForensics flag
         let action = this.showForensics ? "remove" : "add";
@@ -247,7 +257,7 @@ export class CIWorksheet {
      * Renders a communication indicator section in the DOM.
      * @param {HTMLElement} ciElement - The container element for the section.
      * @param {LLPerson} person - Person you are rendering for.
-     * @param {string} cKey - The key identifying the communication indicator section.
+     * @param {string} cSection - The key identifying the communication indicator section.
      * @private
      */
     _renderCISection(ciElement, person, cSection) {
@@ -296,58 +306,59 @@ export class CIWorksheet {
         let nScore = 0;
         let nScoreLevel, cScoreLevel, levelInfo, statusElement;
         switch (cSection) {
-            case 'interactiveStyle':
+            case 'interactiveStyle': {
                 // Interactive style is a number from 0 - 300. We decompose to introvert [I], balanced [B], extrovert [E].
-                let is = LLCommunicationIndicators.composeInteractiveStyle(this.person.ci.interactiveStyle);
+                const is = LLCommunicationIndicators.composeInteractiveStyle(this.person.ci.interactiveStyle);
                 nScoreLevel = LLCommunicationIndicators.evaluateScoreLevel(is[0]);
                 cScoreLevel = STRINGS.ciLevels[nScoreLevel];
-                statusElement = ciElement.querySelector(`.${cSection}Status`);
+                statusElement = $$(ciElement, `.${cSection}Status`);
 
-                statusElement.innerText =  STRINGS.ciLevels[nScoreLevel];
+                statusElement.innerText = STRINGS.ciLevels[nScoreLevel];
 
                 levelInfo = STRINGS.ciLevelInfo[cSection];
                 COMMON.createPopupDialog(statusElement, `${levelInfo.name}: ${STRINGS.ciLevels[nScoreLevel]} ${STRINGS.ciInteractiveStyleNames[is[1]]}`,
-                    `${levelInfo.pre}<br><br>${levelInfo.info[is[1] == 'I' ? 0 : is[1] == 'B' ? 1 : 2]}<br><br>${levelInfo.post}`); 
+                    `${levelInfo.pre}<br><br>${levelInfo.info[is[1] == 'I' ? 0 : is[1] == 'B' ? 1 : 2]}<br><br>${levelInfo.post}`);
 
-                ciElement.querySelector(`.${cSection}Score`).innerText = `${is[0]} ${is[1]}`;
-            break;
-            case 'learningPreference':
-                let aSubSections = ['learningPreferenceAuditory', 'learningPreferenceVisual', 'learningPreferencePhysical'];
-                
-                aSubSections.forEach(cSubSection => {
-                    let nScoreLevel = LLCommunicationIndicators.evaluateScoreLevel(this.person.ci[cSubSection]);
-                    let cScoreLevel = STRINGS.ciLevels[nScoreLevel];
-                    let nScore = person.ci[cSubSection];
+                $$(ciElement, `.${cSection}Score`).innerText = `${is[0]} ${is[1]}`;
+                break;
+            }
+            case 'learningPreference': {
+                const aSubSections = ['learningPreferenceAuditory', 'learningPreferenceVisual', 'learningPreferencePhysical'];
 
-                    let statusElement = ciElement.querySelector(`.${cSubSection}Status`);
-                    statusElement.innerText = cScoreLevel;
+                aSubSections.forEach((cSubSection) => {
+                    const nSubLevel = LLCommunicationIndicators.evaluateScoreLevel(this.person.ci[cSubSection]);
+                    const cSubLevel = STRINGS.ciLevels[nSubLevel];
+                    const nSubScore = person.ci[cSubSection];
 
-                    let levelInfo = STRINGS.ciLevelInfo[cSection];
-                    let cTitle = `${STRINGS.ciLabels[cSubSection]}: ${cScoreLevel} `;
-                    if (person.ci.preferredLearningStyle.indexOf(cSubSection) != -1) {
-                        if (person.ci.preferredLearningStyle.length > 1)
-                            cTitle += levelInfo.tied;
-                        else
-                            cTitle += levelInfo.dominant;
+                    const subStatus = $$(ciElement, `.${cSubSection}Status`);
+                    subStatus.innerText = cSubLevel;
+
+                    const subLevelInfo = STRINGS.ciLevelInfo[cSection];
+                    let cTitle = `${STRINGS.ciLabels[cSubSection]}: ${cSubLevel} `;
+                    if (person.ci.preferredLearningStyle.indexOf(cSubSection) !== -1) {
+                        cTitle += person.ci.preferredLearningStyle.length > 1
+                            ? subLevelInfo.tied
+                            : subLevelInfo.dominant;
                     }
-                    COMMON.createPopupDialog(statusElement, cTitle, 
-                        `${levelInfo.pre}<br><br>${levelInfo.info[cSubSection]}<br><br>${levelInfo.post}`); 
-                    
-                    ciElement.querySelector(`.${cSubSection}Score`).innerText = nScore;
+                    COMMON.createPopupDialog(subStatus, cTitle,
+                        `${subLevelInfo.pre}<br><br>${subLevelInfo.info[cSubSection]}<br><br>${subLevelInfo.post}`);
+
+                    $$(ciElement, `.${cSubSection}Score`).innerText = String(nSubScore);
                 });
-            break;
+                break;
+            }
             default:
                 nScoreLevel = LLCommunicationIndicators.evaluateScoreLevel(this.person.ci[cSection]);
                 cScoreLevel = STRINGS.ciLevels[nScoreLevel];
-                statusElement = ciElement.querySelector(`.${cSection}Status`);
-                statusElement.innerText =  cScoreLevel;
+                statusElement = $$(ciElement, `.${cSection}Status`);
+                statusElement.innerText = cScoreLevel;
 
                 levelInfo = STRINGS.ciLevelInfo[cSection];
                 COMMON.createPopupDialog(statusElement, `${levelInfo.name}: ${cScoreLevel}`,
-                    `${levelInfo.pre}<br><br>${levelInfo.info[nScoreLevel]}<br><br>${levelInfo.post}`); 
+                    `${levelInfo.pre}<br><br>${levelInfo.info[nScoreLevel]}<br><br>${levelInfo.post}`);
 
-                ciElement.querySelector(`.${cSection}Score`).innerText = this.person.ci[cSection];
-            break;
+                $$(ciElement, `.${cSection}Score`).innerText = String(this.person.ci[cSection]);
+                break;
         }
 
         // Forensics is for every CI except susceptibilityToStress and learningPreference*

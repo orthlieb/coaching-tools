@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/PRGMediator
  * @author Carl Orthlieb

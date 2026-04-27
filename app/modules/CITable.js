@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/CITable
  * @author Carl Orthlieb

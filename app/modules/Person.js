@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/Person
  * @author Carl Orthlieb
@@ -32,11 +33,12 @@ import { STRINGS } from "./Strings.js";
  * @property {number} producer Score for the Producer language (0-100).
  * @property {number} contemplator Score for the Contemplator language (0-100).
  * @property {number} overallIntensity Score for Overall Intensity (0-100).
- * @property {number} overallIntensityLevel Calculated. Integer between 0 and 4 indicating the level of the overall intensity. Suitable for indexing LLPerson.scoreLevelArrows.
- * @property {CommunicationIndicatorsData} ci Communication indicator data.
- * @property {Array<SortedScore>} sortedScores Calculated. The scores provided, sorted in reverse order.
- * @property {number} range Calculated. Difference between the highest and the lowest sortedScore.
- * @property {number} rangeLevel Calculated. Integer between 0 and 4 indicating the level of the range. Suitable for indexing LLPerson.scoreLevelArrows.
+ * @property {number} [overallIntensityLevel] Calculated. Integer between 0 and 4 indicating the level of the overall intensity. Suitable for indexing LLPerson.scoreLevelArrows.
+ * @property {CommunicationIndicatorsData} [ci] Communication indicator data (only on professional profiles).
+ * @property {Array<SortedScore>} [sortedScores] Calculated. The scores provided, sorted in reverse order.
+ * @property {number} [range] Calculated. Difference between the highest and the lowest sortedScore.
+ * @property {number} [rangeLevel] Calculated. Integer between 0 and 4 indicating the level of the range. Suitable for indexing LLPerson.scoreLevelArrows.
+ * @property {boolean} [state] Whether the person should be shown or hidden in the UI. Defaults to true.
  */
 
 /**
@@ -54,9 +56,7 @@ export class LLPerson {
     /**
      * Person class constructor
      * @param {PersonData} data Data to construct the person.
-     * @returns {object} Initialized Person object.
      * @throws {Error} Throws an error if required fields are missing or invalid.
-     * @constructor
      */
     constructor(data) {
         ERROR.assert("fullName" in data, "LLPerson missing required parameter fullName");
@@ -71,18 +71,24 @@ export class LLPerson {
         });
 
         // Sort scores in descending order, calculate gap.
-        let sortedScores = COMMON.llKeys
-            .map((cKey) => {
-                return { key: cKey, value: this[cKey], valueLevel: LLPerson.evaluateScoreLevel(this[cKey]) };
-            })
+        // Build per-key score records, sort descending by value, then walk through and tag
+        // each with its gap from the previous (and the gap-level bucket: 0=tight, 1=normal, 2=wide).
+        const presorted = COMMON.llKeys
+            .map((cKey) => /** @type {SortedScore} */ ({
+                key: cKey,
+                value: this[cKey],
+                valueLevel: LLPerson.evaluateScoreLevel(this[cKey]),
+                gap: 0,
+                gapLevel: 0,
+            }))
             .sort((a, b) => b.value - a.value);
         let lastScore = -1;
-        this.sortedScores = sortedScores.map((score) => {
-            score.gap = lastScore == -1 ? 0 : lastScore - score.value;
+        for (const score of presorted) {
+            score.gap = lastScore === -1 ? 0 : lastScore - score.value;
             score.gapLevel = score.gap < 5 ? 0 : score.gap <= 10 ? 1 : 2;
             lastScore = score.value;
-            return score;
-        });
+        }
+        this.sortedScores = presorted;
         this.range = this.sortedScores[0].value - this.sortedScores.at(-1).value;
         this.rangeLevel = LLPerson.evaluateScoreLevel(this.range);
 
@@ -186,13 +192,24 @@ export class LLPerson {
  */
 
 /**
- * CommunicationIndicators class constructor
- * @param {CommunicationIndicatorsData} data Data to construct the CIs.
- * @returns {object} Initialized CommunicationIndicators object.
- * @throws {Error} Throws an error if required fields are missing or invalid.
- * @constructor
+ * CommunicationIndicators class.
+ * @class
  */
 export class LLCommunicationIndicators {
+    // CI fields are populated by the constructor's COMMON.ciKeys loop. Declared here
+    // so the type checker (and JSDoc consumers) can see them as documented properties.
+    /** @type {number} 0–100 */                acceptanceLevel = 0;
+    /** @type {number} normalized 0–300 */     interactiveStyle = 0;
+    /** @type {number} 0–100 */                internalControl = 0;
+    /** @type {number} 0–100 */                intrusionLevel = 0;
+    /** @type {number} 0–100 */                projectiveLevel = 0;
+    /** @type {number} 0–100 */                susceptibilityToStress = 0;
+    /** @type {number} 0–100 */                learningPreferenceAuditory = 0;
+    /** @type {number} 0–100 */                learningPreferenceVisual = 0;
+    /** @type {number} 0–100 */                learningPreferencePhysical = 0;
+    /** @type {string[]} keys of dominant learning preferences (1+ entries) */
+    preferredLearningStyle = [];
+
     constructor(data) {
         if (typeof data.interactiveStyle == "string") {
             // Combined string of <number>[I | B | E]. Anachronistic.
@@ -263,17 +280,17 @@ export class LLCommunicationIndicators {
     /**
      * Normalize an interactive style score/type into a normalized number from 0 - 300.
      * @method
-     * @param {number} nScore Interactive style score
-     * @param {number} cType Interactive style type (IBE).
+     * @param {number} nScore Interactive style score (1-100).
+     * @param {string} cType Interactive style type — one of "I" / "B" / "E" (or its localized variant).
      * @returns {number} Normalized score for interactive style from 0 - 300 suitable for sorting.
-     * @throws {error} If nScore is not a number or not in range.
+     * @throws {Error} If nScore is not a number or not in range, or cType is invalid.
      * @private
      */
     _normalizeInteractiveStyle(nScore, cType) {
         ERROR.assertRange(nScore, 1, 100, 'LLCommunicationIndicators._normalizeInteractiveStyle nScore');
-        cType = this._validateInteractiveStyleType(cType);
-        let base = { I: 0, B: 100, E: 200 };
-        return base[cType] + (cType == "I" ? 100 - nScore : nScore);
+        const canonicalType = this._validateInteractiveStyleType(cType);
+        const base = { I: 0, B: 100, E: 200 };
+        return base[canonicalType] + (canonicalType === "I" ? 100 - nScore : nScore);
     }
 
     /**

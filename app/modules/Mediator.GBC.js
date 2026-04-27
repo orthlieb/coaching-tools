@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/GBCMediator
  * @author Carl Orthlieb
@@ -58,17 +59,18 @@ export class GBCMediator extends BaseMediator {
             const variance = values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / values.length;
             const stdDev = Math.round(Math.sqrt(variance));
 
-            return { key, min, avg, max, stdDev, rating, languageLabel, percentFluent };
+            // gap is filled in below after sorting.
+            return { key, min, avg, max, stdDev, rating, languageLabel, percentFluent, gap: 0 };
         });
 
         scores.sort((a, b) => b.avg - a.avg);
 
         // Walk through and tag each with gap-from-previous.
         let lastScore = 0;
-        scores.forEach((score) => {
+        for (const score of scores) {
             score.gap = Math.max(lastScore - score.avg, 0);
             lastScore = score.avg;
-        });
+        }
 
         return scores;
     }
@@ -167,13 +169,13 @@ export class GBCMediator extends BaseMediator {
         );
         const nRatingIndex = LLPerson.evaluateScoreLevel(overallIntensity);
 
-        document.getElementById("llrange").textContent = nRange;
+        document.getElementById("llrange").textContent = String(nRange);
         COMMON.createPopupDialog(
             "llrange-info",
             `${STRINGS.general.range}: ${STRINGS.scoreLevelLabels[nRangeIndex]}`,
             `${STRINGS.range.pre}<br><br>${STRINGS.range.info[nRangeIndex]}<br><br>${STRINGS.range.post}`,
         );
-        document.getElementById("lloi").textContent = overallIntensity;
+        document.getElementById("lloi").textContent = String(overallIntensity);
         document.getElementById("lloirating").textContent = STRINGS.scoreLevelLabels[nRatingIndex];
         const oi = STRINGS.llLevelInfo.overallIntensity;
         COMMON.createPopupDialog(

@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * Useful routines to convert to/from CSV from/to JSON.
  * @author Carl Orthlieb

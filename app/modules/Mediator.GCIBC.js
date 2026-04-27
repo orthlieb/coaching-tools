@@ -1,3 +1,4 @@
+// @ts-check
 /*
  * @module modules/GCIBCMediator
  * @author Carl Orthlieb
